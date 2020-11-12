@@ -1,0 +1,4 @@
+#ifndef BASESTATION_H
+#define BASESTATION_H
+
+#endif // BASESTATION_H

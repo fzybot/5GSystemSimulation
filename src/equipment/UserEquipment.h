@@ -1,0 +1,4 @@
+#ifndef USEREQUIPMENT_H
+#define USEREQUIPMENT_H
+
+#endif // USEREQUIPMENT_H
