@@ -4,8 +4,8 @@
 #include <src/commonParameters.h>
 
 class Equipment {
-public:
 
+public:
     // Coordinates
     double altitude = 0;
     double longtitude;
@@ -17,12 +17,15 @@ public:
 
 
     // Power parameters
-    double maxPowerInDbm = 43;
+    double maxPowerInDbm;
 
     // Frequency parameters
     int ARFCN = 0;
     int numerologyIndex = 0;
     int SCS = numerology[numerologyIndex];
+    int bandwidth;
+    int carrierFrequency; // in Mhz
+
 
 
 

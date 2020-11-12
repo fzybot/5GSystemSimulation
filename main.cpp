@@ -4,6 +4,8 @@
 #include <QDebug>
 
 #include <src/equipment/Equipment.h>
+#include <src/equipment/BaseStation.h>
+#include <src/equipment/UserEquipment.h>
 
 int main(int argc, char *argv[])
 {
@@ -12,7 +14,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    Equipment bs1;
+    BaseStation bs1;
     bs1.setLatitude(55.01);
     qDebug() << bs1.SCS;
 
