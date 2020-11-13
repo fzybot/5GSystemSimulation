@@ -3,7 +3,7 @@
 
 
 
-int numerology[] = {15, 30, 60, 120, 240};
+const int NUMEROLOGY[] = {15, 30, 60, 120, 240};
 
 
 

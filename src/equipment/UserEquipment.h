@@ -7,7 +7,7 @@
 class UserEquipment : public Equipment{
 public:
 
-    // Logistic information
+    // Main parameters
     int identity;
 
 };

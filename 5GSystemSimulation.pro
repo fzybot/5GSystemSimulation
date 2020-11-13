@@ -21,6 +21,8 @@ SOURCES += \
 
 HEADERS += \
     mainwindow.h \
+    src/antenna/Antenna.h \
+    src/channel/PropagationModels.h \
     src/commonParameters.h \
     src/equipment/BaseStation.h \
     src/equipment/Equipment.h \

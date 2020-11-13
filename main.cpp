@@ -14,9 +14,10 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
+
     BaseStation bs1;
     bs1.setLatitude(55.01);
-    qDebug() << bs1.SCS;
+    qDebug() << bs1.SCS << bs1.bandwidth << bs1.PCI;
 
 
     return a.exec();

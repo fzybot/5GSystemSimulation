@@ -11,6 +11,11 @@ public:
     int PCI;
     int cellIdentity;
 
+public:
+    BaseStation(){
+        this->PCI = 123;
+    }
+
 };
 
 

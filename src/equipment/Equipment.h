@@ -6,14 +6,27 @@
 class Equipment {
 
 public:
-    // Coordinates
+
+    /* Coordinates & Geometry for spherical basis
+     * According to 3GPP TS38.901:
+     *  latitude is 'y' axis
+     *  lontitude is 'x' axis
+     *  altitude is  'z' axis (height above the sea)
+     *
+     *  angles:
+     *      lonAngle - 'fi'
+     *      latAngle - '0'
+     */
+
     double altitude = 0;
     double longtitude;
     double latitude;
 
-    double altAngle = 0;
-    double lonAngle;
-    double latAngle;
+    double lonAngle = 0;
+    double latAngle = 0;
+
+    double height;
+
 
 
     // Power parameters
@@ -22,7 +35,7 @@ public:
     // Frequency parameters
     int ARFCN = 0;
     int numerologyIndex = 0;
-    int SCS = numerology[numerologyIndex];
+    int SCS = NUMEROLOGY[numerologyIndex];
     int bandwidth;
     int carrierFrequency; // in Mhz
 
@@ -31,7 +44,7 @@ public:
 
 public:
     Equipment(){
-
+        this->bandwidth = 10;
     }
 
     void setLatitude(double lat){
