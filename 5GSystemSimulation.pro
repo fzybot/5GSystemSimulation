@@ -21,12 +21,13 @@ SOURCES += \
 
 HEADERS += \
     mainwindow.h \
-    src/antenna/Antenna.h \
-    src/channel/PropagationModels.h \
-    src/commonParameters.h \
-    src/equipment/BaseStation.h \
-    src/equipment/Equipment.h \
-    src/equipment/UserEquipment.h
+    src/antenna/antenna.h \
+    src/channel/propagation_models.h \
+    src/common_parameters.h \
+    src/equipment/base_station.h \
+    src/equipment/equipment.h \
+    src/equipment/user_equipment.h \
+    src/simulation.h
 
 FORMS += \
     mainwindow.ui

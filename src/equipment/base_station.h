@@ -1,7 +1,7 @@
 #ifndef BASESTATION_H
 #define BASESTATION_H
 
-#include <src/equipment/Equipment.h>
+#include <src/equipment/equipment.h>
 
 
 class BaseStation : public Equipment{

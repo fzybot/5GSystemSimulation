@@ -1,7 +1,7 @@
 #ifndef EQUIPMENT_H
 #define EQUIPMENT_H
 
-#include <src/commonParameters.h>
+#include <src/common_parameters.h>
 
 class Equipment {
 
@@ -32,6 +32,9 @@ public:
     // Power parameters
     double maxPowerInDbm;
 
+    double pathLoss = 0;
+
+
     // Frequency parameters
     int ARFCN = 0;
     int numerologyIndex = 0;
@@ -58,7 +61,6 @@ public:
     void setAltitude(double alt){
         this->altitude = alt;
     }
-
 
 };
 
