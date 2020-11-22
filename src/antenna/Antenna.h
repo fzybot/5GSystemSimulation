@@ -12,6 +12,7 @@ class Antenna{
 public:
 
     int gain;
+    int type;
 
 public:
     Antenna(){

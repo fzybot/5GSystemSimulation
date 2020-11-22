@@ -29,10 +29,11 @@ public:
 
 
 
+
     // Power parameters
     double maxPowerInDbm;
 
-    double pathLoss = 0;
+    double pathLoss = 0; //to calculate
 
 
     // Frequency parameters
