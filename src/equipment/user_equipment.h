@@ -7,6 +7,8 @@
 class UserEquipment : public Equipment{
 public:
 
+
+    //
     // Main parameters
     int identity;
     double pathLoss = 0;
