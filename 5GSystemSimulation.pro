@@ -1,4 +1,4 @@
-QT       += gui widgets qml quick positioning positioning-private location
+QT       += gui widgets qml quick positioning positioning-private location quickwidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -29,16 +29,16 @@ HEADERS += \
     src/equipment/user_equipment.h \
     src/simulation.h
 
-FORMS += \
-    mainwindow.ui
+FORMS +=
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += \
-    src/qml/map.qml
+DISTFILES +=
+#    src/qml/map.qml
 
 RESOURCES += \
+    src/application.qrc \
     src/qml.qrc

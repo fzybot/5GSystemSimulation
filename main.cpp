@@ -9,6 +9,8 @@
 #include <QTime>
 #include <QBasicTimer>
 #include <QEasingCurve>
+#include <QCommandLineParser>
+#include <QCommandLineOption>
 
 
 
@@ -20,22 +22,38 @@
 int main(int argc, char *argv[])
 {
 
+//    QApplication app(argc, argv);
+//    MainWindow w;
+//    //w.show();
+//    BaseStation bs1;
+//    bs1.setLatitude(55.01);
+//    for(int i = 1; i < 1000; i++){
+//        //qDebug() << UMa_NLOS(i, 0, 50, 1, 2600, 50, 20, 6);
+//    }
+//    QQmlApplicationEngine engine;
+//    engine.load(QUrl(QStringLiteral("qrc:///qml/map.qml"))); //"src/qml/map.qml"
+//    return app.exec();
+
+    Q_INIT_RESOURCE(application);
+#ifdef Q_OS_ANDROID
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
+
     QApplication app(argc, argv);
-    MainWindow w;
-    //w.show();
+    QCoreApplication::setOrganizationName("QtProject");
+    QCoreApplication::setApplicationName("Application Example");
+    QCoreApplication::setApplicationVersion(QT_VERSION_STR);
+    QCommandLineParser parser;
+    parser.setApplicationDescription(QCoreApplication::applicationName());
+    parser.addHelpOption();
+    parser.addVersionOption();
+    parser.addPositionalArgument("file", "The file to open.");
+    parser.process(app);
 
-
-    BaseStation bs1;
-    bs1.setLatitude(55.01);
-
-    for(int i = 1; i < 1000; i++){
-        //qDebug() << UMa_NLOS(i, 0, 50, 1, 2600, 50, 20, 6);
-    }
-
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:///qml/map.qml"))); //"src/qml/map.qml"
-
-
+    MainWindow mainWin;
+    if (!parser.positionalArguments().isEmpty())
+        mainWin.loadFile(parser.positionalArguments().first());
+    mainWin.show();
     return app.exec();
 
 }
