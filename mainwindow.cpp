@@ -30,8 +30,6 @@ MainWindow::MainWindow()
 //    ui->centralwidget->setLayout(layout);
 //    layout->addWidget(container);
 
-
-
     setCentralWidget(textEdit);
     createActions();
     createStatusBar();

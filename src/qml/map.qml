@@ -6,6 +6,8 @@ import QtPositioning 5.6
 
 // # up = 55.016656, 82.942833     down = 55.012888, 82.952097      center = 55.014619, 82.946997
 Window {
+    id: mainWindow
+    objectName: "mainWindow"
 //    width: Qt.platform.os == "android" ? Screen.width : 1200
 //    height: Qt.platform.os == "android" ? Screen.height : 800
     visible: true

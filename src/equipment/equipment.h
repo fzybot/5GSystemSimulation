@@ -16,11 +16,17 @@ public:
      *  angles:
      *      lonAngle - 'fi'
      *      latAngle - '0'
+     *  variables: pixelX, pixelY, pixelZ is used to draw an image
+     *  There are functions to transform pixel into latlon and inverse
      */
 
     double altitude = 0;
     double longtitude;
     double latitude;
+
+    int pixelX;
+    int pixelY;
+    int pixelZ;
 
     double lonAngle = 0;
     double latAngle = 0;

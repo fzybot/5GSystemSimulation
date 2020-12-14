@@ -53,6 +53,9 @@ int main(int argc, char *argv[])
     MainWindow mainWin;
     if (!parser.positionalArguments().isEmpty())
         mainWin.loadFile(parser.positionalArguments().first());
+    QQmlApplicationEngine engine;
+    engine.load(QUrl(QStringLiteral("qrc:///qml/map.qml"))); //"src/qml/map.qml"
+
     mainWin.show();
     return app.exec();
 

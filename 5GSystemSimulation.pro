@@ -17,7 +17,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    src/scheduler/simulation.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -27,7 +28,7 @@ HEADERS += \
     src/equipment/base_station.h \
     src/equipment/equipment.h \
     src/equipment/user_equipment.h \
-    src/simulation.h
+    src/scheduler/simulation.h
 
 FORMS +=
 
