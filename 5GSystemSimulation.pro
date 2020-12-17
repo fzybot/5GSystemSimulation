@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    src/scheduler/scheduler.cpp \
     src/scheduler/simulation.cpp
 
 HEADERS += \
@@ -28,6 +29,7 @@ HEADERS += \
     src/equipment/base_station.h \
     src/equipment/equipment.h \
     src/equipment/user_equipment.h \
+    src/scheduler/scheduler.h \
     src/scheduler/simulation.h
 
 FORMS +=

@@ -8,7 +8,7 @@ class Simulation: public QObject
 
 public:
 
-    int simulationTime = 1000; // [TTIs]
+    int simulationTime = 1000; // [slots]
 
     // map borders
     // up = 55.016656, 82.942833     down = 55.012888, 82.952097      center = 55.014619, 82.946997
