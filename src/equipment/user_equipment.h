@@ -10,8 +10,6 @@ class UserEquipment : public Equipment{
 public:
 
 
-    //
-    QVector<int> dataToTransmit;
 
     // Main parameters
     int identity;
@@ -22,6 +20,17 @@ public:
     double speed = 0; // By default the UE is stationar[kmph]
 
 public:
+
+    UserEquipment(){
+        this->TxPower = 20;
+        this->antennaGain = 0;
+        this->otherLosses = 12;
+        this->noiseFigure = 7;
+        this->reqSINR = -3.3;
+        this->RxSensitivity = this->thermalNoise + this->noiseFigure + this->reqSINR;
+    }
+
+
     void makeStep(){
         this->latitude = this->latitude + stepSize;
         this->longtitude = this->longtitude + stepSize;

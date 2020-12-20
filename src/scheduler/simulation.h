@@ -1,6 +1,12 @@
 #ifndef SIMULATION_H
 #define SIMULATION_H
+
 #include <QObject>
+#include <QVector>
+#include <QDebug>
+
+#include <src/equipment/user_equipment.h>
+#include <src/equipment/base_station.h>
 
 class Simulation: public QObject
 {
@@ -24,13 +30,16 @@ public:
     double centerAlt = 0;
 
     // coordinate system in pixels to draw an image
-    int maxPixelX = 5000;
-    int maxPixelY = 5000;
+    int maxPixelX = 15000;
+    int maxPixelY = 15000;
     int maxPixelZ = 120;
     int minPixelX = 0;
     int minPixelY = 0;
     int minPixelZ = 0;
     int onePixelDistance = 3; //[meters]
+
+    QVector<UserEquipment> userEqipmnets;
+    QVector<BaseStation> baseStations;
 
 
 
@@ -42,9 +51,10 @@ public:
 
 
 private:
-    void setUpSimulationTime(int time); // in [TTIs]
+    void setUpSimulationTime(int time); // in [TTIs, slots]
     void setUpCoordinateBorders(double MAXLAT, double MAXLON, double MINLAT, double MINLON,
                                 double MINALT, double MAXALT);
+    void setUpPixelBorders(int maxX, int maxY, int minX, int minY, int maxZ, int minZ);
     void generateBaseStations(int numberOfBaseStations);
     void generateUEs(int numberOfUEs);
     void pixelToll();

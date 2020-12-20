@@ -6,6 +6,8 @@ class Scheduler
 {
 public:
     Scheduler();
+    void run();
+
 };
 
 #endif // SCHEDULER_H

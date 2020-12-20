@@ -1,6 +1,10 @@
 #ifndef EQUIPMENT_H
 #define EQUIPMENT_H
 
+#include <QVector>
+#include <QDebug>
+#include <math.h>
+
 #include <src/common_parameters.h>
 
 class Equipment {
@@ -36,8 +40,18 @@ public:
 
 
 
-    // Power parameters
-    double maxPowerInDbm;
+    // Link budget parameters
+    double TxPower;
+    double feederLoss;
+    int antennaGain;
+    double otherGain = 0;
+    double otherLosses = 0;
+    double otherMargins = 0;
+    int noiseFigure;
+    double thermalNoise;
+    double reqSINR;
+    double RxSensitivity;
+
 
     double pathLoss = 0; //to calculate
 
@@ -50,13 +64,28 @@ public:
     int carrierFrequency; // in Mhz
 
 
+    //
+    int mimoLayers = 1;
+    QVector<float> data;
+    QVector<float> dataEnergy;
+    int dataSize;
+
+
+
 
 
 public:
     Equipment(){
         this->bandwidth = 10;
+        this->dataSize = ( ((this->bandwidth * 1000) / this->SCS ) * 2 * 14 );
+        calculateThermalNoise(this->bandwidth);
     }
 
+    void setPixelCoordinates(int x, int y, int z){
+        this->pixelX = x;
+        this->pixelY = y;
+        this->pixelZ = z;
+    }
     void setLatitude(double lat){
         this->latitude = lat;
     }
@@ -67,6 +96,14 @@ public:
 
     void setAltitude(double alt){
         this->altitude = alt;
+    }
+
+    void printData(){
+        qDebug() << this->data;
+    }
+
+    void calculateThermalNoise(int bandwidth){
+        this->thermalNoise = -174 + 10 * log10(bandwidth * 1000000);
     }
 
 };

@@ -18,6 +18,7 @@
 #include <src/equipment/base_station.h>
 #include <src/equipment/user_equipment.h>
 #include <src/channel/propagation_models.h>
+#include<src/scheduler/simulation.h>
 
 int main(int argc, char *argv[])
 {
@@ -57,6 +58,13 @@ int main(int argc, char *argv[])
     engine.load(QUrl(QStringLiteral("qrc:///qml/map.qml"))); //"src/qml/map.qml"
 
     mainWin.show();
+
+
+    BaseStation bs1;
+    qDebug() << bs1.PCI << bs1.bandwidth << bs1.dataSize;
+//    bs1.printData();
+    Simulation sim1;
+    qDebug() << sim1.baseStations[0].data;
     return app.exec();
 
 }
