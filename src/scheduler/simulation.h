@@ -41,6 +41,8 @@ public:
     QVector<UserEquipment> userEqipmnets;
     QVector<BaseStation> baseStations;
 
+    QVector<float> noise;
+
 
 
 
@@ -57,6 +59,7 @@ private:
     void setUpPixelBorders(int maxX, int maxY, int minX, int minY, int maxZ, int minZ);
     void generateBaseStations(int numberOfBaseStations);
     void generateUEs(int numberOfUEs);
+    void generateNoise(int size);
     void pixelToll();
     void lltoPixel();
 };

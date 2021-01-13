@@ -55,6 +55,12 @@ void Simulation::generateUEs(int numberOfUEs){
     }
 }
 
+void Simulation::generateNoise(int size){
+    for (int i = 0; i < size; i++){
+        this->noise.append(QRandomGenerator::global()->generateDouble() / 100);
+    }
+}
+
 //void Simulation::printUEs(){
 //    qDebug() << this->userEqipmnets;
 //}

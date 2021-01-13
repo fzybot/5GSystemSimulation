@@ -32,6 +32,8 @@ HEADERS += \
     src/scheduler/scheduler.h \
     src/scheduler/simulation.h
 
+
+
 FORMS +=
 
 # Default rules for deployment.
@@ -45,3 +47,6 @@ DISTFILES +=
 RESOURCES += \
     src/application.qrc \
     src/qml.qrc
+
+
+
