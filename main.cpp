@@ -21,7 +21,6 @@
 #include<src/scheduler/simulation.h>
 
 
-#include <armadillo>
 int main(int argc, char *argv[])
 {
 
@@ -61,15 +60,18 @@ int main(int argc, char *argv[])
 
     mainWin.show();
 
-
+//###########################################################################################
+//                                       Testing
+//###########################################################################################
     BaseStation bs1;
     qDebug() << bs1.PCI << bs1.bandwidth << "Number of BS: " << bs1.dataSize;
-//    bs1.printData();
+//  bs1.printData();
     Simulation sim1;
     qDebug() <<"Number of UEs:" << sim1.userEqipmnets.length();
     for (int i = 0; i < sim1.baseStations.length(); i ++){
         qDebug() << sim1.baseStations[i].data[0];
     }
+    sim1.showBordersll();
     return app.exec();
 
 }

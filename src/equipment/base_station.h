@@ -23,14 +23,9 @@ public:
 public:
 
     BaseStation(){
-        this->PCI = 123;
+        initialParameters();
+        this->dataSize = ( ((this->bandwidth * 1000) / this->SCS ) * 2 * 14 * mimoLayers );
         generateDataArray();
-        this->TxPower = 43;
-        this->antennaGain = 18;
-        this->otherLosses = 12;
-        this->noiseFigure = 3;
-        this->reqSINR = -3.3;
-        this->RxSensitivity = this->thermalNoise + this->noiseFigure + this->reqSINR;
     }
 
     // for now just random vaues is generated as data (imagine + real part of modulated data)
@@ -42,9 +37,24 @@ public:
     }
 
 
+
+
 private:
+
     void addUser(UserEquipment user){
         this->currentUsers.push_back(user);
+    }
+
+    void initialParameters(){
+        this->PCI = 123;
+        this->TxPower = 43;
+        this->antennaGain = 18;
+        this->otherLosses = 0;
+        this->noiseFigure = 3;
+        this->reqSINR = -3.3;
+        this->bandwidth = 10;
+        calculateThermalNoise(this->bandwidth);
+        this->RxSensitivity = this->thermalNoise + this->noiseFigure + this->reqSINR;
     }
 };
 

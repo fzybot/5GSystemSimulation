@@ -43,6 +43,7 @@ public:
     // Link budget parameters
     double TxPower;
     double feederLoss;
+    int bodyLosses = 3;
     int antennaGain;
     double otherGain = 0;
     double otherLosses = 0;
@@ -66,8 +67,10 @@ public:
 
     //
     int mimoLayers = 1;
-    QVector<float> data;
-    QVector<float> dataEnergy;
+    QVector<double> data;
+    QVector<double> dataPlusInterference; //TODO: generate phase and amplitude interference
+    QVector<double> dataEnergy; // according to MAPL
+    QVector<double> dataEnergyPlusInterference; // according to all neighbour (gNb + UE) MAPL
     int dataSize;
 
 
@@ -76,26 +79,7 @@ public:
 
 public:
     Equipment(){
-        this->bandwidth = 10;
-        this->dataSize = ( ((this->bandwidth * 1000) / this->SCS ) * 2 * 14 );
-        calculateThermalNoise(this->bandwidth);
-    }
 
-    void setPixelCoordinates(int x, int y, int z){
-        this->pixelX = x;
-        this->pixelY = y;
-        this->pixelZ = z;
-    }
-    void setLatitude(double lat){
-        this->latitude = lat;
-    }
-
-    void setLontitude(double lon){
-        this->longtitude = lon;
-    }
-
-    void setAltitude(double alt){
-        this->altitude = alt;
     }
 
     void printData(){
@@ -104,6 +88,11 @@ public:
 
     void calculateThermalNoise(int bandwidth){
         this->thermalNoise = -174 + 10 * log10(bandwidth * 1000000);
+    }
+
+    void assignLatLon(double lat, double lon){
+        this->latitude = lat;
+        this->longtitude = lon;
     }
 
 };
