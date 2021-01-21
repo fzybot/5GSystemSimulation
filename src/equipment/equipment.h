@@ -90,10 +90,25 @@ public:
         this->thermalNoise = -174 + 10 * log10(bandwidth * 1000000);
     }
 
-    void assignLatLon(double lat, double lon){
+    void assignLatLon(double lon, double lat, double alt){
         this->latitude = lat;
         this->longtitude = lon;
+        this->altitude = alt;
     }
+
+    void generateRandomCoordinates(double minLon, double minLat, double maxLon, double maxLat,
+                                   double minAlt, double maxAlt){
+
+
+    }
+
+    void assignPixelCoordinates(int x, int y, int z){
+        this->pixelX = x;
+        this->pixelY = y;
+        this->pixelZ = z;
+    }
+
+
 
 };
 

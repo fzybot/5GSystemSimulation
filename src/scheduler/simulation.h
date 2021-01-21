@@ -42,7 +42,6 @@ public:
 
     QVector<UserEquipment> userEqipmnets;
     QVector<BaseStation> baseStations;
-
     QVector<float> noise;
 
 
@@ -61,11 +60,12 @@ private:
                                 double MINALT, double MAXALT);
     void calculateCoordinateBordersFromPixel();
     void setPixelBorders(int maxX, int maxY, int minX, int minY, int maxZ, int minZ);
+    double pixelToll(int x, int y, double minLon, double minLat, double maxLon, double maxLat);
+    int llToPixel(double lon, double lat);
     void generateBaseStations(int numberOfBaseStations);
     void generateUEs(int numberOfUEs);
     void generateNoise(int size);
-    void pixelToll(int x, int y);
-    void llToPixel(double lat, double lon);
+
 };
 
 #endif // SIMULATION_H

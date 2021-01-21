@@ -34,13 +34,26 @@ void Simulation::calculateCoordinateBordersFromPixel(){
     }
 }
 
-void Simulation::pixelToll(int x, int y){
+double Simulation::pixelToll(int x, int y, double minLon, double minLat, double maxLon,
+                             double maxLat){
+    // x is lon, y is lat
+    double deltaLon = maxLon - minLon;
+    double deltaLat = maxLat - minLon;
+    double xFrac = x / this->maxPixelX;
+    double yFrac = y / this->maxPixelY;
 
+    //lon = minLon -
+
+    return 0;
 }
 
-void Simulation::llToPixel(double lat, double lon){
+int Simulation::llToPixel(double lon, double lat){
 
+
+    return 0;
 }
+
+
 
 void Simulation::setPixelBorders(int maxX, int maxY, int minX, int minY, int maxZ, int minZ){
     this->maxPixelX = maxX;
@@ -57,8 +70,8 @@ void Simulation::generateBaseStations(int numberOfBaseStations){
         int randomPixelX = QRandomGenerator::global()->bounded(this->minPixelX, this->maxPixelX);
         int randomPixelY = QRandomGenerator::global()->bounded(this->minPixelY, this->maxPixelY);
         BaseStation tempBaseStation;
-        tempBaseStation.cellIdentity = i;
-        tempBaseStation.setPixelCoordinates(randomPixelX, randomPixelY, 0);
+        tempBaseStation.cellIdentity = 100 + i;
+        tempBaseStation.assignPixelCoordinates(randomPixelX, randomPixelY, 0);
         this->baseStations.push_back(tempBaseStation);
     }
 }
@@ -69,8 +82,8 @@ void Simulation::generateUEs(int numberOfUEs){
         int randomPixelX = QRandomGenerator::global()->bounded(this->minPixelX, this->maxPixelX);
         int randomPixelY = QRandomGenerator::global()->bounded(this->minPixelY, this->maxPixelY);
         UserEquipment tempUser;
-        tempUser.identity = i + 1000;
-        tempUser.setPixelCoordinates(randomPixelX, randomPixelY, 0);
+        tempUser.identity = i + 10000;
+        tempUser.assignPixelCoordinates(randomPixelX, randomPixelY, 0);
         this->userEqipmnets.push_back(tempUser);
     }
 }
