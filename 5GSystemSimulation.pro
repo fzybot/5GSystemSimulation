@@ -18,6 +18,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    src/equipment/base_station.cpp \
+    src/equipment/equipment.cpp \
+    src/equipment/user_equipment.cpp \
     src/scheduler/scheduler.cpp \
     src/scheduler/simulation.cpp
 

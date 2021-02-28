@@ -66,7 +66,7 @@ double RMa_NLOS(double distance2Dout, double distance2Din, double heightBS, doub
 double UMa_LOS(double distance2Dout, double distance2Din, double heightBS, double heightUE,
                int centerFrequency, double h, double W, double shadowFading){
 
-    double d_3D = distance3D(distance2Dout, distance2Din, heightBS, heightUE);
+    double d_3D = distance3D(distance2Dout, distance2Din, heightBS, heightUE);;
     double heightE = 1; // see Note 1 (page 29) TS38.901
     double distanceBP = 4 * (heightBS - heightE) * (heightUE - heightE) * centerFrequency /
             3 * pow(10, 8);
@@ -82,7 +82,7 @@ double UMa_LOS(double distance2Dout, double distance2Din, double heightBS, doubl
 double UMa_NLOS(double distance2Dout, double distance2Din, double heightBS, double heightUE,
                 int centerFrequency, double h, double W, double shadowFading){
     double PL_UMa_NLOS;
-    double d_3D = distance3D(distance2Dout, distance2Din, heightBS, heightUE);
+    double d_3D = distance3D(distance2Dout, distance2Din, heightBS, heightUE);;
     PL_UMa_NLOS = 13.54 + 39.08 * log10(d_3D) + 20 * log10(centerFrequency) -
             0.6 * (heightUE - 1.5);
     return fmax(UMa_LOS(distance2Dout, distance2Din, heightBS, heightUE, centerFrequency, h,

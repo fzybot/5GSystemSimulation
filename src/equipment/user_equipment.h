@@ -4,7 +4,8 @@
 #include <QVector>
 
 #include <src/equipment/equipment.h>
-
+#include <src/equipment/base_station.h>
+//class BaseStation;
 
 class UserEquipment : public Equipment{
 public:
@@ -16,38 +17,26 @@ public:
     double pathLoss;
 
     // logistic info
-    double stepSize = 0;
-    double speed = 0; // By default the UE is stationar[kmph]
+    double stepSize;
+    double speed; // By default the UE is stationar[kmph]
 
-    float EIRP;
+    //neighbour base stations
+    //QVector<BaseStation> neighbourCells;
+
 
 public:
 
-    UserEquipment(){
-        initialParameters();
-    }
+    UserEquipment();
 
 
-    void makeStep(){
-        this->latitude = this->latitude + stepSize;
-        this->longtitude = this->longtitude + stepSize;
-    }
-    void calculateEIRP(){
-        this->EIRP = this->TxPower + this->antennaGain - this->bodyLosses;
-    }
+    void makeStep();
+    void calculateEIRP();
+    void calculateStepSize();
+
+    //void addNeighbourCell(BaseStation cell);
 
 private:
-
-    void initialParameters(){
-        this->bandwidth = 10;
-        this->TxPower = 20;
-        this->antennaGain = 0;
-        this->otherLosses = 0;
-        this->noiseFigure = 7;
-        this->reqSINR = -3.3;
-        calculateThermalNoise(this->bandwidth);
-        this->RxSensitivity = this->thermalNoise + this->noiseFigure + this->reqSINR;
-    }
+    void initialParameters();
 };
 
 

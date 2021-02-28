@@ -67,9 +67,13 @@ int main(int argc, char *argv[])
     qDebug() << bs1.PCI << bs1.bandwidth << "Number of BS: " << bs1.dataSize;
 //  bs1.printData();
     Simulation sim1;
-//    qDebug() <<"Number of UEs:" << sim1.userEqipmnets.length();
-//    for (int i = 0; i < sim1.baseStations.length(); i ++){
-//        qDebug() << sim1.baseStations[i].data[0];
+    qDebug() <<"Path Loss:" << sim1.calculatePathLoss(100, 0);
+    qDebug() <<"SINR:" << sim1.userEqipmnets[0].SINR;
+//    for (int i = 0; i < sim1.userEqipmnets.length(); i ++){
+//        qDebug() << "Step size:" << sim1.userEqipmnets[i].speed;
+//        qDebug() << "Step size:" << sim1.userEqipmnets[i].stepSize;
+//        qDebug() << "Longtitude: " << sim1.userEqipmnets[i].longtitude;
+//        qDebug() << "Latitude: "<< sim1.userEqipmnets[i].latitude;
 //    }
     sim1.showBordersll();
     return app.exec();

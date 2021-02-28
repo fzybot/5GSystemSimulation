@@ -53,61 +53,57 @@ public:
     double reqSINR;
     double RxSensitivity;
 
+    double EIRP;
+
 
     double pathLoss = 0; //to calculate
 
 
     // Frequency parameters
     int ARFCN = 0;
+    int carrierFrequency= 2600; // [MHz]
     int numerologyIndex = 0;
     int SCS = NUMEROLOGY[numerologyIndex];
     int bandwidth;
-    int carrierFrequency; // in Mhz
 
 
-    //
+    // SINR
+
+    double SINR=0;
+
+    // Data array before FFT
     int mimoLayers = 1;
     QVector<double> data;
+    QVector<double> dataPlusDoppler;
     QVector<double> dataPlusInterference; //TODO: generate phase and amplitude interference
     QVector<double> dataEnergy; // according to MAPL
     QVector<double> dataEnergyPlusInterference; // according to all neighbour (gNb + UE) MAPL
     int dataSize;
+
+    // Information about neighbour cells
+    //
+    QVector<double> distanceToEachCell;
 
 
 
 
 
 public:
-    Equipment(){
+    Equipment();
+    ~Equipment(){
 
     }
 
-    void printData(){
-        qDebug() << this->data;
-    }
+    void printData();
 
-    void calculateThermalNoise(int bandwidth){
-        this->thermalNoise = -174 + 10 * log10(bandwidth * 1000000);
-    }
+    void calculateThermalNoise();
+    void calculateEIRP();
+    void dopplerEffect(QVector<double> data, double speed, double angle);
 
-    void assignLatLon(double lon, double lat, double alt){
-        this->latitude = lat;
-        this->longtitude = lon;
-        this->altitude = alt;
-    }
-
+    void assignLonLat(double lon, double lat, double alt);
     void generateRandomCoordinates(double minLon, double minLat, double maxLon, double maxLat,
-                                   double minAlt, double maxAlt){
-
-
-    }
-
-    void assignPixelCoordinates(int x, int y, int z){
-        this->pixelX = x;
-        this->pixelY = y;
-        this->pixelZ = z;
-    }
-
+                                   double minAlt, double maxAlt);
+    void assignPixelCoordinates(int x, int y, int z);
 
 
 };
