@@ -21,7 +21,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow();
+    MainWindow(QWidget *parent = nullptr);
 
     void loadFile(const QString &fileName);
 protected:
@@ -54,7 +54,7 @@ private:
     QString strippedName(const QString &fullFileName);
 
     //tests
-
+    QQuickWidget *my_quickWidget;
     //tests
 
     QPlainTextEdit *textEdit;

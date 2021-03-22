@@ -2,13 +2,15 @@
 #include <QQuickWidget>
 #include <QQmlApplicationEngine>
 #include <QQuickView>
+#include <src/equipment/walker.h>
 
 #include "mainwindow.h"
 //! [0]
 
 //! [1]
-MainWindow::MainWindow()
-    : textEdit(new QPlainTextEdit)
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+    //: textEdit(new QPlainTextEdit)
 
 //! [1] //! [2]
 {
@@ -30,7 +32,14 @@ MainWindow::MainWindow()
 //    ui->centralwidget->setLayout(layout);
 //    layout->addWidget(container);
 
-    setCentralWidget(textEdit);
+
+
+    my_quickWidget = new QQuickWidget(this);
+    my_quickWidget->setSource(QUrl(QStringLiteral("qrc:///qml/map.qml")));
+    my_quickWidget->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    setCentralWidget(my_quickWidget);
+    textEdit = new QPlainTextEdit;
+    //setCentralWidget(textEdit);
     createActions();
     createStatusBar();
     createDockWindows();

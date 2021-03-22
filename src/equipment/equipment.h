@@ -4,6 +4,7 @@
 #include <QVector>
 #include <QDebug>
 #include <math.h>
+#include <QGraphicsItem>
 
 #include <src/common_parameters.h>
 
@@ -86,13 +87,11 @@ public:
 
 
 
-
-
 public:
     Equipment();
-    ~Equipment(){
 
-    }
+//    ~Equipment(){
+//    }
 
     void printData();
 
@@ -104,7 +103,6 @@ public:
     void generateRandomCoordinates(double minLon, double minLat, double maxLon, double maxLat,
                                    double minAlt, double maxAlt);
     void assignPixelCoordinates(int x, int y, int z);
-
 
 };
 

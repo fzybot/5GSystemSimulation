@@ -1,5 +1,11 @@
 #include "equipment.h"
 
+#include <QGraphicsScene>
+#include <QPainter>
+#include <QRandomGenerator>
+#include <QStyleOption>
+#include <QtMath>
+
 Equipment::Equipment(){
 
 }
@@ -31,6 +37,7 @@ void Equipment::calculateEIRP(){
 //**************************************************************
 // LOGISTIC METHODS
 //**************************************************************
+
 void Equipment::assignLonLat(double lon, double lat, double alt){
     this->latitude = lat;
     this->longtitude = lon;
@@ -48,4 +55,8 @@ void Equipment::assignPixelCoordinates(int x, int y, int z){
     this->pixelY = y;
     this->pixelZ = z;
 }
+
+//**************************************************************
+// GRAPHIC METHODS
+//**************************************************************
 

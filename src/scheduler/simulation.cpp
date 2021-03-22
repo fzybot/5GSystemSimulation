@@ -2,6 +2,8 @@
 #include <cmath>
 #include <QRandomGenerator>
 #include <QDebug>
+#include <QtMath>
+#include <QtWidgets>
 
 //#include <src/channel/propagation_models.h>
 
@@ -9,7 +11,7 @@ Simulation::Simulation()
 {
     calculateCoordinateBordersFromPixel();
     generateBaseStations(5);
-    generateUEs(30);
+    generateUEs(20);
     setSimulationTime(100);
     calculateSINR();
     qDebug() << "dBm: "<< mWattTodBm(20000);
@@ -126,16 +128,16 @@ void Simulation::generateBaseStations(int numberOfBaseStations){
 
 void Simulation::generateUEs(int numberOfUEs){
     // Generate random position
-    QRandomGenerator gen1 =  QRandomGenerator();
+    QRandomGenerator gen2 =  QRandomGenerator();
     for(int i = 0; i < numberOfUEs; i ++){
 //        int randomPixelX = QRandomGenerator::global()->bounded(this->minPixelX, this->maxPixelX);
 //        int randomPixelY = QRandomGenerator::global()->bounded(this->minPixelY, this->maxPixelY);
-        double randomLon = this->minLon + gen1.bounded(this->maxLon - this->minLon);
-        double randomLat = this->minLat + gen1.bounded(this->maxLat - this->minLat);
+        double randomLon = this->minLon + gen2.bounded(this->maxLon - this->minLon);
+        double randomLat = this->minLat + gen2.bounded(this->maxLat - this->minLat);
         UserEquipment tempUser;
         tempUser.identity = i + 10000;
         tempUser.assignLonLat(randomLon, randomLat, 0);
-        tempUser.speed = gen1.bounded(0, 50);
+        tempUser.speed = gen2.bounded(0, 50);
         tempUser.calculateStepSize();
 //        tempUser.assignPixelCoordinates(randomPixelX, randomPixelY, 0);
         this->userEqipmnets.push_back(tempUser);
@@ -168,41 +170,49 @@ void Simulation::generateNoise(int size){
 
 double Simulation::calculatePathLoss(double distance, double angle){
     if (this->scenario == 0){
-        return 36.7 * log10(distance) + 26 * log10(2.6) + 22.7;
+        if (distance == 0){
+            return 30;
+        }
+        else{
+            return 36.7 * log10(distance) + 26 * log10(2.6) + 22.7;
+        }
     }
 }
 
 void Simulation::calculateSINR(){
-    double S = -1000000;
-    double I = userEqipmnets[0].thermalNoise;
-    double d = 0;
-    double L = 0;
-    for(int bs = 0; bs < this->baseStations.length(); bs++){
-        d = calculateDistance(this->userEqipmnets[0].longtitude, this->userEqipmnets[0].latitude,
-                this->baseStations[bs].longtitude, this->baseStations[bs].latitude);
-        L = -1 * calculatePathLoss(d, 0) + this->baseStations[bs].EIRP;
-        if(L > -140){
-            if (L >= S){
-                S = L;
+    for (int ues = 0; ues < this->userEqipmnets.length(); ues++){
+        double S = -1000000;
+        double I = userEqipmnets[ues].thermalNoise;
+        double d = 0;
+        double L = 0;
+        for(int bs = 0; bs < this->baseStations.length(); bs++){
+            d = calculateDistance(this->userEqipmnets[ues].longtitude,
+                                  this->userEqipmnets[ues].latitude,
+                                  this->baseStations[bs].longtitude,
+                                  this->baseStations[bs].latitude);
+            L = -1 * calculatePathLoss(d, 0) + this->baseStations[bs].EIRP;
+            if(L > -140){
+                if (L >= S){
+                    S = L;
+                }
+                I = I + log2(1+pow(2, (L-I)/3));
             }
-            //I = I + log2(1+pow(2, (L-I)/3));
-            I = I + L;
-            qDebug() << "BS PL: "<< L << "Interf: " << I;
-            qDebug() << "   BS Distance: "<< d;
         }
-    }
-    for(int ue = 1; ue< this->userEqipmnets.length();ue++){
-        d = calculateDistance(this->userEqipmnets[0].longtitude, this->userEqipmnets[0].latitude,
-                this->userEqipmnets[ue].longtitude, this->userEqipmnets[ue].latitude);
-        L = -1 * calculatePathLoss(d, 0) + this->userEqipmnets[ue].EIRP;
-        if(L > -140){
-            I = I + log2(1+pow(2, (L-I)/3));
-            qDebug() << "UE PL: "<< L << "Interf: " << I;
+        for(int ue = 0; ue< this->userEqipmnets.length();ue++){
+            if (ue != ues){
+                d = calculateDistance(this->userEqipmnets[ues].longtitude,
+                                      this->userEqipmnets[ues].latitude,
+                                      this->userEqipmnets[ue].longtitude,
+                                      this->userEqipmnets[ue].latitude);
+                L = -1 * calculatePathLoss(d, 0) + this->userEqipmnets[ue].EIRP;
+                if(L > -140){
+                    I = I + log2(1+pow(2, (L-I)/3));
+                }
+            }
         }
+        userEqipmnets[ues].SINR = S - I;
+        qDebug() << "UE SINR: "<< userEqipmnets[ues].SINR;
     }
-    qDebug() << "S: "<< mWattTodBm(S);
-    qDebug() << "I: "<< mWattTodBm(I);
-    //userEqipmnets[0].SINR = (S/ (I + N));
 }
 
 

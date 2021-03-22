@@ -1,7 +1,9 @@
-QT       += gui widgets qml quick positioning positioning-private location quickwidgets
+QT       += gui widgets qml positioning positioning-private location quickwidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+#TARGET = qmlwidget
+#TEMPLATE = app
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
@@ -21,6 +23,7 @@ SOURCES += \
     src/equipment/base_station.cpp \
     src/equipment/equipment.cpp \
     src/equipment/user_equipment.cpp \
+    src/equipment/walker.cpp \
     src/scheduler/scheduler.cpp \
     src/scheduler/simulation.cpp
 
@@ -32,6 +35,7 @@ HEADERS += \
     src/equipment/base_station.h \
     src/equipment/equipment.h \
     src/equipment/user_equipment.h \
+    src/equipment/walker.h \
     src/scheduler/scheduler.h \
     src/scheduler/simulation.h
 
