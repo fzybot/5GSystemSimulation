@@ -38,13 +38,6 @@ int main(int argc, char *argv[])
     MainWindow mainWin;
     mainWin.show();
 
-//    QQuickView view;
-//    view.setSource(QUrl(QStringLiteral("qrc://src/qml/map.qml")));
-//    view.show();
-
-//    QQmlApplicationEngine engine;
-//    engine.load(QUrl(QStringLiteral("qrc://src/qml/map.qml")));
-
 //###########################################################################################
 //                                       Testing
 //###########################################################################################

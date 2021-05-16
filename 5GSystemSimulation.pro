@@ -4,7 +4,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 #TARGET = qmlwidget
 #TEMPLATE = app
-CONFIG += c++11
+CONFIG += c++14
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -24,20 +24,25 @@ SOURCES += \
     src/equipment/equipment.cpp \
     src/equipment/user_equipment.cpp \
     src/equipment/walker.cpp \
+#    src/qcustomplot/qcustomplot.cpp \
     src/scheduler/scheduler.cpp \
-    src/scheduler/simulation.cpp
+    src/simulation/simulation.cpp \
+    src/visualization/heatmap.cpp
 
 HEADERS += \
     mainwindow.h \
     src/antenna/antenna.h \
-    src/channel/propagation_models.h \
+    src/phy/propagation_models.h \
     src/common_parameters.h \
     src/equipment/base_station.h \
     src/equipment/equipment.h \
     src/equipment/user_equipment.h \
     src/equipment/walker.h \
+#    src/qcustomplot/qcustomplot.h \
     src/scheduler/scheduler.h \
-    src/scheduler/simulation.h
+    src/simulation/simulation.h \
+    src/visualization/heatmap.h \
+    src/visualization/mapquickwidget.h
 
 
 
@@ -48,8 +53,9 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES +=
-#    src/qml/map.qml
+DISTFILES += \
+    .gitignore
+    src/qml/map.qml
 
 RESOURCES += \
     src/application.qrc \

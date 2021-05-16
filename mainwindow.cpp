@@ -2,45 +2,77 @@
 #include <QQuickWidget>
 #include <QQmlApplicationEngine>
 #include <QQuickView>
-#include <src/equipment/walker.h>
+#include <QObject>
+
+#include <QPixmap>
+#include <QImage>
+#include <QRgb>
+#include <QPainter>
+
+#include "src/equipment/walker.h"
+#include "src/visualization/mapquickwidget.h"
 
 #include "mainwindow.h"
-//! [0]
 
-//! [1]
+
+
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    //: textEdit(new QPlainTextEdit)
-
-//! [1] //! [2]
 {
-//    QQuickWidget *view = new QQuickWidget;
-//    view->setSource(QUrl("qrc:///qml/map.qml"));
-//    view->show();
-//    QQmlApplicationEngine engine;
-//    engine.load(QUrl(QStringLiteral("qrc:///qml/map.qml")));
-//    QQuickView *view = new QQuickView(QUrl("qrc:///qml/map.qml"));
-//    QWidget *container = QWidget::createWindowContainer(view);
-//    this->setCentralWidget(container);
-    //setCentralWidget(engine);
-    //setCentralWidget(textEdit);
-//    QHBoxLayout *layout = new QHBoxLayout(this);
-//    QQuickView *qmlView = new QQuickView();
-//    qmlView->setSource(QUrl(QStringLiteral("qrc:///qml/map.qml")));
 
-//    QWidget *container = QWidget::createWindowContainer(qmlView, this);
-//    ui->centralwidget->setLayout(layout);
-//    layout->addWidget(container);
+    QGraphicsScene* scene = new QGraphicsScene();
+    scene->setSceneRect(0, 0, 1500, 1500);
+    scene->addLine(20.0, 50.0, 50.0, 200.0);
+    scene->addRect(100.0, 50.0, 60.0, 80.0);
+    scene->addEllipse(200.0, 100.0, 80.0, 80.0);
+    // TODO: make walkers to WALK!!
+    int walkerCount = 40;
+    for (int i = 0; i < walkerCount; ++i) {
+        walker *ue = new walker;
+        ue->setPos(100, 100);
+        scene->addItem(ue);
+    }
+
+    QImage imageMap(200, 200, QImage::Format_RGB32);
+    QRgb color;
+    color = qRgb(120, 25, 200);
+    for(int i = 0; i < 200; i++){
+        for(int j = 0; j < 200; j++){
+            imageMap.setPixel(i, j, color);
+        }
+    }
+    scene->addPixmap(QPixmap::fromImage(imageMap));
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// QPixmap example
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//    QPixmap map(200, 200);
+//    QPainter p(&map);
+//    p.setPen(QColor(100, 100, 100, 127));
+//    for(int i = 0; i < 100; i++){
+//        for(int j = 0; j < 100; j++){
+//                p.drawPoint(i, j);
+//        }
+//    }
+//    p.end();
+//    scene->addPixmap(map);
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+//    QGraphicsView* view = new QGraphicsView(scene);
+//    view->verticalScrollBar();
+//    view->horizontalScrollBar();
+//    setCentralWidget(view);
+
+//    QTimer timer;
+//    QObject::connect(&timer, &QTimer::timeout, scene, &QGraphicsScene::advance);
+//    timer.start(1000 / 33);
 
 
+    MapQuickWidget *map = new MapQuickWidget(this);
+    setCentralWidget(map);
 
-    my_quickWidget = new QQuickWidget(this);
-    my_quickWidget->setSource(QUrl(QStringLiteral("qrc:///qml/map.qml")));
-    my_quickWidget->setResizeMode(QQuickWidget::SizeRootObjectToView);
-    setCentralWidget(my_quickWidget);
-    textEdit = new QPlainTextEdit;
-    //setCentralWidget(textEdit);
-    createActions();
+    //createActions();
     createStatusBar();
     createDockWindows();
     readSettings();
@@ -48,19 +80,20 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
+
 //    connect(textEdit->document(), &QTextDocument::contentsChanged,
 //            this, &MainWindow::documentWasModified);
 
-#ifndef QT_NO_SESSIONMANAGER
-    QGuiApplication::setFallbackSessionManagementEnabled(false);
-    connect(qApp, &QGuiApplication::commitDataRequest,
-            this, &MainWindow::commitData);
-#endif
+//#ifndef QT_NO_SESSIONMANAGER
+//    QGuiApplication::setFallbackSessionManagementEnabled(false);
+//    connect(qApp, &QGuiApplication::commitDataRequest,
+//            this, &MainWindow::commitData);
+//#endif
 
-    setCurrentFile(QString());
-    setUnifiedTitleAndToolBarOnMac(true);
+//    setCurrentFile(QString());
+//    setUnifiedTitleAndToolBarOnMac(true);
 }
-//! [2]
+
 
 void MainWindow::createDockWindows()
 {
@@ -100,6 +133,13 @@ void MainWindow::createDockWindows()
                "buy more items, or should we return the excess to you?");
     dock->setWidget(paragraphsList);
     addDockWidget(Qt::LeftDockWidgetArea, dock);
+
+    dock = new QDockWidget(tr("Should be a PLOTS"), this);
+    paragraphsList = new QListWidget(dock);
+    paragraphsList->addItems(QStringList()
+            << "Some plots.");
+    dock->setWidget(paragraphsList);
+    addDockWidget(Qt::RightDockWidgetArea, dock);
 //    viewMenu->addAction(dock->toggleViewAction());
 
 //    connect(customerList, &QListWidget::currentTextChanged,

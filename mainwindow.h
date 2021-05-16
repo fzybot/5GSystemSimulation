@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QQmlApplicationEngine>
 #include <QQuickWidget>
+#include <QtWidgets>
 
 QT_BEGIN_NAMESPACE
 class QAction;
@@ -64,6 +65,7 @@ private:
     QListWidget *paragraphsList;
 
     QMenu *viewMenu;
+    QGraphicsView *view;
 };
 //! [0]
 

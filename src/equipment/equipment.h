@@ -90,9 +90,6 @@ public:
 public:
     Equipment();
 
-//    ~Equipment(){
-//    }
-
     void printData();
 
     void calculateThermalNoise();
