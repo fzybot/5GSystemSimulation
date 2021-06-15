@@ -23,6 +23,7 @@
 #include <src/equipment/walker.h>
 #include <src/phy/propagation_models.h>
 #include <src/simulation/simulation.h>
+#include <src/phy/Channel/bandwidth.h>
 
 #include <armadillo>
 
@@ -58,6 +59,9 @@ int main(int argc, char *argv[])
 //        qDebug() <<"---------------------------------";
 //    }
     sim1.showBordersll();
+    Bandwidth band;
+
+    qDebug() << RBs_for_BW;
 //###########################################################################################
     return app.exec();
 
