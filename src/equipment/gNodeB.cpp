@@ -1,13 +1,13 @@
-#include "base_station.h"
+#include "gNodeB.h"
 
 
-BaseStation::BaseStation(){
+gNodeB::gNodeB(){
     initialParameters();
     this->dataSize = ( ((this->bandwidth * 1000) / this->SCS ) * 2 * 14 * mimoLayers );
     generateDataArray();
 }
 
-void BaseStation::generateDataArray(){
+void gNodeB::generateDataArray(){
     for (int i = 0; i < this->dataSize; i++){
         this->data.append(QRandomGenerator::global()->generateDouble());
     }
@@ -17,7 +17,7 @@ void BaseStation::generateDataArray(){
 //    this->currentUsers.push_back(user);
 //}
 
-void BaseStation::initialParameters(){
+void gNodeB::initialParameters(){
     this->PCI = 123;
     this->TxPower = 43;
     this->antennaGain = 18;

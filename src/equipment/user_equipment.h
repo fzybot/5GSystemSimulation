@@ -4,7 +4,7 @@
 #include <QVector>
 
 #include <src/equipment/equipment.h>
-#include <src/equipment/base_station.h>
+#include <src/equipment/gNodeB.h>
 //class BaseStation;
 
 class UserEquipment : public Equipment{

@@ -6,7 +6,7 @@
 #include <QDebug>
 
 #include <src/equipment/user_equipment.h>
-#include <src/equipment/base_station.h>
+#include <src/equipment/gNodeB.h>
 
 class Simulation: public QObject
 {
@@ -43,7 +43,7 @@ public:
     int onePixelDistance = 1; //[meters]
 
     QVector<UserEquipment> userEqipmnets;
-    QVector<BaseStation> baseStations;
+    QVector<gNodeB> baseStations;
     QVector<float> noise;
 
 
@@ -76,7 +76,7 @@ private:
     double calculateDistance(double lon1, double lat1, double lon2, double lat2);
 
 
-    void generateBaseStations(int numberOfBaseStations);
+    void generategNodeBs(int numberOfBaseStations);
     void generateUEs(int numberOfUEs);
     void updateNeighbours();
 

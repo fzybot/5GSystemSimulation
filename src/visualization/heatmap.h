@@ -3,7 +3,7 @@
 
 #include<QPixmap>
 
-class BaseStation;
+class gNodeB;
 class UserEquipment;
 
 class Heatmap: public QImage

@@ -20,11 +20,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    src/equipment/base_station.cpp \
     src/equipment/equipment.cpp \
+    src/equipment/gNodeB.cpp \
     src/equipment/user_equipment.cpp \
     src/equipment/walker.cpp \
 #    src/qcustomplot/qcustomplot.cpp \
+    src/phy/Channel/bandwidth.cpp \
     src/scheduler/scheduler.cpp \
     src/simulation/simulation.cpp \
     src/visualization/heatmap.cpp
@@ -32,9 +33,10 @@ SOURCES += \
 HEADERS += \
     mainwindow.h \
     src/antenna/antenna.h \
+    src/equipment/gNodeB.h \
+    src/phy/Channel/bandwidth.h \
     src/phy/propagation_models.h \
     src/common_parameters.h \
-    src/equipment/base_station.h \
     src/equipment/equipment.h \
     src/equipment/user_equipment.h \
     src/equipment/walker.h \
@@ -45,6 +47,7 @@ HEADERS += \
     src/visualization/mapquickwidget.h
 
 
+LIBS += -llapack -lblas -larmadillo
 
 FORMS +=
 

@@ -7,7 +7,7 @@
 #include <src/equipment/user_equipment.h>
 //class UserEquipment;
 
-class BaseStation : public Equipment{
+class gNodeB : public Equipment{
 public:
     // Logistic information
     int PCI;
@@ -22,7 +22,7 @@ public:
 
 public:
 
-    BaseStation();
+    gNodeB();
     // for now just random vaues is generated as data (imagine + real part of modulated data)
     //TODO: generation algorithm should be writen.
     void generateDataArray();

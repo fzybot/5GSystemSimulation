@@ -10,7 +10,7 @@
 Simulation::Simulation()
 {
     calculateCoordinateBordersFromPixel();
-    generateBaseStations(5);
+    generategNodeBs(5);
     generateUEs(20);
     setSimulationTime(100);
     calculateSINR();
@@ -110,7 +110,7 @@ double Simulation::calculateDistance(double lon1, double lat1, double lon2, doub
 //**************************************************************
 // UE and BS Generation methods
 //**************************************************************
-void Simulation::generateBaseStations(int numberOfBaseStations){
+void Simulation::generategNodeBs(int numberOfBaseStations){
     // Generate random position
     QRandomGenerator gen1 =  QRandomGenerator();
     for(int i = 0; i < numberOfBaseStations; i ++){
@@ -118,7 +118,7 @@ void Simulation::generateBaseStations(int numberOfBaseStations){
 //        int randomPixelY = QRandomGenerator::global()->bounded(this->minPixelY, this->maxPixelY);
         double randomLon = this->minLon + gen1.bounded(this->maxLon - this->minLon);
         double randomLat = this->minLat + gen1.bounded(this->maxLat - this->minLat);
-        BaseStation tempBaseStation;
+        gNodeB tempBaseStation;
         tempBaseStation.cellIdentity = 100 + i;
         tempBaseStation.assignLonLat(randomLon, randomLat, 0);
 //        tempBaseStation.assignPixelCoordinates(randomPixelX, randomPixelY, 0);
