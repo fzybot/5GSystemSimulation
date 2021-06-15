@@ -32,7 +32,7 @@ static void simpleTest(){
     sim1.showBordersll();
     Bandwidth band;
 
-    qDebug() << RBs_for_BW["FR1"][15][5];
+    qDebug() << RBs_for_BW["FR2"][60][100];
 
 }
 
