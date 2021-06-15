@@ -41,6 +41,7 @@ HEADERS += \
     src/equipment/user_equipment.h \
     src/equipment/walker.h \
 #    src/qcustomplot/qcustomplot.h \
+    src/scenarios/tests.h \
     src/scheduler/scheduler.h \
     src/simulation/simulation.h \
     src/visualization/heatmap.h \
