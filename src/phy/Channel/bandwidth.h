@@ -78,7 +78,6 @@ public:
     Bandwidth() = default;
     Bandwidth(double ulBw, double dlBw, int ulOffset, int dlOffset,
               bool tddTrue = false);
-    ~Bandwidth();
 
 
 private:
