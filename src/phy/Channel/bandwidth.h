@@ -8,9 +8,13 @@
 
 #include <QMap>
 #include <QString>
-// first element is the bandwidth in MHz, second one is the corresponding
+
+
+//first element is the bandwidth in MHz, second one is the corresponding
 //number of RBs
-const static QMap<QString, QMap<int, QMap<int, int> > > RBs_for_BW =
+// For example: RBs_for_BW["FR2"][60][100] means the number of PRBs
+//
+const static QMap<QString, QMap<int, QMap<int, int> > > PRBs_for_BW =
 {
     { "FR1", { {15, { {5, 25},
                       {10, 52},
@@ -71,10 +75,24 @@ const static QMap<QString, QMap<int, QMap<int, int> > > RBs_for_BW =
 class Bandwidth
 {
 public:
-    Bandwidth();
+    Bandwidth() = default;
+    Bandwidth(double ulBw, double dlBw, int ulOffset, int dlOffset,
+              bool tddTrue = false);
+    ~Bandwidth();
 
 
-public:
+private:
+
+    double m_ulBandwidth;
+    double m_dlBandwidth;
+
+    int m_ulOffsetBw;
+    int m_dlOffsetBw;
+
+    QVector<double> m_dlSubChannels;
+    QVector<double> m_ulSubChannels;
+
+    int m_subcarrierSpacing;
 
 };
 

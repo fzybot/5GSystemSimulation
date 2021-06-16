@@ -26,6 +26,7 @@ SOURCES += \
     src/equipment/walker.cpp \
 #    src/qcustomplot/qcustomplot.cpp \
     src/phy/Channel/bandwidth.cpp \
+    src/phy/Channel/radiochannel.cpp \
     src/scheduler/scheduler.cpp \
     src/simulation/simulation.cpp \
     src/visualization/heatmap.cpp
@@ -35,6 +36,7 @@ HEADERS += \
     src/antenna/antenna.h \
     src/equipment/gNodeB.h \
     src/phy/Channel/bandwidth.h \
+    src/phy/Channel/radiochannel.h \
     src/phy/propagation_models.h \
     src/common_parameters.h \
     src/equipment/equipment.h \
