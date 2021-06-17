@@ -116,18 +116,14 @@ class Bandwidth
 {
 public:
     Bandwidth() = default;
-<<<<<<< HEAD
     Bandwidth(QString fr, QString band, int scs, double ulBw, double dlBw,
               int ulOffset, int dlOffset, bool tddTrue = false);
-=======
-    Bandwidth(double ulBw, double dlBw, int ulOffset, int dlOffset,
-              bool tddTrue = false);
->>>>>>> fd6b99a5c9dbdab3bbbc3b00d2bb0b70e6909a47
 
     void print();
 
 
 private:
+
     bool m_tdd = false;
     QString m_frequencyRange;
     QString m_operatingBand;
