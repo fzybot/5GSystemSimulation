@@ -9,11 +9,50 @@
 #include <QMap>
 #include <QString>
 
+/*
+ * The 5G NR operating bands list according to TS 38.104 Table 5.2-1\2.
+ * The FR1 and FR2 are in one QMap list. FR2 starts from "n257".
+ */
 
-//first element is the bandwidth in MHz, second one is the corresponding
-//number of RBs
-// For example: RBs_for_BW["FR2"][60][100] means the number of PRBs
-//
+const static QMap <QString ,  float> NR_OPERATING_BAND_UL_LOW =
+{
+    {"n1", 1920},
+    {"n3", 1710},
+    {"n7", 2500},
+    {"n257", 26500},
+
+};
+const static QMap <QString ,  float> NR_OPERATING_BAND_UL_HIGH =
+{
+    {"n1", 1980},
+    {"n3", 1785},
+    {"n7", 2570},
+    {"n257", 29500},
+
+};
+const static QMap <QString ,  float> NR_OPERATING_BAND_DL_LOW =
+{
+    {"n1", 2110},
+    {"n3", 1805},
+    {"n7", 2620},
+    {"n257", 26500},
+
+};
+const static QMap <QString ,  float> NR_OPERATING_BAND_DL_HIGH =
+{
+    {"n1", 2170},
+    {"n3", 1880},
+    {"n7", 2690},
+    {"n257", 29500},
+
+};
+
+/*
+ * The first element is the bandwidth in MHz, second one is the corresponding
+ * number of RBs.
+ * For example: RBs_for_BW["FR2"][60][100] means the number of PRBs for FR2,
+ * SCS = 60 kHz, Bandwidth = 100 MHz, which is equal to 132 PRBs.
+ */
 const static QMap<QString, QMap<int, QMap<int, int> > > PRBs_for_BW =
 {
     { "FR1", { {15, { {5, 25},
@@ -72,17 +111,21 @@ const static QMap<QString, QMap<int, QMap<int, int> > > PRBs_for_BW =
     },
 };
 
+//TODO: add NB-IoT functionality
 class Bandwidth
 {
 public:
     Bandwidth() = default;
-    Bandwidth(double ulBw, double dlBw, int ulOffset, int dlOffset,
-              bool tddTrue = false);
-    ~Bandwidth();
+    Bandwidth(QString fr, QString band, int scs, double ulBw, double dlBw,
+              int ulOffset, int dlOffset, bool tddTrue = false);
+
+    void print();
 
 
 private:
-
+    bool m_tdd = false;
+    QString m_frequencyRange;
+    QString m_operatingBand;
     double m_ulBandwidth;
     double m_dlBandwidth;
 
