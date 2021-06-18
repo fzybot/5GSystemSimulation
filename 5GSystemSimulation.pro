@@ -27,6 +27,7 @@ SOURCES += \
 #    src/qcustomplot/qcustomplot.cpp \
     src/phy/Channel/bandwidth.cpp \
     src/phy/Channel/radiochannel.cpp \
+    src/protocols/packet.cpp \
     src/scheduler/scheduler.cpp \
     src/simulation/simulation.cpp \
     src/visualization/heatmap.cpp
@@ -43,6 +44,7 @@ HEADERS += \
     src/equipment/user_equipment.h \
     src/equipment/walker.h \
 #    src/qcustomplot/qcustomplot.h \
+    src/protocols/packet.h \
     src/scenarios/tests.h \
     src/scheduler/scheduler.h \
     src/simulation/simulation.h \
