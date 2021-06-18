@@ -52,7 +52,8 @@ HEADERS += \
     src/visualization/mapquickwidget.h
 
 
-LIBS += -llapack -lblas -larmadillo
+unix:LIBS += -llapack -lblas -larmadillo
+win32: INCLUDEPATH += $$PWD/libs/armadillo/include/
 
 FORMS +=
 
@@ -68,6 +69,5 @@ DISTFILES += \
 RESOURCES += \
     src/application.qrc \
     src/qml.qrc
-
 
 
