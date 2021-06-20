@@ -52,8 +52,8 @@ HEADERS += \
     src/visualization/mapquickwidget.h
 
 
-unix:LIBS += -llapack -lblas -larmadillo
-win32: INCLUDEPATH += $$PWD/libs/armadillo/include/
+unix: LIBS += -llapack -lblas -larmadillo
+win32: INCLUDEPATH += $$PWD/libs
 
 FORMS +=
 
