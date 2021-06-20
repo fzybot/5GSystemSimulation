@@ -30,8 +30,8 @@ static void simpleTest(){
 //        qDebug() <<"---------------------------------";
 //    }
     sim1.showBordersll();
-    Bandwidth band;
-
+    Bandwidth band("FR1", "n1", 15, 10, 20, 0, 0, false);
+    band.print();
     qDebug() << PRBs_for_BW["FR2"][60][100];
 
 }
