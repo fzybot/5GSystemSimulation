@@ -1,5 +1,5 @@
-#ifndef RADIOCHANNEL_H
-#define RADIOCHANNEL_H
+#ifndef RADIO_CHANNEL_H
+#define RADIO_CHANNEL_H
 
 #include <QVector>
 
@@ -22,4 +22,4 @@ private:
 
 };
 
-#endif // RADIOCHANNEL_H
+#endif // RADIO_CHANNEL_H

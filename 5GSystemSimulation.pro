@@ -26,8 +26,13 @@ SOURCES += \
     src/equipment/walker.cpp \
 #    src/qcustomplot/qcustomplot.cpp \
     src/phy/Channel/bandwidth.cpp \
-    src/phy/Channel/radiochannel.cpp \
+    src/phy/Channel/radio_channel.cpp \
+    src/phy/signal.cpp \
+    src/protocols/mac_layer/mac_entity.cpp \
     src/protocols/packet.cpp \
+    src/protocols/pdcp_layer/pdcp_entity.cpp \
+    src/protocols/rlc_layer/rlc_entity.cpp \
+    src/protocols/rrc_layer/rrc_entity.cpp \
     src/scheduler/scheduler.cpp \
     src/simulation/simulation.cpp \
     src/visualization/heatmap.cpp
@@ -37,14 +42,19 @@ HEADERS += \
     src/antenna/antenna.h \
     src/equipment/gNodeB.h \
     src/phy/Channel/bandwidth.h \
-    src/phy/Channel/radiochannel.h \
+    src/phy/Channel/radio_channel.h \
     src/phy/propagation_models.h \
     src/common_parameters.h \
     src/equipment/equipment.h \
     src/equipment/user_equipment.h \
     src/equipment/walker.h \
 #    src/qcustomplot/qcustomplot.h \
+    src/phy/signal.h \
+    src/protocols/mac_layer/mac_entity.h \
     src/protocols/packet.h \
+    src/protocols/pdcp_layer/pdcp_entity.h \
+    src/protocols/rlc_layer/rlc_entity.h \
+    src/protocols/rrc_layer/rrc_entity.h \
     src/scenarios/tests.h \
     src/scheduler/scheduler.h \
     src/simulation/simulation.h \
@@ -52,8 +62,8 @@ HEADERS += \
     src/visualization/mapquickwidget.h
 
 
-unix:LIBS += -llapack -lblas -larmadillo
-win32: INCLUDEPATH += $$PWD/libs/armadillo/include/
+unix: LIBS += -llapack -lblas -larmadillo
+win32: INCLUDEPATH += $$PWD/libs
 
 FORMS +=
 
