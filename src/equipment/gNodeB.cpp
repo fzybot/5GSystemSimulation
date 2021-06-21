@@ -4,14 +4,9 @@
 gNodeB::gNodeB(){
     initialParameters();
     this->dataSize = ( ((this->bandwidth * 1000) / this->SCS ) * 2 * 14 * mimoLayers );
-    generateDataArray();
+
 }
 
-void gNodeB::generateDataArray(){
-    for (int i = 0; i < this->dataSize; i++){
-        this->data.append(QRandomGenerator::global()->generateDouble());
-    }
-}
 
 //void BaseStation::addUser(UserEquipment user){
 //    this->currentUsers.push_back(user);
