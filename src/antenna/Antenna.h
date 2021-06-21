@@ -1,5 +1,5 @@
-#ifndef ANTENNA_H
-#define ANTENNA_H
+#pragma once
+
 
 /* Antenna modeling by TR 38.901 (page 22)
  *
@@ -7,23 +7,20 @@
  */
 
 
-class Antenna{
-
+class Antenna
+{
 public:
-
     int gain;
     int type;
 
 public:
-    Antenna(){
+    Antenna()
+    {
 
     }
 
-    void setGain(int g){
+    void setGain(int g)
+    {
         this->gain = g;
     }
 };
-
-
-
-#endif // ANTENNA_H
