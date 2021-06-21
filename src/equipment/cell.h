@@ -1,15 +1,11 @@
-#ifndef CELL_H
-#define CELL_H
+#pragma once
 
 
 class Cell
 {
+private:
+    int cellId;
+
 public:
     Cell();
-
-private:
-
-    int cellId;
 };
-
-#endif // CELL_H

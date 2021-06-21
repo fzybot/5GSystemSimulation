@@ -12,7 +12,8 @@ gNodeB::gNodeB(){
 //    this->currentUsers.push_back(user);
 //}
 
-void gNodeB::initialParameters(){
+void gNodeB::initialParameters()
+{
     this->PCI = 123;
     this->TxPower = 43;
     this->antennaGain = 18;
@@ -25,5 +26,4 @@ void gNodeB::initialParameters(){
     calculateEIRP();
 
     this->height = 60;
-
 }

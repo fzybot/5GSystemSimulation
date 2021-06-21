@@ -1,11 +1,13 @@
-#include "simulation.h"
+#include "Simulation.h"
+//#include "src/channel/propagation_models.h"
+
 #include <cmath>
+
 #include <QRandomGenerator>
 #include <QDebug>
 #include <QtMath>
 #include <QtWidgets>
 
-//#include <src/channel/propagation_models.h>
 
 Simulation::Simulation()
 {
@@ -16,7 +18,6 @@ Simulation::Simulation()
     calculateSINR();
     qDebug() << "dBm: "<< mWattTodBm(20000);
     qDebug() << "mWatt: "<< dBmTomWatt(43);
-
 }
 
 void Simulation::runSingleSimulation(){
@@ -119,7 +120,7 @@ void Simulation::generategNodeBs(int numberOfBaseStations){
         double randomLon = this->minLon + gen1.bounded(this->maxLon - this->minLon);
         double randomLat = this->minLat + gen1.bounded(this->maxLat - this->minLat);
         gNodeB tempBaseStation;
-        tempBaseStation.cellIdentity = 100 + i;
+        tempBaseStation.gNodeBId = 100 + i;
         tempBaseStation.assignLonLat(randomLon, randomLat, 0);
 //        tempBaseStation.assignPixelCoordinates(randomPixelX, randomPixelY, 0);
         this->baseStations.push_back(tempBaseStation);

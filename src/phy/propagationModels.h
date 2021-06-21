@@ -1,11 +1,15 @@
-#ifndef PROPAGATIONMODELS_H
-#define PROPAGATIONMODELS_H
 /*
  * Данный файл предоставляет доступ к функциям рассчета
  * моделей распространения радиосигнала по 3GPP TR 38.901 R16 (page 27).
  *
  */
+
+
+#pragma once
+
+
 #include <cmath>
+
 #include <QDebug>
 
 
@@ -24,7 +28,8 @@
  * shadowFading could be equal to 4 [dB] or 6 [dB] according to table
  */
 
-double distance3D(double distance2Dout, double distance2Din, double heightBS, double heightUE){
+double distance3D(double distance2Dout, double distance2Din, double heightBS, double heightUE)
+{
     return sqrt(pow(distance2Dout + distance2Din, 2) + pow(heightBS - heightUE, 2));
 }
 
@@ -48,7 +53,8 @@ double RMa_LOS(double distance2Dout, double distance2Din, double heightBS, doubl
 
 // Note: the model works for 10 [m] <= distance2D <= 5 [km]
 double RMa_NLOS(double distance2Dout, double distance2Din, double heightBS, double heightUE,
-                int centerFrequency, double h, double W, double shadowFading){
+                int centerFrequency, double h, double W, double shadowFading)
+{
     double d_3D = distance3D(distance2Dout, distance2Din, heightBS, heightUE);
     if(distance2Dout < 10 && distance2Dout > 5000){
         qWarning("Check the distance2D value. The model is applicable for "
@@ -64,7 +70,8 @@ double RMa_NLOS(double distance2Dout, double distance2Din, double heightBS, doub
 }
 
 double UMa_LOS(double distance2Dout, double distance2Din, double heightBS, double heightUE,
-               int centerFrequency, double h, double W, double shadowFading){
+               int centerFrequency, double h, double W, double shadowFading)
+{
 
     double d_3D = distance3D(distance2Dout, distance2Din, heightBS, heightUE);;
     double heightE = 1; // see Note 1 (page 29) TS38.901
@@ -80,7 +87,8 @@ double UMa_LOS(double distance2Dout, double distance2Din, double heightBS, doubl
 }
 
 double UMa_NLOS(double distance2Dout, double distance2Din, double heightBS, double heightUE,
-                int centerFrequency, double h, double W, double shadowFading){
+                int centerFrequency, double h, double W, double shadowFading)
+{
     double PL_UMa_NLOS;
     double d_3D = distance3D(distance2Dout, distance2Din, heightBS, heightUE);;
     PL_UMa_NLOS = 13.54 + 39.08 * log10(d_3D) + 20 * log10(centerFrequency) -
@@ -88,18 +96,3 @@ double UMa_NLOS(double distance2Dout, double distance2Din, double heightBS, doub
     return fmax(UMa_LOS(distance2Dout, distance2Din, heightBS, heightUE, centerFrequency, h,
                         W, shadowFading), PL_UMa_NLOS);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#endif // PROPAGATIONMODELS_H

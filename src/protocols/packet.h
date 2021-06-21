@@ -1,14 +1,24 @@
-#ifndef PACKET_H
-#define PACKET_H
+#pragma once
+
 
 #include <QVector>
 
 class Packet
 {
+private:
+    double m_timeStamp;
+    int m_size;
+    int m_id;
+
+    QVector<bool> m_data;
+
+
+    void addHeaderSize(int s);
+    void setPacketSize(int size);
+
 public:
     Packet() = default;
     Packet(QVector<bool> data, double timeStamp, int id);
-    virtual ~Packet();
 
     void setTimeStamp(double time);
     double getTimeStemp();
@@ -18,6 +28,7 @@ public:
     void setData(QVector<bool> data);
     QVector<bool> getData();
 
+    virtual ~Packet();
 
 // TODO: add classes for all the headers below
 //    void addRTPHeader(RTPHeader *header);
@@ -41,18 +52,6 @@ public:
 //    void addMACHeader(MACHeader *header);
 //    MACHeader* getMACHeader();
 
-private:
-    void addHeaderSize(int s);
-    void setPacketSize(int size);
-
-
-private:
-
-    double m_timeStamp;
-    int m_size;
-    int m_id;
-
-    QVector<bool> m_data;
 
 /*
  * Additional headers per each packet from RTP (for VoIP packets) down to
@@ -65,7 +64,4 @@ private:
 //    PDCPHeader *m_PDCPHeader;
 //    RLCHeader *m_RLCHeader;
 //    MACHeader *m_MACHeader;
-
 };
-
-#endif // PACKET_H

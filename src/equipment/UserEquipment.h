@@ -1,17 +1,18 @@
-#ifndef USEREQUIPMENT_H
-#define USEREQUIPMENT_H
+#pragma once
+
+
+#include "src/equipment/Equipment.h"
+#include "src/equipment/gNodeB.h"
 
 #include <QVector>
 
-#include <src/equipment/equipment.h>
-#include <src/equipment/gNodeB.h>
-//class BaseStation;
 
-class UserEquipment : public Equipment{
+class UserEquipment : public Equipment
+{
+private:
+    void initialParameters();
+
 public:
-
-
-
     // Main parameters
     int identity;
     double pathLoss;
@@ -25,24 +26,11 @@ public:
 
 
 public:
-
     UserEquipment();
-
 
     void makeStep();
     void calculateEIRP();
     void calculateStepSize();
 
     //void addNeighbourCell(BaseStation cell);
-
-private:
-    void initialParameters();
 };
-
-
-
-
-
-
-
-#endif // USEREQUIPMENT_H

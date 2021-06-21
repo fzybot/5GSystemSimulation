@@ -14,13 +14,7 @@ public:
     int type;
 
 public:
-    Antenna()
-    {
+    Antenna();
 
-    }
-
-    void setGain(int g)
-    {
-        this->gain = g;
-    }
+    void setGain(int g);
 };

@@ -1,15 +1,19 @@
-#ifndef BASESTATION_H
-#define BASESTATION_H
+#pragma once
 
-#include <src/equipment/equipment.h>
+
+#include "Equipment.h"
+#include "src/equipment/UserEquipment.h"
+
 #include <QVector>
 #include <QRandomGenerator>
-#include <src/equipment/user_equipment.h>
-//class UserEquipment;
 
-class gNodeB : public Equipment{
+
+class gNodeB : public Equipment
+{
+private:
+    void initialParameters();
+
 public:
-
     int PCI;
     int gNodeBId;
     int minRxLevel;
@@ -20,13 +24,5 @@ public:
     //QVector<UserEquipment> userQueue;
 
 
-public:
     gNodeB();
-
-
-private:
-    void initialParameters();
 };
-
-
-#endif // BASESTATION_H

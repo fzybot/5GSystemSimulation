@@ -1,28 +1,26 @@
-#ifndef WALKER_H
-#define WALKER_H
+#pragma once
 
 
 #include <QGraphicsItem>
 
+
 //! [0]
-class walker : public QGraphicsItem
+class Walker : public QGraphicsItem
 {
-public:
-    walker();
-
-    QRectF boundingRect() const override;
-    QPainterPath shape() const override;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-               QWidget *widget) override;
-
-protected:
-    void advance(int step) override;
-
 private:
     qreal angle = 0;
     qreal speed = 0;
     qreal mouseEyeDirection = 0;
     QColor color;
-};
 
-#endif // WALKER_H
+protected:
+    void advance(int step) override;
+
+public:
+    Walker();
+    Walker(qreal x, qreal y);
+
+    QRectF boundingRect() const override;
+    QPainterPath shape() const override;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
+};
