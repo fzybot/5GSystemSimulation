@@ -9,7 +9,7 @@
 
 class gNodeB : public Equipment{
 public:
-    // Logistic information
+
     int PCI;
     int cellIdentity;
     int minRxLevel = -123;
@@ -23,10 +23,6 @@ public:
 public:
 
     gNodeB();
-    // for now just random vaues is generated as data (imagine + real part of modulated data)
-    //TODO: generation algorithm should be writen.
-    void generateDataArray();
-    //void addUser(UserEquipment user);
 
 
 private:

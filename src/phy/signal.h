@@ -15,14 +15,17 @@ public:
     void setPowerValues(QVector< QVector<double> > powerValues);
     QVector< QVector<double> > getPowerValues(void);
 
-    void setPhases(QVector< QVector<double> > phases);
-    QVector< QVector<double> > getPhases(void);
+    void setIOValues(QVector< QVector<double> > phases);
+    QVector< QVector<double> > getIOValues(void);
+    void prindIOValues();
 
-    void generateRandomPhases(int MIMOSize, int dataSize);
+    void generateRandomIOValues(int MIMOSize, int dataSize);
+
 
 private:
+    int m_sampleRate;
     QVector< QVector<double> > m_powerValues;
-    QVector< QVector<double> > m_phases;
+    QVector< QVector<double> > m_IOvalues;
 
 };
 

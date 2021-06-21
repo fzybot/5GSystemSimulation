@@ -7,7 +7,7 @@ class MacEntity
 {
 public:
     MacEntity();
-    virtual ~MacEntity(void);
+    virtual ~MacEntity() {};
 
     void setDevice(Equipment* e);
     Equipment* getDevice();
