@@ -12,7 +12,8 @@ class Equipment {
 
 public:
 
-    /* Coordinates & Geometry for spherical basis
+    /*
+     * Coordinates & Geometry for spherical basis
      * According to 3GPP TS38.901:
      *  latitude is 'y' axis
      *  lontitude is 'x' axis
@@ -35,11 +36,9 @@ public:
 
     double lonAngle = 0;
     double latAngle = 0;
+    double altAngle = 0;
 
     double height;
-
-
-
 
     // Link budget parameters
     double TxPower;

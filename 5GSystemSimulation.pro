@@ -20,6 +20,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    src/equipment/cell.cpp \
     src/equipment/equipment.cpp \
     src/equipment/gNodeB.cpp \
     src/equipment/user_equipment.cpp \
@@ -40,6 +41,7 @@ SOURCES += \
 HEADERS += \
     mainwindow.h \
     src/antenna/antenna.h \
+    src/equipment/cell.h \
     src/equipment/gNodeB.h \
     src/phy/Channel/bandwidth.h \
     src/phy/Channel/radio_channel.h \

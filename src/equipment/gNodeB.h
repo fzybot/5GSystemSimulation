@@ -11,8 +11,8 @@ class gNodeB : public Equipment{
 public:
 
     int PCI;
-    int cellIdentity;
-    int minRxLevel = -123;
+    int gNodeBId;
+    int minRxLevel;
 
     // user equipments
     //QVector<UserEquipment> currentUsers;
@@ -21,13 +21,11 @@ public:
 
 
 public:
-
     gNodeB();
 
 
 private:
     void initialParameters();
-
 };
 
 
