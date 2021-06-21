@@ -1,17 +1,18 @@
-#ifndef EQUIPMENT_H
-#define EQUIPMENT_H
+#pragma once
+
+
+#include "src/common_parameters.h"
+
+#include <math.h>
 
 #include <QVector>
 #include <QDebug>
-#include <math.h>
 #include <QGraphicsItem>
 
-#include <src/common_parameters.h>
 
-class Equipment {
-
+class Equipment
+{
 public:
-
     /*
      * Coordinates & Geometry for spherical basis
      * According to 3GPP TS38.901:
@@ -55,21 +56,17 @@ public:
 
     double EIRP;
 
-
     double pathLoss = 0; //to calculate
-
 
     // Frequency parameters
     int ARFCN = 0;
-    int carrierFrequency= 2600; // [MHz]
+    int carrierFrequency = 2600; // [MHz]
     int numerologyIndex = 0;
     int SCS = NUMEROLOGY[numerologyIndex];
     int bandwidth;
 
-
     // SINR
-
-    double SINR=0;
+    double SINR = 0;
 
     // Data array before FFT
     int mimoLayers = 1;
@@ -81,10 +78,7 @@ public:
     int dataSize;
 
     // Information about neighbour cells
-    //
     QVector<double> distanceToEachCell;
-
-
 
 public:
     Equipment();
@@ -96,10 +90,6 @@ public:
     void dopplerEffect(QVector<double> data, double speed, double angle);
 
     void assignLonLat(double lon, double lat, double alt);
-    void generateRandomCoordinates(double minLon, double minLat, double maxLon, double maxLat,
-                                   double minAlt, double maxAlt);
+    void generateRandomCoordinates(double minLon, double minLat, double maxLon, double maxLat, double minAlt, double maxAlt);
     void assignPixelCoordinates(int x, int y, int z);
-
 };
-
-#endif // EQUIPMENT_H

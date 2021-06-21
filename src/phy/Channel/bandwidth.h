@@ -1,10 +1,11 @@
-#ifndef BANDWIDTH_H
-#define BANDWIDTH_H
-
 /*
  * This class represernts the transmittion principles per cell
  * based on 3GPP TS 38.101
  */
+
+
+#pragma once
+
 
 #include <QMap>
 #include <QString>
@@ -114,16 +115,7 @@ const static QMap<QString, QMap<int, QMap<int, int> > > PRBs_for_BW =
 //TODO: add NB-IoT functionality
 class Bandwidth
 {
-public:
-    Bandwidth() = default;
-    Bandwidth(QString fr, QString band, int scs, double ulBw, double dlBw,
-              int ulOffset, int dlOffset, bool tddTrue = false);
-
-    void print();
-
-
 private:
-
     bool m_tdd = false;
     QString m_frequencyRange;
     QString m_operatingBand;
@@ -138,6 +130,10 @@ private:
 
     int m_subcarrierSpacing;
 
-};
+public:
+    Bandwidth() = default;
+    Bandwidth(QString fr, QString band, int scs, double ulBw, double dlBw,
+              int ulOffset, int dlOffset, bool tddTrue = false);
 
-#endif // BANDWIDTH_H
+    void print();
+};

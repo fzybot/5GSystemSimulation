@@ -1,15 +1,13 @@
-#ifndef MAPQUICKWIDGET_H
-#define MAPQUICKWIDGET_H
+#pragma once
+
 
 #include <QQuickWidget>
 
+
 class MapQuickWidget: public QQuickWidget
 {
-public:
-    MapQuickWidget(QWidget *parent = Q_NULLPTR):QQuickWidget(parent){
-        setSource(QUrl("qrc://src/qml/map.qml"));
-        setResizeMode(QQuickWidget::SizeRootObjectToView);
-    }
-};
+    Q_OBJECT
 
-#endif // MAPQUICKWIDGET_H
+public:
+    MapQuickWidget(QWidget* parent = Q_NULLPTR);
+};

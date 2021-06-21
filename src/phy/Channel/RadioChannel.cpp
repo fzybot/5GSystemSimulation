@@ -1,4 +1,5 @@
-#include "radio_channel.h"
+#include "RadioChannel.h"
+
 
 RadioChannel::RadioChannel()
 {

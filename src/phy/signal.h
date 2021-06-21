@@ -1,16 +1,18 @@
-#ifndef SIGNAL_H
-#define SIGNAL_H
+#pragma once
+
 
 #include<QVector>
-
-class Bandwidth;
 
 
 class Signal
 {
+private:
+    int m_sampleRate;
+    QVector< QVector<double> > m_powerValues;
+    QVector< QVector<double> > m_IOvalues;
+
 public:
     Signal();
-    virtual ~Signal() = default;
 
     void setPowerValues(QVector< QVector<double> > powerValues);
     QVector< QVector<double> > getPowerValues(void);
@@ -21,12 +23,5 @@ public:
 
     void generateRandomIOValues(int MIMOSize, int dataSize);
 
-
-private:
-    int m_sampleRate;
-    QVector< QVector<double> > m_powerValues;
-    QVector< QVector<double> > m_IOvalues;
-
+    virtual ~Signal() = default;
 };
-
-#endif // SIGNAL_H

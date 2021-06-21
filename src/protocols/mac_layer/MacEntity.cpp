@@ -1,4 +1,4 @@
-#include "mac_entity.h"
+#include "MacEntity.h"
 
 MacEntity::MacEntity()
 {

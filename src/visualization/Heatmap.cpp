@@ -1,10 +1,12 @@
-#include "heatmap.h"
+#include "Heatmap.h"
+
 
 Heatmap::Heatmap()
 {
 
 }
 
-void Heatmap::drawHeatmap(){
+void Heatmap::drawHeatmap()
+{
 
 }

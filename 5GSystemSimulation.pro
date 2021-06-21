@@ -20,48 +20,50 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    src/equipment/cell.cpp \
-    src/equipment/equipment.cpp \
+    src/antenna/Antenna.cpp \
+    src/equipment/Cell.cpp \
+    src/equipment/Equipment.cpp \
+    src/equipment/UserEquipment.cpp \
+    src/equipment/Walker.cpp \
     src/equipment/gNodeB.cpp \
-    src/equipment/user_equipment.cpp \
-    src/equipment/walker.cpp \
 #    src/qcustomplot/qcustomplot.cpp \
-    src/phy/Channel/bandwidth.cpp \
-    src/phy/Channel/radio_channel.cpp \
-    src/phy/signal.cpp \
-    src/protocols/mac_layer/mac_entity.cpp \
-    src/protocols/packet.cpp \
-    src/protocols/pdcp_layer/pdcp_entity.cpp \
-    src/protocols/rlc_layer/rlc_entity.cpp \
-    src/protocols/rrc_layer/rrc_entity.cpp \
-    src/scheduler/scheduler.cpp \
-    src/simulation/simulation.cpp \
-    src/visualization/heatmap.cpp
+    src/phy/Channel/Bandwidth.cpp \
+    src/phy/Channel/RadioChannel.cpp \
+    src/phy/Signal.cpp \
+    src/protocols/Packet.cpp \
+    src/protocols/mac_layer/MacEntity.cpp \
+    src/protocols/pdcp_layer/PdcpEntity.cpp \
+    src/protocols/rlc_layer/RlcEntity.cpp \
+    src/protocols/rrc_layer/RrcEntity.cpp \
+    src/scheduler/Scheduler.cpp \
+    src/simulation/Simulation.cpp \
+    src/visualization/Heatmap.cpp \
+    src/visualization/MapQuickWidget.cpp
 
 HEADERS += \
     mainwindow.h \
-    src/antenna/antenna.h \
-    src/equipment/cell.h \
+    src/antenna/Antenna.h \
+    src/equipment/Cell.h \
+    src/equipment/Equipment.h \
+    src/equipment/UserEquipment.h \
+    src/equipment/Walker.h \
     src/equipment/gNodeB.h \
-    src/phy/Channel/bandwidth.h \
-    src/phy/Channel/radio_channel.h \
-    src/phy/propagation_models.h \
+    src/phy/Channel/Bandwidth.h \
+    src/phy/Channel/RadioChannel.h \
+    src/phy/Signal.h \
     src/common_parameters.h \
-    src/equipment/equipment.h \
-    src/equipment/user_equipment.h \
-    src/equipment/walker.h \
 #    src/qcustomplot/qcustomplot.h \
-    src/phy/signal.h \
-    src/protocols/mac_layer/mac_entity.h \
-    src/protocols/packet.h \
-    src/protocols/pdcp_layer/pdcp_entity.h \
-    src/protocols/rlc_layer/rlc_entity.h \
-    src/protocols/rrc_layer/rrc_entity.h \
+    src/phy/propagationModels.h \
+    src/protocols/Packet.h \
+    src/protocols/mac_layer/MacEntity.h \
+    src/protocols/pdcp_layer/PdcpEntity.h \
+    src/protocols/rlc_layer/RlcEntity.h \
+    src/protocols/rrc_layer/RrcEntity.h \
     src/scenarios/tests.h \
-    src/scheduler/scheduler.h \
-    src/simulation/simulation.h \
-    src/visualization/heatmap.h \
-    src/visualization/mapquickwidget.h
+    src/scheduler/Scheduler.h \
+    src/simulation/Simulation.h \
+    src/visualization/Heatmap.h \
+    src/visualization/MapQuickWidget.h
 
 
 unix: LIBS += -llapack -lblas -larmadillo

@@ -9,8 +9,8 @@
 #include <QRgb>
 #include <QPainter>
 
-#include "src/equipment/walker.h"
-#include "src/visualization/mapquickwidget.h"
+#include "src/equipment/Walker.h"
+#include "src/visualization/MapQuickWidget.h"
 
 #include "mainwindow.h"
 
@@ -29,9 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     // TODO: make walkers to WALK!!
     int walkerCount = 40;
     for (int i = 0; i < walkerCount; ++i) {
-        walker *ue = new walker;
-        ue->setPos(100, 100);
-        scene->addItem(ue);
+        scene->addItem(new Walker(100, 100));
     }
 
     QImage imageMap(200, 200, QImage::Format_RGB32);

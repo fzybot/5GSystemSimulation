@@ -1,10 +1,13 @@
-#include "user_equipment.h"
+#include "UserEquipment.h"
 
-UserEquipment::UserEquipment(){
+
+UserEquipment::UserEquipment()
+{
     initialParameters();
 }
 
-void UserEquipment::initialParameters(){
+void UserEquipment::initialParameters()
+{
     this->bandwidth = 10;
     this->TxPower = 23;
     this->antennaGain = 0;
@@ -17,17 +20,17 @@ void UserEquipment::initialParameters(){
 
     this->height = 1.5;
 }
-
-void UserEquipment::makeStep(){
+void UserEquipment::makeStep()
+{
     this->latitude = this->latitude + stepSize;
     this->longtitude = this->longtitude + stepSize;
 }
-
-void UserEquipment::calculateStepSize(){
+void UserEquipment::calculateStepSize()
+{
     // 0.00001 - equal to 1 meter
     this->stepSize = round(this->speed * 1000 / 3600) * 0.00001;
 }
-
-void UserEquipment:: calculateEIRP(){
+void UserEquipment::calculateEIRP()
+{
     this->EIRP = this->TxPower - this->bodyLosses;
 }

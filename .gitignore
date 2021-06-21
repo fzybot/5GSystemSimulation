@@ -1,12 +1,21 @@
+# IDE: QT Creator
 *.pro.user
 *.pro.user.*
 
-/.vs
+
+
+# IDE: VisualStudio
+*.sln
 *.vcxproj
 *.vcxproj.*
+
+/.vs
+
 .qmake.stash
-
-/libs
-
 /debug
 /release
+
+
+
+# For Windows
+/libs

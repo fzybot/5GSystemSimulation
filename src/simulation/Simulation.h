@@ -1,27 +1,25 @@
-#ifndef SIMULATION_H
-#define SIMULATION_H
+#pragma once
+
 
 #include <QObject>
 #include <QVector>
 #include <QDebug>
 
-#include <src/equipment/user_equipment.h>
-#include <src/equipment/gNodeB.h>
+#include "src/equipment/UserEquipment.h"
+#include "src/equipment/gNodeB.h"
+
 
 class Simulation: public QObject
 {
     Q_OBJECT
 
 public:
-
     int simulationTime = 1000; // [slots]
     int scenario = 0;
-
 
     // map borders
     // up = 55.016656, 82.942833     down = 55.012888, 82.952097      center = 55.014619, 82.946997
     // Novosibirsk
-
     double maxLat;
     double maxLon;
     double maxAlt;
@@ -46,11 +44,9 @@ public:
     QVector<gNodeB> baseStations;
     QVector<float> noise;
 
-
-
-
 public:
     Simulation();
+
     void runSingleSimulation();
     void runMultipleSimulation();
     void configurate();
@@ -62,11 +58,8 @@ public:
     void calculateSINR();
     double calculatePathLoss(double distance, double angle);
 
-
 private:
-
     void setSimulationTime(int time); // in [TTIs, slots]
-
     void setCoordinateBorders(double MAXLAT, double MAXLON, double MINLAT, double MINLON,
                                 double MINALT, double MAXALT);
     void calculateCoordinateBordersFromPixel();
@@ -75,14 +68,8 @@ private:
     int llToPixel(double lon, double lat);
     double calculateDistance(double lon1, double lat1, double lon2, double lat2);
 
-
     void generategNodeBs(int numberOfBaseStations);
     void generateUEs(int numberOfUEs);
     void updateNeighbours();
-
     void generateNoise(int size);
-
-
 };
-
-#endif // SIMULATION_H

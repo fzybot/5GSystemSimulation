@@ -1,12 +1,4 @@
-#ifndef COMMONPARAMETERS_H
-#define COMMONPARAMETERS_H
-
+#pragma once
 
 
 const int NUMEROLOGY[] = {15, 30, 60, 120, 240};
-
-
-
-
-
-#endif // COMMONPARAMETERS_H

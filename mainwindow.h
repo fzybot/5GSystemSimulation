@@ -1,10 +1,11 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
+
 
 #include <QMainWindow>
 #include <QQmlApplicationEngine>
 #include <QQuickWidget>
 #include <QtWidgets>
+
 
 QT_BEGIN_NAMESPACE
 class QAction;
@@ -68,5 +69,3 @@ private:
     QGraphicsView *view;
 };
 //! [0]
-
-#endif
