@@ -5,24 +5,17 @@
 #include "src/equipment/UserEquipment.h"
 
 #include <QVector>
-#include <QRandomGenerator>
 
 
 class gNodeB : public Equipment
 {
-private:
-    void initialParameters();
-
 public:
     int PCI;
-    int gNodeBId;
+    int ID;
     int minRxLevel;
 
-    // user equipments
-    //QVector<UserEquipment> currentUsers;
-    // User Equipment Queue
-    //QVector<UserEquipment> userQueue;
-
+    QVector<UserEquipment> currentUsers;
+    QVector<UserEquipment> userQueue;
 
     gNodeB();
 };

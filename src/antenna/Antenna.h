@@ -14,7 +14,7 @@ public:
     int type;
 
 public:
-    Antenna();
+    Antenna(int gain = 0, int type = 0);
 
-    void setGain(int g);
+    void setGain(int gain);
 };

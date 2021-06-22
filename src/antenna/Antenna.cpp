@@ -1,12 +1,12 @@
 #include "Antenna.h"
 
 
-Antenna::Antenna()
-{
+Antenna::Antenna(int gain, int type) :
+    gain(gain),
+    type(type)
+{ }
 
-}
-
-void Antenna::setGain(int g)
+void Antenna::setGain(int gain)
 {
-    this->gain = g;
+    this->gain = gain;
 }

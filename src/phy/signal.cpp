@@ -1,49 +1,49 @@
 #include "Signal.h"
-#include <QRandomGenerator>
+
 #include <QDebug>
+#include <QRandomGenerator>
 
 
-Signal::Signal()
+Signal::Signal() :
+    sampleRate(0),
+    powerValues(),
+    IOvalues()
+{ }
+
+void Signal::setPowerValues(const QVector<QVector<double>>& powerValues)
 {
+    this->powerValues = powerValues;
+}
+void Signal::setIOValues(const QVector<QVector<double>>& IOvalues) {
 
+    this->IOvalues = IOvalues;
 }
 
-void Signal::setPowerValues(QVector<QVector<double>> amplitudes){
-
-    m_powerValues = amplitudes;
+QVector<QVector<double>> Signal::getPowerValues() const
+{
+    return powerValues;
+}
+QVector<QVector<double>> Signal::getIOValues() const
+{
+    return IOvalues;
 }
 
-QVector< QVector<double> > Signal::getPowerValues(){
-
-    return m_powerValues;
-}
-
-void Signal::setIOValues(QVector<QVector<double>> phases){
-
-    m_IOvalues = phases;
-}
-
-QVector< QVector<double> > Signal::getIOValues(){
-
-    return m_IOvalues;
-}
-
-void Signal::prindIOValues(){
-    for(int i = 0; i < m_powerValues.size(); i++){
+void Signal::prindIOValues() const
+{
+    for(int i = 0; i < powerValues.size(); ++i) {
         qDebug() << "MIMO index = " << i << Qt::endl;
-        for(int j = 0; j < m_powerValues[i].size(); j++){
-            qDebug() << "Value = " << m_powerValues[i][j] << Qt::endl;
+        for(auto& value : powerValues[i]) {
+            qDebug() << "Value = " << value << Qt::endl;
         }
     }
 }
-
-void Signal::generateRandomIOValues(int MIMOSize, int dataSize){
-    m_powerValues.resize(MIMOSize);
-    for (int i = 0; i < MIMOSize; i++){
-        for(int j = 0; j < dataSize; j++){
-            double mimoPower = QRandomGenerator::global()->generateDouble();
-            m_powerValues[i].append(mimoPower);
+void Signal::generateRandomIOValues(int MIMOSize, int dataSize)
+{
+    powerValues.resize(MIMOSize);
+    for (auto& values : powerValues) {
+        values.resize(dataSize);
+        for(auto& value : values) {
+            value = QRandomGenerator::global()->generateDouble();
         }
     }
 }
-

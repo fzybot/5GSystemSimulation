@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "src/common_parameters.h"
+#include "src/commonParameters.h"
 
 #include <math.h>
 

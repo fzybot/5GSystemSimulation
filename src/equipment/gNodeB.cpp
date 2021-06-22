@@ -1,29 +1,20 @@
 #include "gNodeB.h"
 
 
-gNodeB::gNodeB(){
-    initialParameters();
-    this->dataSize = ( ((this->bandwidth * 1000) / this->SCS ) * 2 * 14 * mimoLayers );
-
-}
-
-
-//void BaseStation::addUser(UserEquipment user){
-//    this->currentUsers.push_back(user);
-//}
-
-void gNodeB::initialParameters()
+gNodeB::gNodeB()
 {
-    this->PCI = 123;
-    this->TxPower = 43;
-    this->antennaGain = 18;
-    this->otherLosses = 0;
-    this->noiseFigure = 3;
-    this->reqSINR = -3.3;
-    this->bandwidth = 10;
+    PCI = 123;
+    TxPower = 43;
+    antennaGain = 18;
+    otherLosses = 0;
+    noiseFigure = 3;
+    reqSINR = -3.3;
+    bandwidth = 10;
     calculateThermalNoise();
-    this->RxSensitivity = this->thermalNoise + this->noiseFigure + this->reqSINR;
+    RxSensitivity = thermalNoise + noiseFigure + reqSINR;
     calculateEIRP();
 
-    this->height = 60;
+    height = 60;
+
+    dataSize = ((bandwidth * 1000) / SCS) * 2 * 14 * mimoLayers;
 }

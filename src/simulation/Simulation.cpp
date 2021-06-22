@@ -120,7 +120,7 @@ void Simulation::generategNodeBs(int numberOfBaseStations){
         double randomLon = this->minLon + gen1.bounded(this->maxLon - this->minLon);
         double randomLat = this->minLat + gen1.bounded(this->maxLat - this->minLat);
         gNodeB tempBaseStation;
-        tempBaseStation.gNodeBId = 100 + i;
+        tempBaseStation.ID = 100 + i;
         tempBaseStation.assignLonLat(randomLon, randomLat, 0);
 //        tempBaseStation.assignPixelCoordinates(randomPixelX, randomPixelY, 0);
         this->baseStations.push_back(tempBaseStation);

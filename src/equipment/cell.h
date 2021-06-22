@@ -4,8 +4,8 @@
 class Cell
 {
 private:
-    int cellId;
+    int ID;
 
 public:
-    Cell();
+    Cell(int ID = 0);
 };

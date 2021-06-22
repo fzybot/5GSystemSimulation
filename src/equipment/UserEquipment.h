@@ -2,7 +2,6 @@
 
 
 #include "src/equipment/Equipment.h"
-#include "src/equipment/gNodeB.h"
 
 #include <QVector>
 
