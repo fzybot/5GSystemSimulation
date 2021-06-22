@@ -64,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //    timer.start(1000 / 33);
 
 
-    MapQuickWidget *map = new MapQuickWidget(this);
+    MapQuickWidget* map = new MapQuickWidget(this);
     setCentralWidget(map);
 
     //createActions();
@@ -173,8 +173,9 @@ void MainWindow::open()
 {
     if (maybeSave()) {
         QString fileName = QFileDialog::getOpenFileName(this);
-        if (!fileName.isEmpty())
+        if (!fileName.isEmpty()) {
             loadFile(fileName);
+        }
     }
 }
 //! [8]
@@ -185,7 +186,8 @@ bool MainWindow::save()
 {
     if (curFile.isEmpty()) {
         return saveAs();
-    } else {
+    }
+    else {
         return saveFile(curFile);
     }
 }
@@ -198,9 +200,13 @@ bool MainWindow::saveAs()
     QFileDialog dialog(this);
     dialog.setWindowModality(Qt::WindowModal);
     dialog.setAcceptMode(QFileDialog::AcceptSave);
-    if (dialog.exec() != QDialog::Accepted)
+
+    if (dialog.exec() != QDialog::Accepted) {
         return false;
-    return saveFile(dialog.selectedFiles().first());
+    }
+    else {
+        return saveFile(dialog.selectedFiles().first());
+    }
 }
 //! [12]
 
