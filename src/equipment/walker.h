@@ -8,9 +8,9 @@
 class Walker : public QGraphicsItem
 {
 private:
-    qreal angle = 0;
-    qreal speed = 0;
-    qreal mouseEyeDirection = 0;
+    qreal angle;
+    qreal speed;
+    qreal mouseEyeDirection;
     QColor color;
 
 protected:

@@ -19,7 +19,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp \
+    mainWindow.cpp \
     src/antenna/Antenna.cpp \
     src/equipment/Cell.cpp \
     src/equipment/Equipment.cpp \
@@ -27,6 +27,7 @@ SOURCES += \
     src/equipment/Walker.cpp \
     src/equipment/gNodeB.cpp \
 #    src/qcustomplot/qcustomplot.cpp \
+    src/phy/propagationModels.cpp \
     src/phy/Channel/Bandwidth.cpp \
     src/phy/Channel/RadioChannel.cpp \
     src/phy/Signal.cpp \
@@ -41,19 +42,19 @@ SOURCES += \
     src/visualization/MapQuickWidget.cpp
 
 HEADERS += \
-    mainwindow.h \
+    mainWindow.h \
     src/antenna/Antenna.h \
+    src/commonParameters.h \
     src/equipment/Cell.h \
     src/equipment/Equipment.h \
     src/equipment/UserEquipment.h \
     src/equipment/Walker.h \
     src/equipment/gNodeB.h \
+    src/phy/propagationModels.h \
     src/phy/Channel/Bandwidth.h \
     src/phy/Channel/RadioChannel.h \
     src/phy/Signal.h \
-    src/common_parameters.h \
 #    src/qcustomplot/qcustomplot.h \
-    src/phy/propagationModels.h \
     src/protocols/Packet.h \
     src/protocols/mac_layer/MacEntity.h \
     src/protocols/pdcp_layer/PdcpEntity.h \

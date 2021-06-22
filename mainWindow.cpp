@@ -1,3 +1,5 @@
+#include "mainWindow.h"
+
 #include <QtWidgets>
 #include <QQuickWidget>
 #include <QQmlApplicationEngine>
@@ -12,20 +14,16 @@
 #include "src/equipment/Walker.h"
 #include "src/visualization/MapQuickWidget.h"
 
-#include "mainwindow.h"
 
-
-
-
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent)
 {
-
     QGraphicsScene* scene = new QGraphicsScene();
     scene->setSceneRect(0, 0, 1500, 1500);
     scene->addLine(20.0, 50.0, 50.0, 200.0);
     scene->addRect(100.0, 50.0, 60.0, 80.0);
     scene->addEllipse(200.0, 100.0, 80.0, 80.0);
+
     // TODO: make walkers to WALK!!
     int walkerCount = 40;
     for (int i = 0; i < walkerCount; ++i) {
@@ -33,8 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     QImage imageMap(200, 200, QImage::Format_RGB32);
-    QRgb color;
-    color = qRgb(120, 25, 200);
+    QRgb color = qRgb(120, 25, 200);
     for(int i = 0; i < 200; i++){
         for(int j = 0; j < 200; j++){
             imageMap.setPixel(i, j, color);

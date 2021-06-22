@@ -8,9 +8,7 @@
 
 
 Equipment::Equipment()
-{
-
-}
+{ }
 
 void Equipment::printData() {
     qDebug() << this->data;

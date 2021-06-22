@@ -1,26 +1,27 @@
 #pragma once
 
 
-#include<QVector>
+#include <QVector>
 
 
 class Signal
 {
 private:
-    int m_sampleRate;
-    QVector< QVector<double> > m_powerValues;
-    QVector< QVector<double> > m_IOvalues;
+    int sampleRate;
+
+    QVector<QVector<double>> powerValues;
+    QVector<QVector<double>> IOvalues;
 
 public:
     Signal();
 
-    void setPowerValues(QVector< QVector<double> > powerValues);
-    QVector< QVector<double> > getPowerValues(void);
+    void setPowerValues(const QVector<QVector<double>>& powerValues);
+    void setIOValues(const QVector<QVector<double>>& IOvalues);
 
-    void setIOValues(QVector< QVector<double> > phases);
-    QVector< QVector<double> > getIOValues(void);
-    void prindIOValues();
+    QVector<QVector<double>> getPowerValues() const;
+    QVector<QVector<double>> getIOValues() const;
 
+    void prindIOValues() const;
     void generateRandomIOValues(int MIMOSize, int dataSize);
 
     virtual ~Signal() = default;

@@ -16,18 +16,10 @@ class QListWidget;
 QT_END_NAMESPACE
 
 
-
 //! [0]
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
-public:
-    MainWindow(QWidget *parent = nullptr);
-
-    void loadFile(const QString &fileName);
-protected:
-    void closeEvent(QCloseEvent *event) override;
 
 private slots:
     void newFile();
@@ -45,27 +37,36 @@ private slots:
 #endif
 
 private:
+    QQuickWidget* my_quickWidget;
+
+    QPlainTextEdit* textEdit;
+    QString curFile;
+
+    QListWidget* customerList;
+    QListWidget* paragraphsList;
+
+    QMenu* viewMenu;
+    QGraphicsView* view;
+
+
     void createActions();
     void createStatusBar();
     void createDockWindows();
     void readSettings();
     void writeSettings();
     bool maybeSave();
+    void setCurrentFile(const QString& fileName);
+
     bool saveFile(const QString &fileName);
-    void setCurrentFile(const QString &fileName);
+
     QString strippedName(const QString &fullFileName);
 
-    //tests
-    QQuickWidget *my_quickWidget;
-    //tests
+protected:
+    void closeEvent(QCloseEvent* event) override;
 
-    QPlainTextEdit *textEdit;
-    QString curFile;
+public:
+    MainWindow(QWidget* parent = nullptr);
 
-    QListWidget *customerList;
-    QListWidget *paragraphsList;
-
-    QMenu *viewMenu;
-    QGraphicsView *view;
+    void loadFile(const QString& fileName);
 };
 //! [0]

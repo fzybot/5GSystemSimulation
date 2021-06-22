@@ -1,7 +1,6 @@
 #include "Cell.h"
 
 
-Cell::Cell()
-{
-
-}
+Cell::Cell(int ID) :
+	ID(ID)
+{ }
