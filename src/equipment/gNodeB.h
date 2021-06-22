@@ -10,8 +10,6 @@
 class gNodeB : public Equipment
 {
 public:
-    int PCI;
-    int ID;
     int minRxLevel;
 
     QVector<UserEquipment> currentUsers;

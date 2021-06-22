@@ -27,6 +27,7 @@ SOURCES += \
     src/equipment/Walker.cpp \
     src/equipment/gNodeB.cpp \
 #    src/qcustomplot/qcustomplot.cpp \
+    src/mobility/Mobility.cpp \
     src/phy/propagationModels.cpp \
     src/phy/Channel/Bandwidth.cpp \
     src/phy/Channel/RadioChannel.cpp \
@@ -50,6 +51,7 @@ HEADERS += \
     src/equipment/UserEquipment.h \
     src/equipment/Walker.h \
     src/equipment/gNodeB.h \
+    src/mobility/Mobility.h \
     src/phy/propagationModels.h \
     src/phy/Channel/Bandwidth.h \
     src/phy/Channel/RadioChannel.h \
