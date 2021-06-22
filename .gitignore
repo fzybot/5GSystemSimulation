@@ -9,7 +9,7 @@
 *.vcxproj
 *.vcxproj.*
 
-/.vs
+/.*
 
 .qmake.stash
 /debug
