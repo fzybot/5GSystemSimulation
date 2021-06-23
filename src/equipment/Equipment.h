@@ -57,6 +57,10 @@ private:
 
     Mobility *m_mobility;
 
+    // TODO: Add physical layer
+    // TODO: Add protocol stack
+    // TODO: Add positioning. For now alt lon lat is working
+
 
 public:
     Equipment();
