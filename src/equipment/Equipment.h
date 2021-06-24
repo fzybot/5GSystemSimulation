@@ -10,20 +10,11 @@
 class Equipment
 {
 public:
-    /*
-     * Coordinates & Geometry for spherical basis
-     * According to 3GPP TS38.901:
-     *  latitude is 'y' axis
-     *  lontitude is 'x' axis
-     *  altitude is  'z' axis (height above the sea)
-     *
-     *  angles:
-     *      lonAngle - 'fi'
-     *      latAngle - '0'
-     *  variables: pixelX, pixelY, pixelZ is used to draw an image
-     *  There are functions to transform pixel into latlon and inverse
-     */
+    Equipment();
 
+    void calculateThermalNoise();
+
+public:
     enum EquipmentState
     {
       STATE_DETACHED,
@@ -61,9 +52,4 @@ private:
     // TODO: Add protocol stack
     // TODO: Add positioning. For now alt lon lat is working
 
-
-public:
-    Equipment();
-
-    void calculateThermalNoise();
 };

@@ -20,14 +20,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainWindow.cpp \
-    src/antenna/Antenna.cpp \
     src/equipment/Cell.cpp \
     src/equipment/Equipment.cpp \
     src/equipment/UserEquipment.cpp \
     src/equipment/Walker.cpp \
+    src/equipment/antenna/Antenna.cpp \
+    src/equipment/antenna/AntennaArray.cpp \
     src/equipment/gNodeB.cpp \
 #    src/qcustomplot/qcustomplot.cpp \
     src/mobility/Mobility.cpp \
+    src/phy/Physical.cpp \
     src/phy/propagationModels.cpp \
     src/phy/Channel/Bandwidth.cpp \
     src/phy/Channel/RadioChannel.cpp \
@@ -44,14 +46,16 @@ SOURCES += \
 
 HEADERS += \
     mainWindow.h \
-    src/antenna/Antenna.h \
     src/commonParameters.h \
     src/equipment/Cell.h \
     src/equipment/Equipment.h \
     src/equipment/UserEquipment.h \
     src/equipment/Walker.h \
+    src/equipment/antenna/Antenna.h \
+    src/equipment/antenna/AntennaArray.h \
     src/equipment/gNodeB.h \
     src/mobility/Mobility.h \
+    src/phy/Physical.h \
     src/phy/propagationModels.h \
     src/phy/Channel/Bandwidth.h \
     src/phy/Channel/RadioChannel.h \
