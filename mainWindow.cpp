@@ -11,67 +11,44 @@
 #include <QRgb>
 #include <QPainter>
 
+
 #include "src/equipment/Walker.h"
 #include "src/visualization/MapQuickWidget.h"
 
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent)
+MainWindow::MainWindow(QWidget* parent) :
+    QMainWindow(parent),
+    heatmap_(800, 800)
 {
     QGraphicsScene* scene = new QGraphicsScene();
-    scene->setSceneRect(0, 0, 1500, 1500);
-    scene->addLine(20.0, 50.0, 50.0, 200.0);
-    scene->addRect(100.0, 50.0, 60.0, 80.0);
-    scene->addEllipse(200.0, 100.0, 80.0, 80.0);
-
-    // TODO: make walkers to WALK!!
-    int walkerCount = 40;
-    for (int i = 0; i < walkerCount; ++i) {
-        scene->addItem(new Walker(100, 100));
-    }
-
-    QImage imageMap(200, 200, QImage::Format_RGB32);
-    QRgb color = qRgb(120, 25, 200);
-    for(int i = 0; i < 200; i++){
-        for(int j = 0; j < 200; j++){
-            imageMap.setPixel(i, j, color);
-        }
-    }
-    scene->addPixmap(QPixmap::fromImage(imageMap));
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// QPixmap example
-///////////////////////////////////////////////////////////////////////////////////////////////////
-//    QPixmap map(200, 200);
-//    QPainter p(&map);
-//    p.setPen(QColor(100, 100, 100, 127));
-//    for(int i = 0; i < 100; i++){
-//        for(int j = 0; j < 100; j++){
-//                p.drawPoint(i, j);
-//        }
-//    }
-//    p.end();
-//    scene->addPixmap(map);
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-//    QGraphicsView* view = new QGraphicsView(scene);
-//    view->verticalScrollBar();
-//    view->horizontalScrollBar();
-//    setCentralWidget(view);
-
-//    QTimer timer;
-//    QObject::connect(&timer, &QTimer::timeout, scene, &QGraphicsScene::advance);
-//    timer.start(1000 / 33);
 
 
-    MapQuickWidget* map = new MapQuickWidget(this);
-    setCentralWidget(map);
+
+
+
+
+    //QGraphicsView* view = new QGraphicsView(scene);
+    //view->verticalScrollBar();
+    //view->horizontalScrollBar();
+    //setCentralWidget(view);
+
+    //QTimer timer;
+    //QObject::connect(&timer, &QTimer::timeout, scene, &QGraphicsScene::advance);
+    //timer.start(1000 / 33);
+
+    //MapQuickWidget* map = new MapQuickWidget(this);
+    //setCentralWidget(map);
+    heatmap_.generate();
+    scene->addPixmap(heatmap_);
 
     //createActions();
     createStatusBar();
     createDockWindows();
     readSettings();
 
+
+    QGraphicsView *view = new QGraphicsView(scene);
+    setCentralWidget(view);
 
 
 

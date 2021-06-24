@@ -6,6 +6,8 @@
 #include <QQuickWidget>
 #include <QtWidgets>
 
+#include "src/visualization/Heatmap.h"
+
 
 QT_BEGIN_NAMESPACE
 class QAction;
@@ -37,6 +39,8 @@ private slots:
 #endif
 
 private:
+    Heatmap heatmap_;
+
     QQuickWidget* my_quickWidget;
 
     QPlainTextEdit* textEdit;
