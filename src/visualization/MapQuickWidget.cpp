@@ -3,6 +3,7 @@
 #include <QDebug>
 
 
+
 MapQuickWidget::MapQuickWidget(QWidget* parent) :
     QQuickWidget(parent),
     manager(new QNetworkAccessManager(this))
