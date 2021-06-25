@@ -20,6 +20,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainWindow.cpp \
+    src/core/CartesianCoordinates.cpp \
     src/equipment/Cell.cpp \
     src/equipment/Equipment.cpp \
     src/equipment/UserEquipment.cpp \
@@ -47,6 +48,7 @@ SOURCES += \
 HEADERS += \
     mainWindow.h \
     src/commonParameters.h \
+    src/core/CartesianCoordinates.h \
     src/equipment/Cell.h \
     src/equipment/Equipment.h \
     src/equipment/UserEquipment.h \
