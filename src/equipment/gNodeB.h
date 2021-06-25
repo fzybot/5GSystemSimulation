@@ -6,14 +6,20 @@
 
 #include <QVector>
 
+class Cell;
 
 class gNodeB : public Equipment
 {
 public:
+
+
+
+private:
     int minRxLevel;
 
-    QVector<UserEquipment> currentUsers;
-    QVector<UserEquipment> userQueue;
+
+    QVector<UserEquipment*> currentUsers;
+    QVector<UserEquipment*> userQueue;
 
     gNodeB();
 };

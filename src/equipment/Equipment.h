@@ -10,11 +10,6 @@
 class Equipment
 {
 public:
-    Equipment();
-
-    void calculateThermalNoise();
-
-public:
     enum EquipmentState
     {
       STATE_DETACHED,
@@ -28,20 +23,52 @@ public:
       TYPE_UE,
     };
 
+public:
+    Equipment();
+    Equipment(int id, EquipmentType type, EquipmentState state);
+
+    void setID(int id);
+    int getID();
+
+    void setEquipmentType(EquipmentType type);
+    EquipmentType getEquipmentType();
+
+    void setEquipmentState(EquipmentState state);
+    EquipmentState getEquipmentState();
+
+    void setCartesianPosition(double x, double y, double z);
+
+    void makeStep(double time, double angleX, double angleY,double angleZ);
+
+    void calculateThermalNoise();
+
 private:
-    int ID;
+    int m_ID;
 
-    double altitude = 0;
-    double longtitude;
-    double latitude;
+    double m_lastTime;
 
-    double lonAngle = 0;
-    double latAngle = 0;
-    double altAngle = 0;
+    // Geographical coordinates
+    double m_altitude = 0;
+    double m_longtitude;
+    double m_latitude;
 
-    int pixelX;
-    int pixelY;
-    int pixelZ;
+    double m_lonAngle = 0;
+    double m_latAngle = 0;
+    double m_altAngle = 0;
+
+    // Image coordinates
+    int m_pixelX;
+    int m_pixelY;
+    int m_pixelZ;
+
+    // Cartesian coordinates
+    double m_posX;
+    double m_posY;
+    double m_posZ;
+
+    double m_angleX;
+    double m_angleY;
+    double m_angleZ;
 
     EquipmentState m_state;
     EquipmentType m_type;
