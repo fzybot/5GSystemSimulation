@@ -15,12 +15,11 @@
 
 static void simpleTest()
 {
-    gNodeB bs1;
-    qDebug() << bs1.PCI << bs1.bandwidth << "Number of BS: " << bs1.dataSize;
-    //bs1.printData();
-    Simulation sim1;
-    qDebug() <<"Path Loss:" << sim1.calculatePathLoss(100, 0);
-    qDebug() <<"SINR:" << sim1.userEqipmnets[0].SINR;
+//    gNodeB bs1;
+//    qDebug() << bs1.PCI << bs1.bandwidth << "Number of BS: " << bs1.dataSize;
+//    Simulation sim1;
+//    qDebug() <<"Path Loss:" << sim1.calculatePathLoss(100, 0);
+//    qDebug() <<"SINR:" << sim1.userEqipmnets[0].SINR;
     /*
     for (int i = 0; i < sim1.userEqipmnets.length(); ++i){
         qDebug() <<"SINR:" << sim1.userEqipmnets[i].SINR;
@@ -31,7 +30,7 @@ static void simpleTest()
         qDebug() <<"---------------------------------";
    }
    */
-    sim1.showBordersll();
+//    sim1.showBordersll();
 
 
     //**************************************************************

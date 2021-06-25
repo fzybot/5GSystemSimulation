@@ -3,9 +3,9 @@
 
 class Cell
 {
+public:
+    Cell(int ID);
+
 private:
     int ID;
-
-public:
-    Cell(int ID = 0);
 };
