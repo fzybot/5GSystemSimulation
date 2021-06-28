@@ -13,33 +13,19 @@
 
 
 #include "src/equipment/Walker.h"
-#include "src/visualization/MapQuickWidget.h"
+
 
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
-    heatmap_(800, 800)
+    map_(new MapQuickWidget(this)),
+    heatmap_(new Heatmap(map_))
 {
-    QGraphicsScene* scene = new QGraphicsScene();
+#pragma region TemporaryCode // Crutch
+    heatmap_->resize(1600, 1200);
+#pragma endregion TemporaryCode
 
-
-
-
-
-
-    //QGraphicsView* view = new QGraphicsView(scene);
-    //view->verticalScrollBar();
-    //view->horizontalScrollBar();
-    //setCentralWidget(view);
-
-    //QTimer timer;
-    //QObject::connect(&timer, &QTimer::timeout, scene, &QGraphicsScene::advance);
-    //timer.start(1000 / 33);
-
-    //MapQuickWidget* map = new MapQuickWidget(this);
-    //setCentralWidget(map);
-    heatmap_.generate();
-    scene->addPixmap(heatmap_);
+    setCentralWidget(map_);
 
     //createActions();
     createStatusBar();
@@ -47,8 +33,13 @@ MainWindow::MainWindow(QWidget* parent) :
     readSettings();
 
 
-    QGraphicsView *view = new QGraphicsView(scene);
-    setCentralWidget(view);
+
+
+
+
+   // QGraphicsView* view = new QGraphicsView(scene);
+    //setCentralWidget(view);
+
 
 
 

@@ -1,22 +1,30 @@
 #pragma once
 
 
-#include <QQuickWidget>
+#include <QWidget>
 #include <QImage>
-#include <QPixmap>
+#include <QPaintEvent>
 
-class Heatmap : public QPixmap
+
+class Heatmap : public QWidget
 {
+    Q_OBJECT
+
 private:
     int analysisRadius_; // In meters
     int smoothingDegree_;
     int transparency_; // 0 - 100
-    QImage map_;
+
+    QImage heatmap_;
+
 
     QRgb signalStrengthToColor(double signalStrength) const;
 
+protected:
+    virtual void paintEvent(QPaintEvent*);
+
 public:
-    Heatmap(int width, int height, int analysisRadius = 3, int smoothingDegree = 2, int transparency = 80);
+    Heatmap(QWidget* parent = Q_NULLPTR, int analysisRadius = 3, int smoothingDegree = 2, int transparency = 90);
 
     void setTransparency(int transparency);
     void generate();
