@@ -1,21 +1,26 @@
 #include "Heatmap.h"
 
+#pragma region TemporaryCode // To test the rendering of the heatmap
 #include <QVector>
+#pragma endregion TemporaryCode
 #include <QtMath>
+#include <QPainter>
+
 
 
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
 
-Heatmap::Heatmap(int width, int height, int analysisRadius, int smoothingDegree, int transparency) :
-    QPixmap(width, height),
+Heatmap::Heatmap(QWidget* parent, int analysisRadius, int smoothingDegree, int transparency) :
+    QWidget(parent),
     analysisRadius_(analysisRadius),
     smoothingDegree_(smoothingDegree),
     transparency_(transparency),
-    map_(width, height, QImage::Format_ARGB32)
+    heatmap_(1600, 1200, QImage::Format_ARGB32)
 {
 #pragma region TemporaryCode // No real data yet
     analysisRadius_ *= 100.0;
 #pragma endregion TemporaryCode
+    generate();
 }
 
 
@@ -48,6 +53,16 @@ QRgb Heatmap::signalStrengthToColor(double signalStrength) const
     else { // Red
         return qRgba(255, 0, 0, transparency_);
     }
+}
+
+
+
+// ----- [ PROTECTED METHODS ] -----------------------------------------------------------------------------------------
+
+void Heatmap::paintEvent(QPaintEvent*)
+{
+    QPainter painter(this);
+    painter.drawImage(rect(), heatmap_);
 }
 
 
@@ -95,8 +110,8 @@ void Heatmap::generate()
 #pragma endregion TemporaryCode
 
     double distance, signalStrength, sumWeights, weight;
-    for (int x = map_.size().width() - 1; x >= 0 ; --x) {
-        for (int y = map_.size().height() - 1; y >= 0; --y) {
+    for (int x = heatmap_.size().width() - 1; x >= 0 ; --x) {
+        for (int y = heatmap_.size().height() - 1; y >= 0; --y) {
             signalStrength = 0.0;
             sumWeights = 0.0;
 
@@ -114,12 +129,11 @@ void Heatmap::generate()
             }
 
             if (sumWeights != 0.0) {
-                map_.setPixel(x, y, signalStrengthToColor(signalStrength / sumWeights));
+                heatmap_.setPixel(x, y, signalStrengthToColor(signalStrength / sumWeights));
             }
             else {
-                map_.setPixel(x, y, qRgba(255, 255, 255, 0));
+                heatmap_.setPixel(x, y, qRgba(255, 255, 255, 0));
             }
         }
     }
-    QPixmap::operator=(QPixmap::fromImage(map_));
 }

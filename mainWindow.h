@@ -6,6 +6,7 @@
 #include <QQuickWidget>
 #include <QtWidgets>
 
+#include "src/visualization/MapQuickWidget.h"
 #include "src/visualization/Heatmap.h"
 
 
@@ -39,7 +40,9 @@ private slots:
 #endif
 
 private:
-    Heatmap heatmap_;
+    //Heatmap heatmap_;
+    MapQuickWidget* map_;
+    Heatmap* heatmap_;
 
     QQuickWidget* my_quickWidget;
 
