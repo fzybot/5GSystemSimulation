@@ -31,7 +31,7 @@ void CartesianCoordinates::setAngles(double angX, double angY, double angZ)
     angleZ_ = angZ;
 }
 
-double CartesianCoordinates::getDistance3D(CartesianCoordinates *remoteEquipment)
+double CartesianCoordinates::calculateDistance3D(CartesianCoordinates *remoteEquipment)
 {
     return sqrt ( qPow ( (getCoordinateX() - remoteEquipment->getCoordinateX()), 2) +
                   qPow ( (getCoordinateY() - remoteEquipment->getCoordinateY()), 2) +
