@@ -6,8 +6,7 @@
 #include <QQuickWidget>
 #include <QtWidgets>
 
-#include "src/visualization/MapQuickWidget.h"
-#include "src/visualization/Heatmap.h"
+#include "src/visualization/Map.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -40,10 +39,6 @@ private slots:
 #endif
 
 private:
-    //Heatmap heatmap_;
-    MapQuickWidget* map_;
-    Heatmap* heatmap_;
-
     QQuickWidget* my_quickWidget;
 
     QPlainTextEdit* textEdit;
@@ -54,6 +49,8 @@ private:
 
     QMenu* viewMenu;
     QGraphicsView* view;
+
+    Map* map_;
 
 
     void createActions();
@@ -70,6 +67,7 @@ private:
 
 protected:
     void closeEvent(QCloseEvent* event) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 public:
     MainWindow(QWidget* parent = nullptr);

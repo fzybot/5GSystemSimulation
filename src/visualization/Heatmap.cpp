@@ -5,6 +5,8 @@
 #pragma endregion TemporaryCode
 #include <QtMath>
 #include <QPainter>
+#include <QPixmap>
+#include <QDebug>
 
 
 
@@ -64,7 +66,11 @@ void Heatmap::paintEvent(QPaintEvent*)
     QPainter painter(this);
     painter.drawImage(rect(), heatmap_);
 }
-
+void Heatmap::resizeEvent(QResizeEvent *event)
+{
+   QWidget::resizeEvent(event);
+   qDebug() << "Heatmap: " << event->size().width() << ' ' << event->size().height() << Qt::endl;
+}
 
 
 // ----- [ PUBLIC METHODS ] --------------------------------------------------------------------------------------------

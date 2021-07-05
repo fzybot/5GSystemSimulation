@@ -18,11 +18,12 @@
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
-    map_(new MapQuickWidget(this)),
-    heatmap_(new Heatmap(map_))
+    map_(new Map)
 {
+   // map_->setHeatmap(heatmap_);
+
 #pragma region TemporaryCode // Crutch
-    heatmap_->resize(1600, 1200);
+    //heatmap_->resize(1600, 1200);
 #pragma endregion TemporaryCode
 
     setCentralWidget(map_);
@@ -32,16 +33,8 @@ MainWindow::MainWindow(QWidget* parent) :
     createDockWindows();
     readSettings();
 
-
-
-
-
-
    // QGraphicsView* view = new QGraphicsView(scene);
     //setCentralWidget(view);
-
-
-
 
 
 //    connect(textEdit->document(), &QTextDocument::contentsChanged,
@@ -123,6 +116,18 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 }
 //! [4]
+
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+        qDebug() << "!!!!!!!!!!   ";
+    /*
+    int width = event->size().width();
+    int height = event->size().height();
+    qDebug() << width << ' ' << height << Qt::endl;
+    */
+}
+
 
 //! [5]
 void MainWindow::newFile()

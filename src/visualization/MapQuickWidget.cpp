@@ -21,6 +21,12 @@ MapQuickWidget::MapQuickWidget(QWidget* parent) :
 }
 
 
+void MapQuickWidget::resizeEvent(QResizeEvent *event)
+{
+    QQuickWidget::resizeEvent(event);
+    qDebug() << "MapQuickWidget: " << event->size().width() << ' ' << event->size().height() << Qt::endl;
+}
+
 void MapQuickWidget::getAddress(QString latitude, QString longitude)
 {
     latitude_1 = latitude.left(latitude.length() - 1);
