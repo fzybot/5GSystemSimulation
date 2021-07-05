@@ -4,8 +4,11 @@
 #include <QVector>
 #include <QDebug>
 #include <QGraphicsItem>
+
 #include "src/commonParameters.h"
 #include "src/mobility/Mobility.h"
+#include "src/core/CartesianCoordinates.h"
+
 
 class Equipment
 {
@@ -43,37 +46,17 @@ public:
     void calculateThermalNoise();
 
 private:
-    int m_ID;
+    int ID_;
 
-    double m_lastTime;
+    double lastTime_;
 
-    // Geographical coordinates
-    double m_altitude = 0;
-    double m_longtitude;
-    double m_latitude;
+    // Cartesian coordinates (center coordinates)
+    CartesianCoordinates* position_;
 
-    double m_lonAngle = 0;
-    double m_latAngle = 0;
-    double m_altAngle = 0;
+    EquipmentState state_;
+    EquipmentType type_;
 
-    // Image coordinates
-    int m_pixelX;
-    int m_pixelY;
-    int m_pixelZ;
-
-    // Cartesian coordinates
-    double m_posX;
-    double m_posY;
-    double m_posZ;
-
-    double m_angleX;
-    double m_angleY;
-    double m_angleZ;
-
-    EquipmentState m_state;
-    EquipmentType m_type;
-
-    Mobility *m_mobility;
+    Mobility *mobility_;
 
     // TODO: Add physical layer
     // TODO: Add protocol stack

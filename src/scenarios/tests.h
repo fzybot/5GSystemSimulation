@@ -44,7 +44,5 @@ static void simpleTest()
     //**************************************************************
     // Signal class tests
     //**************************************************************
-    Signal sig_1;
-    sig_1.generateRandomIOValues(2, 10);
-    sig_1.prindIOValues();
+
 }

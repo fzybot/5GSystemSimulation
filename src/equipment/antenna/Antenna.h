@@ -6,7 +6,7 @@ class Antenna
 {   
 public:
     Antenna();
-    Antenna(int pisX, int posY);
+    Antenna(int posX, int posY);
 
     void setPosition(int x, int y);
 

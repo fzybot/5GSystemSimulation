@@ -20,24 +20,17 @@ Equipment::Equipment(int id, EquipmentType type, EquipmentState state)
 
 void Equipment::setID(int id)
 {
-    m_ID = id;
+    ID_ = id;
 }
 
 void Equipment::setEquipmentState(EquipmentState state)
 {
-    m_state = state;
+    state_ = state;
 }
 
 void Equipment::setEquipmentType(EquipmentType type)
 {
-    m_type = type;
-}
-
-void Equipment::setCartesianPosition(double x, double y, double z)
-{
-    m_posX = x;
-    m_posY = y;
-    m_posZ = z;
+    type_ = type;
 }
 
 
