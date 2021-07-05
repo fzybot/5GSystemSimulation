@@ -43,6 +43,7 @@ SOURCES += \
     src/scheduler/Scheduler.cpp \
     src/simulation/Simulation.cpp \
     src/visualization/Heatmap.cpp \
+    src/visualization/Map.cpp \
     src/visualization/MapQuickWidget.cpp
 
 HEADERS += \
@@ -72,6 +73,7 @@ HEADERS += \
     src/scheduler/Scheduler.h \
     src/simulation/Simulation.h \
     src/visualization/Heatmap.h \
+    src/visualization/Map.h \
     src/visualization/MapQuickWidget.h
 
 

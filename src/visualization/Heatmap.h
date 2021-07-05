@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QImage>
 #include <QPaintEvent>
+#include <QResizeEvent>
 
 
 class Heatmap : public QWidget
@@ -21,7 +22,8 @@ private:
     QRgb signalStrengthToColor(double signalStrength) const;
 
 protected:
-    virtual void paintEvent(QPaintEvent*);
+    void paintEvent(QPaintEvent*) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 public:
     Heatmap(QWidget* parent = Q_NULLPTR, int analysisRadius = 3, int smoothingDegree = 2, int transparency = 90);
