@@ -23,6 +23,7 @@ public:
 
 private:
     int sampleRate_;
+    int FFTSize_;
 
     QVector<QVector<double>> powerValues_;
     QVector<double> signalInTime_;
