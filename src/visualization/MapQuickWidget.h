@@ -19,9 +19,6 @@ private:
 
     void findAddress(QNetworkReply* reply);
 
-protected:
-    void resizeEvent(QResizeEvent *event) override;
-
 public:
     MapQuickWidget(QWidget* parent = Q_NULLPTR);
 
