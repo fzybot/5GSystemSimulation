@@ -23,7 +23,6 @@ private:
 
 protected:
     void paintEvent(QPaintEvent*) override;
-    void resizeEvent(QResizeEvent *event) override;
 
 public:
     Heatmap(QWidget* parent = Q_NULLPTR, int analysisRadius = 3, int smoothingDegree = 2, int transparency = 90);

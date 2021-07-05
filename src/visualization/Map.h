@@ -17,6 +17,7 @@ private:
 
 protected:
     void paintEvent(QPaintEvent*) override;
+    void resizeEvent(QResizeEvent* event) override;
 
 public:
     explicit Map(QWidget* parent = Q_NULLPTR);
