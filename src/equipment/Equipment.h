@@ -60,6 +60,14 @@ private:
 
     // TODO: Add physical layer
     // TODO: Add protocol stack
-    // TODO: Add positioning. For now alt lon lat is working
+
+    // Link budget parameters
+    float TxPower_;
+    float bodyLoss_;
+    float EIRP_;
+    float noiseFigure_;
+    float additionalGain_ = 0;
+
+
 
 };

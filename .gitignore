@@ -14,9 +14,12 @@
 .qmake.stash
 /debug
 /release
-/FeatureTesting
 
 
 
 # For Windows
 /libs
+
+# Features and data base
+/FeatureTesting
+/data
