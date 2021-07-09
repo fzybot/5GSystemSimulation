@@ -17,6 +17,7 @@ public:
     ~Custom3dSurface();
 
     void enableSqrtSinModel(bool enable);
+    void enableDataFromFile(bool enable);
 
     void setBlackToYellowGradient();
     void setGreenToRedGradient();
