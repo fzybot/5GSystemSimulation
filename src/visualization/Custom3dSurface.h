@@ -19,6 +19,7 @@ public:
     void enableSqrtSinModel(bool enable);
     void enableDataFromFile(bool enable);
 
+
     void setBlackToYellowGradient();
     void setGreenToRedGradient();
 
