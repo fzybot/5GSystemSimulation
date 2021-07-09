@@ -1,4 +1,4 @@
-QT       += gui widgets qml positioning positioning-private location quickwidgets
+QT       += gui widgets qml positioning positioning-private location quickwidgets datavisualization
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -42,6 +42,8 @@ SOURCES += \
     src/protocols/rrc_layer/RrcEntity.cpp \
     src/scheduler/Scheduler.cpp \
     src/simulation/Simulation.cpp \
+    src/visualization/Custom3dSurface.cpp \
+    src/visualization/Custom3dSurfaceWidget.cpp \
     src/visualization/Heatmap.cpp \
     src/visualization/Map.cpp \
     src/visualization/MapQuickWidget.cpp
@@ -72,6 +74,8 @@ HEADERS += \
     src/scenarios/tests.h \
     src/scheduler/Scheduler.h \
     src/simulation/Simulation.h \
+    src/visualization/Custom3dSurface.h \
+    src/visualization/Custom3dSurfaceWidget.h \
     src/visualization/Heatmap.h \
     src/visualization/Map.h \
     src/visualization/MapQuickWidget.h

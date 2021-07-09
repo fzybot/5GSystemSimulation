@@ -30,13 +30,13 @@ private:
     AntennaType type;
     int ID;
     double band_;
-    double gain_;
-    double feederLoss_; // assuming with MHA\THA
+    float antennaGain_; // with beamforming gain
+    float feederLoss_; // assuming with MHA\THA
 
     // The position inside Antenna Array matrix
     int positionX_;
     int positionY_;
-    double length; // in cm (lambda)
+    float length; // in cm (lambda)
 
 
     double horizBeamwidth_;

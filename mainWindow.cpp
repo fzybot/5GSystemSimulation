@@ -11,8 +11,11 @@
 #include <QRgb>
 #include <QPainter>
 
+#include <QtDataVisualization/Q3DSurface>
+
 
 #include "src/equipment/Walker.h"
+#include "src/visualization/Custom3dSurface.h"
 
 
 
@@ -65,6 +68,7 @@ void MainWindow::createDockWindows()
     addDockWidget(Qt::LeftDockWidgetArea, dock);
 //    viewMenu->addAction(dock->toggleViewAction());
 
+
     dock = new QDockWidget(tr("Paragraphs"), this);
     paragraphsList = new QListWidget(dock);
     paragraphsList->addItems(QStringList()
@@ -89,10 +93,20 @@ void MainWindow::createDockWindows()
     addDockWidget(Qt::LeftDockWidgetArea, dock);
 
     dock = new QDockWidget(tr("Should be a PLOTS"), this);
-    paragraphsList = new QListWidget(dock);
-    paragraphsList->addItems(QStringList()
-            << "Some plots.");
-    dock->setWidget(paragraphsList);
+//    paragraphsList = new QListWidget(dock);
+//    paragraphsList->addItems(QStringList()
+//            << "Some plots.");
+    QtDataVisualization::Q3DSurface *graph = new QtDataVisualization::Q3DSurface();
+    QWidget *container = QWidget::createWindowContainer(graph);
+    QSize screenSize = graph->screen()->size();
+    container->setMinimumSize(800, 600);
+    container->setMaximumSize(screenSize);
+    container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    container->setFocusPolicy(Qt::StrongFocus);
+
+    Custom3dSurface *modifier = new Custom3dSurface(graph);
+
+    dock->setWidget(container);
     addDockWidget(Qt::RightDockWidgetArea, dock);
 //    viewMenu->addAction(dock->toggleViewAction());
 
