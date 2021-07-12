@@ -14,7 +14,5 @@ private:
 public:
     explicit Custom3dSurfaceWidget(QWidget *parent = nullptr);
 
-signals:
-
 };
 

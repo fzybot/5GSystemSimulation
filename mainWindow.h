@@ -7,6 +7,7 @@
 #include <QtWidgets>
 
 #include "src/visualization/Map.h"
+#include "src/visualization/menu/TabMenu.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -50,7 +51,7 @@ private:
     QMenu* viewMenu;
     QGraphicsView* view;
 
-    Map* map_;
+    TabMenu* tabMenu_;
 
 
     void createActions();

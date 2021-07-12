@@ -6,7 +6,6 @@
 #include <QtDataVisualization/QSurface3DSeries>
 #include <QtWidgets/QSlider>
 
-//using namespace QtDataVisualization;
 
 class Custom3dSurface : public QObject
 {
@@ -42,9 +41,5 @@ private:
     void setAxisXRange(float min, float max);
     void setAxisZRange(float min, float max);
     void fillSqrtSinProxy();
-
-
-
-
 };
 
