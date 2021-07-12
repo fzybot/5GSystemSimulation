@@ -46,7 +46,8 @@ SOURCES += \
     src/visualization/Custom3dSurfaceWidget.cpp \
     src/visualization/Heatmap.cpp \
     src/visualization/Map.cpp \
-    src/visualization/MapQuickWidget.cpp
+    src/visualization/MapQuickWidget.cpp \
+    src/visualization/menu/TabMenu.cpp
 
 HEADERS += \
     mainWindow.h \
@@ -78,7 +79,8 @@ HEADERS += \
     src/visualization/Custom3dSurfaceWidget.h \
     src/visualization/Heatmap.h \
     src/visualization/Map.h \
-    src/visualization/MapQuickWidget.h
+    src/visualization/MapQuickWidget.h \
+    src/visualization/menu/TabMenu.h
 
 
 unix: LIBS += -llapack -lblas -larmadillo
