@@ -13,7 +13,7 @@ class TabMenu : public QDialog
 private:
     QTabWidget *tabWidget;
     Map* map_;
-    //Custom3dSurfaceWidget* 3dSurfaceWidget_;
+    Custom3dSurfaceWidget* surfaceWidget_;
 
 public:
     explicit TabMenu(QWidget *parent = nullptr);

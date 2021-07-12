@@ -1,5 +1,5 @@
 #include <QtDataVisualization/Q3DSurface>
-
+#include <QtWidgets>
 #include "Custom3dSurfaceWidget.h"
 
 Custom3dSurfaceWidget::Custom3dSurfaceWidget(QWidget *parent)
@@ -11,5 +11,9 @@ Custom3dSurfaceWidget::Custom3dSurfaceWidget(QWidget *parent)
     container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     container->setFocusPolicy(Qt::StrongFocus);
     surface_ = new Custom3dSurface(graph);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(container);
+    setLayout(mainLayout);
 
 }
