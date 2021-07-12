@@ -11,6 +11,22 @@
 class Custom3dSurface : public QObject
 {
     Q_OBJECT
+public:
+    Custom3dSurface(QtDataVisualization::Q3DSurface *surface);
+    ~Custom3dSurface();
+
+    void enableSqrtSinModel(bool enable);
+    void enableDataFromFile(bool enable);
+
+
+    void setBlackToYellowGradient();
+    void setGreenToRedGradient();
+
+    void adjustXMin(int min);
+    void adjustXMax(int max);
+    void adjustZMin(int min);
+    void adjustZMax(int max);
+
 private:
     QtDataVisualization::Q3DSurface *graph_;
     QtDataVisualization::QSurface3DSeries *sqrtSinSeries_;
@@ -27,20 +43,6 @@ private:
     void setAxisZRange(float min, float max);
     void fillSqrtSinProxy();
 
-public:
-    Custom3dSurface(QtDataVisualization::Q3DSurface *surface);
-    ~Custom3dSurface();
 
-    void enableSqrtSinModel(bool enable);
-    void enableDataFromFile(bool enable);
-
-
-    void setBlackToYellowGradient();
-    void setGreenToRedGradient();
-
-    void adjustXMin(int min);
-    void adjustXMax(int max);
-    void adjustZMin(int min);
-    void adjustZMax(int max);
 };
 
