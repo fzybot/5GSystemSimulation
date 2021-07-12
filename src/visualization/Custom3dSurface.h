@@ -10,13 +10,13 @@
 class Custom3dSurface : public QObject
 {
     Q_OBJECT
-
 public:
     Custom3dSurface(QtDataVisualization::Q3DSurface *surface);
     ~Custom3dSurface();
 
     void enableSqrtSinModel(bool enable);
     void enableDataFromFile(bool enable);
+
 
     void setBlackToYellowGradient();
     void setGreenToRedGradient();
