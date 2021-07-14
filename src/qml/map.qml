@@ -18,8 +18,6 @@ Item {
         plugin: mapPlugin
         center: QtPositioning.coordinate(55.012902, 82.950326) // Sibsutis
         zoomLevel: 14
-        gesture.enabled: true
-        gesture.acceptedGestures: MapGestureArea.PanGesture
     }
 
     PositionSource {
@@ -32,7 +30,8 @@ Item {
         }
     }
 
-    MouseArea{
+    MouseArea {
+        visible: parent.containsDrag
         anchors.fill: parent
 
         property int lastX : -1
@@ -42,22 +41,14 @@ Item {
             lastX = mouse.x
             lastY = mouse.y
         }
-
         onPositionChanged: {
-            map.pan(lastX-mouse.x, lastY-mouse.y)
+            map.pan(lastX - mouse.x, lastY - mouse.y)
             lastX = mouse.x
             lastY = mouse.y
         }
-        onClicked: {
+        onReleased: {
             console.log("Coordinate:", map.toCoordinate(Qt.point(0, 0)));
         }
-        onWheel: {
-            if (wheel.angleDelta > 0) {
 
-            }
-            else if (wheel.angleDelta < 0) {
-                map.zoomLevel++;
-            }
-        }
     }
 }

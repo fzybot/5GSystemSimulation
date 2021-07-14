@@ -33,7 +33,6 @@ void MapQuickWidget::getAddress(QString latitude, QString longitude)
     manager->get(QNetworkRequest(url));
 }
 
-
 void MapQuickWidget::findAddress(QNetworkReply* reply)
 {
     QString data(reply->readAll());
