@@ -1,6 +1,7 @@
 #include "MapQuickWidget.h"
 
 #include <QDebug>
+#include <QQmlComponent>
 
 
 
@@ -18,6 +19,7 @@ MapQuickWidget::MapQuickWidget(QWidget* parent) :
     //getAddress("60°00'47.5N", "52°57'01.9E");
     //getAddress("34°00'47.5N", "12°57'01.9E");
     //getAddress("27°00'47.5N", "02°57'01.9E");
+
 }
 
 void MapQuickWidget::getAddress(QString latitude, QString longitude)
@@ -30,7 +32,6 @@ void MapQuickWidget::getAddress(QString latitude, QString longitude)
     QUrl url("https://www.google.ru/maps/place/" + latitude_1 + "\"" + latitude_2 + "+" + longitude_1 + "\"" + longitude_2);
     manager->get(QNetworkRequest(url));
 }
-
 
 void MapQuickWidget::findAddress(QNetworkReply* reply)
 {
@@ -47,4 +48,9 @@ void MapQuickWidget::findAddress(QNetworkReply* reply)
     qDebug() << result << Qt::endl;
 
     reply->deleteLater();
+}
+void MapQuickWidget::getPosition()
+{
+
+
 }

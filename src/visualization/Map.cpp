@@ -12,7 +12,7 @@ Map::Map(QWidget *parent) :
     mapQuickWidget_(new MapQuickWidget),
     heatmap_(new Heatmap(mapQuickWidget_))
 {
-    heatmap_->resize(500, 500);
+    heatmap_->resize(1600, 1200);
 }
 
 
@@ -23,6 +23,8 @@ void Map::paintEvent(QPaintEvent*)
 {
     QGridLayout *layout = new QGridLayout(this);
     layout->addWidget(mapQuickWidget_, 0, 0);
+
+    mapQuickWidget_->getPosition();
 }
 void Map::resizeEvent(QResizeEvent* event)
 {
