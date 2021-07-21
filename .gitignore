@@ -9,6 +9,9 @@
 *.vcxproj
 *.vcxproj.*
 
+# VSCode Workspace
+*.code-workspace
+
 /.*
 
 .qmake.stash
