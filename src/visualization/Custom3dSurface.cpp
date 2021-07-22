@@ -79,3 +79,8 @@ void Custom3dSurface::enableSqrtSinModel(bool enable)
     }
 }
 
+void Custom3dSurface::fillFromFile()
+{
+
+}
+

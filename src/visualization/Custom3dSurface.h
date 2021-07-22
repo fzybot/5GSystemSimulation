@@ -41,5 +41,5 @@ private:
     void setAxisXRange(float min, float max);
     void setAxisZRange(float min, float max);
     void fillSqrtSinProxy();
+    void fillFromFile();
 };
-
