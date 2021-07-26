@@ -25,6 +25,7 @@ public:
     void adjustXMax(int max);
     void adjustZMin(int min);
     void adjustZMax(int max);
+    
 
 private:
     QtDataVisualization::Q3DSurface *graph_;
