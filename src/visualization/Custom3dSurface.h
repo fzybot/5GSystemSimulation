@@ -25,6 +25,7 @@ public:
     void adjustXMax(int max);
     void adjustZMin(int min);
     void adjustZMax(int max);
+    
 
 private:
     QtDataVisualization::Q3DSurface *graph_;
@@ -41,5 +42,5 @@ private:
     void setAxisXRange(float min, float max);
     void setAxisZRange(float min, float max);
     void fillSqrtSinProxy();
+    void fillFromFile();
 };
-

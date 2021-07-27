@@ -5,8 +5,6 @@
 #pragma endregion TemporaryCode
 #include <QtMath>
 #include <QPainter>
-#include <QPixmap>
-#include <QDebug>
 
 
 

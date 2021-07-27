@@ -23,4 +23,5 @@ public:
     MapQuickWidget(QWidget* parent = Q_NULLPTR);
 
     void getAddress(QString latitude, QString longitude);
+    void getPosition();
 };

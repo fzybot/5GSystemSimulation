@@ -1,3 +1,9 @@
+    /*///////////////////////////////////////
+   // Author: Bondarenko Sergey Ivanovich //
+  // Email: kosrotoff2002@gmail.com      //
+*/////////////////////////////////////////
+
+
 #pragma once
 
 
