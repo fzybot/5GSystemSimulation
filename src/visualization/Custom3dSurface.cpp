@@ -4,7 +4,7 @@
 #include <QtDataVisualization/Q3DTheme>
 #include <QtGui/QImage>
 #include <QtCore/qmath.h>
-#include "src/visualization/Novosibirsk_storeys_heights.cpp"
+#include "src/visualization/data/plotData/Novosibirsk_storeys_heights.cpp"
 
 const int sampleCountX = lonc;
 const int sampleCountZ = latc;
