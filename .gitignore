@@ -9,7 +9,7 @@
 *.vcxproj
 *.vcxproj.*
 
-# VS Code
+# VSCode Workspace
 *.code-workspace
 
 /.*
