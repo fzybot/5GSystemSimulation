@@ -29,18 +29,18 @@ SOURCES += \
     src/equipment/antenna/AntennaArray.cpp \
     src/equipment/gNodeB.cpp \
 #    src/qcustomplot/qcustomplot.cpp \
-    src/mobility/Mobility.cpp \
-    src/phy/Physical.cpp \
-    src/phy/propagationModels.cpp \
-    src/phy/Channel/Bandwidth.cpp \
-    src/phy/Channel/RadioChannel.cpp \
-    src/phy/Signal.cpp \
+    src/equipment/mobility/Mobility.cpp \
+    src/protocols/phy/Physical.cpp \
+    src/protocols/phy/propagationModels.cpp \
+    src/protocols/phy/Channel/Bandwidth.cpp \
+    src/protocols/phy/Channel/RadioChannel.cpp \
+    src/protocols/phy/Signal.cpp \
     src/protocols/Packet.cpp \
     src/protocols/mac_layer/MacEntity.cpp \
     src/protocols/pdcp_layer/PdcpEntity.cpp \
     src/protocols/rlc_layer/RlcEntity.cpp \
     src/protocols/rrc_layer/RrcEntity.cpp \
-    src/scheduler/Scheduler.cpp \
+    src/protocols/mac_layer/scheduler/Scheduler.cpp \
     src/simulation/Simulation.cpp \
     src/visualization/Custom3dSurface.cpp \
     src/visualization/Custom3dSurfaceWidget.cpp \
@@ -60,12 +60,12 @@ HEADERS += \
     src/equipment/antenna/Antenna.h \
     src/equipment/antenna/AntennaArray.h \
     src/equipment/gNodeB.h \
-    src/mobility/Mobility.h \
-    src/phy/Physical.h \
-    src/phy/propagationModels.h \
-    src/phy/Channel/Bandwidth.h \
-    src/phy/Channel/RadioChannel.h \
-    src/phy/Signal.h \
+    src/equipment/mobility/Mobility.h \
+    src/protocols/phy/Physical.h \
+    src/protocols/phy/propagationModels.h \
+    src/protocols/phy/Channel/Bandwidth.h \
+    src/protocols/phy/Channel/RadioChannel.h \
+    src/protocols/phy/Signal.h \
 #    src/qcustomplot/qcustomplot.h \
     src/protocols/Packet.h \
     src/protocols/mac_layer/MacEntity.h \
@@ -73,7 +73,7 @@ HEADERS += \
     src/protocols/rlc_layer/RlcEntity.h \
     src/protocols/rrc_layer/RrcEntity.h \
     src/scenarios/tests.h \
-    src/scheduler/Scheduler.h \
+    src/protocols/mac_layer/scheduler/Scheduler.h \
     src/simulation/Simulation.h \
     src/visualization/Custom3dSurface.h \
     src/visualization/Custom3dSurfaceWidget.h \
