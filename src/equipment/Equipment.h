@@ -6,7 +6,7 @@
 #include <QGraphicsItem>
 
 #include "src/commonParameters.h"
-#include "src/mobility/Mobility.h"
+#include "src/equipment/mobility/Mobility.h"
 #include "src/core/CartesianCoordinates.h"
 
 

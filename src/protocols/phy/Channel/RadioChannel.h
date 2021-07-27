@@ -1,11 +1,13 @@
 #pragma once
 
+#include <QVector>
+#include <memory>
 
 #include "src/equipment/Equipment.h"
 
-#include <QVector>
-
 class CartesianCoordinates;
+class PropagationLossModel;
+class PacketBurst;
 
 class RadioChannel
 {
@@ -26,11 +28,17 @@ public:
     };
 
     RadioChannel();
+    //virtual ~RadioChannel();
 
-    void addDevice(Equipment* e);
+    void StartTransmission();
+    void StartReception();
+
+    void addDevice(Equipment *e);
     void delDevice(Equipment* e);
     bool isConnected(Equipment* e);
 
 private:
-    QVector<Equipment*> m_connectedDevices;
+    QVector<Equipment*> connectedDevices_;
+
+    PropagationLossModel* propagationLossModel_;
 };
