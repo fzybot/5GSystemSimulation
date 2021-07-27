@@ -47,7 +47,8 @@ SOURCES += \
     src/visualization/Heatmap.cpp \
     src/visualization/Map.cpp \
     src/visualization/MapQuickWidget.cpp \
-    src/visualization/menu/TabMenu.cpp
+    src/visualization/menu/TabMenu.cpp \
+    src/visualization/Novosibirsk_storeys_heights.cpp
 
 HEADERS += \
     mainWindow.h \

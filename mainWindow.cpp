@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget* parent) :
     tabMenu_->resize(1600, 1200);
     setCentralWidget(tabMenu_);
 
-    //createActions();
+    createActions();
     createStatusBar();
     createDockWindows();
     readSettings();
@@ -246,7 +246,7 @@ void MainWindow::createActions()
     cutAct->setShortcuts(QKeySequence::Cut);
     cutAct->setStatusTip(tr("Cut the current selection's contents to the "
                             "clipboard"));
-    connect(cutAct, &QAction::triggered, textEdit, &QPlainTextEdit::cut);
+    //connect(cutAct, &QAction::triggered, textEdit, &QPlainTextEdit::cut); //!!!!
     editMenu->addAction(cutAct);
     editToolBar->addAction(cutAct);
 
@@ -255,7 +255,7 @@ void MainWindow::createActions()
     copyAct->setShortcuts(QKeySequence::Copy);
     copyAct->setStatusTip(tr("Copy the current selection's contents to the "
                              "clipboard"));
-    connect(copyAct, &QAction::triggered, textEdit, &QPlainTextEdit::copy);
+    //connect(copyAct, &QAction::triggered, textEdit, &QPlainTextEdit::copy); //!!!!!
     editMenu->addAction(copyAct);
     editToolBar->addAction(copyAct);
 
@@ -264,7 +264,7 @@ void MainWindow::createActions()
     pasteAct->setShortcuts(QKeySequence::Paste);
     pasteAct->setStatusTip(tr("Paste the clipboard's contents into the current "
                               "selection"));
-    connect(pasteAct, &QAction::triggered, textEdit, &QPlainTextEdit::paste);
+    //connect(pasteAct, &QAction::triggered, textEdit, &QPlainTextEdit::paste); //!!!!!
     editMenu->addAction(pasteAct);
     editToolBar->addAction(pasteAct);
 
@@ -287,8 +287,8 @@ void MainWindow::createActions()
     cutAct->setEnabled(false);
 //! [23] //! [24]
     copyAct->setEnabled(false);
-    connect(textEdit, &QPlainTextEdit::copyAvailable, cutAct, &QAction::setEnabled);
-    connect(textEdit, &QPlainTextEdit::copyAvailable, copyAct, &QAction::setEnabled);
+    //connect(textEdit, &QPlainTextEdit::copyAvailable, cutAct, &QAction::setEnabled);      //!!!
+    //connect(textEdit, &QPlainTextEdit::copyAvailable, copyAct, &QAction::setEnabled);     //!!!
 #endif // !QT_NO_CLIPBOARD
 }
 //! [24]
