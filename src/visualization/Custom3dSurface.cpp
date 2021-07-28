@@ -4,7 +4,12 @@
 #include <QtDataVisualization/Q3DTheme>
 #include <QtGui/QImage>
 #include <QtCore/qmath.h>
-#include "src/visualization/data/plotData/Novosibirsk_storeys_heights.cpp"
+#include "src/visualization/data/plotData/nskStoreysHeights.cpp"
+#include <algorithm>
+#include <stdlib.h>
+
+#include <QtDataVisualization/QCustom3DItem>
+#include <QtDataVisualization/QCustom3DLabel>
 
 const int sampleCountX = lonc;
 const int sampleCountZ = latc;
@@ -20,11 +25,17 @@ Custom3dSurface::Custom3dSurface(QtDataVisualization::Q3DSurface *surface)
     graph_->setAxisY(new QtDataVisualization::QValue3DAxis);
     graph_->setAxisZ(new QtDataVisualization::QValue3DAxis);
 
-    sqrtSinProxy_ = new QtDataVisualization::QSurfaceDataProxy();
-    sqrtSinSeries_ = new QtDataVisualization::QSurface3DSeries(sqrtSinProxy_);
+    QtDataVisualization::QSurfaceDataProxy* Proxy = new QtDataVisualization::QSurfaceDataProxy();
+    QtDataVisualization::QSurface3DSeries* Series = new QtDataVisualization::QSurface3DSeries(Proxy);
 
-    fillFromFile();
-    enableSqrtSinModel(true);
+    fillFromFile(Proxy);
+    enableSqrtSinModel(true,Series);
+
+    setBlueToRedGradient();
+
+    connect(graph_, &QtDataVisualization::QAbstract3DGraph::selectedElementChanged,
+            this, &Custom3dSurface::handleElementSelected);
+
 }
 
 Custom3dSurface::~Custom3dSurface()
@@ -55,23 +66,24 @@ void Custom3dSurface::fillSqrtSinProxy()
     sqrtSinProxy_->resetArray(dataArray);
 }
 
-void Custom3dSurface::enableSqrtSinModel(bool enable)
+void Custom3dSurface::enableSqrtSinModel(bool enable,QtDataVisualization::QSurface3DSeries* Series)
 {
     if (enable) {
-        sqrtSinSeries_->setDrawMode(QtDataVisualization::QSurface3DSeries::DrawSurfaceAndWireframe);
-        sqrtSinSeries_->setFlatShadingEnabled(true);
+        Series->setDrawMode(QtDataVisualization::QSurface3DSeries::DrawSurfaceAndWireframe);
+        Series->setFlatShadingEnabled(true);
 
         graph_->axisX()->setLabelFormat("%.2f");
         graph_->axisZ()->setLabelFormat("%.2f");
-        graph_->axisX()->setRange(lon[0],lon[lonc-1]);
-        graph_->axisY()->setRange(0,50);
-        graph_->axisZ()->setRange(lat[0],lat[8910-1]);
+        graph_->axisX()->setRange(storeysHeights[0][1],storeysHeights[lonc-1][1]);
+        graph_->axisY()->setRange(100,180);
+        graph_->axisZ()->setRange(storeysHeights[0][0],storeysHeights[8910-1][0]);
 
         graph_->axisX()->setLabelAutoRotation(30);
         graph_->axisY()->setLabelAutoRotation(90);
         graph_->axisZ()->setLabelAutoRotation(30);
 
-        graph_->addSeries(sqrtSinSeries_);
+        graph_->addSeries(Series);
+        graph_->setShadowQuality(QtDataVisualization::QAbstract3DGraph::ShadowQualityNone);
 
         // Reset range sliders for Sqrt&Sin
 /*
@@ -83,27 +95,91 @@ void Custom3dSurface::enableSqrtSinModel(bool enable)
     }
 }
 
-void Custom3dSurface::fillFromFile()
+void Custom3dSurface::fillFromFileCustom(QtDataVisualization::QSurfaceDataProxy* Proxy, int num)
 {
-    float stepX = (lon[lonc-1] - lon[0]) / float(sampleCountX - 1);
-    float stepZ = (lat[8910-1] - lat[0]) / float(sampleCountZ - 1);
+    float stepX = (storeysHeights[lonc-1][1] - storeysHeights[0][1]) / float(sampleCountX - 1);
+    float stepZ = (storeysHeights[8910-1][0] - storeysHeights[0][0]) / float(sampleCountZ - 1);
 
     QtDataVisualization::QSurfaceDataArray *dataArray = new QtDataVisualization::QSurfaceDataArray;
     dataArray->reserve(sampleCountZ);
 
     for (int i = 0; i < sampleCountZ; i++) {
         QtDataVisualization::QSurfaceDataRow *newRow = new QtDataVisualization::QSurfaceDataRow(sampleCountX);
-        float z = qMin(float(lat[8910-1]), (i * stepZ + float(lat[0])));
+        float z = qMin(float(storeysHeights[8910-1][0]), (i * stepZ + float(storeysHeights[0][0])));
         int index = 0;
         for (int j = 0; j < sampleCountX; j++) {
-            float x = qMin(float(lon[lonc-1]), (j * stepX + float(lon[0])));
-            float y = storeys[i*sampleCountX+j];
+            float x = qMin(float(storeysHeights[lonc-1][1]), (j * stepX + float(storeysHeights[0][1])));
+            float y=0;
+            if (storeysHeights[i*sampleCountX+j][3]==num){
+                y = (storeysHeights[i*sampleCountX+j][2] + storeysHeights[i*sampleCountX+j][4]);        //storeys + heights
+            }
+            else{
+                y = storeysHeights[i*sampleCountX+j][4];
+            }
             (*newRow)[index++].setPosition(QVector3D(x, y, z));
         }
-        qDebug() << "New row: " << newRow->size();
+        //qDebug() << "New row: " << newRow->size();
         *dataArray << newRow;
     }
-    sqrtSinProxy_->resetArray(dataArray);
+    Proxy->resetArray(dataArray);
+}
+
+void Custom3dSurface::fillFromFile(QtDataVisualization::QSurfaceDataProxy* Proxy)
+{
+    float stepX = (storeysHeights[lonc-1][1] - storeysHeights[0][1]) / float(sampleCountX - 1);
+    float stepZ = (storeysHeights[8910-1][0] - storeysHeights[0][0]) / float(sampleCountZ - 1);
+
+    QtDataVisualization::QSurfaceDataArray *dataArray = new QtDataVisualization::QSurfaceDataArray;
+    dataArray->reserve(sampleCountZ);
+
+    for (int i = 0; i < sampleCountZ; i++) {
+        QtDataVisualization::QSurfaceDataRow *newRow = new QtDataVisualization::QSurfaceDataRow(sampleCountX);
+        float z = qMin(float(storeysHeights[8910-1][0]), (i * stepZ + float(storeysHeights[0][0])));
+        int index = 0;
+        for (int j = 0; j < sampleCountX; j++) {
+            float x = qMin(float(storeysHeights[lonc-1][1]), (j * stepX + float(storeysHeights[0][1])));
+            float y=(storeysHeights[i*sampleCountX+j][2] + storeysHeights[i*sampleCountX+j][4]);
+            (*newRow)[index++].setPosition(QVector3D(x, y, z));
+        }
+        //qDebug() << "New row: " << newRow->size();
+        *dataArray << newRow;
+    }
+    Proxy->resetArray(dataArray);
+}
+
+void Custom3dSurface::setBlueToRedGradient()
+{
+    QLinearGradient gr;
+    gr.setColorAt(0.0, Qt::blue);
+    gr.setColorAt(0.5, Qt::green);
+    gr.setColorAt(1.0, Qt::red);
+
+    graph_->seriesList().at(0)->setBaseGradient(gr);
+    graph_->seriesList().at(0)->setColorStyle(QtDataVisualization::Q3DTheme::ColorStyleRangeGradient);
 
 }
 
+void Custom3dSurface::handleElementSelected(QtDataVisualization::QAbstract3DGraph::ElementType type)
+{
+    if (type == QtDataVisualization::QAbstract3DGraph::ElementSeries){
+        QtDataVisualization::QSurface3DSeries *series = graph_->selectedSeries();
+        if(series){
+            QPoint point = series->selectedPoint();
+            int ID = this->checkBuildingID(point);
+            QtDataVisualization::QSurfaceDataProxy* Proxy = new QtDataVisualization::QSurfaceDataProxy();
+            graph_->seriesList().at(0)->setDataProxy(Proxy);
+            fillFromFileCustom(Proxy,ID);
+        }
+    }
+    else
+    {
+        QtDataVisualization::QSurfaceDataProxy* Proxy = new QtDataVisualization::QSurfaceDataProxy();
+        graph_->seriesList().at(0)->setDataProxy(Proxy);
+        fillFromFile(Proxy);
+    }
+}
+
+int Custom3dSurface::checkBuildingID(QPoint point)
+{
+    return storeysHeights[point.x() * lonc + point.y()][3];
+}
