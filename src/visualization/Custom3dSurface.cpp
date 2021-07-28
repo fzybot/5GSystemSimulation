@@ -4,9 +4,10 @@
 #include <QtDataVisualization/Q3DTheme>
 #include <QtGui/QImage>
 #include <QtCore/qmath.h>
+#include "src/visualization/data/plotData/Novosibirsk_storeys_heights.cpp"
 
-const int sampleCountX = 50;
-const int sampleCountZ = 50;
+const int sampleCountX = lonc;
+const int sampleCountZ = latc;
 const int heightMapGridStepX = 6;
 const int heightMapGridStepZ = 6;
 const float sampleMin = -8.0f;
@@ -22,7 +23,7 @@ Custom3dSurface::Custom3dSurface(QtDataVisualization::Q3DSurface *surface)
     sqrtSinProxy_ = new QtDataVisualization::QSurfaceDataProxy();
     sqrtSinSeries_ = new QtDataVisualization::QSurface3DSeries(sqrtSinProxy_);
 
-    fillSqrtSinProxy();
+    fillFromFile();
     enableSqrtSinModel(true);
 }
 
@@ -62,9 +63,10 @@ void Custom3dSurface::enableSqrtSinModel(bool enable)
 
         graph_->axisX()->setLabelFormat("%.2f");
         graph_->axisZ()->setLabelFormat("%.2f");
-        graph_->axisX()->setRange(sampleMin, sampleMax);
-        graph_->axisY()->setRange(0.0f, 2.0f);
-        graph_->axisZ()->setRange(sampleMin, sampleMax);
+        graph_->axisX()->setRange(lon[0],lon[lonc-1]);
+        graph_->axisY()->setRange(0,50);
+        graph_->axisZ()->setRange(lat[0],lat[8910-1]);
+
         graph_->axisX()->setLabelAutoRotation(30);
         graph_->axisY()->setLabelAutoRotation(90);
         graph_->axisZ()->setLabelAutoRotation(30);
@@ -72,15 +74,36 @@ void Custom3dSurface::enableSqrtSinModel(bool enable)
         graph_->addSeries(sqrtSinSeries_);
 
         // Reset range sliders for Sqrt&Sin
-        rangeMinX_ = sampleMin;
-        rangeMinZ_ = sampleMin;
-        stepX_ = (sampleMax - sampleMin) / float(sampleCountX - 1);
-        stepZ_ = (sampleMax - sampleMin) / float(sampleCountZ - 1);
+/*
+        rangeMinX_ = lon[0];
+        rangeMinZ_ = 50;
+        stepX_ = (lon[8910-1] - X[0]) / float(8910 - 1);
+        stepZ_ = (50 - 0) / float(8910 - 1);
+*/
     }
 }
 
 void Custom3dSurface::fillFromFile()
 {
+    float stepX = (lon[lonc-1] - lon[0]) / float(sampleCountX - 1);
+    float stepZ = (lat[8910-1] - lat[0]) / float(sampleCountZ - 1);
+
+    QtDataVisualization::QSurfaceDataArray *dataArray = new QtDataVisualization::QSurfaceDataArray;
+    dataArray->reserve(sampleCountZ);
+
+    for (int i = 0; i < sampleCountZ; i++) {
+        QtDataVisualization::QSurfaceDataRow *newRow = new QtDataVisualization::QSurfaceDataRow(sampleCountX);
+        float z = qMin(float(lat[8910-1]), (i * stepZ + float(lat[0])));
+        int index = 0;
+        for (int j = 0; j < sampleCountX; j++) {
+            float x = qMin(float(lon[lonc-1]), (j * stepX + float(lon[0])));
+            float y = storeys[i*sampleCountX+j];
+            (*newRow)[index++].setPosition(QVector3D(x, y, z));
+        }
+        qDebug() << "New row: " << newRow->size();
+        *dataArray << newRow;
+    }
+    sqrtSinProxy_->resetArray(dataArray);
 
 }
 
