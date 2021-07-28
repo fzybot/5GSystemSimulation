@@ -14,18 +14,18 @@ public:
     Custom3dSurface(QtDataVisualization::Q3DSurface *surface);
     ~Custom3dSurface();
 
-    void enableSqrtSinModel(bool enable);
+    void enableSqrtSinModel(bool enable, QtDataVisualization::QSurface3DSeries*);
     void enableDataFromFile(bool enable);
 
 
     void setBlackToYellowGradient();
     void setGreenToRedGradient();
+    void setBlueToRedGradient();
 
     void adjustXMin(int min);
     void adjustXMax(int max);
     void adjustZMin(int min);
     void adjustZMax(int max);
-    
 
 private:
     QtDataVisualization::Q3DSurface *graph_;
@@ -42,5 +42,8 @@ private:
     void setAxisXRange(float min, float max);
     void setAxisZRange(float min, float max);
     void fillSqrtSinProxy();
-    void fillFromFile();
+    void fillFromFileCustom(QtDataVisualization::QSurfaceDataProxy* Proxy,int);
+    void fillFromFile(QtDataVisualization::QSurfaceDataProxy* Proxy);
+    void handleElementSelected(QtDataVisualization::QAbstract3DGraph::ElementType type);
+    int checkBuildingID(QPoint);
 };
