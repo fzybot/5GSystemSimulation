@@ -39,6 +39,9 @@ public:
     void setEquipmentState(EquipmentState state);
     EquipmentState getEquipmentState();
 
+    void setSpeed(float speed);
+    float getSpeed();
+
     void setCartesianPosition(double x, double y, double z);
 
     void makeStep(double time, double angleX, double angleY,double angleZ);
@@ -52,6 +55,7 @@ private:
 
     // Cartesian coordinates (center coordinates)
     CartesianCoordinates* position_;
+    float speed_;
 
     EquipmentState state_;
     EquipmentType type_;
@@ -67,6 +71,7 @@ private:
     float EIRP_;
     float noiseFigure_;
     float additionalGain_ = 0;
+    float additionalLoss_ = 0;
 
 
 
