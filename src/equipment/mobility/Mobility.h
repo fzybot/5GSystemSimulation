@@ -1,12 +1,13 @@
 #pragma once
 
+#include <QVector>
+#include "src/core/CartesianCoordinates.h"
+
 class Equipment;
 
 class Mobility
 {
 public:
-    Mobility();
-
     enum MobilityModel
     {
       CONSTANT_POSITION,
@@ -17,28 +18,41 @@ public:
       LINEAR_MOVEMENT
     };
 
-    void setEquipment(Equipment *equip);
-    Equipment getEquipment(void) const;
+private:
+    Equipment* equipment_;
+    MobilityModel mobilityModel_;
+
+    CartesianCoordinates *startPosition_;
+    CartesianCoordinates *currentPosition_;
+    QVector<CartesianCoordinates> passedPath_;
+
+    int speed_; // Km/h
+    double _; // in radian
+
+public:
+// ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
+    Mobility(); 
+
+// ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
+    void setEquipment(Equipment *equipment);
+    Equipment* getEquipment(void) const;
 
     void setMobilityModel(MobilityModel model);
     Mobility::MobilityModel getMobilityModel(void) const;
 
-    //TODO: Add cartesian coordinates class
-    //void setCartesianPosition(CartesianCoordinates *position);
+    void setPosition(CartesianCoordinates *position);
+    CartesianCoordinates* getPosition(void) const;
 
     void setSpeed(int speed);
     int getSpeed();
+
     void setAngle(double angle);
     double getAngle();
 
+// ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
     void updatePosition(double time);
 
-private:
-    Equipment* m_equipment;
-    MobilityModel m_mobilityModel;
 
-    int speed;
-    double angle;
 
 };
 

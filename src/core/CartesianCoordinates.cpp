@@ -1,6 +1,7 @@
 #include "CartesianCoordinates.h"
 #include <QtMath>
 
+// ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
 CartesianCoordinates::CartesianCoordinates()
 {
 
@@ -17,18 +18,20 @@ CartesianCoordinates::CartesianCoordinates(double x, double y, double z, double 
     setAngles(angX, angY, angZ);
 }
 
+// ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
+
 void CartesianCoordinates::setCoordintes(double x, double y, double z)
 {
-    posX_ = x;
-    posY_ = y;
-    posZ_ = z;
+    setCoordinateX(x);
+    setCoordinateY(y);
+    setCoordinateZ(z);
 }
 
 void CartesianCoordinates::setAngles(double angX, double angY, double angZ)
 {
-    angleX_ = angX;
-    angleY_ = angY;
-    angleZ_ = angZ;
+    setAngleX(angX);
+    setAngleY(angY);
+    setAngleZ(angZ);
 }
 
 double CartesianCoordinates::calculateDistance3D(CartesianCoordinates *remoteEquipment)
@@ -36,6 +39,21 @@ double CartesianCoordinates::calculateDistance3D(CartesianCoordinates *remoteEqu
     return sqrt ( qPow ( (getCoordinateX() - remoteEquipment->getCoordinateX()), 2) +
                   qPow ( (getCoordinateY() - remoteEquipment->getCoordinateY()), 2) +
                   qPow ( (getCoordinateZ() - remoteEquipment->getCoordinateZ()), 2) );
+}
+
+void CartesianCoordinates::setCoordinateX(double x)
+{
+    posX_ = x;
+}
+
+void CartesianCoordinates::setCoordinateY(double y)
+{
+    posY_ = y;
+}
+
+void CartesianCoordinates::setCoordinateZ(double z)
+{
+    posZ_ = z;
 }
 
 double CartesianCoordinates::getCoordinateX()
@@ -53,17 +71,50 @@ double CartesianCoordinates::getCoordinateZ()
     return posZ_;
 }
 
-void CartesianCoordinates::setCoordinateAngleX(double angX)
+void CartesianCoordinates::setAngleX(double angX)
 {
     angleX_ = angX;
 }
 
-void CartesianCoordinates::setCoordinateAngleY(double angY)
+void CartesianCoordinates::setAngleY(double angY)
 {
     angleY_ = angY;
 }
 
-void CartesianCoordinates::setCoordinateAngleZ(double angZ)
+void CartesianCoordinates::setAngleZ(double angZ)
 {
     angleZ_ = angZ;
+}
+
+// ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
+
+CartesianCoordinates* CartesianCoordinates::operator+(CartesianCoordinates *A)
+{
+    CartesianCoordinates *Result = new CartesianCoordinates ((getCoordinateX() + A->getCoordinateX()),
+                                                             (getCoordinateY() + A->getCoordinateY()),
+                                                             (getCoordinateZ() + A->getCoordinateZ()));
+    return Result;
+}
+
+CartesianCoordinates* CartesianCoordinates::operator-(CartesianCoordinates *B)
+{
+  CartesianCoordinates *Result =
+    new CartesianCoordinates ((getCoordinateX() - B->getCoordinateX()),
+                              (getCoordinateY() - B->getCoordinateY()), 
+                              (getCoordinateZ() - B->getCoordinateZ()));
+  return Result;
+}
+
+bool CartesianCoordinates::operator == (CartesianCoordinates C)
+{
+  if (getCoordinateX() == C.getCoordinateX() &&
+      getCoordinateY() == C.getCoordinateY() &&
+      getCoordinateZ() == C.getCoordinateZ() )
+    {
+      return true;
+    }
+  else
+    {
+      return false;
+    }
 }

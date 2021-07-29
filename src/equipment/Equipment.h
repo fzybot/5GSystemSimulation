@@ -26,39 +26,13 @@ public:
       TYPE_UE,
     };
 
-public:
-    Equipment();
-    Equipment(int id, EquipmentType type, EquipmentState state);
-
-    void setID(int id);
-    int getID();
-
-    void setEquipmentType(EquipmentType type);
-    EquipmentType getEquipmentType();
-
-    void setEquipmentState(EquipmentState state);
-    EquipmentState getEquipmentState();
-
-    void setSpeed(float speed);
-    float getSpeed();
-
-    void setCartesianPosition(double x, double y, double z);
-
-    void makeStep(double time, double angleX, double angleY,double angleZ);
-
-    void calculateThermalNoise();
-
 private:
     int ID_;
 
     double lastTime_;
 
-    // Cartesian coordinates (center coordinates)
-    CartesianCoordinates* position_;
-    float speed_;
-
-    EquipmentState state_;
-    EquipmentType type_;
+    Equipment::EquipmentState state_;
+    Equipment::EquipmentType type_;
 
     Mobility *mobility_;
 
@@ -73,6 +47,24 @@ private:
     float additionalGain_ = 0;
     float additionalLoss_ = 0;
 
+public:
+// ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
+    Equipment();
+    Equipment(int id, EquipmentType type, EquipmentState state);
 
+// ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
+    void setID(int id);
+    int getID();
 
+    void setEquipmentType(EquipmentType type);
+    EquipmentType getEquipmentType() const;
+
+    void setEquipmentState(EquipmentState state);
+    EquipmentState getEquipmentState() const;
+
+    void setMobilityModel(Mobility *movdel);
+    Mobility* getMobilityModel(void);
+
+// ----- [ PHYSICAL METHODS ] ------------------------------------------------------------------------------------------
+    void calculateThermalNoise();
 };
