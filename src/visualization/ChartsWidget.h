@@ -38,11 +38,16 @@ private:
 //     void updateUI();
 
 private:
+// ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
     DataTable generateRandomData(int listCount, int valueMax, int valueCount) const;
+
+// ----- [ VISUAL SETTINGS ] -------------------------------------------------------------------------------------------
     void populateThemeBox();
     void populateAnimationBox();
     void populateLegendBox();
     void connectSignals();
+
+// ----- [ CREATE CHARTS ] ----------------------------------------------------------------------------------------------
     QChart *createAreaChart() const;
     QChart *createBarChart(int valueCount) const;
     QChart *createPieChart() const;
@@ -51,6 +56,7 @@ private:
     QChart *createScatterChart() const;
 
 public:
+// ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
     explicit ChartsWidget(QWidget *parent = nullptr);
 };
 

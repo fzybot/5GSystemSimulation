@@ -27,6 +27,8 @@
 #include <QtCharts/QChartView>
 #include <QtCharts/QChart>
 
+// ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
+
 ChartsWidget::ChartsWidget(QWidget *parent) : 
     QWidget(parent),
     m_listCount(3),
@@ -36,6 +38,10 @@ ChartsWidget::ChartsWidget(QWidget *parent) :
 {
     QGridLayout *grid = new QGridLayout(this);
     grid->setSpacing(2);
+
+    // populateThemeBox();
+    // populateAnimationBox();
+    // populateLegendBox();
 
     QChartView *chartView;
     chartView = new QChartView(createAreaChart());
@@ -75,6 +81,8 @@ ChartsWidget::ChartsWidget(QWidget *parent) :
     setLayout(grid);
 }
 
+// ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
+
 DataTable ChartsWidget::generateRandomData(int listCount, int valueMax, int valueCount) const
 {
     DataTable dataTable;
@@ -95,6 +103,44 @@ DataTable ChartsWidget::generateRandomData(int listCount, int valueMax, int valu
 
     return dataTable;
 }
+
+// ----- [ VISUAL SETTINGS ] -------------------------------------------------------------------------------------------
+
+// TODO: Finish the settings part
+
+// void ChartsWidget::populateThemeBox()
+// {
+//     // add items to theme combobox
+//     m_ui->themeComboBox->addItem("Light", QChart::ChartThemeLight);
+//     m_ui->themeComboBox->addItem("Blue Cerulean", QChart::ChartThemeBlueCerulean);
+//     m_ui->themeComboBox->addItem("Dark", QChart::ChartThemeDark);
+//     m_ui->themeComboBox->addItem("Brown Sand", QChart::ChartThemeBrownSand);
+//     m_ui->themeComboBox->addItem("Blue NCS", QChart::ChartThemeBlueNcs);
+//     m_ui->themeComboBox->addItem("High Contrast", QChart::ChartThemeHighContrast);
+//     m_ui->themeComboBox->addItem("Blue Icy", QChart::ChartThemeBlueIcy);
+//     m_ui->themeComboBox->addItem("Qt", QChart::ChartThemeQt);
+// }
+
+// void ChartsWidget::populateAnimationBox()
+// {
+//     // add items to animation combobox
+//     m_ui->animatedComboBox->addItem("No Animations", QChart::NoAnimation);
+//     m_ui->animatedComboBox->addItem("GridAxis Animations", QChart::GridAxisAnimations);
+//     m_ui->animatedComboBox->addItem("Series Animations", QChart::SeriesAnimations);
+//     m_ui->animatedComboBox->addItem("All Animations", QChart::AllAnimations);
+// }
+
+// void ChartsWidget::populateLegendBox()
+// {
+//     // add items to legend combobox
+//     m_ui->legendComboBox->addItem("No Legend ", 0);
+//     m_ui->legendComboBox->addItem("Legend Top", Qt::AlignTop);
+//     m_ui->legendComboBox->addItem("Legend Bottom", Qt::AlignBottom);
+//     m_ui->legendComboBox->addItem("Legend Left", Qt::AlignLeft);
+//     m_ui->legendComboBox->addItem("Legend Right", Qt::AlignRight);
+// }
+
+// ----- [ CREATE CHARTS ] ----------------------------------------------------------------------------------------------
 
 QChart *ChartsWidget::createAreaChart() const
 {
