@@ -12,13 +12,14 @@
 #include <QPainter>
 
 #include "src/equipment/Walker.h"
+#include "src/visualization/ChartsWidget.h"
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent)
 {
 
     tabMenu_= new TabMenu;
-    tabMenu_->resize(1600, 1200);
+    tabMenu_->resize(1600, 1000);
     setCentralWidget(tabMenu_);
 
     createActions();
@@ -60,37 +61,16 @@ void MainWindow::createDockWindows()
     addDockWidget(Qt::LeftDockWidgetArea, dock);
 //    viewMenu->addAction(dock->toggleViewAction());
 
-
     dock = new QDockWidget(tr("Paragraphs"), this);
-    paragraphsList = new QListWidget(dock);
+        paragraphsList = new QListWidget(dock);
     paragraphsList->addItems(QStringList()
-            << "Thank you for your payment which we have received today."
-            << "Your order has been dispatched and should be with you "
-               "within 28 days."
-            << "We have dispatched those items that were in stock. The "
-               "rest of your order will be dispatched once all the "
-               "remaining items have arrived at our warehouse. No "
-               "additional shipping charges will be made."
-            << "You made a small overpayment (less than $5) which we "
-               "will keep on account for you, or return at your request."
-            << "You made a small underpayment (less than $1), but we have "
-               "sent your order anyway. We'll add this underpayment to "
-               "your next bill."
-            << "Unfortunately you did not send enough money. Please remit "
-               "an additional $. Your order will be dispatched as soon as "
-               "the complete amount has been received."
-            << "You made an overpayment (more than $5). Do you wish to "
-               "buy more items, or should we return the excess to you?");
+            << "Some plots.");
     dock->setWidget(paragraphsList);
     addDockWidget(Qt::LeftDockWidgetArea, dock);
 
     dock = new QDockWidget(tr("Should be a PLOTS"), this);
-    paragraphsList = new QListWidget(dock);
-    paragraphsList->addItems(QStringList()
-            << "Some plots.");
-
-
-    dock->setWidget(paragraphsList);
+    ChartsWidget *charts = new ChartsWidget(dock);
+    dock->setWidget(charts);
     addDockWidget(Qt::RightDockWidgetArea, dock);
 //    viewMenu->addAction(dock->toggleViewAction());
 

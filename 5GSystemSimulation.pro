@@ -1,4 +1,4 @@
-QT       += gui widgets qml positioning positioning-private location quickwidgets datavisualization
+QT       += gui widgets qml positioning positioning-private location quickwidgets datavisualization charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

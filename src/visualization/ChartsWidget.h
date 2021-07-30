@@ -3,6 +3,8 @@
 #include <QWidget>
 #include <QtWidgets/QWidget>
 #include <QtCharts/QChartGlobal>
+#include <QtCharts/QChartView>
+#include <QtCharts/QChart>
 
 QT_BEGIN_NAMESPACE
 class QComboBox;
@@ -50,8 +52,5 @@ private:
 
 public:
     explicit ChartsWidget(QWidget *parent = nullptr);
-
-signals:
-
 };
 
