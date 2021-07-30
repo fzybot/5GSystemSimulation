@@ -1,5 +1,3 @@
-#include "mainWindow.h"
-
 #include <QApplication>
 #include <QDebug>
 #include <QGuiApplication>
@@ -17,7 +15,8 @@
 
 #include <armadillo>
 
-#include <src/scenarios/tests.h>
+#include "src/visualization/menu/mainWindow.h"
+#include "src/scenarios/tests.h"
 
 int main(int argc, char *argv[])
 {

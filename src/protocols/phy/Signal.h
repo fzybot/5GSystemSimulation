@@ -8,9 +8,11 @@
 class Signal
 {
 public:
+// ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
     Signal();
     Signal(int sampleRate, int durationTime);
 
+// ----- [ SETTERS\GETTERS ] ----------------------------------------------------------------------------------------------
     void setPowerValues(const QVector<QVector<double>>& powerValues);
     void setIOValues(const QVector<QVector<double>>& IOvalues);
     void getDataFromFile(QString filePath);

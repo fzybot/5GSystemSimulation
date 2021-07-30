@@ -28,14 +28,24 @@ class ChartsWidget : public QWidget
 {
     Q_OBJECT
 private:
-    int m_listCount;
-    int m_valueMax;
-    int m_valueCount;
-    QList<QChartView *> m_charts;
-    DataTable m_dataTable;
+    int listCount_;
+    int valueMax_;
+    int valueCount_;
+    QList<QChartView *> charts_;
+    DataTable dataTable_;
 
 // private Q_SLOTS:
 //     void updateUI();
+
+// public slots:
+//     void generateData(int seriesCount, int rowCount, int colCount);
+//     void update(QAbstractSeries *series, int seriesIndex);
+//     void handleSceneChanged();
+//     void updateAllSeries();
+
+public:
+// ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
+    explicit ChartsWidget(QWidget *parent = nullptr);
 
 private:
 // ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
@@ -48,15 +58,14 @@ private:
     void connectSignals();
 
 // ----- [ CREATE CHARTS ] ----------------------------------------------------------------------------------------------
+    // production charts
+    QChart *createSignalChart() const;
+
+    // Tutorial Charts
     QChart *createAreaChart() const;
     QChart *createBarChart(int valueCount) const;
     QChart *createPieChart() const;
     QChart *createLineChart() const;
     QChart *createSplineChart() const;
     QChart *createScatterChart() const;
-
-public:
-// ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
-    explicit ChartsWidget(QWidget *parent = nullptr);
 };
-

@@ -27,8 +27,8 @@ MainWindow::MainWindow(QWidget* parent) :
     createDockWindows();
     readSettings();
 
-   // QGraphicsView* view = new QGraphicsView(scene);
-    //setCentralWidget(view);
+   // QGraphicsView* view_ = new QGraphicsView(scene);
+    //setCentralWidget(view_);
 
 
 //    connect(textEdit->document(), &QTextDocument::contentsChanged,
@@ -49,34 +49,34 @@ void MainWindow::createDockWindows()
 {
     QDockWidget *dock = new QDockWidget(tr("Simulation config"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    customerList = new QListWidget(dock);
-    customerList->addItems(QStringList()
+    customerList_ = new QListWidget(dock);
+    customerList_->addItems(QStringList()
             << "John Doe, Harmony Enterprises, 12 Lakeside, Ambleton"
             << "Jane Doe, Memorabilia, 23 Watersedge, Beaton"
             << "Tammy Shea, Tiblanka, 38 Sea Views, Carlton"
             << "Tim Sheen, Caraba Gifts, 48 Ocean Way, Deal"
             << "Sol Harvey, Chicos Coffee, 53 New Springs, Eccleston"
             << "Sally Hobart, Tiroli Tea, 67 Long River, Fedula");
-    dock->setWidget(customerList);
+    dock->setWidget(customerList_);
     addDockWidget(Qt::LeftDockWidgetArea, dock);
-//    viewMenu->addAction(dock->toggleViewAction());
+//    viewMenu_->addAction(dock->toggleViewAction());
 
     dock = new QDockWidget(tr("Paragraphs"), this);
-        paragraphsList = new QListWidget(dock);
-    paragraphsList->addItems(QStringList()
+        paragraphsList_ = new QListWidget(dock);
+    paragraphsList_->addItems(QStringList()
             << "Some plots.");
-    dock->setWidget(paragraphsList);
+    dock->setWidget(paragraphsList_);
     addDockWidget(Qt::LeftDockWidgetArea, dock);
 
     dock = new QDockWidget(tr("Should be a PLOTS"), this);
     ChartsWidget *charts = new ChartsWidget(dock);
     dock->setWidget(charts);
     addDockWidget(Qt::RightDockWidgetArea, dock);
-//    viewMenu->addAction(dock->toggleViewAction());
+//    viewMenu_->addAction(dock->toggleViewAction());
 
-//    connect(customerList, &QListWidget::currentTextChanged,
+//    connect(customerList_, &QListWidget::currentTextChanged,
 //            this, &MainWindow::insertCustomer);
-//    connect(paragraphsList, &QListWidget::currentTextChanged,
+//    connect(paragraphsList_, &QListWidget::currentTextChanged,
 //            this, &MainWindow::addParagraph);
 }
 
@@ -122,11 +122,11 @@ void MainWindow::open()
 bool MainWindow::save()
 //! [9] //! [10]
 {
-    if (curFile.isEmpty()) {
+    if (curFile_.isEmpty()) {
         return saveAs();
     }
     else {
-        return saveFile(curFile);
+        return saveFile(curFile_);
     }
 }
 //! [10]
@@ -392,12 +392,12 @@ bool MainWindow::saveFile(const QString &fileName)
 void MainWindow::setCurrentFile(const QString &fileName)
 //! [46] //! [47]
 {
-    curFile = fileName;
+    curFile_ = fileName;
     textEdit->document()->setModified(false);
     setWindowModified(false);
 
-    QString shownName = curFile;
-    if (curFile.isEmpty())
+    QString shownName = curFile_;
+    if (curFile_.isEmpty())
         shownName = "untitled.txt";
     setWindowFilePath(shownName);
 }

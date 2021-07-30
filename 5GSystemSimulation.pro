@@ -19,7 +19,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    mainWindow.cpp \
+    src/core/NetworkManager.cpp \
+    src/visualization/menu/mainWindow.cpp \
     src/core/CartesianCoordinates.cpp \
     src/equipment/Cell.cpp \
     src/equipment/Equipment.cpp \
@@ -53,7 +54,9 @@ SOURCES += \
     src/visualization/data/plotData/nskStoreysHeights.cpp \
 
 HEADERS += \
-    mainWindow.h \
+    src/core/NetworkManager.h \
+    src/scenarios/simple.h \
+    src/visualization/menu/mainWindow.h \
     src/commonParameters.h \
     src/core/CartesianCoordinates.h \
     src/equipment/Cell.h \

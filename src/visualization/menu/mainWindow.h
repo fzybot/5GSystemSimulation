@@ -23,6 +23,19 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+private:
+    QQuickWidget* quickWidget_;
+
+    QPlainTextEdit* textEdit;
+    QString curFile_;
+
+    QListWidget* customerList_;
+    QListWidget* paragraphsList_;
+
+    QMenu* viewMenu_;
+    QGraphicsView* view_;
+
+    TabMenu* tabMenu_;
 
 private slots:
     void newFile();
@@ -32,6 +45,10 @@ private slots:
     void about();
     void documentWasModified();
 
+public:
+    MainWindow(QWidget* parent = nullptr);
+
+    void loadFile(const QString& fileName);
 //    void insertCustomer(const QString &customer);
 //    void addParagraph(const QString &paragraph);
 //    void runSimulation();
@@ -40,20 +57,6 @@ private slots:
 #endif
 
 private:
-    QQuickWidget* my_quickWidget;
-
-    QPlainTextEdit* textEdit;
-    QString curFile;
-
-    QListWidget* customerList;
-    QListWidget* paragraphsList;
-
-    QMenu* viewMenu;
-    QGraphicsView* view;
-
-    TabMenu* tabMenu_;
-
-
     void createActions();
     void createStatusBar();
     void createDockWindows();
@@ -69,9 +72,5 @@ private:
 protected:
     void closeEvent(QCloseEvent* event) override;
 
-public:
-    MainWindow(QWidget* parent = nullptr);
-
-    void loadFile(const QString& fileName);
 };
 //! [0]
