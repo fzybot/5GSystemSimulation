@@ -19,7 +19,9 @@ MainWindow::MainWindow(QWidget* parent) :
 {
 
     tabMenu_= new TabMenu;
-    tabMenu_->resize(1600, 1000);
+    tabMenu_->resize(1300, 1200);
+    // fixed size for widget
+    //tabMenu_->setFixedSize(500, 500);
     setCentralWidget(tabMenu_);
 
     createActions();
@@ -61,12 +63,12 @@ void MainWindow::createDockWindows()
     addDockWidget(Qt::LeftDockWidgetArea, dock);
 //    viewMenu_->addAction(dock->toggleViewAction());
 
-    dock = new QDockWidget(tr("Paragraphs"), this);
+    dock = new QDockWidget(tr("Debug && etc."), this);
         paragraphsList_ = new QListWidget(dock);
     paragraphsList_->addItems(QStringList()
-            << "Some plots.");
+            << ">>>>>>>>>" << "Lets start the debugging");
     dock->setWidget(paragraphsList_);
-    addDockWidget(Qt::LeftDockWidgetArea, dock);
+    addDockWidget(Qt::BottomDockWidgetArea, dock);
 
     dock = new QDockWidget(tr("Should be a PLOTS"), this);
     ChartsWidget *charts = new ChartsWidget(dock);
