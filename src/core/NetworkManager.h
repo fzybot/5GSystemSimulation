@@ -8,6 +8,7 @@ class UserEquipment;
 class RadioChannel;
 class BandwidthManager;
 class CartesianCoordinates;
+class Mobility;
 
 class NetworkManager
 {
@@ -40,8 +41,7 @@ public:
 
     UserEquipment* createUserEquipment (int id, 
                                         double posX, double posY, double posZ, 
-                                        Cell *cell, gNodeB *targetGNodeB, 
-                                        Mobility::MobilityModel model);
+                                        Cell *cell, gNodeB *targetGNodeB);
 
     // TODO: all other methods:
     // here should be a list of methods needed for simulation

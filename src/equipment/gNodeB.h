@@ -14,7 +14,6 @@ class gNodeB : public Equipment
 
 private:
     int minRxLevel;
-    Mobility *mobility_;
 
     QVector<UserEquipment*> *userEquipmentContainer_;
     QVector<Cell*> *cellContainer_;
@@ -31,6 +30,4 @@ public:
 
     void addCell(Cell *cell);
     Cell *getCellByID(int ID);
-
-    void setMobilityModel(Mobility *m);
 };

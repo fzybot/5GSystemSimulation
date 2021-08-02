@@ -51,8 +51,7 @@ gNodeB* NetworkManager::createGnodeB (int id, Cell *cell, double posX, double po
 
 UserEquipment* NetworkManager::createUserEquipment (int id, 
                                                     double posX, double posY, double posZ, 
-                                                    Cell *cell, gNodeB *targetGNodeB, 
-                                                    Mobility::MobilityModel model)
+                                                    Cell *cell, gNodeB *targetGNodeB)
 {
     UserEquipment *ue = new UserEquipment(id,
                                           posX, posY, posZ, cell, targetGNodeB,

@@ -8,7 +8,7 @@
 
 gNodeB::gNodeB()
 {
-
+    
     //dataSize = ((bandwidth * 1000) / SCS) * 2 * 14 * mimoLayers;
 }
 
@@ -51,9 +51,4 @@ Cell *gNodeB::getCellByID(int id)
         }
     }
     return nullptr;
-}
-
-void gNodeB::setMobilityModel(Mobility *m)
-{
-    mobility_ = m;
 }

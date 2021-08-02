@@ -8,8 +8,9 @@
 
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
 
-Equipment::Equipment() {
-
+Equipment::Equipment() 
+{
+    
 }
 
 // Equipment::Equipment(int id, EquipmentType type, EquipmentState state)
