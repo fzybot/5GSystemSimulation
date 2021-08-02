@@ -49,5 +49,11 @@ CartesianCoordinates* Mobility::getPosition(void) const
     return currentPosition_;
 }
 
+void Mobility::deletePosition()
+{
+    delete currentPosition_;
+    delete startPosition_;
+}
+
 // ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
 

@@ -64,13 +64,16 @@ void MainWindow::createDockWindows()
 //    viewMenu_->addAction(dock->toggleViewAction());
 
     dock = new QDockWidget(tr("Debug && etc."), this);
-        paragraphsList_ = new QListWidget(dock);
+    dock->setMaximumHeight(700);
+    paragraphsList_ = new QListWidget(dock);
     paragraphsList_->addItems(QStringList()
             << ">>>>>>>>>" << "Lets start the debugging");
     dock->setWidget(paragraphsList_);
     addDockWidget(Qt::BottomDockWidgetArea, dock);
 
     dock = new QDockWidget(tr("Should be a PLOTS"), this);
+    dock->setMaximumWidth(600);
+    dock->setMinimumWidth(500);
     ChartsWidget *charts = new ChartsWidget(dock);
     dock->setWidget(charts);
     addDockWidget(Qt::RightDockWidgetArea, dock);

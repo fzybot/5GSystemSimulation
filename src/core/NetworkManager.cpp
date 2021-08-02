@@ -34,5 +34,92 @@ NetworkManager::~NetworkManager()
 
 // ----- [ EQUIPMENT GENERATORS ] --------------------------------------------------------------------------------------
 
+Cell* NetworkManager::createCell (int idCell)
+{
+    Cell *cell = new Cell(idCell);
+    getCellContainer()->push_back(cell);
+
+    return cell;
+}
+
+gNodeB* NetworkManager::createGnodeB (int id, Cell *cell, double posX, double posY, double posZ)
+{
+    gNodeB *gNb = new gNodeB(id, cell, posX, posY, posZ);
+    getGNodeBContainer()->push_back(gNb);
+    return gNb;
+}
+
+UserEquipment* NetworkManager::createUserEquipment (int id, 
+                                                    double posX, double posY, double posZ, 
+                                                    Cell *cell, gNodeB *targetGNodeB, 
+                                                    Mobility::MobilityModel model)
+{
+    UserEquipment *ue = new UserEquipment(id,
+                                          posX, posY, posZ, cell, targetGNodeB,
+                                          Mobility::CONSTANT_POSITION);
+    getUserEquipmentContainer()->push_back(ue);
+    return ue;
+}
+
+// ----- [ GETTERS\SETTERS ] -------------------------------------------------------------------------------------------
+
+// Get containers
+QVector<gNodeB*>* NetworkManager::getGNodeBContainer (void)
+{
+  return gNodeBContainer_;
+}
+
+QVector<Cell*>* NetworkManager::getCellContainer (void)
+{
+    return cellContainer_;
+}
+
+QVector<UserEquipment*>* NetworkManager::getUserEquipmentContainer (void)
+{
+    return userEquipmentContainer_;
+}
+
+// Get by ID
+Cell* NetworkManager::getCellByID (int cellID)
+{
+    for (auto cell : *getCellContainer()) {
+        if (cell->getCellID() == cellID) {
+            return cell;
+        }
+    }
+    return nullptr;
+}
+
+gNodeB* NetworkManager::getGNodeBByID (int idGNodeB)
+{
+    for (auto gNodeB : *getGNodeBContainer()) {
+        if (gNodeB->getEquipmentID() == idGNodeB) {
+            return gNodeB;
+        }
+    }
+    return nullptr;
+}
+
+gNodeB* NetworkManager::getGNodeBByCellID (int idCell)
+{
+    for (auto gNodeB : *getGNodeBContainer()) {
+        // TODO: Check the correct methods...something could be OVERcoded...should be a simpiest way
+        if (gNodeB->getCellByID(idCell)->getCellID() == idCell) {
+            return gNodeB;
+        }
+    }
+    return nullptr;
+}
+
+UserEquipment* NetworkManager::getUserEquipmentByID (int idUE)
+{
+    for (auto userEquipment : *getUserEquipmentContainer()) {
+        if (userEquipment->getEquipmentID() == idUE) {
+            return userEquipment;
+        }
+    }
+    return nullptr;
+}
+
 
 

@@ -31,7 +31,7 @@ private:
 
 public:
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
-    Mobility(); 
+    Mobility();
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
     void setEquipment(Equipment *equipment);
@@ -49,7 +49,9 @@ public:
     void setAngle(double angle);
     double getAngle();
 
-// ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
+    void deletePosition();
+
+    // ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
     void updatePosition(double time);
 
 

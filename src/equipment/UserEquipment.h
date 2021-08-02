@@ -5,18 +5,30 @@
 
 #include <QVector>
 
+class gNodeB;
+class Cell;
 
 class UserEquipment : public Equipment
 {
 
+private:
+    gNodeB *targetGNodeB_;
+    Cell *currentCell_;
+
 public:
-
-
-
-public:
+// ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
     UserEquipment();
-    void calculateEIRP();
+    UserEquipment(int id, 
+                  double posX, double posY, double posZ, 
+                  Cell *cell, gNodeB *targetGNodeB, 
+                  Mobility::MobilityModel model);
 
+// ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
+    void setCurrentCell(Cell *cell);
+    void setTargetGNodeB(gNodeB *gNb);
+
+// ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
+    void calculateEIRP();
 
     //void addNeighbourCell(BaseStation cell);
 };

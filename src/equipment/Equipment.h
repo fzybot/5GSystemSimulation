@@ -27,7 +27,7 @@ public:
     };
 
 private:
-    int ID_;
+    int id_;
 
     double lastTime_;
 
@@ -50,11 +50,10 @@ private:
 public:
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
     Equipment();
-    Equipment(int id, EquipmentType type, EquipmentState state);
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
-    void setID(int id);
-    int getID();
+    void setEquipmentID(int id);
+    int getEquipmentID();
 
     void setEquipmentType(EquipmentType type);
     EquipmentType getEquipmentType() const;
@@ -62,7 +61,7 @@ public:
     void setEquipmentState(EquipmentState state);
     EquipmentState getEquipmentState() const;
 
-    void setMobilityModel(Mobility *movdel);
+    void setMobilityModel(Mobility *model);
     Mobility* getMobilityModel(void);
 
 // ----- [ PHYSICAL METHODS ] ------------------------------------------------------------------------------------------

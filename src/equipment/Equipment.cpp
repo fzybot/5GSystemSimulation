@@ -12,18 +12,18 @@ Equipment::Equipment() {
 
 }
 
+// Equipment::Equipment(int id, EquipmentType type, EquipmentState state)
+// {
+//     setEquipmentID(id);
+//     setEquipmentType(type);
+//     setEquipmentState(state);
+// }
+
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
 
-Equipment::Equipment(int id, EquipmentType type, EquipmentState state)
+void Equipment::setEquipmentID(int id)
 {
-    setID(id);
-    setEquipmentType(type);
-    setEquipmentState(state);
-}
-
-void Equipment::setID(int id)
-{
-    ID_ = id;
+    id_ = id;
 }
 
 void Equipment::setEquipmentState(EquipmentState state)
@@ -39,6 +39,11 @@ Equipment::EquipmentState Equipment::getEquipmentState() const
 void Equipment::setEquipmentType(EquipmentType type)
 {
     type_ = type;
+}
+
+int Equipment::getEquipmentID()
+{
+    return id_;
 }
 
 Equipment::EquipmentType Equipment::getEquipmentType() const

@@ -7,19 +7,30 @@
 #include <QVector>
 
 class Cell;
+class Mobility;
 
 class gNodeB : public Equipment
 {
-public:
-
-
 
 private:
     int minRxLevel;
+    Mobility *mobility_;
 
+    QVector<UserEquipment*> *userEquipmentContainer_;
+    QVector<Cell*> *cellContainer_;
 
-    QVector<UserEquipment*> currentUsers;
-    QVector<UserEquipment*> userQueue;
-
+public:
+// ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
     gNodeB();
+    gNodeB(int ID, Cell *cell, double posX, double posY, double posZ);
+
+// ----- [ GETTERS\SETTERS ] -------------------------------------------------------------------------------------------
+    // get Containers
+    QVector<UserEquipment*> *getUserEquipmentContainer (void);
+    QVector<Cell*> *getCellContainer (void);
+
+    void addCell(Cell *cell);
+    Cell *getCellByID(int ID);
+
+    void setMobilityModel(Mobility *m);
 };

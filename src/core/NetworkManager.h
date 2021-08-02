@@ -23,9 +23,9 @@ public:
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
     // Get containers
-    QVector<Cell*>* getCellContainer (void);
-    QVector<gNodeB*>* getGNodeBContainer (void);
-    QVector<UserEquipment*>* getUserEquipmentContainer (void);
+    QVector<Cell*> *getCellContainer (void);
+    QVector<gNodeB*> *getGNodeBContainer (void);
+    QVector<UserEquipment*> *getUserEquipmentContainer (void);
 
     // Get by ID
     Cell* getCellByID (int idCell);
@@ -34,19 +34,17 @@ public:
     UserEquipment* getUserEquipmentByID (int idUE);
 
 // ----- [ EQUIPMENT GENERATORS ] --------------------------------------------------------------------------------------
-    Cell* createCell (int idCell, double radius, double minDistance, double X, double Y);
+    Cell* createCell (int idCell);
 
-    gNodeB* createGnodeb (int id,
-                        Cell* cell,
-                        double pos_X, double pos_Y,
-                        int numTxAntennas, int numRxAntennas,
-                        RadioChannel *dlCh, RadioChannel *ulCh,
-                        BandwidthManager *bm);
+    gNodeB* createGnodeB (int id, Cell *cell, double posX, double posY, double posZ);
 
-    UserEquipment* createUserEquipment (int id,
-                                        double pos_X, double pos_Y, double speed, double speedDirection, 
-                                        int numTxAntennas, int numRxAntennas, Cell* cell, gNodeB* gnb);
+    UserEquipment* createUserEquipment (int id, 
+                                        double posX, double posY, double posZ, 
+                                        Cell *cell, gNodeB *targetGNodeB, 
+                                        Mobility::MobilityModel model);
 
+    // TODO: all other methods:
+    // here should be a list of methods needed for simulation
     void CreateStreet (int idStreet, CartesianCoordinates* center, double theta,
                         int buildingtype, int nbBuildings, double street_width, double building_distance,
                         int nbFemtoInBuilding, double apartment_side, int firstFemtoIDInStreet);
