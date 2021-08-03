@@ -36,7 +36,9 @@ NetworkManager::~NetworkManager()
 
 Cell* NetworkManager::createCell (int idCell)
 {
-    Cell *cell = new Cell(idCell);
+    Cell *cell = new Cell();
+    cell->setEquipmentID(idCell);
+    cell->setEquipmentType(Equipment::TYPE_CELL);
     getCellContainer()->push_back(cell);
 
     return cell;
@@ -82,7 +84,7 @@ QVector<UserEquipment*>* NetworkManager::getUserEquipmentContainer (void)
 Cell* NetworkManager::getCellByID (int cellID)
 {
     for (auto cell : *getCellContainer()) {
-        if (cell->getCellID() == cellID) {
+        if (cell->getEquipmentID() == cellID) {
             return cell;
         }
     }
@@ -103,7 +105,7 @@ gNodeB* NetworkManager::getGNodeBByCellID (int idCell)
 {
     for (auto gNodeB : *getGNodeBContainer()) {
         // TODO: Check the correct methods...something could be OVERcoded...should be a simpiest way
-        if (gNodeB->getCellByID(idCell)->getCellID() == idCell) {
+        if (gNodeB->getCellByID(idCell)->getEquipmentID() == idCell) {
             return gNodeB;
         }
     }
@@ -118,6 +120,19 @@ UserEquipment* NetworkManager::getUserEquipmentByID (int idUE)
         }
     }
     return nullptr;
+}
+
+// ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
+
+void NetworkManager::print()
+{
+    for (auto gNodeB : *gNodeBContainer_) {
+        gNodeB->print();
+    }
+
+    for(auto ue : *userEquipmentContainer_) {
+        ue->print();
+    }
 }
 
 

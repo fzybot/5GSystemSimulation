@@ -1,9 +1,13 @@
 #include "CartesianCoordinates.h"
 #include <QtMath>
+#include <QDebug>
 
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
 CartesianCoordinates::CartesianCoordinates()
 {
+    angleX_ = 0;
+    angleY_ = 0;
+    angleZ_ = 0;
 
 }
 
@@ -117,4 +121,16 @@ bool CartesianCoordinates::operator == (CartesianCoordinates C)
     {
       return false;
     }
+}
+
+// ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
+void CartesianCoordinates::print()
+{
+    qDebug() << "Current Position: ";
+    qDebug() << "Position X: " << posX_;
+    qDebug() << "Position Y: " << posY_;
+    qDebug() << "Position Z: " << posZ_;
+    qDebug() << "Angle X: " << angleX_;
+    qDebug() << "Angle Y: " << angleY_;
+    qDebug() << "Angle Z: " << angleZ_;
 }

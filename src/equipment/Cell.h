@@ -1,14 +1,8 @@
 #pragma once
+#include "Equipment.h"
 
-
-class Cell
+class Cell: public Equipment
 {
-private:
-    int id_;
-
 public:
-    Cell(int ID);
-
-    void setCellID(int cellID);
-    int getCellID();
+    Cell();
 };

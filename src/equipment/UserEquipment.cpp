@@ -8,7 +8,8 @@
 
 UserEquipment::UserEquipment()
 {
-
+    targetGNodeB_ = nullptr;
+    currentCell_ = nullptr;
 }
 
 UserEquipment::UserEquipment(int id, 

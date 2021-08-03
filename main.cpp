@@ -17,6 +17,7 @@
 
 #include "src/visualization/menu/mainWindow.h"
 #include "src/scenarios/tests.h"
+#include "src/scenarios/simple.h"
 
 int main(int argc, char *argv[])
 {
@@ -31,10 +32,11 @@ int main(int argc, char *argv[])
     MainWindow mainWin;
     mainWin.resize(1900, 1200);
     mainWin.show();
+    //Simple();
 
-//##############################################################################
-//                   Testing features (in src/scenarios/tests.h)
-//##############################################################################
+    //##############################################################################
+    //                   Testing features (in src/scenarios/tests.h)
+    //##############################################################################
 
     //simpleTest();
 

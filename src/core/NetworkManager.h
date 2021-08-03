@@ -50,5 +50,9 @@ public:
                         int nbFemtoInBuilding, double apartment_side, int firstFemtoIDInStreet);
 
     double* CheckBuildingPosition (int buildingType, double pos_X, double pos_Y, double side_X, double side_Y);
+
+// ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
+
+    void print();
 };
 

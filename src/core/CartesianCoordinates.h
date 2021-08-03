@@ -15,13 +15,9 @@ private:
     double angleZ_;
 
     // Geographical coordinates
-    double altitude_ = 0;
+    double altitude_;
     double longtitude_;
     double latitude_;
-
-    double lonAngle_ = 0;
-    double latAngle_ = 0;
-    double altAngle_ = 0;
 
 public:
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
@@ -63,4 +59,7 @@ public:
     // TODO: Need a method is able to transform from Cartesian to Geographical position.
     void transformToLatLon();
 
+// ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
+    void print();
+    
 };

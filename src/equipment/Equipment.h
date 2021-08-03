@@ -23,6 +23,7 @@ public:
     enum EquipmentType
     {
       TYPE_GNODEB,
+      TYPE_CELL,
       TYPE_UE,
     };
 
@@ -66,4 +67,8 @@ public:
 
 // ----- [ PHYSICAL METHODS ] ------------------------------------------------------------------------------------------
     void calculateThermalNoise();
+
+// ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
+    void print();
+
 };

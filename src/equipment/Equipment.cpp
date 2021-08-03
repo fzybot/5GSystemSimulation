@@ -5,12 +5,13 @@
 #include <QRandomGenerator>
 #include <QStyleOption>
 #include <QtMath>
+#include <QDebug>
 
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
 
 Equipment::Equipment() 
 {
-    
+    mobility_ = nullptr;
 }
 
 // Equipment::Equipment(int id, EquipmentType type, EquipmentState state)
@@ -69,3 +70,20 @@ void Equipment::calculateThermalNoise()
 }
 
 
+// ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
+void Equipment::print()
+{
+    // if (type_ == EquipmentType::TYPE_GNODEB) {
+    //     qDebug() << "TYPE_GNODEB";
+    // }
+    // else if (type_ == EquipmentType::TYPE_CELL) {
+    //     qDebug() << "TYPE_CELL";
+    // }
+    // else if (type_ == EquipmentType::TYPE_UE) {
+    //     qDebug() << "TYPE_UE";
+    // }
+    qDebug() << type_;
+    qDebug() << "Identity: " << id_;
+    mobility_->getPosition()->print();
+    
+}

@@ -46,7 +46,7 @@ void gNodeB::addCell(Cell *cell)
 Cell *gNodeB::getCellByID(int id)
 {
     for (auto cell : *getCellContainer()) {
-        if (cell->getCellID() == id) {
+        if (cell->getEquipmentID() == id) {
             return cell;
         }
     }

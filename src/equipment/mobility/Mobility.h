@@ -27,7 +27,7 @@ private:
     QVector<CartesianCoordinates> passedPath_;
 
     int speed_; // Km/h
-    double _; // in radian
+    double angle_; // in radian
 
 public:
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
@@ -51,10 +51,11 @@ public:
 
     void deletePosition();
 
-    // ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
+// ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
     void updatePosition(double time);
 
-
+// ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
+    void print();
 
 };
 
