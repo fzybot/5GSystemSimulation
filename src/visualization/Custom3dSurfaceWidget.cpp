@@ -13,7 +13,24 @@ Custom3dSurfaceWidget::Custom3dSurfaceWidget(QWidget *parent)
     surface_ = new Custom3dSurface(graph);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
+
+    QFont font = QFont("Century Gothic", 14);
+    QLabel *label = new QLabel("Show:");
+    font.setBold(true);
+    label->setFont(font);
+    mainLayout->addWidget(label);
+
+    QCheckBox *checkboxOne = new QCheckBox("Height");
+    checkboxOne->setChecked(true);
+    checkboxOne->setFont(font);
+    mainLayout->addWidget(checkboxOne);
+
+    connect(checkboxOne, &QCheckBox::stateChanged,
+                     surface_, &Custom3dSurface::toggleItem);
+
     mainLayout->addWidget(container);
     setLayout(mainLayout);
 
 }
+
+

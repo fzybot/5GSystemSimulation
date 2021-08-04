@@ -5,7 +5,8 @@
 #include <QtDataVisualization/QHeightMapSurfaceDataProxy>
 #include <QtDataVisualization/QSurface3DSeries>
 #include <QtWidgets/QSlider>
-
+#include <QtWidgets>
+//#include <stdarg.h>
 
 class Custom3dSurface : public QObject
 {
@@ -14,8 +15,8 @@ public:
     Custom3dSurface(QtDataVisualization::Q3DSurface *surface);
     ~Custom3dSurface();
 
-    void enableSqrtSinModel(bool enable, QtDataVisualization::QSurface3DSeries*);
-    void enableDataFromFile(bool enable);
+    void enableModel(bool enable);
+    //void enableDataFromFile(bool enable);
 
 
     void setBlackToYellowGradient();
@@ -27,10 +28,13 @@ public:
     void adjustZMin(int min);
     void adjustZMax(int max);
 
+    void toggleItem();
+    void handleElementSelected(QtDataVisualization::QAbstract3DGraph::ElementType type);
+
 private:
     QtDataVisualization::Q3DSurface *graph_;
-    QtDataVisualization::QSurface3DSeries *sqrtSinSeries_;
-    QtDataVisualization::QSurfaceDataProxy *sqrtSinProxy_;
+    QtDataVisualization::QSurface3DSeries *series_;
+    QtDataVisualization::QSurfaceDataProxy *proxy_;
 
     float rangeMinX_;
     float rangeMinZ_;
@@ -38,12 +42,13 @@ private:
     float stepZ_;
     int heightMapWidth_;
     int heightMapHeight_;
+    int* sets_=NULL;
+    int setsCount_;
 
     void setAxisXRange(float min, float max);
     void setAxisZRange(float min, float max);
     void fillSqrtSinProxy();
-    void fillFromFileCustom(QtDataVisualization::QSurfaceDataProxy* Proxy,int);
-    void fillFromFile(QtDataVisualization::QSurfaceDataProxy* Proxy);
-    void handleElementSelected(QtDataVisualization::QAbstract3DGraph::ElementType type);
+    void fillFromFileCustom(int num);
+    void fillFromFile();
     int checkBuildingID(QPoint);
 };
