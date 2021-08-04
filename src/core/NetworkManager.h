@@ -37,7 +37,7 @@ public:
 // ----- [ EQUIPMENT GENERATORS ] --------------------------------------------------------------------------------------
     Cell* createCell (int idCell);
 
-    gNodeB* createGnodeB (int id, Cell *cell, double posX, double posY, double posZ);
+    gNodeB* createGNodeB (int id, Cell *cell, double posX, double posY, double posZ);
 
     UserEquipment* createUserEquipment (int id, 
                                         double posX, double posY, double posZ, 

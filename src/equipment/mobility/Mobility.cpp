@@ -34,7 +34,6 @@ void Mobility::setPosition(CartesianCoordinates *position)
 {
     if (position == nullptr) {
         currentPosition_ = nullptr;
-        return;
     }
     if (currentPosition_ == nullptr) {
         currentPosition_ = new CartesianCoordinates();
@@ -61,8 +60,8 @@ void Mobility::deletePosition()
 
 
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
-void Mobility::print()
-{
-    qDebug() << "Mobility model: " << mobilityModel_;
-    //getPosition()->print();
-}
+// void Mobility::print()
+// {
+//     qDebug() << "Mobility model: " << mobilityModel_;
+//     //getPosition()->print();
+// }

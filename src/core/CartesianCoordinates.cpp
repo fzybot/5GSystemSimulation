@@ -124,6 +124,7 @@ bool CartesianCoordinates::operator == (CartesianCoordinates C)
 }
 
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
+
 void CartesianCoordinates::print()
 {
     qDebug() << "Current Position: ";

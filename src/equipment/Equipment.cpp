@@ -84,6 +84,5 @@ void Equipment::print()
     // }
     qDebug() << type_;
     qDebug() << "Identity: " << id_;
-    mobility_->getPosition()->print();
     
 }
