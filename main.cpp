@@ -19,6 +19,8 @@
 #include "src/scenarios/tests.h"
 #include "src/scenarios/simple.h"
 
+#include "src/debug.h"
+
 int main(int argc, char *argv[])
 {
 
@@ -32,7 +34,6 @@ int main(int argc, char *argv[])
     MainWindow mainWin;
     mainWin.resize(1900, 1200);
     mainWin.show();
-    qDebug() << "Main Hello World!";
     Simple();
 
     //##############################################################################

@@ -3,8 +3,9 @@
 #include "src/equipment/gNodeB.h"
 #include "src/equipment/UserEquipment.h"
 
+#include "src/debug.h"
+
 #include <QVector>
-#include <QDebug>
 
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
 
@@ -47,7 +48,6 @@ Cell* NetworkManager::createCell (int idCell)
 
 gNodeB* NetworkManager::createGNodeB (int id, Cell *cell, double posX, double posY, double posZ)
 {
-    qDebug() << "creteGNodeB is started";
     gNodeB *gNb = new gNodeB(id, cell, posX, posY, posZ);
     getGNodeBContainer()->push_back(gNb);
     return gNb;
@@ -128,7 +128,6 @@ UserEquipment* NetworkManager::getUserEquipmentByID (int idUE)
 
 void NetworkManager::print()
 {
-    qDebug() << "Network manager print Hello world";
     // for (auto gNodeB : *gNodeBContainer_) {
     //     gNodeB->print();
     // }

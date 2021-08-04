@@ -71,18 +71,18 @@ void Equipment::calculateThermalNoise()
 
 
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
-void Equipment::print()
-{
-    // if (type_ == EquipmentType::TYPE_GNODEB) {
-    //     qDebug() << "TYPE_GNODEB";
-    // }
-    // else if (type_ == EquipmentType::TYPE_CELL) {
-    //     qDebug() << "TYPE_CELL";
-    // }
-    // else if (type_ == EquipmentType::TYPE_UE) {
-    //     qDebug() << "TYPE_UE";
-    // }
-    qDebug() << type_;
-    qDebug() << "Identity: " << id_;
+// void Equipment::print()
+// {
+//     // if (type_ == EquipmentType::TYPE_GNODEB) {
+//     //     qDebug() << "TYPE_GNODEB";
+//     // }
+//     // else if (type_ == EquipmentType::TYPE_CELL) {
+//     //     qDebug() << "TYPE_CELL";
+//     // }
+//     // else if (type_ == EquipmentType::TYPE_UE) {
+//     //     qDebug() << "TYPE_UE";
+//     // }
+//     qDebug() << type_;
+//     qDebug() << "Identity: " << id_;
     
-}
+// }

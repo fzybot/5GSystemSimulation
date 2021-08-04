@@ -4,6 +4,8 @@
 #include "src/equipment/mobility/ConstantPosition.h"
 #include "src/core/CartesianCoordinates.h"
 
+#include "src/debug.h"
+
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
 
 gNodeB::gNodeB()

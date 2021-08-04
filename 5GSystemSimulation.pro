@@ -56,6 +56,7 @@ SOURCES += \
 
 HEADERS += \
     src/core/NetworkManager.h \
+    src/debug.h \
     src/equipment/mobility/ConstantPosition.h \
     src/scenarios/simple.h \
     src/visualization/menu/mainWindow.h \

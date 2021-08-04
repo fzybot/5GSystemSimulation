@@ -5,15 +5,12 @@
 #include "src/equipment/Cell.h"
 #include "src/core/NetworkManager.h"
 
-#include <QDebug>
-
-static const bool DEBUGGING = true;
+#include "src/debug.h"
 
 static void Simple ()
 {
-    qDebug() << "Simple Hello world!";
     NetworkManager *networkManager = new NetworkManager();
-    qDebug() << "Network manager is crated";
+    //debug(2, 3, 4);
 
     // Create Cell
     int idCell = 0;
@@ -21,14 +18,10 @@ static void Simple ()
     int posY = 100;
     int posZ = 50;
     Cell *cell = networkManager->createCell(idCell);
-    if (DEBUGGING == true) {
-        qDebug() << "Cell entity is created";
-    }
 
     // Create gNodeB
     int idGNb = 1;
     //gNodeB *gNb = networkManager->createGNodeB(idGNb, cell, posX, posY, posZ);
-    qDebug() << "gNodeB entity is   created";
 
     // Create User Equipment
     int idUE = 2;
