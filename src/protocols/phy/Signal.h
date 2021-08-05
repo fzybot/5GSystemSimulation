@@ -52,6 +52,5 @@ public:
     void generateRandomIOValues(int MIMOSize, int dataSize);
 
 // ----- [ PLOT FUNCTIONS ] --------------------------------------------------------------------------------------------
-    void startUpdates(const QList<QtCharts::QXYSeries *> &seriesList, QLabel *fpsLabel);
-
+    void startUpdates(const QList<QtCharts::QXYSeries *> &seriesList); // , QLabel *fpsLabel);
 };

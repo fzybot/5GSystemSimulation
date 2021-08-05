@@ -2,7 +2,7 @@
 
 #include <QDebug>
 #include <QRandomGenerator>
-#include <QMath>
+#include <QtMath>
 
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
 
@@ -10,7 +10,7 @@ Signal::Signal(QObject *parent):
     QObject(parent),
     index_(-1)
 {
-
+    generateData(0, 0, 0);
 }
 
 // ----- [ PLOT FUNCTIONS ] --------------------------------------------------------------------------------------------
@@ -50,16 +50,16 @@ void Signal::updateAllSeries()
     if (elapsed >= 1000) {
         elapsed = fpsTimer_.restart();
         qreal fps = qreal(0.1 * int(10000.0 * (qreal(frameCount) / qreal(elapsed))));
-        fpsLabel_->setText(labelText.arg(QString::number(fps, 'f', 1)));
-        fpsLabel_->adjustSize();
+        // fpsLabel_->setText(labelText.arg(QString::number(fps, 'f', 1)));
+        // fpsLabel_->adjustSize();
         frameCount = 0;
     }
 }
 
-void Signal::startUpdates(const QList<QtCharts::QXYSeries *> &seriesList, QLabel *fpsLabel)
+void Signal::startUpdates(const QList<QtCharts::QXYSeries *> &seriesList) //, QLabel *fpsLabel)
 {
     seriesList_ = seriesList;
-    fpsLabel_ = fpsLabel;
+    //fpsLabel_ = fpsLabel;
 
     dataUpdater_.setInterval(0);
     dataUpdater_.setSingleShot(true);

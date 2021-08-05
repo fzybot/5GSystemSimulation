@@ -1,4 +1,5 @@
 #include "ChartsWidget.h"
+#include "src/protocols/phy/Signal.h"
 
 #include <QtCharts/QChartView>
 #include <QtCharts/QPieSeries>
@@ -19,7 +20,7 @@
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QGroupBox>
-#include <QtWidgets/QLabel>
+#include <QLabel>
 #include <QtCore/QRandomGenerator>
 #include <QtCharts/QBarCategoryAxis>
 #include <QtWidgets/QApplication>
@@ -45,7 +46,7 @@ ChartsWidget::ChartsWidget(QWidget *parent) :
 
     QChartView *chartView;
 
-    chartView = new QChartView(createSplineChart());
+    chartView = new QChartView(createSignalChart());
     grid->addWidget(chartView, 2, 1);
     charts_ << chartView;
 
@@ -101,7 +102,7 @@ DataTable ChartsWidget::generateRandomData(int listCount, int valueMax, int valu
         }
         dataTable << dataList;
     }
-
+    
     return dataTable;
 }
 
@@ -142,30 +143,69 @@ DataTable ChartsWidget::generateRandomData(int listCount, int valueMax, int valu
 // }
 
 // ----- [ CREATE CHARTS ] ----------------------------------------------------------------------------------------------
+
 // Production Charts
 QChart *ChartsWidget::createSignalChart() const
 {
+    QStringList colors;
+    colors << "red" << "blue" << "green" << "black";
+
     QChart *chart = new QChart();
-    chart->setTitle("Channel chart");
-    QString name("Series ");
-    int nameIndex = 0;
-    for (const DataList &list : dataTable_) {
-        QSplineSeries *series = new QSplineSeries(chart);
-        for (const Data &data : list)
-            series->append(data.first);
-        series->setName(name + QString::number(nameIndex));
-        nameIndex++;
+    chart->legend()->hide();
+
+    QValueAxis *axisX = new QValueAxis;
+    QValueAxis *axisY = new QValueAxis;
+    chart->addAxis(axisX, Qt::AlignBottom);
+    chart->addAxis(axisY, Qt::AlignLeft);
+
+    const int seriesCount = 3;
+    const int pointCount = 1000;
+    chart->setTitle("OpenGL Accelerated Series");
+
+    QList<QXYSeries *> seriesList;
+    for (int i = 0; i < seriesCount; i++) {
+        QXYSeries *series = 0;
+        int colorIndex = i % colors.size();
+        if (i % 2) {
+            series = new QScatterSeries;
+            QScatterSeries *scatter = static_cast<QScatterSeries *>(series);
+            scatter->setColor(QColor(colors.at(colorIndex)));
+            scatter->setMarkerSize(qreal(colorIndex + 2) / 2.0);
+            // Scatter pen doesn't have affect in OpenGL drawing, but if you disable OpenGL drawing
+            // this makes the marker border visible and gives comparable marker size to OpenGL
+            // scatter points.
+            scatter->setPen(QPen("black"));
+        } else {
+            series = new QLineSeries;
+            series->setPen(QPen(QBrush(QColor(colors.at(colorIndex))),
+                                qreal(colorIndex + 2) / 2.0));
+        }
+        seriesList.append(series);
+    
+        series->setUseOpenGL(true);
         chart->addSeries(series);
+        series->attachAxis(axisX);
+        series->attachAxis(axisY);
     }
 
-    chart->createDefaultAxes();
-    chart->axes(Qt::Horizontal).first()->setRange(0, valueMax_);
-    chart->axes(Qt::Vertical).first()->setRange(0, valueCount_);
+    if (axisX->type() == QAbstractAxis::AxisTypeLogValue)
+        axisX->setRange(0.1, 20.0);
+    else
+        axisX->setRange(0, 20.0);
 
-    // Add space to label to add space between labels and axis
-    QValueAxis *axisY = qobject_cast<QValueAxis*>(chart->axes(Qt::Vertical).first());
-    Q_ASSERT(axisY);
-    axisY->setLabelFormat("%.1f  ");
+    if (axisY->type() == QAbstractAxis::AxisTypeLogValue)
+        axisY->setRange(0.1, 10.0);
+    else
+        axisY->setRange(0, 10.0);
+    
+    Signal dataSource;
+    dataSource.generateData(seriesCount, 10, pointCount);
+
+    QObject::connect(chart->scene(), &QGraphicsScene::changed,
+                     &dataSource, &Signal::handleSceneChanged);
+
+    dataSource.startUpdates(seriesList);
+
     return chart;
 }
 // Tutorial Charts
