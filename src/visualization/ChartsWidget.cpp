@@ -30,11 +30,12 @@
 
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
 
-ChartsWidget::ChartsWidget(QWidget *parent) : 
+ChartsWidget::ChartsWidget(QWidget *parent) :
     QWidget(parent),
     listCount_(3),
     valueMax_(10),
     valueCount_(7),
+    dataSource_(),
     dataTable_(generateRandomData(listCount_, valueMax_, valueCount_))
 {
     QGridLayout *grid = new QGridLayout(this);
@@ -95,14 +96,14 @@ DataTable ChartsWidget::generateRandomData(int listCount, int valueMax, int valu
         qreal yValue(0);
         for (int j(0); j < valueCount; j++) {
             yValue = yValue + QRandomGenerator::global()->bounded(valueMax / (qreal) valueCount);
-            QPointF value((j + QRandomGenerator::global()->generateDouble()) * ((qreal) valueMax_ / 
+            QPointF value((j + QRandomGenerator::global()->generateDouble()) * ((qreal) valueMax_ /
                                                                                 (qreal) valueCount), yValue);
             QString label = "Slice " + QString::number(i) + ":" + QString::number(j);
             dataList << Data(value, label);
         }
         dataTable << dataList;
     }
-    
+
     return dataTable;
 }
 
@@ -145,7 +146,7 @@ DataTable ChartsWidget::generateRandomData(int listCount, int valueMax, int valu
 // ----- [ CREATE CHARTS ] ----------------------------------------------------------------------------------------------
 
 // Production Charts
-QChart *ChartsWidget::createSignalChart() const
+QChart *ChartsWidget::createSignalChart()
 {
     QStringList colors;
     colors << "red" << "blue" << "green" << "black";
@@ -159,8 +160,8 @@ QChart *ChartsWidget::createSignalChart() const
     chart->addAxis(axisY, Qt::AlignLeft);
 
     const int seriesCount = 3;
-    const int pointCount = 1000;
-    chart->setTitle("OpenGL Accelerated Series");
+    const int pointCount = 100;
+    chart->setTitle("Signal in time");
 
     QList<QXYSeries *> seriesList;
     for (int i = 0; i < seriesCount; i++) {
@@ -181,7 +182,7 @@ QChart *ChartsWidget::createSignalChart() const
                                 qreal(colorIndex + 2) / 2.0));
         }
         seriesList.append(series);
-    
+
         series->setUseOpenGL(true);
         chart->addSeries(series);
         series->attachAxis(axisX);
@@ -197,14 +198,13 @@ QChart *ChartsWidget::createSignalChart() const
         axisY->setRange(0.1, 10.0);
     else
         axisY->setRange(0, 10.0);
-    
-    Signal dataSource;
-    dataSource.generateData(seriesCount, 10, pointCount);
+
+    dataSource_.generateData(seriesCount, 10, pointCount);
 
     QObject::connect(chart->scene(), &QGraphicsScene::changed,
-                     &dataSource, &Signal::handleSceneChanged);
+                     &dataSource_, &Signal::handleSceneChanged);
 
-    dataSource.startUpdates(seriesList);
+    dataSource_.startUpdates(seriesList);
 
     return chart;
 }

@@ -61,7 +61,7 @@ void Signal::startUpdates(const QList<QtCharts::QXYSeries *> &seriesList) //, QL
     seriesList_ = seriesList;
     //fpsLabel_ = fpsLabel;
 
-    dataUpdater_.setInterval(0);
+    dataUpdater_.setInterval(1);
     dataUpdater_.setSingleShot(true);
     QObject::connect(&dataUpdater_, &QTimer::timeout,
                      this, &Signal::updateAllSeries);

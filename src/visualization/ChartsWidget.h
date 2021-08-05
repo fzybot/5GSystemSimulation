@@ -6,6 +6,8 @@
 #include <QtCharts/QChartView>
 #include <QtCharts/QChart>
 
+#include "src/protocols/phy/Signal.h"
+
 QT_BEGIN_NAMESPACE
 class QComboBox;
 class QCheckBox;
@@ -33,6 +35,8 @@ private:
     int valueCount_;
     QList<QChartView *> charts_;
     DataTable dataTable_;
+    Signal dataSource_;
+    
 
 // private Q_SLOTS:
 //     void updateUI();
@@ -59,7 +63,7 @@ private:
 
 // ----- [ CREATE CHARTS ] ----------------------------------------------------------------------------------------------
     // production charts
-    QChart *createSignalChart() const;
+    QChart *createSignalChart();
 
     // Tutorial Charts
     QChart *createAreaChart() const;
