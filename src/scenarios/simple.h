@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QString>
+
 #include "src/equipment/UserEquipment.h"
 #include "src/equipment/gNodeB.h"
 #include "src/equipment/Cell.h"
@@ -10,7 +12,7 @@
 static void Simple ()
 {
     NetworkManager *networkManager = new NetworkManager();
-    //debug(2, 3, 4);
+    debug("Network manager is created: ");
 
     // Create Cell
     int idCell = 0;

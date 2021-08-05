@@ -8,15 +8,16 @@
 static const bool DEBUGGING = true;
 
 template <typename T>
+void debug(T a)
+{
+    qDebug() << a << endl;
+}
 
-static void debug(int n, ...)
+template <typename T, typename... Ts>
+void debug(T a, Ts... args)
 {
     if (DEBUGGING == true) {
-        va_list factor;
-        va_start(factor, n);
-        for (int i = 0; i < n; i++) {
-            qDebug() << va_arg(factor, T);
-        }
-        va_end(factor);
+        debug(a);
+        debug(args...);
     }
 }
