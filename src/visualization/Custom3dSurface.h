@@ -15,7 +15,7 @@ public:
     Custom3dSurface(QtDataVisualization::Q3DSurface *surface);
     ~Custom3dSurface();
 
-    void enableModel(bool enable);
+    void enableModel();
     //void enableDataFromFile(bool enable);
 
 
@@ -44,6 +44,9 @@ private:
     int heightMapHeight_;
     int* sets_=NULL;
     int setsCount_;
+
+    int zMin_ = 100;
+    int zMax_ = 200;
 
     void setAxisXRange(float min, float max);
     void setAxisZRange(float min, float max);

@@ -37,7 +37,7 @@ Custom3dSurface::Custom3dSurface(QtDataVisualization::Q3DSurface *surface)
     sets_[1]=4;
 
     fillFromFile();
-    enableModel(true);
+    enableModel();
 
     setBlueToRedGradient();
 
@@ -73,16 +73,15 @@ void Custom3dSurface::fillSqrtSinProxy()
     proxy_->resetArray(dataArray);
 }
 
-void Custom3dSurface::enableModel(bool enable)
+void Custom3dSurface::enableModel()
 {
-    if (enable) {
         series_->setDrawMode(QtDataVisualization::QSurface3DSeries::DrawSurface);
         series_->setFlatShadingEnabled(true);
 
         graph_->axisX()->setLabelFormat("%.10f");
         graph_->axisZ()->setLabelFormat("%.10f");
         graph_->axisX()->setRange(storeysHeights[0][1],storeysHeights[lonc-1][1]);
-        graph_->axisY()->setRange(0,180);
+        graph_->axisY()->setRange(zMin_,zMax_);
         graph_->axisZ()->setRange(storeysHeights[0][0],storeysHeights[length-1][0]);
 
         graph_->axisX()->setLabelAutoRotation(30);
@@ -100,7 +99,6 @@ void Custom3dSurface::enableModel(bool enable)
         stepX_ = (lon[length-1] - X[0]) / float(length - 1);
         stepZ_ = (50 - 0) / float(length - 1);
 */
-    }
 }
 
 void Custom3dSurface::fillFromFileCustom(int num)
@@ -183,7 +181,7 @@ void Custom3dSurface::handleElementSelected(QtDataVisualization::QAbstract3DGrap
             proxy_ = new QtDataVisualization::QSurfaceDataProxy();
             series_ = new QtDataVisualization::QSurface3DSeries(proxy_);
             fillFromFileCustom(ID);
-            enableModel(true);
+            enableModel();
         }
     }
     else
@@ -192,7 +190,7 @@ void Custom3dSurface::handleElementSelected(QtDataVisualization::QAbstract3DGrap
         proxy_ = new QtDataVisualization::QSurfaceDataProxy();
         series_ = new QtDataVisualization::QSurface3DSeries(proxy_);
         fillFromFile();
-        enableModel(true);
+        enableModel();
     }
 }
 
@@ -215,6 +213,9 @@ void Custom3dSurface::toggleItem()
             sets_= new int[setsCount_];
             sets_[0]=2;
             sets_[1]=4;
+
+            zMin_ = 100;
+            zMax_ = 200;
         }
         else
         {
@@ -224,6 +225,9 @@ void Custom3dSurface::toggleItem()
             setsCount_=1;
             sets_= new int[setsCount_];
             sets_[0]=2;
+
+            zMin_ = -50;
+            zMax_ = 50;
         }
     }
 }
