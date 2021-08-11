@@ -5,7 +5,8 @@
 #include <QtGui/QImage>
 #include <QtCore/qmath.h>
 //#include "src/visualization/data/plotData/nskStoreysHeights.cpp"
-#include "src/visualization/data/plotData/scaleTest.cpp"
+//#include "src/visualization/data/plotData/scaleTest.cpp"
+#include "src/visualization/data/plotData/interpolationNskStoreysHeights.cpp"
 #include <algorithm>
 #include <stdlib.h>
 //#include <QWidgets>
