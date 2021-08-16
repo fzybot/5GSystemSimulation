@@ -38,6 +38,7 @@ NetworkManager::~NetworkManager()
 
 Cell* NetworkManager::createCell (int idCell)
 {
+    debug("NetworkManager: starting to create a cell.");
     Cell *cell = new Cell();
     cell->setEquipmentID(idCell);
     cell->setEquipmentType(Equipment::TYPE_CELL);
@@ -48,6 +49,7 @@ Cell* NetworkManager::createCell (int idCell)
 
 gNodeB* NetworkManager::createGNodeB (int id, Cell *cell, double posX, double posY, double posZ)
 {
+    debug("Network Manager: Starting to create a gNb. ");
     gNodeB *gNb = new gNodeB(id, cell, posX, posY, posZ);
     getGNodeBContainer()->push_back(gNb);
     return gNb;
@@ -126,16 +128,16 @@ UserEquipment* NetworkManager::getUserEquipmentByID (int idUE)
 
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
 
-void NetworkManager::print()
-{
-    // for (auto gNodeB : *gNodeBContainer_) {
-    //     gNodeB->print();
-    // }
+// void NetworkManager::print()
+// {
+//     // for (auto gNodeB : *gNodeBContainer_) {
+//     //     gNodeB->print();
+//     // }
 
-    // for(auto ue : *userEquipmentContainer_) {
-    //     ue->print();
-    // }
-}
+//     // for(auto ue : *userEquipmentContainer_) {
+//     //     ue->print();
+//     // }
+// }
 
 
 

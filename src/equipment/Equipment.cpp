@@ -7,6 +7,8 @@
 #include <QtMath>
 #include <QDebug>
 
+#include "src/debug.h"
+
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
 
 Equipment::Equipment() 
@@ -25,7 +27,9 @@ Equipment::Equipment()
 
 void Equipment::setEquipmentID(int id)
 {
+    debug("Equipment: setting equipment id.");
     id_ = id;
+    debug("Equipment: id = ", id_);
 }
 
 void Equipment::setEquipmentState(EquipmentState state)
@@ -40,7 +44,9 @@ Equipment::EquipmentState Equipment::getEquipmentState() const
 
 void Equipment::setEquipmentType(EquipmentType type)
 {
+    debug("Equipment: setting equipment type. ");
     type_ = type;
+    debug("Equipment: equipment type = ", type_);
 }
 
 int Equipment::getEquipmentID()

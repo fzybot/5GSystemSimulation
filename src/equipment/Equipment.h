@@ -69,6 +69,6 @@ public:
     void calculateThermalNoise();
 
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
-    void print();
+    // void print();
 
 };

@@ -3,6 +3,7 @@
 #include <QDebug>
 
 #include <stdarg.h>
+#include <iostream>
 
 
 static const bool DEBUGGING = true;
@@ -10,7 +11,7 @@ static const bool DEBUGGING = true;
 template <typename T>
 void debug(T a)
 {
-    qDebug() << a << endl;
+    qDebug() << a;
 }
 
 template <typename T, typename... Ts>

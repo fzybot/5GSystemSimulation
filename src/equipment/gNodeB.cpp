@@ -16,6 +16,7 @@ gNodeB::gNodeB()
 
 gNodeB::gNodeB(int id, Cell *cell, double posX, double posY, double posZ)
 {
+    debug("gNodeB: Starting to create a gNb");
     setEquipmentID(id);
     setEquipmentType(Equipment::TYPE_GNODEB);
     addCell(cell);
@@ -35,14 +36,18 @@ QVector<UserEquipment*> *gNodeB::getUserEquipmentContainer (void)
     return userEquipmentContainer_;
 }
 
-QVector<Cell*> *gNodeB::getCellContainer (void)
+QVector<Cell*>* gNodeB::getCellContainer (void)
 {
+    debug("gNodeB: getting cell container");
     return cellContainer_;
 }
 
 void gNodeB::addCell(Cell *cell)
 {
-    getCellContainer()->push_back(cell);
+    debug("gNodeB: adding cell");
+    cell_ = cell;
+    //getCellContainer()->push_back(cell);
+    debug("gNodeB: cell container", cell_->getEquipmentID());
 }
 
 Cell *gNodeB::getCellByID(int id)

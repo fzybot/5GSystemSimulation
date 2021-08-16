@@ -22,7 +22,7 @@ static void Simple ()
     Cell *cell = networkManager->createCell(idCell);
 
     // Create gNodeB
-    int idGNb = 1;
+    int idGNb = 1000;
     //gNodeB *gNb = networkManager->createGNodeB(idGNb, cell, posX, posY, posZ);
 
     // Create User Equipment

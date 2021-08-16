@@ -60,6 +60,6 @@ public:
     void transformToLatLon();
 
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
-    void print();
+    // void print();
     
 };

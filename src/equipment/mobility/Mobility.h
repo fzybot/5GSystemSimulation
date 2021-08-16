@@ -55,7 +55,7 @@ public:
     void updatePosition(double time);
 
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
-    void print();
+    // void print();
 
 };
 

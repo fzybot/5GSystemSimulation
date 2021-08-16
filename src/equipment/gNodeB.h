@@ -6,6 +6,7 @@
 
 #include <QVector>
 
+
 class Cell;
 class Mobility;
 
@@ -17,6 +18,7 @@ private:
 
     QVector<UserEquipment*> *userEquipmentContainer_;
     QVector<Cell*> *cellContainer_;
+    Cell *cell_;
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
