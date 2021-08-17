@@ -28,7 +28,6 @@ public:
     };
 
     RadioChannel();
-    //virtual ~RadioChannel();
 
     void StartTransmission();
     void StartReception();
@@ -38,7 +37,9 @@ public:
     bool isConnected(Equipment* e);
 
 private:
-    QVector<Equipment*> connectedDevices_;
+  int channelId_;
 
-    PropagationLossModel* propagationLossModel_;
+  QVector<Equipment *> *connectedDevices_;
+
+  PropagationLossModel *propagationLossModel_;
 };

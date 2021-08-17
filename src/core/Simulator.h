@@ -5,7 +5,7 @@ class Simulator
 {
 
 private:
-
+    bool stop_;
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
@@ -20,5 +20,5 @@ public:
     void setStop(double time);
 
 
-    
+
 };
