@@ -7,15 +7,19 @@
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
 CartesianCoordinates::CartesianCoordinates()
 {
+    debug("CartesianCoordinates: CartesianCoordinates()");
     angleX_ = 0;
     angleY_ = 0;
     angleZ_ = 0;
-
+    posX_ = 0;
+    posY_ = 0;
+    posZ_ = 0;
+    debug("CartesianCoordinates: CartesianCoordinates() - done");
 }
 
 CartesianCoordinates::CartesianCoordinates(double x, double y, double z)
 {
-    debug("CartesianCoordinates: creating Cartesian Coordinates");
+    debug("CartesianCoordinates: CartesianCoordinates(double x, double y, double z)");
     setCoordintes(x, y, z);
 }
 
@@ -130,13 +134,13 @@ bool CartesianCoordinates::operator == (CartesianCoordinates C)
 
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
 
-// void CartesianCoordinates::print()
-// {
-//     qDebug() << "Current Position: ";
-//     qDebug() << "Position X: " << posX_;
-//     qDebug() << "Position Y: " << posY_;
-//     qDebug() << "Position Z: " << posZ_;
-//     qDebug() << "Angle X: " << angleX_;
-//     qDebug() << "Angle Y: " << angleY_;
-//     qDebug() << "Angle Z: " << angleZ_;
-// }
+void CartesianCoordinates::print()
+{
+    qDebug() << "Current Position: ";
+    qDebug() << "Position X: " << posX_;
+    qDebug() << "Position Y: " << posY_;
+    qDebug() << "Position Z: " << posZ_;
+    qDebug() << "Angle X: " << angleX_;
+    qDebug() << "Angle Y: " << angleY_;
+    qDebug() << "Angle Z: " << angleZ_;
+}

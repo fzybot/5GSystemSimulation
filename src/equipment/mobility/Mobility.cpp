@@ -1,5 +1,6 @@
 #include <QDebug>
 #include "Mobility.h"
+#include "src/debug.h"
 
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
 
@@ -32,16 +33,18 @@ Mobility::MobilityModel Mobility::getMobilityModel(void) const
 
 void Mobility::setPosition(CartesianCoordinates *position)
 {
-    if (position == nullptr) {
-        currentPosition_ = nullptr;
-    }
-    if (currentPosition_ == nullptr) {
-        currentPosition_ = new CartesianCoordinates();
-    }
+    debug("Mobility: setting position");
 
-    currentPosition_->setCoordinateX(position->getCoordinateX());
-    currentPosition_->setCoordinateY(position->getCoordinateY());
-    currentPosition_->setCoordinateZ(position->getCoordinateZ());
+    // if (position == nullptr) {
+    //     currentPosition_ = nullptr;
+    // }
+    // if (currentPosition_ == nullptr) {
+    //     currentPosition_ = new CartesianCoordinates();
+    // }
+
+    currentPosition_ = new CartesianCoordinates();
+    currentPosition_->setCoordintes(position->getCoordinateX(), position->getCoordinateY(), position->getCoordinateZ());
+    debug("Mobility: currentPosition_:", currentPosition_);
 }
 
 CartesianCoordinates* Mobility::getPosition(void) const

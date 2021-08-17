@@ -6,12 +6,14 @@
 #include <iostream>
 
 
-static const bool DEBUGGING = true;
+static const bool DEBUGGING = false;
 
 template <typename T>
 void debug(T a)
 {
-    qDebug() << a;
+    if (DEBUGGING == true) {
+        qDebug() << a;
+    }
 }
 
 template <typename T, typename... Ts>

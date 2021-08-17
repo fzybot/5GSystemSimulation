@@ -23,13 +23,17 @@ static void Simple ()
 
     // Create gNodeB
     int idGNb = 1000;
-    //gNodeB *gNb = networkManager->createGNodeB(idGNb, cell, posX, posY, posZ);
+    gNodeB *gNb = networkManager->createGNodeB(idGNb, cell, posX, posY, posZ);
+    gNb->print();
 
     // Create User Equipment
     int idUE = 2;
     int posX_ue = 120;
     int posY_ue = 130;
     double posZ_ue = 1.5;
-    //UserEquipment *ue = networkManager->createUserEquipment(idUE, posX_ue, posY_ue, posZ_ue, cell, gNb);
-    //qDebug() << "User Equipment entity is created";
+    UserEquipment *ue = networkManager->createUserEquipment(idUE, posX_ue, posY_ue, posZ_ue, cell, gNb);
+    ue->print();
+    debug("Simple: User Equipment entity is created");
+
+    
 }
