@@ -20,6 +20,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     src/core/NetworkManager.cpp \
+    src/core/Simulator.cpp \
     src/equipment/mobility/ConstantPosition.cpp \
     src/visualization/menu/mainWindow.cpp \
     src/core/CartesianCoordinates.cpp \
@@ -56,6 +57,7 @@ SOURCES += \
 
 HEADERS += \
     src/core/NetworkManager.h \
+    src/core/Simulator.h \
     src/debug.h \
     src/equipment/mobility/ConstantPosition.h \
     src/scenarios/simple.h \
