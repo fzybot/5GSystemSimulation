@@ -36,6 +36,14 @@ Custom3dSurfaceWidget::Custom3dSurfaceWidget(QWidget *parent)
     connect(checkboxTwo, &QCheckBox::stateChanged,
                      surface_, &Custom3dSurface::toggleItem);
 
+    QCheckBox *checkboxThree = new QCheckBox("Texture");
+    checkboxThree->setChecked(false);
+    checkboxThree->setFont(font);
+    mainLayout->addWidget(checkboxThree);
+
+    connect(checkboxThree, &QCheckBox::stateChanged,
+                     surface_, &Custom3dSurface::toggleItem);
+
     mainLayout->addWidget(container);
     setLayout(mainLayout);
 

@@ -16,6 +16,7 @@ public:
     ~Custom3dSurface();
 
     void enableModel();
+    void enableTexture(bool check);
     //void enableDataFromFile(bool enable);
 
 

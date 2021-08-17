@@ -7,6 +7,7 @@
 //#include "src/visualization/data/plotData/nskStoreysHeights.cpp"
 //#include "src/visualization/data/plotData/scaleTest.cpp"
 #include "src/visualization/data/plotData/interpolationNskStoreysHeights.cpp"
+//#include "src/visualization/data/plotData/interpolationTest.cpp"
 #include <algorithm>
 #include <stdlib.h>
 //#include <QWidgets>
@@ -109,6 +110,26 @@ void Custom3dSurface::enableModel()
         stepX_ = (lon[length-1] - X[0]) / float(length - 1);
         stepZ_ = (50 - 0) / float(length - 1);
 */
+}
+
+void Custom3dSurface::enableTexture(bool check)
+{
+    if(check){
+    QImage image(lonc, latc, QImage::Format_RGB32);
+    image.fill(Qt::white);
+
+    for(int i=0; i<lonc;++i){
+        for(int j=0;j<latc;++j){
+            if(storeysHeights[j*lonc + i][3]==1){
+                image.setPixel(i,latc - j - 1,qRgb(255,0,0));
+            }
+        }
+    }
+    series_->setTexture(image);
+    }
+    else{
+        series_->setTextureFile("");
+    }
 }
 
 void Custom3dSurface::fillFromFileCustom(int num)
@@ -271,6 +292,15 @@ void Custom3dSurface::toggleItem()
             altStoreysSeries_->setVisible(false);
         }
     }
+    if(checkBox->text()=="Texture"){
+        if(checkBox->checkState()){
+            enableTexture(true);
+        }
+        else{
+            enableTexture(false);
+        }
+    }
+
 }
 
 void Custom3dSurface::handlePositionChange(const QPoint &position)
