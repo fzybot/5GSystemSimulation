@@ -6,6 +6,7 @@
 #include "src/equipment/gNodeB.h"
 #include "src/equipment/Cell.h"
 #include "src/core/NetworkManager.h"
+#include "src/core/Simulator.h"
 
 #include "src/debug.h"
 
@@ -35,5 +36,8 @@ static void Simple ()
     ue->print();
     debug("Simple: User Equipment entity is created");
 
-    
+    // TODO: Need to run a first simple simulation
+
+    Simulator *simulate = new Simulator();
+    simulate->run();
 }
