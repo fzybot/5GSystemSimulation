@@ -32,9 +32,7 @@ Custom3dSurface::Custom3dSurface(QtDataVisualization::Q3DSurface *surface)
     proxy_ = new QtDataVisualization::QSurfaceDataProxy();
     series_ = new QtDataVisualization::QSurface3DSeries(proxy_);
 
-    altStoreysProxy_ = new QtDataVisualization::QSurfaceDataProxy();
-    altStoreysSeries_ = new QtDataVisualization::QSurface3DSeries(altStoreysProxy_);
-    altStoreysSeries_->setVisible(false);
+
     //highlightSeries_ = new QtDataVisualization::QSurface3DSeries(proxy_);
     setsCount_=2;
     sets_=new int[setsCount_];
@@ -84,8 +82,6 @@ void Custom3dSurface::enableModel()
         series_->setDrawMode(QtDataVisualization::QSurface3DSeries::DrawSurface);
         series_->setFlatShadingEnabled(true);
 
-        altStoreysSeries_->setDrawMode(QtDataVisualization::QSurface3DSeries::DrawSurface);
-
         graph_->axisX()->setLabelFormat("%.10f");
         graph_->axisZ()->setLabelFormat("%.10f");
         graph_->axisX()->setRange(storeysHeights[0][1],storeysHeights[lonc-1][1]);
@@ -97,11 +93,10 @@ void Custom3dSurface::enableModel()
         graph_->axisZ()->setLabelAutoRotation(30);
 
         graph_->addSeries(series_);
-        graph_->addSeries(altStoreysSeries_);
 
         graph_->setShadowQuality(QtDataVisualization::QAbstract3DGraph::ShadowQualityNone);
         setBlueToRedGradient(series_);
-        setGrayGradient(altStoreysSeries_);
+
 
         // Reset range sliders for Sqrt&Sin
 /*
@@ -128,7 +123,8 @@ void Custom3dSurface::enableTexture(bool check)
     series_->setTexture(image);
     }
     else{
-        series_->setTextureFile("");
+        QImage empty(0,0,QImage::Format_RGB32);
+        series_->setTexture(empty);
     }
 }
 
@@ -169,37 +165,23 @@ void Custom3dSurface::fillFromFile()
     float stepZ = (storeysHeights[length-1][0] - storeysHeights[0][0]) / float(sampleCountZ - 1);
 
     QtDataVisualization::QSurfaceDataArray *dataArray = new QtDataVisualization::QSurfaceDataArray;
-    QtDataVisualization::QSurfaceDataArray *altDataArray = new QtDataVisualization::QSurfaceDataArray;
     dataArray->reserve(sampleCountZ);
-    altDataArray->reserve(sampleCountZ);
 
     for (int i = 0; i < sampleCountZ; i++) {
         QtDataVisualization::QSurfaceDataRow *newRow = new QtDataVisualization::QSurfaceDataRow(sampleCountX);
-        QtDataVisualization::QSurfaceDataRow *newAltRow = new QtDataVisualization::QSurfaceDataRow(sampleCountX);
         float z = qMin(float(storeysHeights[length-1][0]), (i * stepZ + float(storeysHeights[0][0])));
         int index = 0;
         for (int j = 0; j < sampleCountX; j++) {
             float x = qMin(float(storeysHeights[lonc-1][1]), (j * stepX + float(storeysHeights[0][1])));
             float y=0;
-            float altY=0;
             for (int c=0;c<setsCount_; ++c){
                 y+=storeysHeights[i*sampleCountX+j][sets_[c]];
-                altY+=storeysHeights[i*sampleCountX+j][sets_[c]];
             }
-            if (storeysHeights[i*sampleCountX+j][3]==1){
-                altY-=0.001f;
-            }
-            else{
-                altY+=0.5f;
-            }
-            (*newRow)[index].setPosition(QVector3D(x, y, z));
-            (*newAltRow)[index++].setPosition(QVector3D(x,altY,z));
+            (*newRow)[index++].setPosition(QVector3D(x, y, z));
         }
         *dataArray << newRow;
-        *altDataArray << newAltRow;
     }
     proxy_->resetArray(dataArray);
-    altStoreysProxy_->resetArray(altDataArray);
 }
 
 void Custom3dSurface::setBlueToRedGradient(QtDataVisualization::QSurface3DSeries* series)
@@ -231,18 +213,18 @@ void Custom3dSurface::handleElementSelected(QtDataVisualization::QAbstract3DGrap
             QPoint point = series->selectedPoint();
             int ID = this->checkBuildingID(point);
             qDebug()<<ID;
-            graph_->removeSeries(series_);
-            proxy_ = new QtDataVisualization::QSurfaceDataProxy();
-            series_ = new QtDataVisualization::QSurface3DSeries(proxy_);
+            //graph_->removeSeries(series_);
+            //proxy_ = new QtDataVisualization::QSurfaceDataProxy();
+            //series_ = new QtDataVisualization::QSurface3DSeries(proxy_);
             fillFromFileCustom(ID);
             enableModel();
         }
     }
     else
     {
-        graph_->removeSeries(series_);
-        proxy_ = new QtDataVisualization::QSurfaceDataProxy();
-        series_ = new QtDataVisualization::QSurface3DSeries(proxy_);
+        //graph_->removeSeries(series_);
+        //proxy_ = new QtDataVisualization::QSurfaceDataProxy();
+        //series_ = new QtDataVisualization::QSurface3DSeries(proxy_);
         fillFromFile();
         enableModel();
     }
@@ -282,14 +264,6 @@ void Custom3dSurface::toggleItem()
 
             zMin_ = -50;
             zMax_ = 50;
-        }
-    }
-    if(checkBox->text()=="Buildings"){
-        if(checkBox->checkState()){
-            altStoreysSeries_->setVisible(true);
-        }
-        else{
-            altStoreysSeries_->setVisible(false);
         }
     }
     if(checkBox->text()=="Texture"){

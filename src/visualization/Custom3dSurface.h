@@ -30,6 +30,7 @@ public:
     void adjustZMin(int min);
     void adjustZMax(int max);
 
+public slots:
     void toggleItem();
     void handleElementSelected(QtDataVisualization::QAbstract3DGraph::ElementType type);
     void handlePositionChange(const QPoint &position);
@@ -38,9 +39,7 @@ private:
     QtDataVisualization::Q3DSurface *graph_;
     QtDataVisualization::QSurface3DSeries *series_;
     QtDataVisualization::QSurface3DSeries *highlightSeries_;
-    QtDataVisualization::QSurface3DSeries *altStoreysSeries_;
     QtDataVisualization::QSurfaceDataProxy *proxy_;
-    QtDataVisualization::QSurfaceDataProxy *altStoreysProxy_;
 
     float rangeMinX_;
     float rangeMinZ_;
