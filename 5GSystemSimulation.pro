@@ -54,6 +54,9 @@ SOURCES += \
     src/visualization/menu/TabMenu.cpp \
     src/visualization/data/plotData/Novosibirsk_storeys_heights.cpp \
     src/visualization/data/plotData/nskStoreysHeights.cpp \
+    src/visualization/data/plotData/scaleTest.cpp \
+    src/visualization/data/plotData/scaleTestV2.cpp \
+    src/visualization/data/plotData/interpolationNskStoreysHeights.cpp \
 
 HEADERS += \
     src/core/NetworkManager.h \
