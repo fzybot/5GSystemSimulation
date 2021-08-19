@@ -38,3 +38,33 @@ double UMa_LOS(double distance2Dout, double distance2Din, double heightBS, doubl
 
 double UMa_NLOS(double distance2Dout, double distance2Din, double heightBS, double heightUE,
     int centerFrequency, double h, double W, double shadowFading);
+
+//Note: UMi_LOS and UMi_NLOS models' range of values: 1.5 [m] <= heightUT <= 22.5 [m]
+double UMi_LOS(double distance2Dout, double distance2Din, double heightBS, double heightUE,
+    int centerFrequency, double h, double W, double shadowFading);
+
+double UMi_NLOS(double distance2Dout, double distance2Din, double heightBS, double heightUE,
+    int centerFrequency, double h, double W, double shadowFading);
+
+//Note: InH_LOS and InH_NLOS models' range of values: 1 [m] <= distance3D <= 150 [m]
+double InH_LOS(double distance2Dout, double distance2Din, double heightBS, double heightUE,
+    int centerFrequency, double h, double W, double shadowFading);
+
+double InH_NLOS(double distance2Dout, double distance2Din, double heightBS, double heightUE,
+    int centerFrequency, double h, double W, double shadowFading);
+
+//Note: InF_LOS and InF_NLOS_(...) models' range of values: 1 [m] <= distance3D <= 600 [m]
+double InF_LOS(double distance2Dout, double distance2Din, double heightBS, double heightUE,
+               int centerFrequency, double h, double W, double shadowFading);
+
+double InF_NLOS_SL(double distance2Dout, double distance2Din, double heightBS, double heightUE,
+               int centerFrequency, double h, double W, double shadowFading);
+
+double InF_NLOS_DL(double distance2Dout, double distance2Din, double heightBS, double heightUE,
+               int centerFrequency, double h, double W, double shadowFading);
+
+double InF_NLOS_SH(double distance2Dout, double distance2Din, double heightBS, double heightUE,
+               int centerFrequency, double h, double W, double shadowFading);
+
+double InF_NLOS_DH(double distance2Dout, double distance2Din, double heightBS, double heightUE,
+               int centerFrequency, double h, double W, double shadowFading);
