@@ -112,7 +112,12 @@ const static QMap<QString, QMap<int, QMap<int, int> > > PRBs_for_BW =
     },
 };
 
-//TODO: add NB-IoT functionality
+/*
+ * This class models the bandwidth used for the transmission
+ * in a particular cell.
+ * See information on TS 38.104 Table 5.2-1\2
+ */
+
 class Bandwidth
 {
 private:

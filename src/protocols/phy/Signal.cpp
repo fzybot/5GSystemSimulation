@@ -6,6 +6,12 @@
 
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
 
+Signal::Signal(bool backend)
+{
+    powerValues_.resize(1);
+}
+
+// For chart visualization
 Signal::Signal(QObject *parent):
     QObject(parent),
     index_(-1)
@@ -13,7 +19,40 @@ Signal::Signal(QObject *parent):
     generateData(0, 0, 0);
 }
 
-// ----- [ PLOT FUNCTIONS ] --------------------------------------------------------------------------------------------
+// ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
+
+void Signal::setPowerValues(const QVector< QVector<double> > powerValues)
+{
+    powerValues_ = powerValues;
+}
+
+void Signal::setIOValues(const QVector< QVector<double> >  IOvalues)
+{
+    IOvalues_ = IOvalues;
+}
+
+QVector<QVector<double>> Signal::getPowerValues()
+{
+    return powerValues_;
+}
+
+QVector<QVector<double>> Signal::getIOValues()
+{
+    return IOvalues_;
+}
+
+// ----- [ FUNCTIONALITY ] ---------------------------------------------------------------------------------------------
+
+Signal* Signal::copy(void)
+{
+    Signal *txSignal = new Signal(true);
+    txSignal->setPowerValues(getPowerValues());
+    txSignal->setIOValues(getIOValues());
+
+    return txSignal;
+}
+
+// ----- [ CHART METHODS ] ---------------------------------------------------------------------------------------------
 
 void Signal::update(QtCharts::QAbstractSeries *series, int seriesIndex)
 {
