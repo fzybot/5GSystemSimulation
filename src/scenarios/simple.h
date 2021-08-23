@@ -27,6 +27,8 @@ static void Simple ()
     int idGNb = 1000;
     gNodeB *gNb = networkManager->createGNodeB(idGNb, cell, posX, posY, posZ);
     gNb->print();
+    debug("Simple: gNodeB entity is created");
+    channel->addDevice(gNb);
 
     // Create User Equipment
     int idUE = 2;
@@ -36,7 +38,7 @@ static void Simple ()
     UserEquipment *ue = networkManager->createUserEquipment(idUE, posX_ue, posY_ue, posZ_ue, cell, gNb);
     ue->print();
     debug("Simple: User Equipment entity is created");
-    //channel->addDevice(ue);
+    channel->addDevice(ue);
 
     // TODO: Need to run a first simple simulation
 

@@ -14,7 +14,7 @@ class RadioChannel
 private:
     int channelId_;
 
-    QVector<Equipment *> *connectedDevices_;
+    QVector<Equipment*> *connectedDevices_;
 
     PropagationLossModel *propagationLossModel_;
 
@@ -35,6 +35,10 @@ public:
     };
 
     RadioChannel();
+    virtual ~RadioChannel();
+
+    void setChannelId(int id);
+    int getChannelId();
 
     void startTx(Signal *txSignal, Equipment* src);
     void startRx(Signal *rxSignal, Equipment* src);
@@ -43,4 +47,7 @@ public:
     QVector<Equipment*>* getConnectedDevices();
     void delDevice(Equipment *e);
     bool isConnected(Equipment* e);
+
+    void printConnectedDevices();
+
 };
