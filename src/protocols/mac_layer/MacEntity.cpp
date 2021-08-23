@@ -4,7 +4,7 @@
 
 MacEntity::MacEntity()
 {
-    
+
 }
 
 void MacEntity::setDevice(Equipment *e){
@@ -14,3 +14,10 @@ void MacEntity::setDevice(Equipment *e){
 Equipment* MacEntity::getDevice(){
     return m_device;
 }
+
+void MacEntity::setAMCEntity (AMCEntity * amc)
+{
+    amcEntity_ = amc;
+}
+
+AMCEntity* MacEntity::getAMCEntity (void)
