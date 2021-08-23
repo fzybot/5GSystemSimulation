@@ -22,6 +22,7 @@ SOURCES += \
     src/core/NetworkManager.cpp \
     src/core/Simulator.cpp \
     src/equipment/mobility/ConstantPosition.cpp \
+    src/protocols/mac_layer/AMC/AMCEntity.cpp \
     src/visualization/menu/mainWindow.cpp \
     src/core/CartesianCoordinates.cpp \
     src/equipment/Cell.cpp \
@@ -58,10 +59,15 @@ SOURCES += \
     src/visualization/data/plotData/interpolationNskStoreysHeights.cpp \
 
 HEADERS += \
+    src/configs/equipmentConfig.h \
     src/core/NetworkManager.h \
     src/core/Simulator.h \
     src/debug.h \
     src/equipment/mobility/ConstantPosition.h \
+    src/protocols/mac_layer/AMC/miesmEffSINR.h \
+    src/protocols/mac_layer/AMC/AMCEntity.h \
+    src/protocols/mac_layer/AMC/AMCParameters.h \
+    src/protocols/mac_layer/AMC/miesmParameters.h \
     src/scenarios/simple.h \
     src/visualization/menu/mainWindow.h \
     src/commonParameters.h \

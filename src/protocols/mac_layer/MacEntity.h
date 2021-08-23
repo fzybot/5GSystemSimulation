@@ -1,19 +1,18 @@
 #pragma once
 
+#include <QVector>
 
-#include "src/equipment/Equipment.h"
-
+class Equipment;
 
 class MacEntity
 {
-public:
+private:
     Equipment* m_device;
 
-
+public:
     MacEntity();
-
-    void setDevice(Equipment* e);
-    Equipment* getDevice();
-
     virtual ~MacEntity() {};
+
+    void setDevice(Equipment *e);
+    Equipment* getDevice();
 };

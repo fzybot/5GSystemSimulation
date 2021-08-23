@@ -1,8 +1,10 @@
 #include "MacEntity.h"
 
+#include "src/equipment/Equipment.h"
+
 MacEntity::MacEntity()
 {
-
+    
 }
 
 void MacEntity::setDevice(Equipment *e){
