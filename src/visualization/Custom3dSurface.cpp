@@ -6,7 +6,7 @@
 #include <QtCore/qmath.h>
 //#include "src/visualization/data/plotData/nskStoreysHeights.cpp"
 //#include "src/visualization/data/plotData/scaleTest.cpp"
-#include "src/visualization/data/plotData/interpolationNskStoreysHeights.cpp"
+        //#include "src/visualization/data/plotData/interpolationNskStoreysHeights.cpp"
 //#include "src/visualization/data/plotData/interpolationTest.cpp"
 #include <algorithm>
 #include <stdlib.h>
@@ -14,6 +14,8 @@
 
 #include <QtDataVisualization/QCustom3DItem>
 #include <QtDataVisualization/QCustom3DLabel>
+
+#include "src/scenarios/testModel.h"
 
 const int sampleCountX = lonc;
 const int sampleCountZ = latc;
@@ -25,6 +27,8 @@ const float sampleMax = 8.0f;
 Custom3dSurface::Custom3dSurface(QtDataVisualization::Q3DSurface *surface)
     :graph_(surface)
 {
+
+    testModel();
     graph_->setAxisX(new QtDataVisualization::QValue3DAxis);
     graph_->setAxisY(new QtDataVisualization::QValue3DAxis);
     graph_->setAxisZ(new QtDataVisualization::QValue3DAxis);
@@ -110,6 +114,7 @@ void Custom3dSurface::enableModel()
 void Custom3dSurface::enableTexture(bool check)
 {
     if(check){
+    /*
     QImage image(lonc, latc, QImage::Format_RGB32);
     image.fill(Qt::white);
 
@@ -119,8 +124,9 @@ void Custom3dSurface::enableTexture(bool check)
                 image.setPixel(i,latc - j - 1,qRgb(255,0,0));
             }
         }
-    }
-    series_->setTexture(image);
+    }*/
+
+    series_->setTextureFile("/home/timofey/Qt/projects/5GSystemSimulation/src/visualization/data/pixelMap.bmp");
     }
     else{
         QImage empty(0,0,QImage::Format_RGB32);
@@ -212,7 +218,7 @@ void Custom3dSurface::handleElementSelected(QtDataVisualization::QAbstract3DGrap
         if(series){
             QPoint point = series->selectedPoint();
             int ID = this->checkBuildingID(point);
-            qDebug()<<ID;
+            qDebug()<<"ID = "<<ID<<"x = "<<point.x() << "y = "<<point.y();
             //graph_->removeSeries(series_);
             //proxy_ = new QtDataVisualization::QSurfaceDataProxy();
             //series_ = new QtDataVisualization::QSurface3DSeries(proxy_);

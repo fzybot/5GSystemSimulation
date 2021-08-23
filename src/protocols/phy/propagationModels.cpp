@@ -62,6 +62,8 @@ double UMa_LOS(double distance2Dout, double distance2Din, double heightBS, doubl
         return 28 + 40 * log10(d_3D) + 20 * log10(centerFrequency) -
             9 * log10(pow(distanceBP, 2) + pow(heightBS - heightUT, 2));
     }
+
+    return -1;
 }
 
 double UMa_NLOS(double distance2Dout, double distance2Din, double heightBS, double heightUT,
@@ -90,6 +92,7 @@ double UMi_LOS(double distance2Dout, double distance2Din, double heightBS, doubl
         return 32.4 + 40 * log10(d_3D) + 20 * log10(centerFrequency) -
             9.5 * log10(pow(distanceBP, 2) + pow(heightBS - heightUT, 2));
     }
+    return -1;
 }
 
 double UMi_NLOS(double distance2Dout, double distance2Din, double heightBS, double heightUT,
