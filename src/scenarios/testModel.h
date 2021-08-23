@@ -13,39 +13,38 @@ QRgb signalStrengthToColor(double signalStrength);
 
 void testModel()
 {
-    CartesianCoordinates* BaseStation = new CartesianCoordinates(209, 851, storeysHeights[209*lonc + 851][2]);
+    CartesianCoordinates* BaseStation = new CartesianCoordinates(851, 209, 15);
 
     QImage image(lonc, latc, QImage::Format_RGB32);
-    image.fill(Qt::white);
+    image.fill(Qt::black);
     for(int i=0; i<lonc;++i){
         for(int j=0;j<latc;++j){
-                image.setPixel(i, latc - j - 1, qRgb(255,0,0));
+            CartesianCoordinates* point = new CartesianCoordinates(i, j, 2);
+            //note: one pixel on map = 1.25 [m] (cause of scaling)
+            double distance2Dout = sqrt ( qPow ( (BaseStation->getCoordinateX()*1.25 - point->getCoordinateX()*1.25), 2) +
+                              qPow ( (BaseStation->getCoordinateY()*1.25 - point->getCoordinateY()*1.25), 2));
+            if(distance2Dout<2){
+                image.setPixel(i, latc - j - 1, qRgb(255,255,255));
+                continue;
             }
-        }
-    /*
-    for(int i=0; i<lonc;++i){
-        for(int j=0;j<latc;++j){
-
-            //storeysHeights[j*lonc + i][3]
-            //image.setPixel(i,latc - j - 1,)
-            CartesianCoordinates* point = new CartesianCoordinates(i, j, 0);
-
-            double distance2Dout = sqrt ( qPow ( (BaseStation->getCoordinateX() - point->getCoordinateX()), 2) +
-                              qPow ( (BaseStation->getCoordinateY() - point->getCoordinateY()), 2));
-
-            int centerFrequency = 50000;
+            //i =  844 j =  206(?)
+            int centerFrequency = 24;
             double h = 10;
             double W = 10;
             double shadowFading = 4; //std 4 or 6 for RMa_LOS
             double heightBS = BaseStation->getCoordinateZ();
             double heightUT = point->getCoordinateZ();
-            double signalStrength = UMa_LOS(distance2Dout, 0, heightBS, heightUT,centerFrequency, h, W,shadowFading);
+            double pathloss = UMa_LOS(distance2Dout, 0, heightBS, heightUT,centerFrequency, h, W,shadowFading);
+            if(pathloss<0){
+                continue;
+            }
+            double signalStrength = 43 - pathloss;
             if(qIsNaN(signalStrength)) signalStrength=0;
             image.setPixel(i, latc - j - 1, signalStrengthToColor(signalStrength));
 
             delete point;
         }
-    }*/
+    }
     qDebug()<<"QImage was saved - " << image.save("/home/timofey/Qt/projects/5GSystemSimulation/src/visualization/data/pixelMap.bmp", "BMP", 100);
 
 }
