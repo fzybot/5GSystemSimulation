@@ -8,15 +8,46 @@
 
 #include <QDebug>
 
-
 QRgb signalStrengthToColor(double signalStrength);
+void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFrequency, double h, double W, double heightBS, double heightUT, double shadowFading);
 
 void testModel()
 {
-    CartesianCoordinates* BaseStation = new CartesianCoordinates(851, 209, 15);
+
+    double **data = new double*[lonc];
+    int **data2 = new int*[lonc];
+    for(int i = 0; i < lonc; ++i) {
+        data[i] = new double[latc];
+        data2[i] = new int[latc];
+        for(int j = 0; j < latc; ++j){
+            data[i][j] = 0;
+            data2[i][j] = 0;
+        }
+    }
+
+    CartesianCoordinates* BaseStation = new CartesianCoordinates(860, 230, 15); //851, 209, 15 - SibSUTIS
 
     QImage image(lonc, latc, QImage::Format_RGB32);
     image.fill(Qt::black);
+
+    int centerFrequency = 24;
+    double h = 10;
+    double W = 10;
+    double shadowFading = 4; //std 4 or 6 for RMa_LOS
+    double heightBS = BaseStation->getCoordinateZ();
+    double heightUT = 2; //[m]//point->getCoordinateZ();
+
+
+    calculateHeatmap(&data, &data2, BaseStation->getCoordinateX(), BaseStation->getCoordinateY(), centerFrequency, h, W, heightBS, heightUT, shadowFading);
+
+    for(int i=0; i<lonc;++i){
+        for(int j=0;j<latc;++j){
+            double signalStrength = data[i][j];
+            image.setPixel(i, latc - j - 1, signalStrengthToColor(signalStrength));
+        }
+    }
+
+    /* ---V1---
     for(int i=0; i<lonc;++i){
         for(int j=0;j<latc;++j){
             CartesianCoordinates* point = new CartesianCoordinates(i, j, 2);
@@ -43,11 +74,174 @@ void testModel()
             image.setPixel(i, latc - j - 1, signalStrengthToColor(signalStrength));
 
             delete point;
-        }
+        } 
     }
+     */
     qDebug()<<"QImage was saved - " << image.save("/home/timofey/Qt/projects/5GSystemSimulation/src/visualization/data/pixelMap.bmp", "BMP", 100);
 
 }
+
+void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFrequency, double h, double W, double heightBS, double heightUT, double shadowFading)
+{
+    int x=X, y=Y;
+
+    (*data)[x][y]=-10;
+
+    double BSPower = 43; //[dB]
+
+    //---[SETTINGS]---//
+    double fi_start = 0;
+    double fi_end = 360;
+    double fi_step = 0.01;
+    double pixelToMeter = 1.25;
+    //----------------//
+
+    double fi=fi_start;
+
+    int i2=0;
+    int j2=0;
+
+       while(fi<=fi_end)
+       {
+
+           i2=1;
+           j2=latc*2;
+
+           double C=0,Sx=0,Sy=0;
+           double Cx=0,Cy=0;
+           int dx=0,dy=0;
+
+           C=sqrt(pow(i2,2) + pow(j2,2));
+
+           Sx=sqrt(1 + pow(j2/i2,2));
+           Sy=sqrt(1 + pow(i2/j2,2));
+
+           dx=0;
+           dy=0;
+           Cx=0;
+           Cy=0;
+
+
+           int wall=0;
+           int k=0;
+
+           if(Sx>=Sy)
+           {
+               Cx+=Sx;
+           }
+           else
+           {
+               Cy+=Sy;
+           }
+
+           int rdx=0,rdy=0;
+
+           while(Cx<C || Cy<C)
+           {
+               if(Cx<=Cy)
+               {
+                   Cx+=Sx;
+                   if((i2)<0)dx--;
+                   else
+                       dx++;
+
+                   if(rdx>=0 && rdx<lonc)
+                   {
+
+                       rdx=round(dx*cos(fi*M_PI/180)+dy*sin(fi*M_PI/180));
+                       rdy=round(dx*(-1)*sin(fi*M_PI/180)+dy*cos(fi*M_PI/180));
+
+                       rdx=rdx+x;
+                       rdy=rdy+y;
+
+                       if(rdx<0 || rdx>=lonc || rdy<0 || rdy>=latc) break;
+
+                   if(storeysHeights[rdy * lonc + rdx][2]==0)//if((*data)[rdx][rdy]!=WALL)
+                   {
+                       if(wall==0)
+                       {
+                           (*data)[rdx][rdy]+= BSPower - InH_LOS(k*pixelToMeter, 0, heightBS, heightUT, centerFrequency, h,  W, shadowFading); //(26 * log(centerFrequency) + 22.7 + 36 * log(k*pixelToMeter));
+                           (*data2)[rdx][rdy]+=1;
+                           k++;
+                       }
+                       else
+                       {
+                           (*data)[rdx][rdy]+= BSPower - InH_NLOS(k*pixelToMeter, 0, heightBS, heightUT, centerFrequency, h,  W, shadowFading); //((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
+                           (*data2)[rdx][rdy]+=1;
+                            k++;
+                       }
+                   }
+                   else
+                   {
+                       k++;
+                       wall++;
+                   }
+                   }
+                   else
+                       break;
+               }
+               else
+               {
+                   Cy+=Sy;
+                   if((j2)<0)dy--;
+                   else
+                       dy++;
+
+                   if(rdy>=0 && rdy<latc)
+                   {
+
+                       rdx=round(dx*cos(fi*M_PI/180)+dy*sin(fi*M_PI/180));
+                       rdy=round(dx*(-1)*sin(fi*M_PI/180)+dy*cos(fi*M_PI/180));
+
+                       rdx=rdx+x;
+                       rdy=rdy+y;
+
+                       if(rdx<0 || rdx>=lonc || rdy<0 || rdy>=latc) break;
+
+                   if(storeysHeights[rdy * lonc + rdx][2]==0)//if((*data)[rdx][rdy]!=WALL)
+                   {
+                       if(wall==0)
+                       {
+                           (*data)[rdx][rdy]+= BSPower - InH_LOS(k*pixelToMeter, 0, heightBS, heightUT, centerFrequency, h,  W, shadowFading);//(26 * log(centerFrequency) + 22.7 + 36 * log(k*pixelToMeter));
+                           (*data2)[rdx][rdy]+=1;
+                           k++;
+                       }
+                       else
+                       {
+                           (*data)[rdx][rdy]+= BSPower - InH_NLOS(k*pixelToMeter, 0, heightBS, heightUT, centerFrequency, h,  W, shadowFading);//((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
+                           (*data2)[rdx][rdy]+=1;
+                           k++;
+                       }
+                   }
+                   else
+                   {
+                       k++;
+                       wall++;
+                   }
+                   }
+                   else
+                       break;
+               }
+
+           }
+
+
+
+       fi=fi+fi_step;;
+   }
+
+for(int i=0;i<lonc;++i)
+{
+    for(int j=0;j<latc;++j)
+    {
+        //if((*data)[i][j]!=WALL && (*data)[i][j]!=TX)
+        (*data)[i][j]=double((*data)[i][j])/int((*data2)[i][j]);
+    }
+}
+
+}
+
+
 
 QRgb signalStrengthToColor(double signalStrength)
 {
