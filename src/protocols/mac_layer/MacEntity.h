@@ -4,12 +4,14 @@
 
 class Equipment;
 class AMCEntity;
+class HARQEntity;
 
 class MacEntity
 {
-private:
+protected:
     Equipment* m_device;
     AMCEntity *amcEntity_;
+    HARQEntity *harqEntity_;
 
 public:
     MacEntity();
@@ -18,6 +20,16 @@ public:
     void setDevice(Equipment *e);
     Equipment* getDevice();
 
-    void setAMCEntity (AMCEntity * amc);
+    void createAMCEntity();
+    void setAMCEntity(AMCEntity *amc);
     AMCEntity* getAMCEntity (void);
+    void delAMCEntity();
+
+    //TODO: Deal with the scheduler
+    //void createShcedulerEntity();
+
+
+    void configMacEntity();
+
+
 };

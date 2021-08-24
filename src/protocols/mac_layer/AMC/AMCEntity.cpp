@@ -7,9 +7,11 @@
 #include "AMCParameters.h"
 #include "src/protocols/mac_layer/AMC/miesmEffSINR.h"
 
+#include "src/debug.h"
+
 AMCEntity::AMCEntity()
 {
-
+    debug("AMC entity: AMC entity is created");
 }
 
 AMCEntity::~AMCEntity()

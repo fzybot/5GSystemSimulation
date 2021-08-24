@@ -69,6 +69,23 @@ Mobility* Equipment::getMobilityModel(void)
     return mobility_;
 }
 
+void Equipment::setLinkBudgetParameters()
+{
+    if (type_ == EquipmentType::TYPE_CELL) {
+        TxPower_ = 40;
+        bodyLoss_ = 0;
+        noiseFigure_ = 3;
+        additionalGain_ = 18;
+        additionalLoss_ = 3;
+    } else if (type_ == EquipmentType::TYPE_UE) {
+        TxPower_ = 23;
+        bodyLoss_ = 0;
+        noiseFigure_ = 7;
+        additionalGain_ = 0;
+        additionalLoss_ = 0;
+    }
+}
+
 // ----- [ PHYSICAL METHODS ] ------------------------------------------------------------------------------------------
 void Equipment::calculateThermalNoise()
 {

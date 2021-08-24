@@ -43,6 +43,8 @@ public:
                                         double posX, double posY, double posZ, 
                                         Cell *cell, gNodeB *targetGNodeB);
 
+    void attachUEstoGNBs();
+
     // TODO: all other methods:
     // here should be a list of methods needed for simulation
     void CreateStreet (int idStreet, CartesianCoordinates* center, double theta,

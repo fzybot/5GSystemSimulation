@@ -27,7 +27,7 @@ public:
       TYPE_UE,
     };
 
-private:
+protected:
     int id_;
 
     double lastTime_;
@@ -65,7 +65,9 @@ public:
     void setMobilityModel(Mobility *model);
     Mobility* getMobilityModel(void);
 
-// ----- [ PHYSICAL METHODS ] ------------------------------------------------------------------------------------------
+    void setLinkBudgetParameters();
+
+    // ----- [ PHYSICAL METHODS ] ------------------------------------------------------------------------------------------
     void calculateThermalNoise();
 
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------

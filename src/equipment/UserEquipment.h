@@ -11,7 +11,7 @@ class Cell;
 class UserEquipment : public Equipment
 {
 
-private:
+protected:
     gNodeB *targetGNodeB_;
     Cell *currentCell_;
 
@@ -25,9 +25,12 @@ public:
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
     void setCurrentCell(Cell *cell);
-    void setTargetGNodeB(gNodeB *gNb);
+    Cell *getCurrentCell();
 
-// ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
+    void setTargetGNodeB(gNodeB *gNb);
+    gNodeB *getTargetGNodeB();
+
+    // ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
     void calculateEIRP();
 
     //void addNeighbourCell(BaseStation cell);

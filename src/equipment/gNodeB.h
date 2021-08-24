@@ -9,6 +9,8 @@
 
 class Cell;
 class Mobility;
+class CellMacEntity;
+class Scheduler;
 
 class gNodeB : public Equipment
 {
@@ -18,7 +20,6 @@ private:
 
     QVector<UserEquipment*> *userEquipmentContainer_;
     QVector<Cell*> *cellContainer_;
-    Cell *cell_;
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------

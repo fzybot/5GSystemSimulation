@@ -3,6 +3,7 @@
 #include "src/equipment/mobility/Mobility.h"
 #include "src/equipment/mobility/ConstantPosition.h"
 #include "src/core/CartesianCoordinates.h"
+#include "src/protocols/mac_layer/MacEntity.h"
 
 #include "src/debug.h"
 
@@ -10,13 +11,15 @@
 
 gNodeB::gNodeB()
 {
-    
     //dataSize = ((bandwidth * 1000) / SCS) * 2 * 14 * mimoLayers;
 }
 
 gNodeB::gNodeB(int id, Cell *cell, double posX, double posY, double posZ)
 {
     debug("gNodeB: Starting to create a gNb");
+    userEquipmentContainer_ = new QVector<UserEquipment*>();
+    cellContainer_ = new QVector<Cell*>();
+
     setEquipmentID(id);
     setEquipmentType(Equipment::TYPE_GNODEB);
     addCell(cell);
@@ -45,9 +48,9 @@ QVector<Cell*>* gNodeB::getCellContainer (void)
 void gNodeB::addCell(Cell *cell)
 {
     debug("gNodeB: adding cell");
-    cell_ = cell;
+    cellContainer_->push_back(cell);
     //getCellContainer()->push_back(cell);
-    debug("gNodeB: cell container", cell_->getEquipmentID());
+    debug("gNodeB: cell container", cellContainer_);
 }
 
 Cell *gNodeB::getCellByID(int id)

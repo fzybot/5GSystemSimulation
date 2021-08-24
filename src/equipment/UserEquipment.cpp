@@ -2,6 +2,8 @@
 #include "src/core/CartesianCoordinates.h"
 #include "src/equipment/mobility/Mobility.h"
 #include "src/equipment/mobility/ConstantPosition.h"
+#include "src/equipment/gNodeB.h"
+#include "src/equipment/Cell.h"
 
 
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
@@ -21,6 +23,8 @@ UserEquipment::UserEquipment(int id,
     setEquipmentType(Equipment::TYPE_UE);
     setCurrentCell(cell);
     setTargetGNodeB(targetGNodeB);
+
+    setLinkBudgetParameters();
 
     Mobility *m;
     if (model == Mobility::CONSTANT_POSITION)
@@ -45,7 +49,17 @@ void UserEquipment::setCurrentCell(Cell *cell)
     currentCell_ = cell;
 }
 
+Cell *UserEquipment::getCurrentCell()
+{
+    return currentCell_;
+}
+
 void UserEquipment::setTargetGNodeB(gNodeB *gNb)
 {
     targetGNodeB_ = gNb;
+}
+
+gNodeB *UserEquipment::getTargetGNodeB()
+{
+    return targetGNodeB_;
 }
