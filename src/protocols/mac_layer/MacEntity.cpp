@@ -21,3 +21,6 @@ void MacEntity::setAMCEntity (AMCEntity * amc)
 }
 
 AMCEntity* MacEntity::getAMCEntity (void)
+{
+
+}

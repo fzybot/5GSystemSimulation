@@ -18,7 +18,7 @@ TabMenu::TabMenu(QWidget *parent)
     tabWidget->addTab(map_, tr("Map"));
 
     // Tab widget for 3D plot
-    tabWidget->addTab(surfaceWidget_, tr("Plots"));
+    tabWidget->addTab(surfaceWidget_, tr("3D Surface"));
     
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(tabWidget);
