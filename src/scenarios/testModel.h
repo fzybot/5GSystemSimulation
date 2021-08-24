@@ -25,7 +25,7 @@ void testModel()
         }
     }
 
-    CartesianCoordinates* BaseStation = new CartesianCoordinates(860, 230, 15); //851, 209, 15 - SibSUTIS
+    CartesianCoordinates* BaseStation = new CartesianCoordinates(0, 0, 15); //851, 209, 15 - SibSUTIS //860, 230, 15 - near SibSUTIS
 
     QImage image(lonc, latc, QImage::Format_RGB32);
     image.fill(Qt::black);
@@ -85,7 +85,7 @@ void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFreq
 {
     int x=X, y=Y;
 
-    (*data)[x][y]=-10;
+    //(*data)[x][y]=-10;
 
     double BSPower = 43; //[dB]
 
@@ -136,7 +136,7 @@ void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFreq
 
            int rdx=0,rdy=0;
 
-           while(Cx<C || Cy<C)
+           while(1)                     //(Cx<C || Cy<C)(?)
            {
                if(Cx<=Cy)
                {
@@ -173,6 +173,8 @@ void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFreq
                    }
                    else
                    {
+                       (*data)[rdx][rdy]+= BSPower - InH_NLOS(k*pixelToMeter, 0, heightBS, heightUT, centerFrequency, h,  W, shadowFading);//((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
+                       (*data2)[rdx][rdy]+=1;
                        k++;
                        wall++;
                    }
@@ -215,6 +217,8 @@ void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFreq
                    }
                    else
                    {
+                       (*data)[rdx][rdy]+= BSPower - InH_NLOS(k*pixelToMeter, 0, heightBS, heightUT, centerFrequency, h,  W, shadowFading);//((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
+                       (*data2)[rdx][rdy]+=1;
                        k++;
                        wall++;
                    }
