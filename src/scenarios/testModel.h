@@ -7,6 +7,7 @@
 #include <QtMath>
 
 #include <QDebug>
+#include <stdlib.h>
 
 QRgb signalStrengthToColor(double signalStrength);
 void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFrequency, double h, double W, double heightBS, double heightUT, double shadowFading);
@@ -35,7 +36,7 @@ void testModel()
     double W = 10;
     double shadowFading = 4; //std 4 or 6 for RMa_LOS
     double heightBS = BaseStation->getCoordinateZ();
-    double heightUT = 15; //[m]//point->getCoordinateZ();
+    double heightUT = 2; //[m]//point->getCoordinateZ();
 
     //---Rays---
     calculateHeatmap(&data, &data2, BaseStation->getCoordinateX(), BaseStation->getCoordinateY(), centerFrequency, h, W, heightBS, heightUT, shadowFading);
@@ -126,6 +127,7 @@ void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFreq
 
            int wall=0;
            int k=0;
+           int kIn = 0;
 
            if(Sx>=Sy)
            {
@@ -168,16 +170,18 @@ void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFreq
                        }
                        else
                        {
-                           (*data)[rdx][rdy]+= BSPower - InF_NLOS_DH(k*pixelToMeter, 0, heightBS, heightUT, centerFrequency, h,  W, shadowFading); //((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
+                           (*data)[rdx][rdy]+= BSPower - InF_NLOS_DH(k*pixelToMeter, kIn*pixelToMeter, heightBS, heightUT, centerFrequency, h,  W, shadowFading); //((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
                            (*data2)[rdx][rdy]+=1;
                             k++;
+                            //kIn = 0;
                        }
                    }
                    else
                    {
-                       (*data)[rdx][rdy]+= BSPower - InF_NLOS_DH(k*pixelToMeter, 0, heightBS, heightUT, centerFrequency, h,  W, shadowFading);//((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
+                       (*data)[rdx][rdy]+= BSPower - InF_NLOS_DH(k*pixelToMeter, kIn*pixelToMeter, heightBS, heightUT, centerFrequency, h,  W, shadowFading);//((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
                        (*data2)[rdx][rdy]+=1;
                        k++;
+                       kIn++;
                        wall++;
                    }
                    }
@@ -212,17 +216,19 @@ void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFreq
                        }
                        else
                        {
-                           (*data)[rdx][rdy]+= BSPower - InF_NLOS_DH(k*pixelToMeter, 0, heightBS, heightUT, centerFrequency, h,  W, shadowFading);//((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
+                           (*data)[rdx][rdy]+= BSPower - InF_NLOS_DH(k*pixelToMeter, kIn*pixelToMeter, heightBS, heightUT, centerFrequency, h,  W, shadowFading);//((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
                            (*data2)[rdx][rdy]+=1;
                            k++;
+                           //kIn = 0;
                        }
                    }
                    else
                    {
-                       (*data)[rdx][rdy]+= BSPower - InF_NLOS_DH(k*pixelToMeter, 0, heightBS, heightUT, centerFrequency, h,  W, shadowFading);//((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
+                       (*data)[rdx][rdy]+= BSPower - InF_NLOS_DH(k*pixelToMeter, kIn*pixelToMeter, heightBS, heightUT, centerFrequency, h,  W, shadowFading);//((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
                        (*data2)[rdx][rdy]+=1;
                        k++;
                        wall++;
+                       kIn++;
                    }
                    }
                    else
