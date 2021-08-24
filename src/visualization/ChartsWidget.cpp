@@ -48,24 +48,22 @@ ChartsWidget::ChartsWidget(QWidget *parent) :
     QChartView *chartView;
 
     chartView = new QChartView(createSignalChart());
-    grid->addWidget(chartView, 2, 1);
+    grid->addWidget(chartView, 0, 0);
     charts_ << chartView;
 
-    // chartView = new QChartView(createAreaChart());
-    // charts_ << chartView;
-    // grid->addWidget(chartView, 1, 0);
+    chartView = new QChartView(createAreaChart());
+    charts_ << chartView;
+    grid->addWidget(chartView, 1, 1);
 
-    // chartView = new QChartView(createPieChart());
-    // // Funny things happen if the pie slice labels do not fit the screen, so we ignore size policy
-    // chartView->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    // grid->addWidget(chartView, 1, 1);
-    // charts_ << chartView;
+    chartView = new QChartView(createPieChart());
+    // Funny things happen if the pie slice labels do not fit the screen, so we ignore size policy
+    chartView->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    grid->addWidget(chartView, 1, 0);
+    charts_ << chartView;
 
-    // //![5]
-    // chartView = new QChartView(createLineChart());
-    // grid->addWidget(chartView, 1, 2);
-    // //![5]
-    // charts_ << chartView;
+    chartView = new QChartView(createLineChart());
+    grid->addWidget(chartView, 0, 1);
+    charts_ << chartView;
 
     // chartView = new QChartView(createBarChart(valueCount_));
     // grid->addWidget(chartView, 2, 0);

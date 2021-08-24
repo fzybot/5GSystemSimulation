@@ -6,8 +6,8 @@
 TabMenu::TabMenu(QWidget *parent)
     : QDialog(parent),
       map_(new Map),
-      surfaceWidget_(new Custom3dSurfaceWidget)
-
+      surfaceWidget_(new Custom3dSurfaceWidget),
+      chartsWidget_(new ChartsWidget)
 {
 #pragma region TemporaryCode // Crutch
     map_->resize(1600, 1200);
@@ -19,7 +19,9 @@ TabMenu::TabMenu(QWidget *parent)
 
     // Tab widget for 3D plot
     tabWidget->addTab(surfaceWidget_, tr("3D Surface"));
-    
+
+    tabWidget->addTab(chartsWidget_, tr("Charts"));
+
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(tabWidget);
     setLayout(mainLayout);
