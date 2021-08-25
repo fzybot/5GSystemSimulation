@@ -151,7 +151,10 @@ void Custom3dSurface::fillFromFileCustom(int num)
             float y=0;
             for (int c=0;c<setsCount_; ++c){
             if (storeysHeights[i*sampleCountX+j][3]==num){
-                y +=storeysHeights[i*sampleCountX+j][sets_[c]];       //storeys + heights
+                if(sets_[c]==2)y +=storeysHeights[i*sampleCountX+j][sets_[c]]*2.7;  //storeys + heights
+                else{
+                    y+=storeysHeights[i*sampleCountX+j][sets_[c]];
+                }
             }
             else{
                 if(setsCount_!=1){y = storeysHeights[i*sampleCountX+j][sets_[setsCount_-1]];}
@@ -181,7 +184,12 @@ void Custom3dSurface::fillFromFile()
             float x = qMin(float(storeysHeights[lonc-1][1]), (j * stepX + float(storeysHeights[0][1])));
             float y=0;
             for (int c=0;c<setsCount_; ++c){
-                y+=storeysHeights[i*sampleCountX+j][sets_[c]];
+                if(sets_[c]==2){
+                    y+=storeysHeights[i*sampleCountX+j][sets_[c]]*2.7;
+                }
+                else{
+                    y+=storeysHeights[i*sampleCountX+j][sets_[c]];
+                }
             }
             (*newRow)[index++].setPosition(QVector3D(x, y, z));
         }
@@ -256,8 +264,8 @@ void Custom3dSurface::toggleItem()
             sets_[0]=2;
             sets_[1]=4;
 
-            zMin_ = 100;
-            zMax_ = 200;
+            zMin_ = 0;//100
+            zMax_ = 300;//200
         }
         else
         {
@@ -268,8 +276,8 @@ void Custom3dSurface::toggleItem()
             sets_= new int[setsCount_];
             sets_[0]=2;
 
-            zMin_ = -50;
-            zMax_ = 50;
+            zMin_ = -150;//-50
+            zMax_ = 150;//50
         }
     }
     if(checkBox->text()=="Texture"){
