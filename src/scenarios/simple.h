@@ -26,7 +26,6 @@ static void Simple ()
     // Create gNodeB
     int idGNb = 1000;
     gNodeB *gNb = networkManager->createGNodeB(idGNb, cell, posX, posY, posZ);
-    gNb->print();
     debug("Simple: gNodeB entity is created");
     channel->addDevice(gNb);
 
@@ -36,12 +35,34 @@ static void Simple ()
     int posY_ue = 130;
     double posZ_ue = 1.5;
     UserEquipment *ue = networkManager->createUserEquipment(idUE, posX_ue, posY_ue, posZ_ue, cell, gNb);
-    ue->print();
+    
     debug("Simple: User Equipment entity is created");
     channel->addDevice(ue);
 
+    if (DEBUGGING == true){
+        qDebug() << "Network Manager:";
+
+        qDebug() <<"    "<<"Cell IDs list";
+        for(auto cell: *networkManager->getCellContainer()){
+            qDebug() <<"        "<< cell->getEquipmentID();
+            qDebug() <<"        "<<"Cell info:";
+            qDebug() <<"            "<<cell;
+        }
+
+
+        qDebug() <<"    "<<"gNodeB IDs list";
+        for(auto gNb: *networkManager->getGNodeBContainer()){
+            qDebug() <<"        "<< gNb->getEquipmentID();
+        }
+
+        qDebug() <<"    "<<"UE IDs list";
+        for(auto ue: *networkManager->getUserEquipmentContainer()){
+            qDebug() <<"        "<< ue->getEquipmentID();
+        }
+    }
     // TODO: Need to run a first simple simulation
 
     Simulator *simulate = new Simulator();
     simulate->run();
+
 }

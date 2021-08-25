@@ -32,6 +32,23 @@ gNodeB::gNodeB(int id, Cell *cell, double posX, double posY, double posZ)
     delete position;
 }
 
+gNodeB::gNodeB(int id, double posX, double posY, double posZ)
+{
+    debug("gNodeB: Starting to create a gNb");
+    userEquipmentContainer_ = new QVector<UserEquipment*>();
+    cellContainer_ = new QVector<Cell*>();
+
+    setEquipmentID(id);
+    setEquipmentType(Equipment::TYPE_GNODEB);
+
+    CartesianCoordinates *position = new CartesianCoordinates(posX, posY, posZ);
+    Mobility *m = new ConstantPosition();
+    m->setPosition(position);
+    setMobilityModel(m);
+    // Because in Mobility class a new object is created
+    delete position;
+}
+
 // ----- [ GETTERS\SETTERS ] -------------------------------------------------------------------------------------------\
 
 QVector<UserEquipment*> *gNodeB::getUserEquipmentContainer (void)

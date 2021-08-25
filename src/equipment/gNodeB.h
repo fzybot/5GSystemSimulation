@@ -25,6 +25,7 @@ public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
     gNodeB();
     gNodeB(int ID, Cell *cell, double posX, double posY, double posZ);
+    gNodeB(int ID, double posX, double posY, double posZ);
 
 // ----- [ GETTERS\SETTERS ] -------------------------------------------------------------------------------------------
     // get Containers

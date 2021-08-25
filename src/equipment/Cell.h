@@ -11,16 +11,20 @@ class Cell: public Equipment
 {
 protected:
     QVector<UserEquipment*> *userEquipmentContainer_;
+    gNodeB *targetGNodeB_;
 
     CellMacEntity *macEntity_;
 
 public:
     Cell();
 
-    void attachUEs();
+    void attachUE(UserEquipment *ue);
+    QVector<UserEquipment*> *getUserEquipmentContainer (void);
+
+    void setTargetGNodeB(gNodeB *gNb);
+    gNodeB *getTargetGNodeB();
+
 
     void createMacEntity();
     CellMacEntity *getMacEntity();
-
-
 };

@@ -12,6 +12,26 @@ Cell::Cell()
     getMacEntity()->configMacEntity();
 }
 
+void Cell::attachUE(UserEquipment *ue)
+{
+    userEquipmentContainer_->push_back(ue);
+}
+
+QVector<UserEquipment*> *Cell::getUserEquipmentContainer (void)
+{
+    return userEquipmentContainer_;
+}
+
+void Cell::setTargetGNodeB(gNodeB *gNb)
+{
+    targetGNodeB_ = gNb;
+}
+
+gNodeB *Cell::getTargetGNodeB()
+{
+    return targetGNodeB_;
+}
+
 void Cell::createMacEntity()
 {
     macEntity_ = new CellMacEntity();
@@ -21,4 +41,6 @@ CellMacEntity *Cell::getMacEntity()
 {
     return macEntity_;
 }
+
+
 
