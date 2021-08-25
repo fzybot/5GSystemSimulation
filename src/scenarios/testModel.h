@@ -11,6 +11,7 @@
 
 QRgb signalStrengthToColor(double signalStrength);
 void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFrequency, double h, double W, double heightBS, double heightUT, double shadowFading);
+double getAvgBuildingHeight();
 
 void testModel()
 {
@@ -32,8 +33,9 @@ void testModel()
     image.fill(Qt::black);
 
     int centerFrequency = 24;
-    double h = 10;
-    double W = 10;
+    double h = getAvgBuildingHeight(); //[m]
+    qDebug()<<"avgH = " << h;
+    double W = 46;  //[m]
     double shadowFading = 4; //std 4 or 6 for RMa_LOS
     double heightBS = BaseStation->getCoordinateZ();
     double heightUT = 2; //[m]//point->getCoordinateZ();
@@ -44,7 +46,12 @@ void testModel()
     for(int i=0; i<lonc;++i){
         for(int j=0;j<latc;++j){
             double signalStrength = data[i][j];
-            image.setPixel(i, latc - j - 1, signalStrengthToColor(signalStrength));
+            if(signalStrength!=20000){
+                image.setPixel(i, latc - j - 1, signalStrengthToColor(signalStrength));
+            }
+            else{
+                image.setPixel(i, latc - j - 1, qRgba(0,0,0,255));
+            }
         }
     }
     delete[] data;
@@ -84,19 +91,49 @@ void testModel()
 
 }
 
+double getAvgBuildingHeight()
+{
+    double sum = 0;
+    int count = 0;
+    double storeysToHeight = 2.7;
+
+
+    for(int i=0;i<length;++i){
+        if(storeysHeights[i][3] > count){
+            count = storeysHeights[i][3];
+        }
+    }
+    qDebug()<<"buildings count =" << count;
+
+
+    int i = 0;
+    int num = 0;
+    for(num=2; num<count; ++num){
+        for(i=0; i<length; ++i){
+            if(storeysHeights[i][3]==num){
+                sum += storeysHeights[i][2] * storeysToHeight;
+                i=length+1;
+            }
+        }
+    }
+    qDebug()<<"SUM = " << sum;
+    return (sum/count);
+}
+
 void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFrequency, double h, double W, double heightBS, double heightUT, double shadowFading)
 {
     int x=X, y=Y;
 
     //(*data)[x][y]=-10;
 
-    double BSPower = 43; //[dB]
+    double BSPower = 43; //[dBm]
 
     //---[SETTINGS]---//
     double fi_start = 0;
     double fi_end = 360;
     double fi_step = 0.01;
     double pixelToMeter = 1.25;
+    double storeysToHeight = 2.7;
     //----------------//
 
     double fi=fi_start;
@@ -128,6 +165,7 @@ void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFreq
            int wall=0;
            int k=0;
            int kIn = 0;
+           double pathloss = 0;
 
            if(Sx>=Sy)
            {
@@ -160,26 +198,48 @@ void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFreq
 
                        if(rdx<0 || rdx>=lonc || rdy<0 || rdy>=latc) break;
 
-                   if(storeysHeights[rdy * lonc + rdx][2]<heightBS && storeysHeights[rdy * lonc + rdx][2]<heightUT)//storeysHeights[rdy * lonc + rdx][2]==0)//if((*data)[rdx][rdy]!=WALL)
+                   if((storeysHeights[rdy * lonc + rdx][2]*storeysToHeight)<heightBS && (storeysHeights[rdy * lonc + rdx][2]*storeysToHeight)<heightUT)//storeysHeights[rdy * lonc + rdx][2]==0)//if((*data)[rdx][rdy]!=WALL)
                    {
                        if(wall==0)
                        {
-                           (*data)[rdx][rdy]+= BSPower - InF_LOS(k*pixelToMeter, 0, heightBS, heightUT, centerFrequency, h,  W, shadowFading); //(26 * log(centerFrequency) + 22.7 + 36 * log(k*pixelToMeter));
+                           pathloss = UMa_LOS(k*pixelToMeter, 0, heightBS, heightUT, centerFrequency, h,  W, shadowFading);
+                           if(pathloss == -1){
+                               (*data)[rdx][rdy] = 20000;
+                               (*data2)[rdx][rdy] = 1;
+                           }
+                           else{
+                           (*data)[rdx][rdy]+= BSPower - pathloss; //(26 * log(centerFrequency) + 22.7 + 36 * log(k*pixelToMeter));
                            (*data2)[rdx][rdy]+=1;
+                           }
                            k++;
+
                        }
                        else
                        {
-                           (*data)[rdx][rdy]+= BSPower - InF_NLOS_DH(k*pixelToMeter, kIn*pixelToMeter, heightBS, heightUT, centerFrequency, h,  W, shadowFading); //((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
+                           pathloss = UMa_NLOS(k*pixelToMeter, kIn*pixelToMeter, heightBS, heightUT, centerFrequency, h,  W, shadowFading);
+                           if(pathloss == -1){
+                               (*data)[rdx][rdy] = 20000;
+                               (*data2)[rdx][rdy] = 1;
+                           }
+                           else{
+                           (*data)[rdx][rdy]+= BSPower - pathloss; //((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
                            (*data2)[rdx][rdy]+=1;
+                           }
                             k++;
                             //kIn = 0;
                        }
                    }
                    else
                    {
-                       (*data)[rdx][rdy]+= BSPower - InF_NLOS_DH(k*pixelToMeter, kIn*pixelToMeter, heightBS, heightUT, centerFrequency, h,  W, shadowFading);//((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
+                       pathloss = UMa_NLOS(k*pixelToMeter, kIn*pixelToMeter, heightBS, heightUT, centerFrequency, h,  W, shadowFading);
+                       if(pathloss == -1){
+                           (*data)[rdx][rdy] = 20000;
+                           (*data2)[rdx][rdy] = 1;
+                       }
+                       else{
+                       (*data)[rdx][rdy]+= BSPower - pathloss;//((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
                        (*data2)[rdx][rdy]+=1;
+                       }
                        k++;
                        kIn++;
                        wall++;
@@ -206,26 +266,47 @@ void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFreq
 
                        if(rdx<0 || rdx>=lonc || rdy<0 || rdy>=latc) break;
 
-                   if(storeysHeights[rdy * lonc + rdx][2]<heightBS && storeysHeights[rdy * lonc + rdx][2]<heightUT)//storeysHeights[rdy * lonc + rdx][2]==0)//if((*data)[rdx][rdy]!=WALL)
+                   if((storeysHeights[rdy * lonc + rdx][2]*storeysToHeight)<heightBS && (storeysHeights[rdy * lonc + rdx][2]*storeysToHeight)<heightUT)//storeysHeights[rdy * lonc + rdx][2]==0)//if((*data)[rdx][rdy]!=WALL)
                    {
                        if(wall==0)
                        {
-                           (*data)[rdx][rdy]+= BSPower - InF_LOS(k*pixelToMeter, 0, heightBS, heightUT, centerFrequency, h,  W, shadowFading);//(26 * log(centerFrequency) + 22.7 + 36 * log(k*pixelToMeter));
+                           pathloss = UMa_LOS(k*pixelToMeter, 0, heightBS, heightUT, centerFrequency, h,  W, shadowFading);
+                           if(pathloss == -1){
+                               (*data)[rdx][rdy] = 20000;
+                               (*data2)[rdx][rdy] = 1;
+                           }
+                           else{
+                           (*data)[rdx][rdy]+= BSPower - pathloss;//(26 * log(centerFrequency) + 22.7 + 36 * log(k*pixelToMeter));
                            (*data2)[rdx][rdy]+=1;
+                           }
                            k++;
                        }
                        else
                        {
-                           (*data)[rdx][rdy]+= BSPower - InF_NLOS_DH(k*pixelToMeter, kIn*pixelToMeter, heightBS, heightUT, centerFrequency, h,  W, shadowFading);//((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
+                           pathloss = UMa_NLOS(k*pixelToMeter, 0, heightBS, heightUT, centerFrequency, h,  W, shadowFading);
+                           if(pathloss == -1){
+                               (*data)[rdx][rdy] = 20000;
+                               (*data2)[rdx][rdy] = 1;
+                           }
+                           else{
+                           (*data)[rdx][rdy]+= BSPower - pathloss; //((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
                            (*data2)[rdx][rdy]+=1;
+                           }
                            k++;
                            //kIn = 0;
                        }
                    }
                    else
                    {
-                       (*data)[rdx][rdy]+= BSPower - InF_NLOS_DH(k*pixelToMeter, kIn*pixelToMeter, heightBS, heightUT, centerFrequency, h,  W, shadowFading);//((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
+                       pathloss = UMa_NLOS(k*pixelToMeter, 0, heightBS, heightUT, centerFrequency, h,  W, shadowFading);
+                       if(pathloss == -1){
+                           (*data)[rdx][rdy] = 20000;
+                           (*data2)[rdx][rdy] = 1;
+                       }
+                       else{
+                       (*data)[rdx][rdy]+= BSPower - pathloss;//((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
                        (*data2)[rdx][rdy]+=1;
+                       }
                        k++;
                        wall++;
                        kIn++;

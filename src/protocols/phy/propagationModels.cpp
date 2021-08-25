@@ -46,6 +46,7 @@ double RMa_NLOS(double distance2Dout, double distance2Din, double heightBS, doub
         h, shadowFading), PL_RMa_NLOS);
 }
 
+//TODO: check
 double UMa_LOS(double distance2Dout, double distance2Din, double heightBS, double heightUT,
     int centerFrequency, double h, double W, double shadowFading)
 {
@@ -73,10 +74,13 @@ double UMa_NLOS(double distance2Dout, double distance2Din, double heightBS, doub
     double d_3D = distance3D(distance2Dout, distance2Din, heightBS, heightUT);;
     PL_UMa_NLOS = 13.54 + 39.08 * log10(d_3D) + 20 * log10(centerFrequency) -
         0.6 * (heightUT - 1.5);
-    return fmax(UMa_LOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h,
-        W, shadowFading), PL_UMa_NLOS);
+    double PL_UMa_LOS = UMa_LOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h,
+                                W, shadowFading);
+    if(PL_UMa_LOS == -1) return -1;
+    return fmax(PL_UMa_LOS, PL_UMa_NLOS);
 }
 
+//TODO: check
 double UMi_LOS(double distance2Dout, double distance2Din, double heightBS, double heightUT,
     int centerFrequency, double h, double W, double shadowFading)
 {
@@ -102,8 +106,10 @@ double UMi_NLOS(double distance2Dout, double distance2Din, double heightBS, doub
     double d_3D = distance3D(distance2Dout, distance2Din, heightBS, heightUT);
     PL_UMi_NLOS = 35.3 * log10(d_3D) + 22.4 + 21.3 * log10(centerFrequency) -
         0.3 * (heightUT - 1.5);
-    return fmax(UMi_LOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h,
-        W, shadowFading), PL_UMi_NLOS);
+    double PL_UMi_LOS = UMi_LOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h,
+                                W, shadowFading);
+    if(PL_UMi_LOS == -1) return -1;
+    return fmax(PL_UMi_LOS, PL_UMi_NLOS);
 }
 
 double InH_LOS(double distance2Dout, double distance2Din, double heightBS, double heightUT,
