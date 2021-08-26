@@ -33,7 +33,7 @@ void testModel()
         }
     }
 
-    CartesianCoordinates* BaseStation = new CartesianCoordinates(860, 230, 100); //851, 209, 15 - SibSUTIS //860, 230, 15 - near SibSUTIS
+    CartesianCoordinates* BaseStation = new CartesianCoordinates(860, 230, 15); //851, 209, 15 - SibSUTIS //860, 230, 15 - near SibSUTIS
 
     QImage image(lonc, latc, QImage::Format_RGB32);
     image.fill(Qt::black);
@@ -150,16 +150,18 @@ int isLOS(vector <CartesianCoordinates> slice)
         if(SumStepsX<=SumStepsY){
             SumStepsX += oneStepX;
             X++;
+            if(X >= length) break;
         }
         else{
             SumStepsY += oneStepY;
             Y++;
         }
-        if((int)(slice[X].getCoordinateY()) >= latc-1 || (int)(slice[X].getCoordinateX()) >= lonc-1) break;
+
         if(storeysHeights[(int)(slice[X].getCoordinateY()) * lonc + (int)(slice[X].getCoordinateX())][2]*storeysToHeight >= slice.front().getCoordinateZ()-Y){
             kIn++;
         }
     }
+    delete groundUnderBS;
     return kIn;
 }
 
