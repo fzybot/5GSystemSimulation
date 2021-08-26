@@ -63,6 +63,7 @@ HEADERS += \
     src/debug.h \
     src/equipment/mobility/ConstantPosition.h \
     src/scenarios/simple.h \
+    src/scenarios/testModel.h \
     src/visualization/menu/mainWindow.h \
     src/commonParameters.h \
     src/core/CartesianCoordinates.h \
