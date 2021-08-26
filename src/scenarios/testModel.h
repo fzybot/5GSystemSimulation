@@ -8,9 +8,15 @@
 
 #include <QDebug>
 #include <stdlib.h>
+#include <vector>
+
+using namespace std;
 
 QRgb signalStrengthToColor(double signalStrength);
 void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFrequency, double h, double W, double heightBS, double heightUT, double shadowFading);
+
+void calculateHeatmap3D(double ***data, int ***data2, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS, double heightUT, double shadowFading);
+int isLOS(vector <CartesianCoordinates> slice);
 double getAvgBuildingHeight();
 
 void testModel()
@@ -27,7 +33,7 @@ void testModel()
         }
     }
 
-    CartesianCoordinates* BaseStation = new CartesianCoordinates(860, 230, 15); //851, 209, 15 - SibSUTIS //860, 230, 15 - near SibSUTIS
+    CartesianCoordinates* BaseStation = new CartesianCoordinates(860, 230, 100); //851, 209, 15 - SibSUTIS //860, 230, 15 - near SibSUTIS
 
     QImage image(lonc, latc, QImage::Format_RGB32);
     image.fill(Qt::black);
@@ -41,7 +47,7 @@ void testModel()
     double heightUT = 2; //[m]//point->getCoordinateZ();
 
     //---Rays---
-    calculateHeatmap(&data, &data2, BaseStation->getCoordinateX(), BaseStation->getCoordinateY(), centerFrequency, h, W, heightBS, heightUT, shadowFading);
+    calculateHeatmap3D(&data, &data2, BaseStation->getCoordinateX(), BaseStation->getCoordinateY(), centerFrequency, h, W, BaseStation, heightUT, shadowFading);
 
     for(int i=0; i<lonc;++i){
         for(int j=0;j<latc;++j){
@@ -120,13 +126,229 @@ double getAvgBuildingHeight()
     return (sum/count);
 }
 
+int isLOS(vector <CartesianCoordinates> slice)
+{
+    double storeysToHeight = 2.7;
+    int length = slice.size();
+
+    double distance = slice.front().calculateDistance3D(&(slice.back()));
+
+    CartesianCoordinates* groundUnderBS = new CartesianCoordinates(slice.front().getCoordinateX(), slice.front().getCoordinateY(), slice.back().getCoordinateZ());
+
+    double oneStepX = distance/(groundUnderBS->calculateDistance3D(&(slice.back())));
+    double oneStepY = distance/(slice.front().calculateDistance3D(groundUnderBS));
+
+    double SumStepsX = 0;
+    double SumStepsY = 0;
+
+    int X = 0;
+    double Y = 0;
+
+
+    int kIn=0;
+    while(SumStepsX < distance || SumStepsY < distance){
+        if(SumStepsX<=SumStepsY){
+            SumStepsX += oneStepX;
+            X++;
+        }
+        else{
+            SumStepsY += oneStepY;
+            Y++;
+        }
+        if((int)(slice[X].getCoordinateY()) >= latc-1 || (int)(slice[X].getCoordinateX()) >= lonc-1) break;
+        if(storeysHeights[(int)(slice[X].getCoordinateY()) * lonc + (int)(slice[X].getCoordinateX())][2]*storeysToHeight >= slice.front().getCoordinateZ()-Y){
+            kIn++;
+        }
+    }
+    return kIn;
+}
+
+void calculateHeatmap3D(double ***data, int ***data2, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS, double heightUT, double shadowFading)
+{
+    int x=X, y=Y;
+
+    double BSPower = 43; //[dBm]
+    double AGain = 18;   //[dBm]
+
+    //---[SETTINGS]---//
+    double fi_start = 0;
+    double fi_end = 360;
+    double fi_step = 0.01;
+    double pixelToMeter = 1.25;
+    double storeysToHeight = 2.7;
+    //----------------//
+
+    double fi=fi_start;
+
+    int i2=0;
+    int j2=0;
+
+       while(fi<=fi_end)
+       {
+
+           i2=1;
+           j2=latc*2;
+
+           double C=0,Sx=0,Sy=0;
+           double Cx=0,Cy=0;
+           int dx=0,dy=0;
+
+           C=sqrt(pow(i2,2) + pow(j2,2));
+
+           Sx=sqrt(1 + pow(j2/i2,2));
+           Sy=sqrt(1 + pow(i2/j2,2));
+
+           dx=0;
+           dy=0;
+           Cx=0;
+           Cy=0;
+
+           int k=0;
+           int kIn = 0;
+           double pathloss = 0;
+
+           if(Sx>=Sy)
+           {
+               Cx+=Sx;
+           }
+           else
+           {
+               Cy+=Sy;
+           }
+
+           int rdx=0,rdy=0;
+           vector<CartesianCoordinates> slice;
+           slice.push_back(*BS);
+           while(1)                     //(Cx<C || Cy<C)(?)
+           {
+               if(Cx<=Cy)
+               {
+                   Cx+=Sx;
+                   if((i2)<0)dx--;
+                   else
+                       dx++;
+
+                   if(rdx>=0 && rdx<lonc)
+                   {
+
+                       rdx=round(dx*cos(fi*M_PI/180)+dy*sin(fi*M_PI/180));
+                       rdy=round(dx*(-1)*sin(fi*M_PI/180)+dy*cos(fi*M_PI/180));
+
+                       rdx=rdx+x;
+                       rdy=rdy+y;
+
+                       if(rdx<0 || rdx>=lonc || rdy<0 || rdy>=latc) break;
+
+                    slice.push_back(CartesianCoordinates(rdx, rdy, heightUT));
+                    kIn = isLOS(slice);
+                   if(kIn == 0)//storeysHeights[rdy * lonc + rdx][2]==0)//if((*data)[rdx][rdy]!=WALL)
+                   {
+                           pathloss = UMa_LOS(k*pixelToMeter, 0, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                           if(pathloss == -1){
+                               (*data)[rdx][rdy] = 20000;
+                               (*data2)[rdx][rdy] = 1;
+                           }
+                           else{
+                           (*data)[rdx][rdy]+= BSPower + AGain - pathloss; //(26 * log(centerFrequency) + 22.7 + 36 * log(k*pixelToMeter));
+                           (*data2)[rdx][rdy]+=1;
+                           }
+                           k++;
+                   }
+                   else
+                   {
+                       pathloss = UMa_NLOS(k*pixelToMeter, kIn*pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                       if(pathloss == -1){
+                           (*data)[rdx][rdy] = 20000;
+                           (*data2)[rdx][rdy] = 1;
+                       }
+                       else{
+                       (*data)[rdx][rdy]+= BSPower + AGain - pathloss;//((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
+                       (*data2)[rdx][rdy]+=1;
+                       }
+                       k++;
+                   }
+                   }
+                   else
+                       break;
+               }
+               else
+               {
+                   Cy+=Sy;
+                   if((j2)<0)dy--;
+                   else
+                       dy++;
+
+                   if(rdy>=0 && rdy<latc)
+                   {
+
+                       rdx=round(dx*cos(fi*M_PI/180)+dy*sin(fi*M_PI/180));
+                       rdy=round(dx*(-1)*sin(fi*M_PI/180)+dy*cos(fi*M_PI/180));
+
+                       rdx=rdx+x;
+                       rdy=rdy+y;
+
+                       if(rdx<0 || rdx>=lonc || rdy<0 || rdy>=latc) break;
+
+                    slice.push_back(CartesianCoordinates(rdx, rdy, heightUT));
+                    kIn = isLOS(slice);
+                   if(kIn == 0)//storeysHeights[rdy * lonc + rdx][2]==0)//if((*data)[rdx][rdy]!=WALL)
+                   {
+                           pathloss = UMa_LOS(k*pixelToMeter, 0, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                           if(pathloss == -1){
+                               (*data)[rdx][rdy] = 20000;
+                               (*data2)[rdx][rdy] = 1;
+                           }
+                           else{
+                           (*data)[rdx][rdy]+= BSPower + AGain - pathloss;//(26 * log(centerFrequency) + 22.7 + 36 * log(k*pixelToMeter));
+                           (*data2)[rdx][rdy]+=1;
+                           }
+                           k++;
+                   }
+                   else
+                   {
+                       pathloss = UMa_NLOS(k*pixelToMeter, 0, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                       if(pathloss == -1){
+                           (*data)[rdx][rdy] = 20000;
+                           (*data2)[rdx][rdy] = 1;
+                       }
+                       else{
+                       (*data)[rdx][rdy]+= BSPower + AGain - pathloss;//((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
+                       (*data2)[rdx][rdy]+=1;
+                       }
+                       k++;
+                       kIn++;
+                   }
+                   }
+                   else
+                       break;
+               }
+
+           }
+
+
+
+       fi=fi+fi_step;;
+   }
+
+for(int i=0;i<lonc;++i)
+{
+    for(int j=0;j<latc;++j)
+    {
+        //if((*data)[i][j]!=WALL && (*data)[i][j]!=TX)
+        (*data)[i][j]=double((*data)[i][j])/int((*data2)[i][j]);
+    }
+}
+
+}
+
+
+
 void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFrequency, double h, double W, double heightBS, double heightUT, double shadowFading)
 {
     int x=X, y=Y;
 
-    //(*data)[x][y]=-10;
-
     double BSPower = 43; //[dBm]
+    double AGain = 18;   //[dBm]
 
     //---[SETTINGS]---//
     double fi_start = 0;
@@ -208,7 +430,7 @@ void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFreq
                                (*data2)[rdx][rdy] = 1;
                            }
                            else{
-                           (*data)[rdx][rdy]+= BSPower - pathloss; //(26 * log(centerFrequency) + 22.7 + 36 * log(k*pixelToMeter));
+                           (*data)[rdx][rdy]+= BSPower + AGain - pathloss; //(26 * log(centerFrequency) + 22.7 + 36 * log(k*pixelToMeter));
                            (*data2)[rdx][rdy]+=1;
                            }
                            k++;
@@ -222,7 +444,7 @@ void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFreq
                                (*data2)[rdx][rdy] = 1;
                            }
                            else{
-                           (*data)[rdx][rdy]+= BSPower - pathloss; //((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
+                           (*data)[rdx][rdy]+= BSPower + AGain - pathloss; //((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
                            (*data2)[rdx][rdy]+=1;
                            }
                             k++;
@@ -237,7 +459,7 @@ void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFreq
                            (*data2)[rdx][rdy] = 1;
                        }
                        else{
-                       (*data)[rdx][rdy]+= BSPower - pathloss;//((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
+                       (*data)[rdx][rdy]+= BSPower + AGain - pathloss;//((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
                        (*data2)[rdx][rdy]+=1;
                        }
                        k++;
@@ -276,7 +498,7 @@ void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFreq
                                (*data2)[rdx][rdy] = 1;
                            }
                            else{
-                           (*data)[rdx][rdy]+= BSPower - pathloss;//(26 * log(centerFrequency) + 22.7 + 36 * log(k*pixelToMeter));
+                           (*data)[rdx][rdy]+= BSPower + AGain - pathloss;//(26 * log(centerFrequency) + 22.7 + 36 * log(k*pixelToMeter));
                            (*data2)[rdx][rdy]+=1;
                            }
                            k++;
@@ -289,7 +511,7 @@ void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFreq
                                (*data2)[rdx][rdy] = 1;
                            }
                            else{
-                           (*data)[rdx][rdy]+= BSPower - pathloss; //((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
+                           (*data)[rdx][rdy]+= BSPower + AGain - pathloss; //((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
                            (*data2)[rdx][rdy]+=1;
                            }
                            k++;
@@ -304,7 +526,7 @@ void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFreq
                            (*data2)[rdx][rdy] = 1;
                        }
                        else{
-                       (*data)[rdx][rdy]+= BSPower - pathloss;//((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
+                       (*data)[rdx][rdy]+= BSPower + AGain - pathloss;//((26 * log(centerFrequency) + 22.7 + 36 * log((k-wall)*pixelToMeter))+(wall*wallkoaf));
                        (*data2)[rdx][rdy]+=1;
                        }
                        k++;
