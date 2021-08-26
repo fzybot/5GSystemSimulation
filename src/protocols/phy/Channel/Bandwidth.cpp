@@ -13,27 +13,27 @@ Bandwidth::Bandwidth(QString fr, QString band, int scs, double ulBw,
         // on Dl and UL bandwidths
     }
     else {
-        this->m_ulBandwidth = ulBw;
-        this->m_dlBandwidth = dlBw;
+        ulBandwidth_ = ulBw;
+        dlBandwidth_ = dlBw;
     }
 
-    m_tdd = tddTrue;
-    m_frequencyRange = fr;
-    m_operatingBand = band;
-    m_subcarrierSpacing = scs;
-    m_ulOffsetBw = ulOffset;
-    m_dlOffsetBw = dlOffset;
+    tdd_ = tddTrue;
+    frequencyRange_ = fr;
+    operatingBand_ = band;
+    subcarrierSpacing_ = scs;
+    ulOffsetBw_ = ulOffset;
+    dlOffsetBw_ = dlOffset;
 
-    m_ulSubChannels.clear();
-    m_dlSubChannels.clear();
+    ulSubChannels_.clear();
+    dlSubChannels_.clear();
 
     // TODO: Check the correct subchannel calculation for DL and UL
     for(int i = ulOffset; i < ulOffset + PRBs_for_BW["FR1"][scs][ulBw]; ++i) {
-        m_ulSubChannels.push_back(NR_OPERATING_BAND_UL_LOW[band] + (i + 0.18));
+        ulSubChannels_.push_back(NR_OPERATING_BAND_UL_LOW[band] + (i + 0.18));
     }
 
     for(int i = dlOffset; i < dlOffset + PRBs_for_BW["FR1"][scs][dlBw]; ++i) {
-        m_dlSubChannels.push_back(NR_OPERATING_BAND_DL_LOW[band] + (i + 0.18));
+        dlSubChannels_.push_back(NR_OPERATING_BAND_DL_LOW[band] + (i + 0.18));
     }
 
 }
@@ -41,25 +41,25 @@ Bandwidth::Bandwidth(QString fr, QString band, int scs, double ulBw,
 void Bandwidth::print()
 {
     qDebug() << "Bandwidth information:" << Qt::endl;
-    if (m_tdd == true) {
-        qDebug() << "Time Division Duplex:" << m_tdd << Qt::endl;
+    if (tdd_ == true) {
+        qDebug() << "Time Division Duplex:" << tdd_ << Qt::endl;
     }
     else {
         qDebug() << "Frequency Division Duplex:" << true << Qt::endl;
     }
 
-    qDebug() << "Frequency Range:" << m_frequencyRange << Qt::endl;
-    qDebug() << "Operating band:" << m_operatingBand << Qt::endl;
-    qDebug() << "Subcarrier Spacing:" << m_subcarrierSpacing << Qt::endl;
-    qDebug() << "DL Bandwidth:" << m_frequencyRange << Qt::endl;
-    qDebug() << "UL Bandwidth:" << m_frequencyRange << Qt::endl;
+    qDebug() << "Frequency Range:" << frequencyRange_ << Qt::endl;
+    qDebug() << "Operating band:" << operatingBand_ << Qt::endl;
+    qDebug() << "Subcarrier Spacing:" << subcarrierSpacing_ << Qt::endl;
+    qDebug() << "DL Bandwidth:" << frequencyRange_ << Qt::endl;
+    qDebug() << "UL Bandwidth:" << frequencyRange_ << Qt::endl;
     qDebug() << "DL Subchannels:" << Qt::endl;
-    for(int i = 0; i < (int)m_dlSubChannels.size(); ++i){
-        qDebug() << m_dlSubChannels[i] << Qt::endl;
+    for(int i = 0; i < (int)dlSubChannels_.size(); ++i){
+        qDebug() << dlSubChannels_[i] << Qt::endl;
     }
     qDebug() << "UL Subchannels:" << Qt::endl;
-    for(int i = 0; i < (int)m_ulSubChannels.size(); ++i){
-        qDebug() << m_ulSubChannels[i] << Qt::endl;
+    for(int i = 0; i < (int)ulSubChannels_.size(); ++i){
+        qDebug() << ulSubChannels_[i] << Qt::endl;
     }
     qDebug() << Qt::endl;
 }

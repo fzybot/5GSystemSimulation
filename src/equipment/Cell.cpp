@@ -32,6 +32,15 @@ gNodeB *Cell::getTargetGNodeB()
     return targetGNodeB_;
 }
 
+void Cell::setAntenna(Antenna *ant)
+{
+    antenna_ = ant;
+}
+Antenna *Cell::getAntenna()
+{
+    return antenna_;
+}
+
 void Cell::createMacEntity()
 {
     macEntity_ = new CellMacEntity();

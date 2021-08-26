@@ -11,11 +11,11 @@ MacEntity::MacEntity()
 }
 
 void MacEntity::setDevice(Equipment *e){
-    m_device = e;
+    device_ = e;
 }
 
 Equipment* MacEntity::getDevice(){
-    return m_device;
+    return device_;
 }
 
 void MacEntity::createAMCEntity()

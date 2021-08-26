@@ -6,6 +6,9 @@ class Simulator
 
 private:
     bool stop_;
+    int startTime_ = 0;
+    int currentTime_;
+    int stopTime_;
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
@@ -17,8 +20,7 @@ public:
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
 
-    void setStop(double time);
-
-
-
+    void setTime(double time);
+    void setCurrentTime(int time);
+    int getCurrentTime();
 };

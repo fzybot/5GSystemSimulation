@@ -62,7 +62,7 @@ static void Simple ()
     }
     // TODO: Need to run a first simple simulation
 
-    Simulator *simulate = new Simulator();
-    simulate->run();
-
+    Simulator *simulator = new Simulator();
+    simulator->setTime(100);
+    simulator->run();
 }

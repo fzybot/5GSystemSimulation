@@ -9,7 +9,7 @@ class HARQEntity;
 class MacEntity
 {
 protected:
-    Equipment* m_device;
+    Equipment *device_;
     AMCEntity *amcEntity_;
     HARQEntity *harqEntity_;
 
@@ -18,18 +18,15 @@ public:
     virtual ~MacEntity() {};
 
     void setDevice(Equipment *e);
-    Equipment* getDevice();
+    Equipment *getDevice();
 
     void createAMCEntity();
     void setAMCEntity(AMCEntity *amc);
-    AMCEntity* getAMCEntity (void);
+    AMCEntity *getAMCEntity (void);
     void delAMCEntity();
 
     //TODO: Deal with the scheduler
     //void createShcedulerEntity();
 
-
     void configMacEntity();
-
-
 };
