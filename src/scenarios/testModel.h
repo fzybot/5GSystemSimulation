@@ -5,10 +5,11 @@
 #include "src/visualization/Heatmap.h"
 #include "src/protocols/phy/propagationModels.h"
 #include <QtMath>
-
+#include <QHash>
 #include <QDebug>
 #include <stdlib.h>
 #include <vector>
+#include <time.h>
 
 using namespace std;
 
@@ -17,6 +18,7 @@ void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFreq
 
 void calculateHeatmap3D(double ***data, int ***data2, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS, double heightUT, double shadowFading);
 int isLOS(vector <CartesianCoordinates> slice);
+int isLOS_Hash(QHash <int, CartesianCoordinates> slice);
 double getAvgBuildingHeight();
 
 void testModel()
@@ -46,8 +48,14 @@ void testModel()
     double heightBS = BaseStation->getCoordinateZ();
     double heightUT = 2; //[m]//point->getCoordinateZ();
 
+    clock_t start, end;
+    start = clock();
     //---Rays---
     calculateHeatmap3D(&data, &data2, BaseStation->getCoordinateX(), BaseStation->getCoordinateY(), centerFrequency, h, W, BaseStation, heightUT, shadowFading);
+    end = clock();
+
+    qDebug()<<"TIME = "<<(end - start)/CLOCKS_PER_SEC;
+
 
     for(int i=0; i<lonc;++i){
         for(int j=0;j<latc;++j){
@@ -165,6 +173,51 @@ int isLOS(vector <CartesianCoordinates> slice)
     return kIn;
 }
 
+int isLOS_Hash(QHash <int, CartesianCoordinates> slice)
+{
+    double storeysToHeight = 2.7;
+    int length = slice.size();
+
+    CartesianCoordinates source = slice.value(0);
+    CartesianCoordinates destination = slice.value(length - 1);
+
+    double distance = source.calculateDistance3D(&(destination));
+
+    CartesianCoordinates* groundUnderBS = new CartesianCoordinates(source.getCoordinateX(),
+            source.getCoordinateY(), destination.getCoordinateZ());
+
+    double oneStepX = distance/(groundUnderBS->calculateDistance3D(&(destination)));
+    double oneStepY = distance/(source.calculateDistance3D(groundUnderBS));
+
+    double SumStepsX = 0;
+    double SumStepsY = 0;
+
+    int X = 0;
+    double Y = 0;
+
+    CartesianCoordinates point;
+    int kIn=0;
+    while(SumStepsX < distance || SumStepsY < distance){
+        if(SumStepsX<=SumStepsY){
+            SumStepsX += oneStepX;
+            X++;
+            if(X >= length) break;
+        }
+        else{
+            SumStepsY += oneStepY;
+            Y++;
+        }
+
+        point = slice.value(X);
+        if(storeysHeights[(int)(point.getCoordinateY()) * lonc + (int)(point.getCoordinateX())][2]
+                *storeysToHeight >= source.getCoordinateZ()-Y){
+            kIn++;
+        }
+    }
+    delete groundUnderBS;
+    return kIn;
+}
+
 void calculateHeatmap3D(double ***data, int ***data2, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS, double heightUT, double shadowFading)
 {
     int x=X, y=Y;
@@ -219,8 +272,9 @@ void calculateHeatmap3D(double ***data, int ***data2, int X, int Y, int centerFr
            }
 
            int rdx=0,rdy=0;
-           vector<CartesianCoordinates> slice;
-           slice.push_back(*BS);
+           QHash <int, CartesianCoordinates> slice;
+           slice.insert(slice.size(),*BS);
+           //slice.push_back(*BS);
            while(1)                     //(Cx<C || Cy<C)(?)
            {
                if(Cx<=Cy)
@@ -240,9 +294,9 @@ void calculateHeatmap3D(double ***data, int ***data2, int X, int Y, int centerFr
                        rdy=rdy+y;
 
                        if(rdx<0 || rdx>=lonc || rdy<0 || rdy>=latc) break;
-
-                    slice.push_back(CartesianCoordinates(rdx, rdy, heightUT));
-                    kIn = isLOS(slice);
+                    slice.insert(slice.size(),CartesianCoordinates(rdx, rdy, heightUT));
+                    //slice.push_back(CartesianCoordinates(rdx, rdy, heightUT));
+                    kIn = isLOS_Hash(slice);
                    if(kIn == 0)//storeysHeights[rdy * lonc + rdx][2]==0)//if((*data)[rdx][rdy]!=WALL)
                    {
                            pathloss = UMa_LOS(k*pixelToMeter, 0, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
@@ -258,7 +312,7 @@ void calculateHeatmap3D(double ***data, int ***data2, int X, int Y, int centerFr
                    }
                    else
                    {
-                       pathloss = UMa_NLOS(k*pixelToMeter, kIn*pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                       pathloss = UMa_NLOS((k-kIn)*pixelToMeter, kIn*pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
                        if(pathloss == -1){
                            (*data)[rdx][rdy] = 20000;
                            (*data2)[rdx][rdy] = 1;
@@ -290,9 +344,9 @@ void calculateHeatmap3D(double ***data, int ***data2, int X, int Y, int centerFr
                        rdy=rdy+y;
 
                        if(rdx<0 || rdx>=lonc || rdy<0 || rdy>=latc) break;
-
-                    slice.push_back(CartesianCoordinates(rdx, rdy, heightUT));
-                    kIn = isLOS(slice);
+                    slice.insert(slice.size(),CartesianCoordinates(rdx, rdy, heightUT));
+                    //slice.push_back(CartesianCoordinates(rdx, rdy, heightUT));
+                    kIn = isLOS_Hash(slice);
                    if(kIn == 0)//storeysHeights[rdy * lonc + rdx][2]==0)//if((*data)[rdx][rdy]!=WALL)
                    {
                            pathloss = UMa_LOS(k*pixelToMeter, 0, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
@@ -308,7 +362,7 @@ void calculateHeatmap3D(double ***data, int ***data2, int X, int Y, int centerFr
                    }
                    else
                    {
-                       pathloss = UMa_NLOS(k*pixelToMeter, 0, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                       pathloss = UMa_NLOS((k-kIn)*pixelToMeter, kIn*pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
                        if(pathloss == -1){
                            (*data)[rdx][rdy] = 20000;
                            (*data2)[rdx][rdy] = 1;
