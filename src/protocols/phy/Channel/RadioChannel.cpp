@@ -9,7 +9,7 @@
 RadioChannel::RadioChannel()
 {
      debug("Radio channel is created: ");
-     connectedDevices_ = new QVector<Equipment*>();
+     connectedDevices_ = new QVector<Equipment*>;
      //propagationLossModel_ = new PropagationLossModel();
 }
 

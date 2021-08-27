@@ -26,7 +26,7 @@ typedef QList<DataList> DataTable;
 QT_CHARTS_USE_NAMESPACE
 
 
-class ChartsWidget : public QWidget
+class ChartGroupWidget : public QWidget
 {
     Q_OBJECT
 private:
@@ -49,7 +49,7 @@ private:
 
 public:
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
-    explicit ChartsWidget(QWidget *parent = nullptr);
+    explicit ChartGroupWidget(QWidget *parent = nullptr);
 
 private:
 // ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------

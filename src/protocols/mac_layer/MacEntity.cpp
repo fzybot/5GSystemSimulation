@@ -8,7 +8,9 @@
 MacEntity::MacEntity()
 {
     debug("Mac Entity: MAC Entity is created");
+    dataBuffer_ = new QVector<int>;
 }
+
 
 void MacEntity::setDevice(Equipment *e){
     device_ = e;

@@ -12,7 +12,7 @@
 #include <QPainter>
 
 #include "src/equipment/Walker.h"
-#include "src/visualization/ChartsWidget.h"
+#include "src/visualization/ChartGroupWidget.h"
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent)

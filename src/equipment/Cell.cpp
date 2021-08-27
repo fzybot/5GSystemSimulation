@@ -44,6 +44,7 @@ Antenna *Cell::getAntenna()
 void Cell::createMacEntity()
 {
     macEntity_ = new CellMacEntity();
+    macEntity_->setDevice(this);
 }
 
 CellMacEntity *Cell::getMacEntity()

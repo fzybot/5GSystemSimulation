@@ -8,7 +8,7 @@ class RrcEntity;
 class PdcpEntity;
 class RlcEntity;
 class CellMacEntity;
-class Phy;
+class Physical;
 class gNodeB;
 class Antenna;
 
@@ -19,8 +19,11 @@ protected:
     gNodeB *targetGNodeB_;
     Antenna *antenna_;
 
+    RrcEntity *rrc;
+    PdcpEntity *pdcp;
+    RlcEntity *rlc;
     CellMacEntity *macEntity_;
-
+    Physical *phyEntity_;
 
 public:
     Cell();
@@ -36,4 +39,7 @@ public:
 
     void createMacEntity();
     CellMacEntity *getMacEntity();
+
+    void setPhyEntity();
+    Physical *getPhyEntity();
 };

@@ -1,4 +1,4 @@
-#include "ChartsWidget.h"
+#include "ChartGroupWidget.h"
 #include "src/protocols/phy/Signal.h"
 
 #include <QtCharts/QChartView>
@@ -30,7 +30,7 @@
 
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
 
-ChartsWidget::ChartsWidget(QWidget *parent) :
+ChartGroupWidget::ChartGroupWidget(QWidget *parent) :
     QWidget(parent),
     listCount_(3),
     valueMax_(10),
@@ -84,7 +84,7 @@ ChartsWidget::ChartsWidget(QWidget *parent) :
 
 // ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
 
-DataTable ChartsWidget::generateRandomData(int listCount, int valueMax, int valueCount) const
+DataTable ChartGroupWidget::generateRandomData(int listCount, int valueMax, int valueCount) const
 {
     DataTable dataTable;
 
@@ -144,7 +144,7 @@ DataTable ChartsWidget::generateRandomData(int listCount, int valueMax, int valu
 // ----- [ CREATE CHARTS ] ----------------------------------------------------------------------------------------------
 
 // Production Charts
-QChart *ChartsWidget::createSignalChart()
+QChart *ChartGroupWidget::createSignalChart()
 {
     QStringList colors;
     colors << "red" << "blue" << "green" << "black";
@@ -182,6 +182,7 @@ QChart *ChartsWidget::createSignalChart()
         seriesList.append(series);
 
         series->setUseOpenGL(true);
+        
         chart->addSeries(series);
         series->attachAxis(axisX);
         series->attachAxis(axisY);
@@ -199,15 +200,15 @@ QChart *ChartsWidget::createSignalChart()
 
     dataSource_.generateData(seriesCount, 10, pointCount);
 
-    QObject::connect(chart->scene(), &QGraphicsScene::changed,
-                     &dataSource_, &Signal::handleSceneChanged);
+    // QObject::connect(chart->scene(), &QGraphicsScene::changed,
+    //                  &dataSource_, &Signal::handleSceneChanged);
 
     dataSource_.startUpdates(seriesList);
 
     return chart;
 }
 // Tutorial Charts
-QChart *ChartsWidget::createAreaChart() const
+QChart *ChartGroupWidget::createAreaChart() const
 {
     QChart *chart = new QChart();
     chart->setTitle("Area chart");
@@ -245,7 +246,7 @@ QChart *ChartsWidget::createAreaChart() const
     return chart;
 }
 
-QChart *ChartsWidget::createBarChart(int valueCount) const
+QChart *ChartGroupWidget::createBarChart(int valueCount) const
 {
     Q_UNUSED(valueCount);
     QChart *chart = new QChart();
@@ -270,7 +271,7 @@ QChart *ChartsWidget::createBarChart(int valueCount) const
     return chart;
 }
 
-QChart *ChartsWidget::createLineChart() const
+QChart *ChartGroupWidget::createLineChart() const
 {
     //![1]
     QChart *chart = new QChart();
@@ -305,7 +306,7 @@ QChart *ChartsWidget::createLineChart() const
     return chart;
 }
 
-QChart *ChartsWidget::createPieChart() const
+QChart *ChartGroupWidget::createPieChart() const
 {
     QChart *chart = new QChart();
     chart->setTitle("Pie chart");
@@ -326,7 +327,7 @@ QChart *ChartsWidget::createPieChart() const
     return chart;
 }
 
-QChart *ChartsWidget::createSplineChart() const
+QChart *ChartGroupWidget::createSplineChart() const
 {
     QChart *chart = new QChart();
     chart->setTitle("Spline chart");
@@ -352,7 +353,7 @@ QChart *ChartsWidget::createSplineChart() const
     return chart;
 }
 
-QChart *ChartsWidget::createScatterChart() const
+QChart *ChartGroupWidget::createScatterChart() const
 {
     // scatter chart
     QChart *chart = new QChart();

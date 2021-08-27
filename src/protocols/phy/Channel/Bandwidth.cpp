@@ -8,7 +8,7 @@ Bandwidth::Bandwidth(QString fr, QString band, int scs, double ulBw,
                      double dlBw, int ulOffset, int dlOffset, bool tddTrue)
 {
     if(tddTrue == true) {
-        tddTrue = true;
+        tdd_ = true;
         // TODO: Check the specification for TDD bandwidth calculation based
         // on Dl and UL bandwidths
     }
@@ -16,26 +16,30 @@ Bandwidth::Bandwidth(QString fr, QString band, int scs, double ulBw,
         ulBandwidth_ = ulBw;
         dlBandwidth_ = dlBw;
     }
-
+    bandwidth_ = dlBw;
     tdd_ = tddTrue;
     frequencyRange_ = fr;
     operatingBand_ = band;
     subcarrierSpacing_ = scs;
     ulOffsetBw_ = ulOffset;
     dlOffsetBw_ = dlOffset;
-
+    numPRB_ = PRBs_for_BW[fr][scs][dlBw];
     ulSubChannels_.clear();
     dlSubChannels_.clear();
 
     // TODO: Check the correct subchannel calculation for DL and UL
-    for(int i = ulOffset; i < ulOffset + PRBs_for_BW["FR1"][scs][ulBw]; ++i) {
+    for(int i = ulOffset; i < ulOffset + PRBs_for_BW[fr][scs][ulBw]; ++i) {
         ulSubChannels_.push_back(NR_OPERATING_BAND_UL_LOW[band] + (i + 0.18));
     }
 
-    for(int i = dlOffset; i < dlOffset + PRBs_for_BW["FR1"][scs][dlBw]; ++i) {
+    for(int i = dlOffset; i < dlOffset + PRBs_for_BW[fr][scs][dlBw]; ++i) {
         dlSubChannels_.push_back(NR_OPERATING_BAND_DL_LOW[band] + (i + 0.18));
     }
+}
 
+int Bandwidth::getNumberOfPRB()
+{
+    return numPRB_;
 }
 
 void Bandwidth::print()

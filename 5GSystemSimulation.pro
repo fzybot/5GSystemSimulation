@@ -22,8 +22,11 @@ SOURCES += \
     src/core/NetworkManager.cpp \
     src/core/Simulator.cpp \
     src/equipment/mobility/ConstantPosition.cpp \
+    src/protocols/Protocol.cpp \
     src/protocols/mac_layer/AMC/AMCEntity.cpp \
     src/protocols/mac_layer/CellMacEntity.cpp \
+    src/protocols/mac_layer/UeMacEntity.cpp \
+    src/visualization/ChartGroupWidget.cpp \
     src/visualization/menu/mainWindow.cpp \
     src/core/CartesianCoordinates.cpp \
     src/equipment/Cell.cpp \
@@ -47,7 +50,6 @@ SOURCES += \
     src/protocols/rrc_layer/RrcEntity.cpp \
     src/protocols/mac_layer/scheduler/Scheduler.cpp \
     src/simulation/Simulation.cpp \
-    src/visualization/ChartsWidget.cpp \
     src/visualization/Custom3dSurface.cpp \
     src/visualization/Custom3dSurfaceWidget.cpp \
     src/visualization/Heatmap.cpp \
@@ -65,12 +67,15 @@ HEADERS += \
     src/core/Simulator.h \
     src/debug.h \
     src/equipment/mobility/ConstantPosition.h \
+    src/protocols/Protocol.h \
     src/protocols/mac_layer/AMC/miesmEffSINR.h \
     src/protocols/mac_layer/AMC/AMCEntity.h \
     src/protocols/mac_layer/AMC/AMCParameters.h \
     src/protocols/mac_layer/AMC/miesmParameters.h \
     src/protocols/mac_layer/CellMacEntity.h \
+    src/protocols/mac_layer/UeMacEntity.h \
     src/scenarios/simple.h \
+    src/visualization/ChartGroupWidget.h \
     src/visualization/menu/mainWindow.h \
     src/commonParameters.h \
     src/core/CartesianCoordinates.h \
@@ -96,7 +101,6 @@ HEADERS += \
     src/scenarios/tests.h \
     src/protocols/mac_layer/scheduler/Scheduler.h \
     src/simulation/Simulation.h \
-    src/visualization/ChartsWidget.h \
     src/visualization/Custom3dSurface.h \
     src/visualization/Custom3dSurfaceWidget.h \
     src/visualization/Heatmap.h \

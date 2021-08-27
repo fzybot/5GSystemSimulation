@@ -121,11 +121,12 @@ const static QMap<QString, QMap<int, QMap<int, int> > > PRBs_for_BW =
 class Bandwidth
 {
 private:
-    bool tdd_ = false;
+    bool tdd_;
     QString frequencyRange_;
     QString operatingBand_;
     double ulBandwidth_;
     double dlBandwidth_;
+    double bandwidth_;
 
     int ulOffsetBw_;
     int dlOffsetBw_;
@@ -134,11 +135,13 @@ private:
     QVector<double> ulSubChannels_;
 
     int subcarrierSpacing_;
+    int numPRB_;
 
 public:
     Bandwidth() = default;
     Bandwidth(QString fr, QString band, int scs, double ulBw, double dlBw,
               int ulOffset, int dlOffset, bool tddTrue = true);
 
+    int getNumberOfPRB();
     void print();
 };

@@ -7,7 +7,7 @@ TabMenu::TabMenu(QWidget *parent)
     : QDialog(parent),
       map_(new Map),
       surfaceWidget_(new Custom3dSurfaceWidget),
-      chartsWidget_(new ChartsWidget)
+      chartsWidget_(new ChartGroupWidget)
 {
 #pragma region TemporaryCode // Crutch
     map_->resize(1600, 1200);

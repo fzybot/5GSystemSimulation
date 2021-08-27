@@ -1,6 +1,7 @@
 #ifndef PHYSICAL_H
 #define PHYSICAL_H
 
+#include <QVector>
 class Bandwidth;
 class RadioChannel;
 class MacEntity;
@@ -11,7 +12,7 @@ class Physical
 protected:
     RadioChannel *dlChannel_;
     RadioChannel *ulChannel_;
-    Bandwidth *bandwidth_;
+    QVector<Bandwidth*> *bandwidthContainer_;
     double carrierFreq_;
 
     Signal *txSignal_;
@@ -26,6 +27,10 @@ public:
 
     void setULchannel(RadioChannel *channel);
     RadioChannel *getULChannel();
+
+    void addBandwidth(Bandwidth *b);
+    QVector<Bandwidth*> *getBandwidthContainer();
+    void generateBandwidth();
 };
 
 #endif // PHYSICAL_H
