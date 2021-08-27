@@ -29,6 +29,8 @@ int isLOS_Hash2(vector <CartesianCoordinates> slice, QHash<int, vector<float>> H
 double getAvgBuildingHeight();
 QHash<int, vector<float>> createHash();
 
+bool createImage(double**);
+
 void testModel()
 {
 
@@ -44,9 +46,6 @@ void testModel()
     }
 
     CartesianCoordinates* BaseStation = new CartesianCoordinates(860, 230, 15); //851, 209, 15 - SibSUTIS //860, 230, 15 - near SibSUTIS
-
-    QImage image(lonc, latc, QImage::Format_RGB32);
-    image.fill(Qt::black);
 
     int centerFrequency = 24;
     double h = getAvgBuildingHeight(); //[m]
@@ -65,6 +64,17 @@ void testModel()
 
     qDebug()<<"TIME = "<<(end - start)/CLOCKS_PER_SEC;
 
+    qDebug()<<"QImage was saved - " << createImage(data);
+
+    delete[] data;
+    delete[] data2;
+
+
+}
+
+bool createImage(double** data){
+    QImage image(lonc, latc, QImage::Format_RGB32);
+    image.fill(Qt::black);
 
     for(int i=0; i<lonc;++i){
         for(int j=0;j<latc;++j){
@@ -77,11 +87,7 @@ void testModel()
             }
         }
     }
-    delete[] data;
-    delete[] data2;
-
-    qDebug()<<"QImage was saved - " << image.save("/home/timofey/Qt/projects/5GSystemSimulation/src/visualization/data/pixelMap.bmp", "BMP", 100);
-
+    return image.save("/home/timofey/Qt/projects/5GSystemSimulation/src/visualization/data/pixelMap.bmp", "BMP", 100);
 }
 
 double getAvgBuildingHeight()
