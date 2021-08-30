@@ -27,8 +27,6 @@ const float sampleMax = 8.0f;
 Custom3dSurface::Custom3dSurface(QtDataVisualization::Q3DSurface *surface)
     :graph_(surface)
 {
-
-    testModel();
     graph_->setAxisX(new QtDataVisualization::QValue3DAxis);
     graph_->setAxisY(new QtDataVisualization::QValue3DAxis);
     graph_->setAxisZ(new QtDataVisualization::QValue3DAxis);
@@ -117,7 +115,7 @@ void Custom3dSurface::enableTexture(bool check)
         QString path = QCoreApplication::applicationDirPath();
         QString texturePath = QString("/pixelMap.bmp");
         path.append(texturePath);
-
+        testModel();
         series_->setTextureFile(path);
     }
     else{
