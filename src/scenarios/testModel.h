@@ -151,15 +151,17 @@ int isLOS(vector <CartesianCoordinates> slice)
             SumStepsX += oneStepX;
             X++;
             if(X >= length) break;
+
+            if(storeysHeights[(int)(slice[X].getCoordinateY()) * lonc + (int)(slice[X].getCoordinateX())][2]*storeysToHeight >= slice.front().getCoordinateZ()-Y){
+                kIn++;
+            }
         }
         else{
             SumStepsY += oneStepY;
             Y++;
         }
 
-        if(storeysHeights[(int)(slice[X].getCoordinateY()) * lonc + (int)(slice[X].getCoordinateX())][2]*storeysToHeight >= slice.front().getCoordinateZ()-Y){
-            kIn++;
-        }
+
     }
     delete groundUnderBS;
     //end = clock();
