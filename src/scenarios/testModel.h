@@ -87,7 +87,12 @@ bool createImage(double** data){
             }
         }
     }
-    return image.save("/home/timofey/Qt/projects/5GSystemSimulation/src/visualization/data/pixelMap.bmp", "BMP", 100);
+
+    QString path = QCoreApplication::applicationDirPath();
+    QString texturePath = QString("/pixelMap.bmp");
+    path.append(texturePath);
+
+    return image.save(path, "BMP", 100);
 }
 
 double getAvgBuildingHeight()

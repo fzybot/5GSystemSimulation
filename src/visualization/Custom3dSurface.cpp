@@ -114,19 +114,11 @@ void Custom3dSurface::enableModel()
 void Custom3dSurface::enableTexture(bool check)
 {
     if(check){
-    /*
-    QImage image(lonc, latc, QImage::Format_RGB32);
-    image.fill(Qt::white);
+        QString path = QCoreApplication::applicationDirPath();
+        QString texturePath = QString("/pixelMap.bmp");
+        path.append(texturePath);
 
-    for(int i=0; i<lonc;++i){
-        for(int j=0;j<latc;++j){
-            if(storeysHeights[j*lonc + i][3]==1){
-                image.setPixel(i,latc - j - 1,qRgb(255,0,0));
-            }
-        }
-    }*/
-
-    series_->setTextureFile("/home/timofey/Qt/projects/5GSystemSimulation/src/visualization/data/pixelMap.bmp");
+        series_->setTextureFile(path);
     }
     else{
         QImage empty(0,0,QImage::Format_RGB32);
