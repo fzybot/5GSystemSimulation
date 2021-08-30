@@ -40,6 +40,6 @@ public:
     void createMacEntity();
     CellMacEntity *getMacEntity();
 
-    void setPhyEntity();
+    void setPhyEntity(Physical *phy);
     Physical *getPhyEntity();
 };

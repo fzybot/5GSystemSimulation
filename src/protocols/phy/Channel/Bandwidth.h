@@ -124,6 +124,7 @@ private:
     bool tdd_;
     QString frequencyRange_;
     QString operatingBand_;
+    double carrierFreq_;
     double ulBandwidth_;
     double dlBandwidth_;
     double bandwidth_;

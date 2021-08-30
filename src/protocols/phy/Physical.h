@@ -30,7 +30,7 @@ public:
 
     void addBandwidth(Bandwidth *b);
     QVector<Bandwidth*> *getBandwidthContainer();
-    void generateBandwidth();
+    void configBandwidth();
 };
 
 #endif // PHYSICAL_H

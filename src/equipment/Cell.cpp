@@ -2,10 +2,14 @@
 #include "src/equipment/UserEquipment.h"
 #include "src/protocols/mac_layer/CellMacEntity.h"
 #include "src/equipment/gNodeB.h"
+#include "src/protocols/phy/Physical.h"
+
 
 Cell::Cell()
 {
     userEquipmentContainer_ = new QVector<UserEquipment*>();
+
+    phyEntity_ = new Physical();
 
     setLinkBudgetParameters();
     createMacEntity();

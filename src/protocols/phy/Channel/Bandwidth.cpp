@@ -20,6 +20,7 @@ Bandwidth::Bandwidth(QString fr, QString band, int scs, double ulBw,
     tdd_ = tddTrue;
     frequencyRange_ = fr;
     operatingBand_ = band;
+    carrierFreq_ = (NR_OPERATING_BAND_DL_HIGH[band] + NR_OPERATING_BAND_DL_LOW[band]) / 2;
     subcarrierSpacing_ = scs;
     ulOffsetBw_ = ulOffset;
     dlOffsetBw_ = dlOffset;

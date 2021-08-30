@@ -5,12 +5,12 @@
 
 Physical::Physical()
 {
-    carrierFreq_ = 1800;
     bandwidthContainer_ = new QVector<Bandwidth*>;
     txSignal_ = new Signal();
     dlChannel_ = new RadioChannel();
     ulChannel_ = new RadioChannel();
-    generateBandwidth();
+    
+    configBandwidth();
 }
 
 void Physical::setDLChannel(RadioChannel *channel)
@@ -32,7 +32,7 @@ QVector<Bandwidth*> *Physical::getBandwidthContainer()
     return bandwidthContainer_;
 }
 
-void Physical::generateBandwidth()
+void Physical::configBandwidth()
 {
     //QString fr, QString band, int scs, double ulBw, double dlBw, int ulOffset, int dlOffset, bool tddTrue = true
     Bandwidth *bw = new Bandwidth("FR1", "n3", 15, 10, 20, 0, 0, true);
