@@ -3,13 +3,7 @@
 #include <QVector>
 
 class Antenna
-{   
-public:
-    Antenna();
-    Antenna(int posX, int posY);
-
-    void setPosition(int x, int y);
-
+{  
 public:
     enum AntennaType
     {
@@ -27,9 +21,8 @@ public:
     };
 
 private:
-    AntennaType type;
-    int ID;
-    double band_;
+    AntennaType type_;
+    int ID_;
     float antennaGain_; // with beamforming gain
     float feederLoss_; // assuming with MHA\THA
 
@@ -46,6 +39,15 @@ private:
 
     double bearing_;
     double tilt_;
+
+public:
+    Antenna();
+    Antenna(int posX, int posY);
+
+    void setAntennaType(AntennaType type);
+    AntennaType getAntennaType();
+
+    void setPosition(int x, int y);
 
 };
 

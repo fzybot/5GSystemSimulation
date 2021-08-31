@@ -3,6 +3,8 @@
 
 class Scheduler
 {
+protected:
+
 public:
     Scheduler();
 

@@ -47,10 +47,31 @@ Cell* NetworkManager::createCell (int idCell)
     return cell;
 }
 
+Cell* NetworkManager::createCell (int idCell, gNodeB *targetGNb)
+{
+    Cell *cell = new Cell();
+    cell->setEquipmentID(idCell);
+    cell->setEquipmentType(Equipment::TYPE_CELL);
+    cell->setTargetGNodeB(targetGNb);
+    targetGNb->addCell(cell);
+    getCellContainer()->push_back(cell);
+
+    return cell;
+}
+
 gNodeB* NetworkManager::createGNodeB (int id, Cell *cell, double posX, double posY, double posZ)
 {
     debug("Network Manager: Starting to create a gNb. ");
     gNodeB *gNb = new gNodeB(id, cell, posX, posY, posZ);
+    getGNodeBContainer()->push_back(gNb);
+    attachGNodeBtoCell(cell, gNb);
+    return gNb;
+}
+
+gNodeB* NetworkManager::createGNodeB (int id, double posX, double posY, double posZ)
+{
+    debug("Network Manager: Starting to create a gNb. ");
+    gNodeB *gNb = new gNodeB(id, posX, posY, posZ);
     getGNodeBContainer()->push_back(gNb);
     return gNb;
 }
@@ -63,7 +84,18 @@ UserEquipment* NetworkManager::createUserEquipment (int id,
                                           posX, posY, posZ, cell, targetGNodeB,
                                           Mobility::CONSTANT_POSITION);
     getUserEquipmentContainer()->push_back(ue);
+    attachUEtoCell(cell, ue);
     return ue;
+}
+
+void NetworkManager::attachUEtoCell(Cell *cell, UserEquipment *ue)
+{
+    getCellByID(cell->getEquipmentID())->attachUE(ue);
+}
+
+void NetworkManager::attachGNodeBtoCell(Cell *cell, gNodeB *gNb)
+{
+    getCellByID(cell->getEquipmentID())->setTargetGNodeB(gNb);
 }
 
 // ----- [ GETTERS\SETTERS ] -------------------------------------------------------------------------------------------

@@ -112,28 +112,37 @@ const static QMap<QString, QMap<int, QMap<int, int> > > PRBs_for_BW =
     },
 };
 
-//TODO: add NB-IoT functionality
+/*
+ * This class models the bandwidth used for the transmission
+ * in a particular cell.
+ * See information on TS 38.104 Table 5.2-1\2
+ */
+
 class Bandwidth
 {
 private:
-    bool m_tdd = false;
-    QString m_frequencyRange;
-    QString m_operatingBand;
-    double m_ulBandwidth;
-    double m_dlBandwidth;
+    bool tdd_;
+    QString frequencyRange_;
+    QString operatingBand_;
+    double carrierFreq_;
+    double ulBandwidth_;
+    double dlBandwidth_;
+    double bandwidth_;
 
-    int m_ulOffsetBw;
-    int m_dlOffsetBw;
+    int ulOffsetBw_;
+    int dlOffsetBw_;
 
-    QVector<double> m_dlSubChannels;
-    QVector<double> m_ulSubChannels;
+    QVector<double> dlSubChannels_;
+    QVector<double> ulSubChannels_;
 
-    int m_subcarrierSpacing;
+    int subcarrierSpacing_;
+    int numPRB_;
 
 public:
     Bandwidth() = default;
     Bandwidth(QString fr, QString band, int scs, double ulBw, double dlBw,
-              int ulOffset, int dlOffset, bool tddTrue = false);
+              int ulOffset, int dlOffset, bool tddTrue = true);
 
+    int getNumberOfPRB();
     void print();
 };

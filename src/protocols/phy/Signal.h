@@ -17,10 +17,11 @@ private:
     int sampleRate_;
     int FFTSize_;
 
-    QVector<QVector<double>> powerValues_;
+    QVector<QVector<double>> powerValues_; //transmitted power for each MIMO path and sub-carrier
+    QVector<QVector<double>> IOvalues_; //phase shift of received signal for each MIMO path and sub-carrier
     QVector<double> signalInTime_;
-    QVector<QVector<double>> IOvalues_;
 
+// Visualization
     QVector<QVector<QVector<QPointF> > > data_;
     int index_;
     QList<QtCharts::QXYSeries *> seriesList_;
@@ -36,20 +37,25 @@ public slots:
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
+    Signal(bool backend);
     Signal(QObject *parent = 0);
     virtual ~Signal() = default;
 
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
-    void setPowerValues(const QVector<QVector<double>>& powerValues);
-    void setIOValues(const QVector<QVector<double>>& IOvalues);
-    void getDataFromFile(QString filePath);
+    void setPowerValues(const QVector< QVector<double> > powerValues);
+    void setIOValues(const QVector< QVector<double> >  IOvalues);
 
-    QVector<QVector<double>> getPowerValues() const;
-    QVector<QVector<double>> getIOValues() const;
+
+    QVector<QVector<double>> getPowerValues(void);
+    QVector<QVector<double>> getIOValues(void);
+
+    Signal *copy(void);
 
     void printIOValues() const;
     void generateRandomIOValues(int MIMOSize, int dataSize);
+
+    void getDataFromFile(QString filePath);
 
 // ----- [ PLOT FUNCTIONS ] --------------------------------------------------------------------------------------------
     void startUpdates(const QList<QtCharts::QXYSeries *> &seriesList); // , QLabel *fpsLabel);

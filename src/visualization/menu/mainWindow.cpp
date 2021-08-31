@@ -12,7 +12,7 @@
 #include <QPainter>
 
 #include "src/equipment/Walker.h"
-#include "src/visualization/ChartsWidget.h"
+#include "src/visualization/ChartGroupWidget.h"
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent)
@@ -72,10 +72,16 @@ void MainWindow::createDockWindows()
     addDockWidget(Qt::BottomDockWidgetArea, dock);
 
     dock = new QDockWidget(tr("Should be a PLOTS"), this);
-    dock->setMaximumWidth(600);
-    dock->setMinimumWidth(500);
-    ChartsWidget *charts = new ChartsWidget(dock);
-    dock->setWidget(charts);
+    customerList_2_ = new QListWidget(dock);
+    customerList_2_->addItems(QStringList()
+            << "John Doe, Harmony Enterprises, 12 Lakeside, Ambleton");
+    dock->setWidget(customerList_2_);
+
+    // dock->setMaximumWidth(600);
+    // dock->setMinimumWidth(500);
+    // ChartsWidget *charts = new ChartsWidget(dock);
+    // dock->setWidget(charts);
+    
     addDockWidget(Qt::RightDockWidgetArea, dock);
 //    viewMenu_->addAction(dock->toggleViewAction());
 
@@ -85,7 +91,6 @@ void MainWindow::createDockWindows()
 //            this, &MainWindow::addParagraph);
 }
 
-//! [3]
 void MainWindow::closeEvent(QCloseEvent *event)
 //! [3] //! [4]
 {

@@ -36,12 +36,17 @@ public:
 
 // ----- [ EQUIPMENT GENERATORS ] --------------------------------------------------------------------------------------
     Cell* createCell (int idCell);
+    Cell* createCell (int idCell, gNodeB *targetGNb);
 
     gNodeB* createGNodeB (int id, Cell *cell, double posX, double posY, double posZ);
+    gNodeB* createGNodeB (int id, double posX, double posY, double posZ);
 
     UserEquipment* createUserEquipment (int id, 
                                         double posX, double posY, double posZ, 
                                         Cell *cell, gNodeB *targetGNodeB);
+
+    void attachUEtoCell(Cell *cell, UserEquipment *ue);
+    void attachGNodeBtoCell(Cell *cell, gNodeB *gNb);
 
     // TODO: all other methods:
     // here should be a list of methods needed for simulation

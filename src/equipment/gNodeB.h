@@ -9,6 +9,8 @@
 
 class Cell;
 class Mobility;
+class CellMacEntity;
+class Scheduler;
 
 class gNodeB : public Equipment
 {
@@ -18,12 +20,12 @@ private:
 
     QVector<UserEquipment*> *userEquipmentContainer_;
     QVector<Cell*> *cellContainer_;
-    Cell *cell_;
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
     gNodeB();
     gNodeB(int ID, Cell *cell, double posX, double posY, double posZ);
+    gNodeB(int ID, double posX, double posY, double posZ);
 
 // ----- [ GETTERS\SETTERS ] -------------------------------------------------------------------------------------------
     // get Containers

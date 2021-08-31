@@ -30,6 +30,7 @@ private:
     QString curFile_;
 
     QListWidget* customerList_;
+    QListWidget* customerList_2_;
     QListWidget* paragraphsList_;
 
     QMenu* viewMenu_;

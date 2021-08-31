@@ -3,14 +3,21 @@
 #include <QVector>
 #include <memory>
 
-#include "src/equipment/Equipment.h"
-
 class CartesianCoordinates;
 class PropagationLossModel;
 class PacketBurst;
+class Signal;
+class Equipment;
 
 class RadioChannel
 {
+private:
+    int channelId_;
+
+    QVector<Equipment*> *connectedDevices_;
+
+    PropagationLossModel *propagationLossModel_;
+
 public:
     enum ChannelModel
     {
@@ -28,18 +35,19 @@ public:
     };
 
     RadioChannel();
+    virtual ~RadioChannel();
 
-    void StartTransmission();
-    void StartReception();
+    void setChannelId(int id);
+    int getChannelId();
+
+    void startTx(Signal *txSignal, Equipment* src);
+    void startRx(Signal *rxSignal, Equipment* src);
 
     void addDevice(Equipment *e);
-    void delDevice(Equipment* e);
+    QVector<Equipment*>* getConnectedDevices();
+    void delDevice(Equipment *e);
     bool isConnected(Equipment* e);
 
-private:
-  int channelId_;
+    void printConnectedDevices();
 
-  QVector<Equipment *> *connectedDevices_;
-
-  PropagationLossModel *propagationLossModel_;
 };
