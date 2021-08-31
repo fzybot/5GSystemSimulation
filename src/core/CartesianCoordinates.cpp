@@ -7,19 +7,19 @@
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
 CartesianCoordinates::CartesianCoordinates()
 {
-    debug("CartesianCoordinates: CartesianCoordinates()");
+    //debug("CartesianCoordinates: CartesianCoordinates()");
     angleX_ = 0;
     angleY_ = 0;
     angleZ_ = 0;
     posX_ = 0;
     posY_ = 0;
     posZ_ = 0;
-    debug("CartesianCoordinates: CartesianCoordinates() - done");
+    //debug("CartesianCoordinates: CartesianCoordinates() - done");
 }
 
 CartesianCoordinates::CartesianCoordinates(double x, double y, double z)
 {
-    debug("CartesianCoordinates: CartesianCoordinates(double x, double y, double z)");
+    //debug("CartesianCoordinates: CartesianCoordinates(double x, double y, double z)");
     setCoordintes(x, y, z);
 }
 
@@ -33,11 +33,11 @@ CartesianCoordinates::CartesianCoordinates(double x, double y, double z, double 
 
 void CartesianCoordinates::setCoordintes(double x, double y, double z)
 {
-    debug("CartesianCoordinates: setCoordintes(double x, double y, double z)");
+    //debug("CartesianCoordinates: setCoordintes(double x, double y, double z)");
     setCoordinateX(x);
     setCoordinateY(y);
     setCoordinateZ(z);
-    debug("CartesianCoordinates: Coordinates: ", posX_, posY_, posZ_);
+    //debug("CartesianCoordinates: Coordinates: ", posX_, posY_, posZ_);
 }
 
 void CartesianCoordinates::setAngles(double angX, double angY, double angZ)
