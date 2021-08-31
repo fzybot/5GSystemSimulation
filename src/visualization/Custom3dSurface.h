@@ -50,8 +50,8 @@ private:
     int* sets_=NULL;
     int setsCount_;
 
-    int zMin_ = 100;
-    int zMax_ = 200;
+    int zMin_ = 0;
+    int zMax_ = 300;
 
     void setAxisXRange(float min, float max);
     void setAxisZRange(float min, float max);

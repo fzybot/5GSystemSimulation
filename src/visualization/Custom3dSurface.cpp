@@ -6,7 +6,7 @@
 #include <QtCore/qmath.h>
 //#include "src/visualization/data/plotData/nskStoreysHeights.cpp"
 //#include "src/visualization/data/plotData/scaleTest.cpp"
-#include "src/visualization/data/plotData/interpolationNskStoreysHeights.cpp"
+        //#include "src/visualization/data/plotData/interpolationNskStoreysHeights.cpp"
 //#include "src/visualization/data/plotData/interpolationTest.cpp"
 #include <algorithm>
 #include <stdlib.h>
@@ -14,6 +14,8 @@
 
 #include <QtDataVisualization/QCustom3DItem>
 #include <QtDataVisualization/QCustom3DLabel>
+
+#include "src/scenarios/testModel.h"
 
 const int sampleCountX = lonc;
 const int sampleCountZ = latc;
@@ -110,17 +112,11 @@ void Custom3dSurface::enableModel()
 void Custom3dSurface::enableTexture(bool check)
 {
     if(check){
-    QImage image(lonc, latc, QImage::Format_RGB32);
-    image.fill(Qt::white);
-
-    for(int i=0; i<lonc;++i){
-        for(int j=0;j<latc;++j){
-            if(storeysHeights[j*lonc + i][3]==1){
-                image.setPixel(i,latc - j - 1,qRgb(255,0,0));
-            }
-        }
-    }
-    series_->setTexture(image);
+        QString path = QCoreApplication::applicationDirPath();
+        QString texturePath = QString("/pixelMap.bmp");
+        path.append(texturePath);
+        testModel();
+        series_->setTextureFile(path);
     }
     else{
         QImage empty(0,0,QImage::Format_RGB32);
@@ -145,7 +141,10 @@ void Custom3dSurface::fillFromFileCustom(int num)
             float y=0;
             for (int c=0;c<setsCount_; ++c){
             if (storeysHeights[i*sampleCountX+j][3]==num){
-                y +=storeysHeights[i*sampleCountX+j][sets_[c]];       //storeys + heights
+                if(sets_[c]==2)y +=storeysHeights[i*sampleCountX+j][sets_[c]]*2.7;  //storeys + heights
+                else{
+                    y+=storeysHeights[i*sampleCountX+j][sets_[c]];
+                }
             }
             else{
                 if(setsCount_!=1){y = storeysHeights[i*sampleCountX+j][sets_[setsCount_-1]];}
@@ -175,7 +174,12 @@ void Custom3dSurface::fillFromFile()
             float x = qMin(float(storeysHeights[lonc-1][1]), (j * stepX + float(storeysHeights[0][1])));
             float y=0;
             for (int c=0;c<setsCount_; ++c){
-                y+=storeysHeights[i*sampleCountX+j][sets_[c]];
+                if(sets_[c]==2){
+                    y+=storeysHeights[i*sampleCountX+j][sets_[c]]*2.7;
+                }
+                else{
+                    y+=storeysHeights[i*sampleCountX+j][sets_[c]];
+                }
             }
             (*newRow)[index++].setPosition(QVector3D(x, y, z));
         }
@@ -212,7 +216,7 @@ void Custom3dSurface::handleElementSelected(QtDataVisualization::QAbstract3DGrap
         if(series){
             QPoint point = series->selectedPoint();
             int ID = this->checkBuildingID(point);
-            qDebug()<<ID;
+            qDebug()<<"ID = "<<ID<<"x = "<<point.x() << "y = "<<point.y();
             //graph_->removeSeries(series_);
             //proxy_ = new QtDataVisualization::QSurfaceDataProxy();
             //series_ = new QtDataVisualization::QSurface3DSeries(proxy_);
@@ -250,8 +254,8 @@ void Custom3dSurface::toggleItem()
             sets_[0]=2;
             sets_[1]=4;
 
-            zMin_ = 100;
-            zMax_ = 200;
+            zMin_ = 0;//100
+            zMax_ = 300;//200
         }
         else
         {
@@ -262,8 +266,8 @@ void Custom3dSurface::toggleItem()
             sets_= new int[setsCount_];
             sets_[0]=2;
 
-            zMin_ = -50;
-            zMax_ = 50;
+            zMin_ = -150;//-50
+            zMax_ = 150;//50
         }
     }
     if(checkBox->text()=="Texture"){

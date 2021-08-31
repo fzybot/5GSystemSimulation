@@ -75,6 +75,7 @@ HEADERS += \
     src/protocols/mac_layer/CellMacEntity.h \
     src/protocols/mac_layer/UeMacEntity.h \
     src/scenarios/simple.h \
+    src/scenarios/testModel.h \
     src/visualization/ChartGroupWidget.h \
     src/visualization/menu/mainWindow.h \
     src/commonParameters.h \
