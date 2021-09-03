@@ -270,7 +270,7 @@ void Custom3dSurface::toggleItem()
             zMax_ = 150;//50
         }
     }
-    if(checkBox->text()=="Texture"){
+    if(checkBox->text()=="Heatmap"){
         if(checkBox->checkState()){
             enableTexture(true);
         }

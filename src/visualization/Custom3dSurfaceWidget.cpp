@@ -28,7 +28,7 @@ Custom3dSurfaceWidget::Custom3dSurfaceWidget(QWidget *parent)
     connect(checkboxOne, &QCheckBox::stateChanged,
                      surface_, &Custom3dSurface::toggleItem);
 
-    QCheckBox *checkboxTwo = new QCheckBox("Texture");
+    QCheckBox *checkboxTwo = new QCheckBox("Heatmap");
     checkboxTwo->setChecked(false);
     checkboxTwo->setFont(font);
     mainLayout->addWidget(checkboxTwo);
