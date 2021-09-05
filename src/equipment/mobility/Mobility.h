@@ -8,7 +8,7 @@ class Equipment;
 class Mobility
 {
 public:
-    enum MobilityModel
+    enum class Model
     {
       CONSTANT_POSITION,
       RANDOM_DIRECTION,
@@ -20,7 +20,7 @@ public:
 
 private:
     Equipment* equipment_;
-    MobilityModel mobilityModel_;
+    Model model_;
 
     CartesianCoordinates *startPosition_;
     CartesianCoordinates *currentPosition_;
@@ -37,8 +37,8 @@ public:
     void setEquipment(Equipment *equipment);
     Equipment* getEquipment(void) const;
 
-    void setMobilityModel(MobilityModel model);
-    Mobility::MobilityModel getMobilityModel(void) const;
+    void setModel(Model model);
+    Mobility::Model getModel(void) const;
 
     void setPosition(CartesianCoordinates *position);
     CartesianCoordinates* getPosition(void) const;
@@ -53,6 +53,12 @@ public:
 
 // ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
     void updatePosition(double time);
+
+    void modelRandomDirection(double time);
+    void modelRandomWalk(double time);
+    void modelRandomWaypoint(double time);
+    void modelManhattan(double time);
+    void modelLinearMovement(double time);
 
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
     // void print();

@@ -17,7 +17,7 @@ UserEquipment::UserEquipment()
 UserEquipment::UserEquipment(int id, 
                              double posX, double posY, double posZ, 
                              Cell *cell, gNodeB *targetGNodeB, 
-                             Mobility::MobilityModel model)
+                             Mobility::Model model)
 {
     setEquipmentID(id);
     setEquipmentType(Equipment::TYPE_UE);
@@ -27,7 +27,7 @@ UserEquipment::UserEquipment(int id,
     setLinkBudgetParameters();
 
     Mobility *m;
-    if (model == Mobility::CONSTANT_POSITION)
+    if (model == Mobility::Model::CONSTANT_POSITION)
     {
         m = new ConstantPosition ();
     }

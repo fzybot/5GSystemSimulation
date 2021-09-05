@@ -82,7 +82,7 @@ UserEquipment* NetworkManager::createUserEquipment (int id,
 {
     UserEquipment *ue = new UserEquipment(id,
                                           posX, posY, posZ, cell, targetGNodeB,
-                                          Mobility::CONSTANT_POSITION);
+                                          Mobility::Model::CONSTANT_POSITION);
     getUserEquipmentContainer()->push_back(ue);
     attachUEtoCell(cell, ue);
     return ue;

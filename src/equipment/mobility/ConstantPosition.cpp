@@ -4,7 +4,7 @@
 ConstantPosition::ConstantPosition()
 {
     debug("ConstantPosition: creating new object");
-    setMobilityModel(Mobility::CONSTANT_POSITION);
+    setModel(Mobility::Model::CONSTANT_POSITION);
     //setPosition(nullptr);
 }
 

@@ -21,16 +21,15 @@ Equipment* Mobility::getEquipment(void) const
     return equipment_;
 }
 
-void Mobility::setMobilityModel(MobilityModel model)
+void Mobility::setModel(Model model)
 {
-    mobilityModel_ = model;
+    model_ = model;
 }
 
-Mobility::MobilityModel Mobility::getMobilityModel(void) const
+Mobility::Model Mobility::getModel(void) const
 {
-    return mobilityModel_;
+    return model_;
 }
-
 void Mobility::setPosition(CartesianCoordinates *position)
 {
     debug("Mobility: setting position");
@@ -59,8 +58,50 @@ void Mobility::deletePosition()
 }
 
 // ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
+void Mobility::updatePosition(double time)
+{
+    // Created by Ramazan 05.09.2021 ramazanaktaev7@gmail.com
 
+    switch (model_) {
+    case Model::CONSTANT_POSITION: break;
+    case Model::RANDOM_DIRECTION:
+        modelRandomDirection(time);
+        break;
+    case Model::RANDOM_WALK:
+        modelRandomWalk(time);
+        break;
+    case Model::RANDOM_WAYPOINT:
+        modelRandomWaypoint(time);
+        break;
+    case Model::MANHATTAN:
+        modelManhattan(time);
+        break;
+    case Model::LINEAR_MOVEMENT:
+        modelManhattan(time);
+        break;
+    }
+}
 
+void Mobility::modelRandomDirection(double time)
+{
+    // Created by Ramazan 05.09.2021 ramazanaktaev7@gmail.com
+}
+void Mobility::modelRandomWalk(double time)
+{
+    // Created by Ramazan 05.09.2021 ramazanaktaev7@gmail.com
+}
+void Mobility::modelRandomWaypoint(double time)
+{
+    // Created by Ramazan 05.09.2021 ramazanaktaev7@gmail.com
+}
+void Mobility::modelManhattan(double time)
+{
+    // Created by Ramazan 05.09.2021 ramazanaktaev7@gmail.com
+}
+void Mobility::modelLinearMovement(double time)
+{
+    // Created by Ramazan 05.09.2021 ramazanaktaev7@gmail.com
+}
 
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
 // void Mobility::print()

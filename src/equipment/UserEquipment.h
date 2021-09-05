@@ -21,7 +21,7 @@ public:
     UserEquipment(int id, 
                   double posX, double posY, double posZ, 
                   Cell *cell, gNodeB *targetGNodeB, 
-                  Mobility::MobilityModel model);
+                  Mobility::Model model);
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
     void setCurrentCell(Cell *cell);
