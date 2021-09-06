@@ -306,10 +306,13 @@ void calculateHeatmap3DTest(double ***data, int ***data2, int X, int Y, int cent
     double k = 0;
     double value = 20000;
     int path = 0;
+    int indoorPath = 0;
 
     for(int I = 0; I < lonc; ++I){
         for(int J = 0; J < latc; ++J){
             CartesianCoordinates* point = new CartesianCoordinates(0, 0, heightUT);
+            vector <CartesianCoordinates> slice;
+            slice.push_back(*BS);
             //calculate k
             path = 0;
             x = 0;
@@ -330,13 +333,24 @@ void calculateHeatmap3DTest(double ***data, int ***data2, int X, int Y, int cent
                         x = BS->getCoordinateX();
                         while(x < lonc){
                             if(y < latc && y >= 0 && (*data)[(int)x][int(y)]==0)
-                                (*data)[(int)x][int(y)] = BSPower - point->calculateDistance3D(BS);
+                            {
+                                indoorPath = isLOS(slice);
+                                if(indoorPath == 0){
+                                    (*data)[(int)x][int(y)] = BSPower + AGain - UMa_LOS(point->calculateDistance2D(BS),
+                                                                                indoorPath * pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                                }
+                                else{
+                                    (*data)[(int)x][int(y)] = BSPower + AGain - UMa_NLOS(point->calculateDistance2D(BS) - indoorPath * pixelToMeter,
+                                                                                indoorPath * pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                                }
+                            }
                             x += step;
                             y = k * (x - BS->getCoordinateX()) +
                                     BS->getCoordinateY();
                             point->setCoordinateX(x);
                             point->setCoordinateY(y);
 
+                            slice.push_back(*point);
                         }
                     }
                     else{
@@ -344,31 +358,52 @@ void calculateHeatmap3DTest(double ***data, int ***data2, int X, int Y, int cent
                         y = BS->getCoordinateY();
                         while(y < latc){
                             if(x < lonc && x >= 0 && (*data)[(int)x][int(y)]==0)
-                                (*data)[(int)x][(int)y] =  BSPower - point->calculateDistance3D(BS);
+                            {
+                                indoorPath = isLOS(slice);
+                                if(indoorPath == 0){
+                                    (*data)[(int)x][int(y)] = BSPower + AGain - UMa_LOS(point->calculateDistance2D(BS),
+                                                                                indoorPath * pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                                }
+                                else{
+                                    (*data)[(int)x][int(y)] = BSPower + AGain - UMa_NLOS(point->calculateDistance2D(BS) - indoorPath * pixelToMeter,
+                                                                                indoorPath * pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                                }
+                            }
                             y += step;
                             x = 1/k * (y - BS->getCoordinateY()) +
                                     BS->getCoordinateX();
                             point->setCoordinateX(x);
                             point->setCoordinateY(y);
+                            slice.push_back(*point);
                         }
 
                     }
                 }
                 else{
                     //bottom
-                    qDebug()<<"right - bottom";
+                    //qDebug()<<"right - bottom";
                     if(qAtan(k) <= M_PI/4){ //is less then pi/4
                         //yes
                         x = BS->getCoordinateX();
                         while(x < lonc){
                             if(y < latc && y >= 0 && (*data)[(int)x][int(y)]==0)
-                                (*data)[(int)x][(int)y] =  BSPower - point->calculateDistance3D(BS);
+                            {
+                                indoorPath = isLOS(slice);
+                                if(indoorPath == 0){
+                                    (*data)[(int)x][int(y)] = BSPower + AGain - UMa_LOS(point->calculateDistance2D(BS),
+                                                                                indoorPath * pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                                }
+                                else{
+                                    (*data)[(int)x][int(y)] = BSPower + AGain - UMa_NLOS(point->calculateDistance2D(BS) - indoorPath * pixelToMeter,
+                                                                                indoorPath * pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                                }
+                            }
                             x += step;
                             y = k * (x - BS->getCoordinateX()) +
                                     BS->getCoordinateY();
                             point->setCoordinateX(x);
                             point->setCoordinateY(y);
-
+                            slice.push_back(*point);
                         }
                     }
                     else{
@@ -376,12 +411,23 @@ void calculateHeatmap3DTest(double ***data, int ***data2, int X, int Y, int cent
                         y = BS->getCoordinateY();
                         while(y >= 0){
                             if(x < lonc && x >= 0 && (*data)[(int)x][int(y)]==0)
-                                (*data)[(int)x][(int)y] =  BSPower - point->calculateDistance3D(BS);
+                            {
+                                indoorPath = isLOS(slice);
+                                if(indoorPath == 0){
+                                    (*data)[(int)x][int(y)] = BSPower + AGain - UMa_LOS(point->calculateDistance2D(BS),
+                                                                                indoorPath * pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                                }
+                                else{
+                                    (*data)[(int)x][int(y)] = BSPower + AGain - UMa_NLOS(point->calculateDistance2D(BS) - indoorPath * pixelToMeter,
+                                                                                indoorPath * pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                                }
+                            }
                             y -= step;
                             x = -1/k * (y - BS->getCoordinateY()) +
                                     BS->getCoordinateX();
                             point->setCoordinateX(x);
                             point->setCoordinateY(y);
+                            slice.push_back(*point);
                         }
                     }
                 }
@@ -397,12 +443,23 @@ void calculateHeatmap3DTest(double ***data, int ***data2, int X, int Y, int cent
                         x = BS->getCoordinateX();
                         while(x >= 0){
                             if(y < latc && y >=0 && (*data)[(int)x][int(y)]==0)
-                                (*data)[(int)x][(int)y] =  BSPower - point->calculateDistance3D(BS);
+                            {
+                                indoorPath = isLOS(slice);
+                                if(indoorPath == 0){
+                                    (*data)[(int)x][int(y)] = BSPower + AGain - UMa_LOS(point->calculateDistance2D(BS),
+                                                                                indoorPath * pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                                }
+                                else{
+                                    (*data)[(int)x][int(y)] = BSPower + AGain - UMa_NLOS(point->calculateDistance2D(BS) - indoorPath * pixelToMeter,
+                                                                                indoorPath * pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                                }
+                            }
                             x -= step;
                             y = k * (x - BS->getCoordinateX()) +
                                     BS->getCoordinateY();
                             point->setCoordinateX(x);
                             point->setCoordinateY(y);
+                            slice.push_back(*point);
                         }
                     }
                     else{
@@ -410,12 +467,23 @@ void calculateHeatmap3DTest(double ***data, int ***data2, int X, int Y, int cent
                         y = BS->getCoordinateY();
                         while(y < latc){
                             if(x < lonc && x>=0 && (*data)[(int)x][int(y)]==0)
-                                (*data)[(int)x][(int)y] =  BSPower - point->calculateDistance3D(BS);
+                            {
+                                indoorPath = isLOS(slice);
+                                if(indoorPath == 0){
+                                    (*data)[(int)x][int(y)] = BSPower + AGain - UMa_LOS(point->calculateDistance2D(BS),
+                                                                                indoorPath * pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                                }
+                                else{
+                                    (*data)[(int)x][int(y)] = BSPower + AGain - UMa_NLOS(point->calculateDistance2D(BS) - indoorPath * pixelToMeter,
+                                                                                indoorPath * pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                                }
+                            }
                             y += step;
                             x = -1/k * (y - BS->getCoordinateY()) +
                                     BS->getCoordinateX();
                             point->setCoordinateX(x);
                             point->setCoordinateY(y);
+                            slice.push_back(*point);
                         }
                     }
                 }
@@ -426,12 +494,23 @@ void calculateHeatmap3DTest(double ***data, int ***data2, int X, int Y, int cent
                         x = BS->getCoordinateX();
                         while(x >= 0){
                             if(y < latc && y >= 0 && (*data)[(int)x][int(y)]==0)
-                                (*data)[(int)x][(int)y] =  BSPower - point->calculateDistance3D(BS);
+                            {
+                                indoorPath = isLOS(slice);
+                                if(indoorPath == 0){
+                                    (*data)[(int)x][int(y)] = BSPower + AGain - UMa_LOS(point->calculateDistance2D(BS),
+                                                                                indoorPath * pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                                }
+                                else{
+                                    (*data)[(int)x][int(y)] = BSPower + AGain - UMa_NLOS(point->calculateDistance2D(BS) - indoorPath * pixelToMeter,
+                                                                                indoorPath * pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                                }
+                            }
                             x -= step;
                             y = k * (x - BS->getCoordinateX()) +
                                     BS->getCoordinateY();
                             point->setCoordinateX(x);
                             point->setCoordinateY(y);
+                            slice.push_back(*point);
                         }
                     }
                     else{
@@ -439,12 +518,23 @@ void calculateHeatmap3DTest(double ***data, int ***data2, int X, int Y, int cent
                         y = BS->getCoordinateY();
                         while(y >= 0){
                             if(x < lonc && x >= 0 && (*data)[(int)x][int(y)]==0)
-                                (*data)[(int)x][(int)y] =  BSPower - point->calculateDistance3D(BS);
+                            {
+                                indoorPath = isLOS(slice);
+                                if(indoorPath == 0){
+                                    (*data)[(int)x][int(y)] = BSPower + AGain - UMa_LOS(point->calculateDistance2D(BS),
+                                                                                indoorPath * pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                                }
+                                else{
+                                    (*data)[(int)x][int(y)] = BSPower + AGain - UMa_NLOS(point->calculateDistance2D(BS) - indoorPath * pixelToMeter,
+                                                                                indoorPath * pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                                }
+                            }
                             y -= step;
                             x = 1/k * (y - BS->getCoordinateY()) +
                                     BS->getCoordinateX();
                             point->setCoordinateX(x);
                             point->setCoordinateY(y);
+                            slice.push_back(*point);
                         }
                     }
                 }
