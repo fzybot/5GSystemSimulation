@@ -22,6 +22,9 @@ void calculateHeatmap3D(double ***data, int ***data2, int X, int Y, int centerFr
 void calculateHeatmap3Dfast(double ***data, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS,
                         double heightUT, double shadowFading);
 
+void calculateHeatmap3DTest(double ***data, int ***data2, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS,
+                            double heightUT, double shadowFading);
+
 int isLOS(vector <CartesianCoordinates> slice);
 int isLOS_Hash(QHash <int, CartesianCoordinates> slice);
 int isLOS_Hash2(vector <CartesianCoordinates> slice, QHash<int, vector<float>> Hash);
@@ -58,7 +61,7 @@ void testModel()
     clock_t start, end;
     start = clock();
     //---Rays---
-    calculateHeatmap3Dfast(&data, BaseStation->getCoordinateX(), BaseStation->getCoordinateY(), centerFrequency, h, W, BaseStation,
+    calculateHeatmap3DTest(&data, &data2, BaseStation->getCoordinateX(), BaseStation->getCoordinateY(), centerFrequency, h, W, BaseStation,
                        heightUT, shadowFading);
     end = clock();
 
@@ -276,6 +279,181 @@ int isLOS_Hash(QHash <int, CartesianCoordinates> slice)
     return kIn;
 }
 
+void calculateHeatmap3DTest(double ***data, int ***data2, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS,
+                            double heightUT, double shadowFading)
+{
+    //int x=X, y=Y;
+
+    double BSPower = 43; //[dBm]
+    double AGain = 18;   //[dBm]
+
+    //---[SETTINGS]---//
+    double fi_start = 0;
+    double fi_end = 360;
+    double fi_step = 0.01;
+    double pixelToMeter = 1.25;
+    double storeysToHeight = 2.7;
+    //----------------//
+
+    double fi=fi_start;
+
+    //int i2=0;
+    //int j2=0;
+
+    double y = 0;
+    double x = 0;
+    double step = 1;
+    double k = 0;
+    double value = 20000;
+    int path = 0;
+
+    for(int I = 0; I < lonc; ++I){
+        for(int J = 0; J < latc; ++J){
+            CartesianCoordinates* point = new CartesianCoordinates(0, 0, heightUT);
+            //calculate k
+            path = 0;
+            x = 0;
+            y = 0;
+            if(I == BS->getCoordinateX()){
+                k = qPow(latc,latc);
+            }
+            else{
+                k = (J - BS->getCoordinateY())/(I - BS->getCoordinateX());
+            }
+
+            if (I - BS->getCoordinateX() > 0){  //is right?
+                //right
+                if(J - BS->getCoordinateY() > 0){   //is top?
+                    //top
+                    if(qAtan(k) <= M_PI/4){ //is less then pi/4 ?
+                        //yes
+                        x = BS->getCoordinateX();
+                        while(x < lonc){
+                            if(y < latc && y >= 0 && (*data)[(int)x][int(y)]==0)
+                                (*data)[(int)x][int(y)] = BSPower - point->calculateDistance3D(BS);
+                            x += step;
+                            y = k * (x - BS->getCoordinateX()) +
+                                    BS->getCoordinateY();
+                            point->setCoordinateX(x);
+                            point->setCoordinateY(y);
+
+                        }
+                    }
+                    else{
+                        //no
+                        y = BS->getCoordinateY();
+                        while(y < latc){
+                            if(x < lonc && x >= 0 && (*data)[(int)x][int(y)]==0)
+                                (*data)[(int)x][(int)y] =  BSPower - point->calculateDistance3D(BS);
+                            y += step;
+                            x = 1/k * (y - BS->getCoordinateY()) +
+                                    BS->getCoordinateX();
+                            point->setCoordinateX(x);
+                            point->setCoordinateY(y);
+                        }
+
+                    }
+                }
+                else{
+                    //bottom
+                    qDebug()<<"right - bottom";
+                    if(qAtan(k) <= M_PI/4){ //is less then pi/4
+                        //yes
+                        x = BS->getCoordinateX();
+                        while(x < lonc){
+                            if(y < latc && y >= 0 && (*data)[(int)x][int(y)]==0)
+                                (*data)[(int)x][(int)y] =  BSPower - point->calculateDistance3D(BS);
+                            x += step;
+                            y = k * (x - BS->getCoordinateX()) +
+                                    BS->getCoordinateY();
+                            point->setCoordinateX(x);
+                            point->setCoordinateY(y);
+
+                        }
+                    }
+                    else{
+                        //no
+                        y = BS->getCoordinateY();
+                        while(y >= 0){
+                            if(x < lonc && x >= 0 && (*data)[(int)x][int(y)]==0)
+                                (*data)[(int)x][(int)y] =  BSPower - point->calculateDistance3D(BS);
+                            y -= step;
+                            x = -1/k * (y - BS->getCoordinateY()) +
+                                    BS->getCoordinateX();
+                            point->setCoordinateX(x);
+                            point->setCoordinateY(y);
+                        }
+                    }
+                }
+
+            }
+            else{
+                //left
+                if(J - BS->getCoordinateY() > 0){   //is top?
+                    //top
+                    //qDebug()<<"left- top";
+                    if(qAtan(k) <= M_PI/4){ //is less then pi/4
+                        //yes
+                        x = BS->getCoordinateX();
+                        while(x >= 0){
+                            if(y < latc && y >=0 && (*data)[(int)x][int(y)]==0)
+                                (*data)[(int)x][(int)y] =  BSPower - point->calculateDistance3D(BS);
+                            x -= step;
+                            y = k * (x - BS->getCoordinateX()) +
+                                    BS->getCoordinateY();
+                            point->setCoordinateX(x);
+                            point->setCoordinateY(y);
+                        }
+                    }
+                    else{
+                        //no
+                        y = BS->getCoordinateY();
+                        while(y < latc){
+                            if(x < lonc && x>=0 && (*data)[(int)x][int(y)]==0)
+                                (*data)[(int)x][(int)y] =  BSPower - point->calculateDistance3D(BS);
+                            y += step;
+                            x = -1/k * (y - BS->getCoordinateY()) +
+                                    BS->getCoordinateX();
+                            point->setCoordinateX(x);
+                            point->setCoordinateY(y);
+                        }
+                    }
+                }
+                else{
+                    //bottom
+                    if(qAtan(k) <= M_PI/4){ //is less then pi/4
+                        //yes
+                        x = BS->getCoordinateX();
+                        while(x >= 0){
+                            if(y < latc && y >= 0 && (*data)[(int)x][int(y)]==0)
+                                (*data)[(int)x][(int)y] =  BSPower - point->calculateDistance3D(BS);
+                            x -= step;
+                            y = k * (x - BS->getCoordinateX()) +
+                                    BS->getCoordinateY();
+                            point->setCoordinateX(x);
+                            point->setCoordinateY(y);
+                        }
+                    }
+                    else{
+                        //no
+                        y = BS->getCoordinateY();
+                        while(y >= 0){
+                            if(x < lonc && x >= 0 && (*data)[(int)x][int(y)]==0)
+                                (*data)[(int)x][(int)y] =  BSPower - point->calculateDistance3D(BS);
+                            y -= step;
+                            x = 1/k * (y - BS->getCoordinateY()) +
+                                    BS->getCoordinateX();
+                            point->setCoordinateX(x);
+                            point->setCoordinateY(y);
+                        }
+                    }
+                }
+
+            }
+            delete point;
+        }
+    }
+}
 
 void calculateHeatmap3Dfast(double ***data, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS,
                         double heightUT, double shadowFading)
