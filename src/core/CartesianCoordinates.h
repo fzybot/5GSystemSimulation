@@ -53,6 +53,8 @@ public:
 
     double calculateDistance3D(CartesianCoordinates *remoteEquipment);
 
+    double calculateDistance2D(CartesianCoordinates *remoteEquipment);
+
     // TODO: calculate distance for sphere
     double calculateDistanceSphere(CartesianCoordinates *remoteEquipment);
 
