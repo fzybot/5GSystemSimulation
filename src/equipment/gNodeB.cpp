@@ -21,7 +21,7 @@ gNodeB::gNodeB(int id, Cell *cell, double posX, double posY, double posZ)
     cellContainer_ = new QVector<Cell*>();
 
     setEquipmentID(id);
-    setEquipmentType(Equipment::TYPE_GNODEB);
+    setEquipmentType(Equipment::EquipmentType::TYPE_GNODEB);
     addCell(cell);
 
     CartesianCoordinates *position = new CartesianCoordinates(posX, posY, posZ);
@@ -39,7 +39,7 @@ gNodeB::gNodeB(int id, double posX, double posY, double posZ)
     cellContainer_ = new QVector<Cell*>();
 
     setEquipmentID(id);
-    setEquipmentType(Equipment::TYPE_GNODEB);
+    setEquipmentType(Equipment::EquipmentType::TYPE_GNODEB);
 
     CartesianCoordinates *position = new CartesianCoordinates(posX, posY, posZ);
     Mobility *m = new ConstantPosition();

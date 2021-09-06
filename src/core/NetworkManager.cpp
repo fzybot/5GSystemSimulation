@@ -41,7 +41,7 @@ Cell* NetworkManager::createCell (int idCell)
     debug("NetworkManager: starting to create a cell.");
     Cell *cell = new Cell();
     cell->setEquipmentID(idCell);
-    cell->setEquipmentType(Equipment::TYPE_CELL);
+    cell->setEquipmentType(Equipment::EquipmentType::TYPE_CELL);
     getCellContainer()->push_back(cell);
 
     return cell;
@@ -51,7 +51,7 @@ Cell* NetworkManager::createCell (int idCell, gNodeB *targetGNb)
 {
     Cell *cell = new Cell();
     cell->setEquipmentID(idCell);
-    cell->setEquipmentType(Equipment::TYPE_CELL);
+    cell->setEquipmentType(Equipment::EquipmentType::TYPE_CELL);
     cell->setTargetGNodeB(targetGNb);
     targetGNb->addCell(cell);
     getCellContainer()->push_back(cell);

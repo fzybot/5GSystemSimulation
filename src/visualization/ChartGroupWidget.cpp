@@ -1,5 +1,5 @@
 #include "ChartGroupWidget.h"
-#include "src/protocols/phy/Signal.h"
+#include "src/visualization/data/DataSource.h"
 
 #include <QtCharts/QChartView>
 #include <QtCharts/QPieSeries>
@@ -157,8 +157,8 @@ QChart *ChartGroupWidget::createSignalChart()
     chart->addAxis(axisX, Qt::AlignBottom);
     chart->addAxis(axisY, Qt::AlignLeft);
 
-    const int seriesCount = 3;
-    const int pointCount = 100;
+    const int seriesCount = 10;
+    const int pointCount = 1000;
     chart->setTitle("Signal in time");
 
     QList<QXYSeries *> seriesList;
@@ -200,13 +200,27 @@ QChart *ChartGroupWidget::createSignalChart()
 
     dataSource_.generateData(seriesCount, 10, pointCount);
 
-    // QObject::connect(chart->scene(), &QGraphicsScene::changed,
-    //                  &dataSource_, &Signal::handleSceneChanged);
+    QLabel *fpsLabel = new QLabel(this);
+    QLabel *countLabel = new QLabel(this);
+    QString countText = QStringLiteral("Total point count: %1");
+    countLabel->setText(countText.arg(pointCount * seriesCount));
+    countLabel->adjustSize();
+    fpsLabel->move(10, 2);
+    fpsLabel->adjustSize();
+    fpsLabel->raise();
+    fpsLabel->show();
+    countLabel->move(10, fpsLabel->height());
+    fpsLabel->raise();
+    countLabel->show();
 
-    dataSource_.startUpdates(seriesList);
+    QObject::connect(chart->scene(), &QGraphicsScene::changed,
+                      &dataSource_, &DataSource::handleSceneChanged);
+
+    dataSource_.startUpdates(seriesList, fpsLabel);
 
     return chart;
 }
+
 // Tutorial Charts
 QChart *ChartGroupWidget::createAreaChart() const
 {

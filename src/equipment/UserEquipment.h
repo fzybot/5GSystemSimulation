@@ -30,7 +30,7 @@ public:
     void setTargetGNodeB(gNodeB *gNb);
     gNodeB *getTargetGNodeB();
 
-    // ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
+// ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
     void calculateEIRP();
 
     //void addNeighbourCell(BaseStation cell);

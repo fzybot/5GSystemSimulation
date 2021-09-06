@@ -13,18 +13,18 @@
 class Equipment
 {
 public:
-    enum EquipmentState
+    enum class EquipmentState
     {
       STATE_DETACHED,
       STATE_ACTIVE,
       STATE_IDLE
     };
 
-    enum EquipmentType
+    enum class EquipmentType
     {
       TYPE_GNODEB,
       TYPE_CELL,
-      TYPE_UE,
+      TYPE_UE
     };
 
 protected:

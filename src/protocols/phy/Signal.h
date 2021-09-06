@@ -21,24 +21,9 @@ private:
     QVector<QVector<double>> IOvalues_; //phase shift of received signal for each MIMO path and sub-carrier
     QVector<double> signalInTime_;
 
-// Visualization
-    QVector<QVector<QVector<QPointF> > > data_;
-    int index_;
-    QList<QtCharts::QXYSeries *> seriesList_;
-    QLabel *fpsLabel_;
-    QElapsedTimer fpsTimer_;
-    QTimer dataUpdater_;
-
-public slots:
-    void generateData(int seriesCount, int rowCount, int colCount);
-    void update(QtCharts::QAbstractSeries *series, int seriesIndex);
-    void handleSceneChanged();
-    void updateAllSeries();
-
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
-    Signal(bool backend);
-    Signal(QObject *parent = 0);
+    Signal();
     virtual ~Signal() = default;
 
 
@@ -58,5 +43,4 @@ public:
     void getDataFromFile(QString filePath);
 
 // ----- [ PLOT FUNCTIONS ] --------------------------------------------------------------------------------------------
-    void startUpdates(const QList<QtCharts::QXYSeries *> &seriesList); // , QLabel *fpsLabel);
 };

@@ -6,18 +6,13 @@
 #include <QtCharts/QChartView>
 #include <QtCharts/QChart>
 
-#include "src/protocols/phy/Signal.h"
+#include "src/visualization/data/DataSource.h"
 
-QT_BEGIN_NAMESPACE
 class QComboBox;
 class QCheckBox;
-class Ui_ThemeWidgetForm;
-QT_END_NAMESPACE
+//class QChartView;
+//class QChart;
 
-QT_CHARTS_BEGIN_NAMESPACE
-class QChartView;
-class QChart;
-QT_CHARTS_END_NAMESPACE
 
 typedef QPair<QPointF, QString> Data;
 typedef QList<Data> DataList;
@@ -29,23 +24,18 @@ QT_CHARTS_USE_NAMESPACE
 class ChartGroupWidget : public QWidget
 {
     Q_OBJECT
+
 private:
     int listCount_;
     int valueMax_;
     int valueCount_;
     QList<QChartView *> charts_;
     DataTable dataTable_;
-    Signal dataSource_;
+    DataSource dataSource_;
     
 
 // private Q_SLOTS:
 //     void updateUI();
-
-// public slots:
-//     void generateData(int seriesCount, int rowCount, int colCount);
-//     void update(QAbstractSeries *series, int seriesIndex);
-//     void handleSceneChanged();
-//     void updateAllSeries();
 
 public:
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------

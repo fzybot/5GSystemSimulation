@@ -44,9 +44,7 @@ Equipment::EquipmentState Equipment::getEquipmentState() const
 
 void Equipment::setEquipmentType(EquipmentType type)
 {
-    debug("Equipment: setting equipment type. ");
     type_ = type;
-    debug("Equipment: equipment type = ", type_);
 }
 
 int Equipment::getEquipmentID()
@@ -96,15 +94,5 @@ void Equipment::calculateThermalNoise()
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
 void Equipment::print()
 {
-    if (type_ == EquipmentType::TYPE_GNODEB) {
-        qDebug() << "Equipment type: TYPE_GNODEB";
-    }
-    else if (type_ == EquipmentType::TYPE_CELL) {
-        qDebug() << "Equipment type: TYPE_CELL";
-    }
-    else if (type_ == EquipmentType::TYPE_UE) {
-        qDebug() << "Equipment type: TYPE_UE";
-    }
-    qDebug() << "Identity: " << id_;
-    mobility_->getPosition()->print();
+
 }

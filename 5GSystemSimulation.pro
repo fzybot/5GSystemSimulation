@@ -27,6 +27,7 @@ SOURCES += \
     src/protocols/mac_layer/CellMacEntity.cpp \
     src/protocols/mac_layer/UeMacEntity.cpp \
     src/visualization/ChartGroupWidget.cpp \
+    src/visualization/data/DataSource.cpp \
     src/visualization/menu/mainWindow.cpp \
     src/core/CartesianCoordinates.cpp \
     src/equipment/Cell.cpp \
@@ -77,6 +78,7 @@ HEADERS += \
     src/scenarios/simple.h \
     src/scenarios/testModel.h \
     src/visualization/ChartGroupWidget.h \
+    src/visualization/data/DataSource.h \
     src/visualization/menu/mainWindow.h \
     src/commonParameters.h \
     src/core/CartesianCoordinates.h \

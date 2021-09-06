@@ -39,6 +39,10 @@ static void Simple ()
     debug("Simple: User Equipment entity is created");
     channel->addDevice(ue);
 
+
+
+
+// ----- [ Debugging ] -------------------------------------------------------------------------------------------------
     if (DEBUGGING == true){
         qDebug() << "Network Manager:";
 

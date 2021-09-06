@@ -18,7 +18,7 @@ public:
       LINEAR_MOVEMENT
     };
 
-private:
+protected:
     Equipment* equipment_;
     Model model_;
 
