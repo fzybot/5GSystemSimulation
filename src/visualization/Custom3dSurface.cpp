@@ -115,8 +115,8 @@ void Custom3dSurface::enableTexture(bool check)
         QString path = QCoreApplication::applicationDirPath();
         QString texturePath = QString("/pixelMap.bmp");
         path.append(texturePath);
-        testModel();
-        series_->setTextureFile(path);
+        //testModel();
+        series_->setTextureFile("/home/timofey/Qt/projects/5GSystemSimulation/src/visualization/data/fin.bmp");//path);
     }
     else{
         QImage empty(0,0,QImage::Format_RGB32);
