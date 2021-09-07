@@ -24,11 +24,11 @@ public slots:
     void updateAllSeries();
 
 private:
-    QVector<QVector<QVector<QPointF> > > m_data;
-    int m_index;
-    QList<QXYSeries *> m_seriesList;
-    QLabel *m_fpsLabel;
-    QElapsedTimer m_fpsTimer;
-    QTimer m_dataUpdater;
+    QVector<QVector<QVector<QPointF> > > data_;
+    int index_;
+    QList<QXYSeries *> seriesList_;
+    QLabel *fpsLabel_;
+    QElapsedTimer fpsTimer_;
+    QTimer dataUpdater_;
 };
 

@@ -27,6 +27,7 @@
 #include <QtCharts/QValueAxis>
 #include <QtCharts/QChartView>
 #include <QtCharts/QChart>
+#include <QDebug>
 
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
 
@@ -217,6 +218,7 @@ QChart *ChartGroupWidget::createSignalChart()
                       &dataSource_, &DataSource::handleSceneChanged);
 
     dataSource_.startUpdates(seriesList, fpsLabel);
+    qDebug() << "Hello";
 
     return chart;
 }

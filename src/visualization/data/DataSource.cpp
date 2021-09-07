@@ -8,7 +8,7 @@ QT_CHARTS_USE_NAMESPACE
 
 DataSource::DataSource(QObject *parent) :
     QObject(parent),
-    m_index(-1)
+    index_(-1)
 {
     generateData(0, 0, 0);
 }
@@ -19,13 +19,13 @@ void DataSource::update(QAbstractSeries *series, int seriesIndex)
     if (series) {
         qDebug() << "Update series";
         QXYSeries *xySeries = static_cast<QXYSeries *>(series);
-        const QVector<QVector<QPointF> > &seriesData = m_data.at(seriesIndex);
+        const QVector<QVector<QPointF> > &seriesData = data_.at(seriesIndex);
         if (seriesIndex == 0)
-            m_index++;
-        if (m_index > seriesData.count() - 1)
-            m_index = 0;
+            index_++;
+        if (index_ > seriesData.count() - 1)
+            index_ = 0;
 
-        QVector<QPointF> points = seriesData.at(m_index);
+        QVector<QPointF> points = seriesData.at(index_);
         // Use replace instead of clear + append, it's optimized for performance
         xySeries->replace(points);
     }
@@ -33,7 +33,7 @@ void DataSource::update(QAbstractSeries *series, int seriesIndex)
 
 void DataSource::handleSceneChanged()
 {
-    m_dataUpdater.start();
+    dataUpdater_.start();
 }
 
 void DataSource::updateAllSeries()
@@ -41,37 +41,37 @@ void DataSource::updateAllSeries()
     static int frameCount = 0;
     static QString labelText = QStringLiteral("FPS: %1");
 
-    for (int i = 0; i < m_seriesList.size(); i++)
-        update(m_seriesList[i], i);
+    for (int i = 0; i < seriesList_.size(); i++)
+        update(seriesList_[i], i);
 
     frameCount++;
-    int elapsed = m_fpsTimer.elapsed();
+    int elapsed = fpsTimer_.elapsed();
     if (elapsed >= 1000) {
-        elapsed = m_fpsTimer.restart();
+        elapsed = fpsTimer_.restart();
         qreal fps = qreal(0.1 * int(10000.0 * (qreal(frameCount) / qreal(elapsed))));
-        m_fpsLabel->setText(labelText.arg(QString::number(fps, 'f', 1)));
-        m_fpsLabel->adjustSize();
+        fpsLabel_->setText(labelText.arg(QString::number(fps, 'f', 1)));
+        fpsLabel_->adjustSize();
         frameCount = 0;
     }
 }
 
 void DataSource::startUpdates(const QList<QXYSeries *> &seriesList,  QLabel *fpsLabel)
 {
-    m_seriesList = seriesList;
-    m_fpsLabel = fpsLabel;
+    seriesList_ = seriesList;
+    fpsLabel_ = fpsLabel;
 
-    m_dataUpdater.setInterval(0);
-    m_dataUpdater.setSingleShot(true);
-    QObject::connect(&m_dataUpdater, &QTimer::timeout,
+    dataUpdater_.setInterval(0);
+    dataUpdater_.setSingleShot(true);
+    QObject::connect(&dataUpdater_, &QTimer::timeout,
                      this, &DataSource::updateAllSeries);
 
-    m_fpsTimer.start();
+    fpsTimer_.start();
     updateAllSeries();
 }
 
 void DataSource::generateData(int seriesCount, int rowCount, int colCount)
 {
-    m_data.clear();
+    data_.clear();
 
     qreal xAdjustment = 20.0 / (colCount * rowCount);
     qreal yMultiplier = 3.0 / qreal(seriesCount);
@@ -95,7 +95,7 @@ void DataSource::generateData(int seriesCount, int rowCount, int colCount)
             }
             seriesData.append(points);
         }
-        m_data.append(seriesData);
+        data_.append(seriesData);
     }
 }
 
