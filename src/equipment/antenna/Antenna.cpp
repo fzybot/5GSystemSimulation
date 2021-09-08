@@ -24,3 +24,9 @@ Antenna::AntennaType Antenna::getAntennaType()
 {
     return type_;
 }
+
+float Antenna::calcRadiationPattern(float angle, float absoluteAngle)
+{
+    // TODO: need to calculate Radiation Pattern
+    return 1;
+}

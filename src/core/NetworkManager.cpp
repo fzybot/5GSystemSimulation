@@ -6,6 +6,7 @@
 #include "src/debug.h"
 
 #include <QVector>
+#include <QRandomGenerator>
 
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
 
@@ -88,6 +89,22 @@ UserEquipment* NetworkManager::createUserEquipment (int id,
     return ue;
 }
 
+void NetworkManager::createMultipleUserEquipments(  int number, int borderID, int lowX, int highX, int lowY, int highY, 
+                                                    int borderZ, Cell *cell, gNodeB *targetGNodeB )
+{
+    for (int i = 1; i <= number; i++) {
+        int id = i + 10000;
+        int posX = QRandomGenerator::global()->bounded(lowX, highX);
+        int posY = QRandomGenerator::global()->bounded(lowY, highY);
+        int posZ = QRandomGenerator::global()->bounded(1, borderZ);
+        UserEquipment *ue = new UserEquipment(  id,
+                                                posX, posY, posZ, cell, targetGNodeB,
+                                                Mobility::Model::CONSTANT_POSITION);
+        getUserEquipmentContainer()->push_back(ue);
+        attachUEtoCell(cell, ue);
+    }
+}
+
 void NetworkManager::attachUEtoCell(Cell *cell, UserEquipment *ue)
 {
     getCellByID(cell->getEquipmentID())->attachUE(ue);
@@ -156,6 +173,15 @@ UserEquipment* NetworkManager::getUserEquipmentByID (int idUE)
         }
     }
     return nullptr;
+}
+
+double NetworkManager::calcOnePointSINR()
+{
+    // TODO: Calculate
+    if ( !userEquipmentContainer_->isEmpty() && !gNodeBContainer_->isEmpty() ) {
+        qDebug() << "users and gnodeb are not empty";
+    }
+    return 1;
 }
 
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------

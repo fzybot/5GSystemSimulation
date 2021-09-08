@@ -37,9 +37,11 @@ public:
     void setAntenna(Antenna *ant);
     Antenna *getAntenna();
 
-    void createMacEntity();
-    CellMacEntity *getMacEntity();
-
+    void createPhyEntity();
     void setPhyEntity(Physical *phy);
     Physical *getPhyEntity();
+
+    void createMacEntity();
+    void setMacEntity(CellMacEntity *mac);
+    CellMacEntity *getMacEntity();
 };

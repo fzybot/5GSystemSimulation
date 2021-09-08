@@ -49,5 +49,6 @@ public:
 
     void setPosition(int x, int y);
 
+    float calcRadiationPattern(float angle, float absoluteAngle);
 };
 

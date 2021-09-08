@@ -45,6 +45,9 @@ public:
                                         double posX, double posY, double posZ, 
                                         Cell *cell, gNodeB *targetGNodeB);
 
+    void createMultipleUserEquipments(int number, int borderID, int lowX, int highX, int lowY, int highY, int borderZ, 
+                                   Cell *cell, gNodeB *targetGNodeB);
+
     void attachUEtoCell(Cell *cell, UserEquipment *ue);
     void attachGNodeBtoCell(Cell *cell, gNodeB *gNb);
 
@@ -55,6 +58,11 @@ public:
                         int nbFemtoInBuilding, double apartment_side, int firstFemtoIDInStreet);
 
     double* CheckBuildingPosition (int buildingType, double pos_X, double pos_Y, double side_X, double side_Y);
+
+// ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
+
+    double calcOnePointSINR();
+
 
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
 

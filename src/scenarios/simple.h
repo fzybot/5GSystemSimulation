@@ -30,19 +30,20 @@ static void Simple ()
     channel->addDevice(gNb);
 
     // Create User Equipment
-    int idUE = 2;
-    int posX_ue = 120;
-    int posY_ue = 130;
-    double posZ_ue = 1.5;
-    UserEquipment *ue = networkManager->createUserEquipment(idUE, posX_ue, posY_ue, posZ_ue, cell, gNb);
-    
+    // int idUE = 2;
+    // int posX_ue = 120;
+    // int posY_ue = 130;
+    // double posZ_ue = 1.5;
+    // UserEquipment *ue = networkManager->createUserEquipment(idUE, posX_ue, posY_ue, posZ_ue, cell, gNb);
+    // channel->addDevice(ue);
+
+    networkManager->createMultipleUserEquipments(100, 100, 0, 1000, 0, 1000, 100, cell, gNb);
+
     debug("Simple: User Equipment entity is created");
-    channel->addDevice(ue);
 
+    networkManager->calcOnePointSINR();
 
-
-
-// ----- [ Debugging ] -------------------------------------------------------------------------------------------------
+    // ----- [ Debugging ] -------------------------------------------------------------------------------------------------
     if (DEBUGGING == true){
         qDebug() << "Network Manager:";
 

@@ -9,9 +9,11 @@ Cell::Cell()
 {
     userEquipmentContainer_ = new QVector<UserEquipment*>();
 
-    phyEntity_ = new Physical();
-
+    // Link Budget Configuration
     setLinkBudgetParameters();
+
+    // Protocols Configuration
+    createPhyEntity();
     createMacEntity();
     getMacEntity()->configMacEntity();
 }
@@ -45,16 +47,38 @@ Antenna *Cell::getAntenna()
     return antenna_;
 }
 
+
+void Cell::createPhyEntity()
+{
+    phyEntity_ = new Physical();
+}
+
+void Cell::setPhyEntity(Physical *phy)
+{
+    phyEntity_ = phy;
+}
+
+Physical *Cell::getPhyEntity()
+{
+    return phyEntity_;
+}
+
 void Cell::createMacEntity()
 {
     macEntity_ = new CellMacEntity();
     macEntity_->setDevice(this);
 }
 
+void Cell::setMacEntity(CellMacEntity *cellMac)
+{
+    macEntity_ = cellMac;
+}
+
 CellMacEntity *Cell::getMacEntity()
 {
     return macEntity_;
 }
+
 
 
 
