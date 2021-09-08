@@ -16,7 +16,8 @@ public:
     ~Custom3dSurface();
 
     void enableModel();
-    void enableTexture(bool check);
+    void enableHeatmap(bool check);
+    void enableCityPic(bool check);
     //void enableDataFromFile(bool enable);
 
 
@@ -31,9 +32,11 @@ public:
     void adjustZMax(int max);
 
 public slots:
-    void toggleItem();
+    void toggleCheckBoxItem();
+    void toggleRadioButtonItem();
     void handleElementSelected(QtDataVisualization::QAbstract3DGraph::ElementType type);
     void handlePositionChange(const QPoint &position);
+    void calculateModel();
 
 private:
     QtDataVisualization::Q3DSurface *graph_;

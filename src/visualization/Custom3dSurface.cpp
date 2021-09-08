@@ -109,19 +109,34 @@ void Custom3dSurface::enableModel()
 */
 }
 
-void Custom3dSurface::enableTexture(bool check)
+void Custom3dSurface::enableHeatmap(bool check)
 {
     if(check){
         QString path = QCoreApplication::applicationDirPath();
         QString texturePath = QString("/pixelMap.bmp");
         path.append(texturePath);
-        //testModel();
-        series_->setTextureFile("/home/timofey/Qt/projects/5GSystemSimulation/src/visualization/data/fin.bmp");//path);
+        series_->setTextureFile(path);
     }
     else{
         QImage empty(0,0,QImage::Format_RGB32);
         series_->setTexture(empty);
     }
+}
+
+void Custom3dSurface::enableCityPic(bool check)
+{
+    if(check){
+        series_->setTextureFile(":/images/cityPic.bmp");
+    }
+    else{
+        QImage empty(0,0,QImage::Format_RGB32);
+        series_->setTexture(empty);
+    }
+}
+
+void Custom3dSurface::calculateModel()
+{
+    testModel();
 }
 
 void Custom3dSurface::fillFromFileCustom(int num)
@@ -239,7 +254,7 @@ int Custom3dSurface::checkBuildingID(QPoint point)
     return storeysHeights[point.x() * lonc + point.y()][3];
 }
 
-void Custom3dSurface::toggleItem()
+void Custom3dSurface::toggleCheckBoxItem()
 {
     QObject* obj = QObject::sender();
     QCheckBox *checkBox=qobject_cast<QCheckBox *>(obj);
@@ -270,12 +285,26 @@ void Custom3dSurface::toggleItem()
             zMax_ = 150;//50
         }
     }
-    if(checkBox->text()=="Heatmap"){
-        if(checkBox->checkState()){
-            enableTexture(true);
+}
+
+void Custom3dSurface::toggleRadioButtonItem()
+{
+    QObject* obj = QObject::sender();
+    QRadioButton *radioButton=qobject_cast<QRadioButton *>(obj);
+
+    if(radioButton->text()=="Heatmap"){
+        if(radioButton->isChecked()){
+            enableHeatmap(true);
         }
-        else{
-            enableTexture(false);
+    }
+    if(radioButton->text()=="City picture"){
+        if(radioButton->isChecked()){
+            enableCityPic(true);
+        }
+    }
+    if(radioButton->text()=="Heightmap"){
+        if(radioButton->isChecked()){
+            enableCityPic(false);
         }
     }
 
