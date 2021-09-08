@@ -7,12 +7,12 @@ Custom3dSurfaceWidget::Custom3dSurfaceWidget(QWidget *parent)
 {
     QtDataVisualization::Q3DSurface *graph = new QtDataVisualization::Q3DSurface();
     QWidget *container = QWidget::createWindowContainer(graph);
-    container->setMinimumSize(800, 600);
+    //container->setMinimumSize(800, 600);
     container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     container->setFocusPolicy(Qt::StrongFocus);
     surface_ = new Custom3dSurface(graph);
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QHBoxLayout *mainLayout = new QHBoxLayout;
 
     QFont font = QFont("Century Gothic", 14);
     QLabel *label = new QLabel("Show:");
@@ -28,7 +28,8 @@ Custom3dSurfaceWidget::Custom3dSurfaceWidget(QWidget *parent)
     connect(checkboxOne, &QCheckBox::stateChanged,
                      surface_, &Custom3dSurface::toggleCheckBoxItem);
 
-    QHBoxLayout *heatmapLayout = new QHBoxLayout;
+    QVBoxLayout *heatmapLayout = new QVBoxLayout;
+    heatmapLayout->setAlignment(Qt::AlignTop);
 
     QRadioButton *radioButtonOne = new QRadioButton("Heightmap");
     radioButtonOne->setChecked(true);
@@ -55,7 +56,7 @@ Custom3dSurfaceWidget::Custom3dSurfaceWidget(QWidget *parent)
                      surface_, &Custom3dSurface::toggleRadioButtonItem);
 
 
-    QPushButton *modelButton = new QPushButton("CALCULATE");
+    QPushButton *modelButton = new QPushButton("Re-CALCULATE");
     modelButton->setFont(font);
     heatmapLayout->addWidget(modelButton);
     connect(modelButton, &QPushButton::pressed,
