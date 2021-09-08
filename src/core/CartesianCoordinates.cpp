@@ -54,6 +54,13 @@ double CartesianCoordinates::calculateDistance3D(CartesianCoordinates *remoteEqu
                   qPow ( (getCoordinateZ() - remoteEquipment->getCoordinateZ()), 2) );
 }
 
+double CartesianCoordinates::calculateDistance2D(CartesianCoordinates *remoteEquipment)
+{
+    return sqrt ( qPow ( (getCoordinateX() - remoteEquipment->getCoordinateX()), 2) +
+                  qPow ( (getCoordinateY() - remoteEquipment->getCoordinateY()), 2) );
+}
+
+
 void CartesianCoordinates::setCoordinateX(double x)
 {
     posX_ = x;

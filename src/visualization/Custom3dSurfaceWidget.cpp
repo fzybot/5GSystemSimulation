@@ -26,16 +26,43 @@ Custom3dSurfaceWidget::Custom3dSurfaceWidget(QWidget *parent)
     mainLayout->addWidget(checkboxOne);
 
     connect(checkboxOne, &QCheckBox::stateChanged,
-                     surface_, &Custom3dSurface::toggleItem);
+                     surface_, &Custom3dSurface::toggleCheckBoxItem);
 
-    QCheckBox *checkboxTwo = new QCheckBox("Texture");
-    checkboxTwo->setChecked(false);
-    checkboxTwo->setFont(font);
-    mainLayout->addWidget(checkboxTwo);
+    QHBoxLayout *heatmapLayout = new QHBoxLayout;
 
-    connect(checkboxTwo, &QCheckBox::stateChanged,
-                     surface_, &Custom3dSurface::toggleItem);
+    QRadioButton *radioButtonOne = new QRadioButton("Heightmap");
+    radioButtonOne->setChecked(true);
+    radioButtonOne->setFont(font);
+    heatmapLayout->addWidget(radioButtonOne);
 
+    connect(radioButtonOne, &QRadioButton::clicked,
+                     surface_, &Custom3dSurface::toggleRadioButtonItem);
+
+    QRadioButton *radioButtonTwo = new QRadioButton("City picture");
+    radioButtonTwo->setChecked(false);
+    radioButtonTwo->setFont(font);
+    heatmapLayout->addWidget(radioButtonTwo);
+
+    connect(radioButtonTwo, &QRadioButton::clicked,
+                     surface_, &Custom3dSurface::toggleRadioButtonItem);
+
+    QRadioButton *radioButtonThree = new QRadioButton("Heatmap");
+    radioButtonThree->setChecked(false);
+    radioButtonThree->setFont(font);
+    heatmapLayout->addWidget(radioButtonThree);
+
+    connect(radioButtonThree, &QRadioButton::clicked,
+                     surface_, &Custom3dSurface::toggleRadioButtonItem);
+
+
+    QPushButton *modelButton = new QPushButton("CALCULATE");
+    modelButton->setFont(font);
+    heatmapLayout->addWidget(modelButton);
+    connect(modelButton, &QPushButton::pressed,
+                    surface_, &Custom3dSurface::calculateModel);
+
+
+    mainLayout->addLayout(heatmapLayout);
     mainLayout->addWidget(container);
     setLayout(mainLayout);
 
