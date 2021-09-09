@@ -9,8 +9,6 @@ class CellMacEntity : public MacEntity
 private:
     Scheduler *scheduler_;
 
-    
-
 public:
     CellMacEntity();
 

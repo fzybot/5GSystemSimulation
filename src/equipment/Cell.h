@@ -11,6 +11,7 @@ class CellMacEntity;
 class Physical;
 class gNodeB;
 class Antenna;
+class Scheduler;
 
 class Cell: public Equipment
 {
@@ -24,6 +25,8 @@ protected:
     RlcEntity *rlc;
     CellMacEntity *macEntity_;
     Physical *phyEntity_;
+
+    Scheduler *scheduler_;
 
 public:
     Cell();
@@ -44,4 +47,8 @@ public:
     void createMacEntity();
     void setMacEntity(CellMacEntity *mac);
     CellMacEntity *getMacEntity();
+
+    void createScheduler();
+    void setScheduler(Scheduler *scheduler);
+    Scheduler *getScheduler();
 };

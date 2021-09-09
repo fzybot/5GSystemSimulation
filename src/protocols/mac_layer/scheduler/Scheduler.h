@@ -8,5 +8,5 @@ protected:
 public:
     Scheduler();
 
-    void run();
+    void schedule();
 };

@@ -18,10 +18,13 @@ protected:
     double ambr;
 
 public:
+    Bearer();
     Bearer(int id);
 
     void createDefaultBearer(int id);
     void createBearer(BearerType type, int qci);
 
     int getQci();
+
+    int getId();
 };

@@ -7,7 +7,8 @@
 
 CellMacEntity::CellMacEntity()
 {
-    debug("gNodeB Mac Entity: MAC Entity is created");
+    debug("Cell Mac Entity: MAC Entity is created");
+    dataBuffer_ = new QVector<int>;
     configMacEntity();
     createScheduler();
 }

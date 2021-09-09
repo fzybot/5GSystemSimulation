@@ -8,6 +8,7 @@
 #include "src/core/NetworkManager.h"
 #include "src/core/Simulator.h"
 #include "src/protocols/phy/Channel/RadioChannel.h"
+#include "src/protocols/bearers/Bearer.h"
 
 #include "src/debug.h"
 
@@ -68,6 +69,12 @@ static void Simple ()
         qDebug() <<"    "<<"UE IDs list in CELL";
         for(auto ue: *cell->getUserEquipmentContainer()){
             qDebug() <<"        "<< ue->getEquipmentID();
+            qDebug() <<"        "<< "Bearers:";
+            for (auto bearer: *ue->getBearerContainer()) {
+                qDebug() <<"            "<< bearer->getId();
+            }
+            
+
         }
     }
     // TODO: Need to run a first simple simulation

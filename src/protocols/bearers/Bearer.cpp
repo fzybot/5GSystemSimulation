@@ -1,8 +1,13 @@
 #include "Bearer.h"
 
-Bearer::Bearer(int id)
+Bearer::Bearer()
 {
 
+}
+
+Bearer::Bearer(int id)
+{
+    id_ = id;
 }
 
 void Bearer::createDefaultBearer(int id)
@@ -15,4 +20,9 @@ void Bearer::createDefaultBearer(int id)
 int Bearer::getQci()
 {
     return qci_;
+}
+
+int Bearer::getId()
+{
+    return id_;
 }

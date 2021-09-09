@@ -26,6 +26,11 @@ UserEquipment::UserEquipment(int id,
 
     setLinkBudgetParameters();
 
+    // Bearer config
+    int bearerId = 3;
+    bearerContainer_ = new QVector<Bearer *>();
+    createDefaultBearer(bearerId);
+
     Mobility *m;
     if (model == Mobility::Model::CONSTANT_POSITION)
     {

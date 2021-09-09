@@ -4,6 +4,7 @@
 #include "src/equipment/gNodeB.h"
 #include "src/protocols/phy/Physical.h"
 #include "src/protocols/bearers/Bearer.h"
+#include "src/protocols/mac_layer/scheduler/Scheduler.h"
 
 
 Cell::Cell()
@@ -21,6 +22,9 @@ Cell::Cell()
     // MAC Layer
     createMacEntity();
     getMacEntity()->configMacEntity();
+    
+    // Scheduler
+    createScheduler();
 
     // Bearer config
     int bearerId = 3;
@@ -89,6 +93,17 @@ CellMacEntity *Cell::getMacEntity()
     return macEntity_;
 }
 
+void Cell::createScheduler()
+{
+    scheduler_ = new Scheduler();
+}
 
+void Cell::setScheduler(Scheduler *scheduler)
+{
+    scheduler_ = scheduler;
+}
 
-
+Scheduler *Cell::getScheduler()
+{
+    return scheduler_;
+}
