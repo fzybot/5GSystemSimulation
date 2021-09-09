@@ -3,6 +3,7 @@
 #include "src/protocols/mac_layer/CellMacEntity.h"
 #include "src/equipment/gNodeB.h"
 #include "src/protocols/phy/Physical.h"
+#include "src/protocols/bearers/Bearer.h"
 
 
 Cell::Cell()
@@ -20,7 +21,11 @@ Cell::Cell()
     // MAC Layer
     createMacEntity();
     getMacEntity()->configMacEntity();
-    
+
+    // Bearer config
+    int bearerId = 3;
+    bearerContainer_ = new QVector<Bearer *>();
+    createDefaultBearer(bearerId);
 }
 
 void Cell::attachUE(UserEquipment *ue)

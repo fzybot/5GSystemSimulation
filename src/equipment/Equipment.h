@@ -9,6 +9,7 @@
 #include "src/equipment/mobility/Mobility.h"
 #include "src/core/CartesianCoordinates.h"
 
+class Bearer;
 
 class Equipment
 {
@@ -37,6 +38,8 @@ protected:
 
     Mobility *mobility_;
 
+    QVector<Bearer*> *bearerContainer_;
+
     // TODO: Add physical layer
     // TODO: Add protocol stack
 
@@ -64,6 +67,10 @@ public:
 
     void setMobilityModel(Mobility *model);
     Mobility* getMobilityModel(void);
+
+    void createDefaultBearer(int id);
+    void addBearer(Bearer *bearer);
+    QVector<Bearer*> *getBearerContainer();
 
     void setLinkBudgetParameters();
 

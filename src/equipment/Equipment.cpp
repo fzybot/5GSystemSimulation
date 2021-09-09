@@ -8,13 +8,13 @@
 #include <QDebug>
 
 #include "src/debug.h"
+#include "src/protocols/bearers/Bearer.h"
 
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
 
 Equipment::Equipment() 
 {
     mobility_ = nullptr;
-    bearerContainer_ = new QVector<Bearer *>();
 }
 
 // Equipment::Equipment(int id, EquipmentType type, EquipmentState state)
@@ -66,6 +66,23 @@ void Equipment::setMobilityModel(Mobility* model)
 Mobility* Equipment::getMobilityModel(void)
 {
     return mobility_;
+}
+
+void Equipment::createDefaultBearer(int id)
+{
+    Bearer *bearer = new Bearer(id);
+    bearer->createDefaultBearer(id);
+    bearerContainer_->push_back(bearer);
+}
+
+void Equipment::addBearer(Bearer *bearer)
+{
+    bearerContainer_->push_back(bearer);
+}
+
+QVector<Bearer*> *Equipment::getBearerContainer()
+{
+    return bearerContainer_;
 }
 
 void Equipment::setLinkBudgetParameters()

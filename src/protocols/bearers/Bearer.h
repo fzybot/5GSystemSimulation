@@ -12,11 +12,16 @@ public:
       DRB
     };
 protected:
+    int id_;
     Bearer::BearerType type_;
     int qci_;
+    double ambr;
 
 public:
-    Bearer();
+    Bearer(int id);
 
-    void createDefaultBearer();
+    void createDefaultBearer(int id);
+    void createBearer(BearerType type, int qci);
+
+    int getQci();
 };

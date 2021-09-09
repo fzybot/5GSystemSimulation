@@ -1,11 +1,18 @@
 #include "Bearer.h"
 
-Bearer::Bearer()
+Bearer::Bearer(int id)
 {
-    createDefaultBearer();
+
 }
 
-void Bearer::createDefaultBearer()
+void Bearer::createDefaultBearer(int id)
 {
+    id_ = id;
     qci_ = 5;
+    type_ = BearerType::DRB;
+}
+
+int Bearer::getQci()
+{
+    return qci_;
 }
