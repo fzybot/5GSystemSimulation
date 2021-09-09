@@ -7,19 +7,17 @@ Bearer::Bearer()
 
 Bearer::Bearer(int id)
 {
-    id_ = id;
-}
-
-void Bearer::createDefaultBearer(int id)
-{
-    id_ = id;
-    qci_ = 5;
-    type_ = BearerType::DRB;
+    setId(id);
 }
 
 int Bearer::getQci()
 {
     return qci_;
+}
+
+void Bearer::setId(int id)
+{
+    id_ = id;
 }
 
 int Bearer::getId()

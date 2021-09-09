@@ -3,7 +3,7 @@
 #include "src/protocols/mac_layer/CellMacEntity.h"
 #include "src/equipment/gNodeB.h"
 #include "src/protocols/phy/Physical.h"
-#include "src/protocols/bearers/Bearer.h"
+#include "src/protocols/bearers/RadioBearer.h"
 #include "src/protocols/mac_layer/scheduler/Scheduler.h"
 
 
@@ -28,7 +28,7 @@ Cell::Cell()
 
     // Bearer config
     int bearerId = 3;
-    bearerContainer_ = new QVector<Bearer *>();
+    bearerContainer_ = new QVector<RadioBearer *>();
     createDefaultBearer(bearerId);
 }
 

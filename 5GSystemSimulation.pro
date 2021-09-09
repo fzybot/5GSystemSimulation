@@ -24,6 +24,7 @@ SOURCES += \
     src/equipment/mobility/ConstantPosition.cpp \
     src/protocols/Protocol.cpp \
     src/protocols/bearers/Bearer.cpp \
+    src/protocols/bearers/RadioBearer.cpp \
     src/protocols/mac_layer/AMC/AMCEntity.cpp \
     src/protocols/mac_layer/CellMacEntity.cpp \
     src/protocols/mac_layer/UeMacEntity.cpp \
@@ -71,6 +72,7 @@ HEADERS += \
     src/equipment/mobility/ConstantPosition.h \
     src/protocols/Protocol.h \
     src/protocols/bearers/Bearer.h \
+    src/protocols/bearers/RadioBearer.h \
     src/protocols/mac_layer/AMC/miesmEffSINR.h \
     src/protocols/mac_layer/AMC/AMCEntity.h \
     src/protocols/mac_layer/AMC/AMCParameters.h \

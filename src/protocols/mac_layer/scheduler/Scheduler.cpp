@@ -6,7 +6,7 @@ Scheduler::Scheduler()
 
 }
 
-void Scheduler::run()
+void Scheduler::schedule()
 {
 
 }

@@ -8,7 +8,7 @@
 #include "src/core/NetworkManager.h"
 #include "src/core/Simulator.h"
 #include "src/protocols/phy/Channel/RadioChannel.h"
-#include "src/protocols/bearers/Bearer.h"
+#include "src/protocols/bearers/RadioBearer.h"
 
 #include "src/debug.h"
 

@@ -8,7 +8,7 @@
 #include <QDebug>
 
 #include "src/debug.h"
-#include "src/protocols/bearers/Bearer.h"
+#include "src/protocols/bearers/RadioBearer.h"
 
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
 
@@ -70,17 +70,17 @@ Mobility* Equipment::getMobilityModel(void)
 
 void Equipment::createDefaultBearer(int id)
 {
-    Bearer *bearer = new Bearer(id);
+    RadioBearer *bearer = new RadioBearer();
     bearer->createDefaultBearer(id);
     bearerContainer_->push_back(bearer);
 }
 
-void Equipment::addBearer(Bearer *bearer)
+void Equipment::addBearer(RadioBearer *bearer)
 {
     bearerContainer_->push_back(bearer);
 }
 
-QVector<Bearer*> *Equipment::getBearerContainer()
+QVector<RadioBearer*> *Equipment::getBearerContainer()
 {
     return bearerContainer_;
 }

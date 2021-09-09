@@ -28,7 +28,7 @@ UserEquipment::UserEquipment(int id,
 
     // Bearer config
     int bearerId = 3;
-    bearerContainer_ = new QVector<Bearer *>();
+    bearerContainer_ = new QVector<RadioBearer *>();
     createDefaultBearer(bearerId);
 
     Mobility *m;
