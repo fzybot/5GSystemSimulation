@@ -14,6 +14,7 @@
 Equipment::Equipment() 
 {
     mobility_ = nullptr;
+    bearerContainer_ = new QVector<Bearer *>();
 }
 
 // Equipment::Equipment(int id, EquipmentType type, EquipmentState state)

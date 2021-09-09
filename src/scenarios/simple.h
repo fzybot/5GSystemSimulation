@@ -64,6 +64,11 @@ static void Simple ()
         for(auto ue: *networkManager->getUserEquipmentContainer()){
             qDebug() <<"        "<< ue->getEquipmentID();
         }
+
+        qDebug() <<"    "<<"UE IDs list in CELL";
+        for(auto ue: *cell->getUserEquipmentContainer()){
+            qDebug() <<"        "<< ue->getEquipmentID();
+        }
     }
     // TODO: Need to run a first simple simulation
 

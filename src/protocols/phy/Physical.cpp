@@ -9,17 +9,20 @@ Physical::Physical()
     txSignal_ = new Signal();
     dlChannel_ = new RadioChannel();
     ulChannel_ = new RadioChannel();
-    
+}
+
+void Physical::defaultPhyConfig()
+{
     configBandwidth();
 }
 
 void Physical::setDLChannel(RadioChannel *channel)
 {
-
+    dlChannel_ = channel;
 }
 RadioChannel *Physical::getDLChannel()
 {
-    
+    return dlChannel_;
 }
 
 void Physical::addBandwidth(Bandwidth *b)

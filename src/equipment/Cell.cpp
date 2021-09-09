@@ -13,9 +13,14 @@ Cell::Cell()
     setLinkBudgetParameters();
 
     // Protocols Configuration
+    // Physical
     createPhyEntity();
+    getPhyEntity()->defaultPhyConfig();
+
+    // MAC Layer
     createMacEntity();
     getMacEntity()->configMacEntity();
+    
 }
 
 void Cell::attachUE(UserEquipment *ue)

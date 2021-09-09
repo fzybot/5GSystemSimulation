@@ -22,6 +22,8 @@ protected:
 public:
     Physical();
 
+    void defaultPhyConfig();
+
     void setDLChannel(RadioChannel *channel);
     RadioChannel *getDLChannel();
 
