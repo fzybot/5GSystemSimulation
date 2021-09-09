@@ -184,6 +184,21 @@ double NetworkManager::calcOnePointSINR()
     return 1;
 }
 
+void NetworkManager::setWorkingTime(int time)
+{
+    currentTime_ = time;
+}
+
+int NetworkManager::getWorkingTime()
+{
+    return currentTime_;
+}
+
+void NetworkManager::decreaseTime()
+{
+    currentTime_--;
+}
+
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
 
 // void NetworkManager::print()

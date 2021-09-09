@@ -17,6 +17,9 @@ private:
     QVector<gNodeB*> *gNodeBContainer_;
     QVector<UserEquipment*> *userEquipmentContainer_;
 
+    int startTime_;
+    int currentTime_;
+
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
     NetworkManager();
@@ -34,7 +37,12 @@ public:
     gNodeB* getGNodeBByCellID (int idCell);
     UserEquipment* getUserEquipmentByID (int idUE);
 
-// ----- [ EQUIPMENT GENERATORS ] --------------------------------------------------------------------------------------
+    // Interworking
+    void setWorkingTime(int time); // minimum time unit, 1 slot
+    int getWorkingTime();
+    void decreaseTime();
+
+    // ----- [ EQUIPMENT GENERATORS ] --------------------------------------------------------------------------------------
     Cell* createCell (int idCell);
     Cell* createCell (int idCell, gNodeB *targetGNb);
 
