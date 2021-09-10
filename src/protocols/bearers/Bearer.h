@@ -9,6 +9,12 @@ protected:
     double ambr;
 
 public:
+    struct QoSFlow
+    {
+
+    };
+
+public:
     Bearer();
     Bearer(int id);
 

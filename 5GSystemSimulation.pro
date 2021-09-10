@@ -21,6 +21,7 @@ SOURCES += \
     main.cpp \
     src/core/NetworkManager.cpp \
     src/core/Simulator.cpp \
+    src/equipment/QoS/QoSProfile.cpp \
     src/equipment/mobility/ConstantPosition.cpp \
     src/protocols/Protocol.cpp \
     src/protocols/bearers/Bearer.cpp \
@@ -69,6 +70,7 @@ HEADERS += \
     src/core/NetworkManager.h \
     src/core/Simulator.h \
     src/debug.h \
+    src/equipment/QoS/QoSProfile.h \
     src/equipment/mobility/ConstantPosition.h \
     src/protocols/Protocol.h \
     src/protocols/bearers/Bearer.h \
