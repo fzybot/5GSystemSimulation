@@ -1,18 +1,14 @@
 #pragma once
 
+class QoSProfile;
 
 class Bearer
 {
 protected:
     int id_;
-    int qci_;
     double ambr;
 
-public:
-    struct QoSFlow
-    {
-
-    };
+    QoSProfile *QoS_;
 
 public:
     Bearer();
@@ -21,5 +17,6 @@ public:
     void setId(int id);
     int getId();
 
-    int getQci();
+    void setQoSProfile(QoSProfile *QoS);
+    QoSProfile *getQoSProfile();
 };

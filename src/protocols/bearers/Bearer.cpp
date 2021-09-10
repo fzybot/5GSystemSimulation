@@ -10,11 +10,6 @@ Bearer::Bearer(int id)
     setId(id);
 }
 
-int Bearer::getQci()
-{
-    return qci_;
-}
-
 void Bearer::setId(int id)
 {
     id_ = id;
@@ -23,4 +18,13 @@ void Bearer::setId(int id)
 int Bearer::getId()
 {
     return id_;
+}
+
+void Bearer::setQoSProfile(QoSProfile *QoS)
+{
+    QoS_ = QoS;
+}
+QoSProfile *Bearer::getQoSProfile()
+{
+    return QoS_;
 }
