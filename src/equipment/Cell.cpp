@@ -25,6 +25,7 @@ Cell::Cell()
     
     // Scheduler
     createScheduler();
+    scheduler_->setCell(this);
 
     // Bearer config
     int bearerId = 3;

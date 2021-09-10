@@ -20,7 +20,7 @@ gNodeB::gNodeB(int id, Cell *cell, double posX, double posY, double posZ)
     userEquipmentContainer_ = new QVector<UserEquipment*>();
     cellContainer_ = new QVector<Cell*>();
 
-    setEquipmentID(id);
+    setEquipmentId(id);
     setEquipmentType(Equipment::EquipmentType::TYPE_GNODEB);
     addCell(cell);
 
@@ -38,7 +38,7 @@ gNodeB::gNodeB(int id, double posX, double posY, double posZ)
     userEquipmentContainer_ = new QVector<UserEquipment*>();
     cellContainer_ = new QVector<Cell*>();
 
-    setEquipmentID(id);
+    setEquipmentId(id);
     setEquipmentType(Equipment::EquipmentType::TYPE_GNODEB);
 
     CartesianCoordinates *position = new CartesianCoordinates(posX, posY, posZ);
@@ -73,7 +73,7 @@ void gNodeB::addCell(Cell *cell)
 Cell *gNodeB::getCellByID(int id)
 {
     for (auto cell : *getCellContainer()) {
-        if (cell->getEquipmentID() == id) {
+        if (cell->getEquipmentId() == id) {
             return cell;
         }
     }

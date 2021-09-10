@@ -16,6 +16,7 @@ static void Simple ()
 {
     NetworkManager *networkManager = new NetworkManager();
     RadioChannel *channel = new RadioChannel();
+    networkManager->setWorkingTime(20);
 
     // Create Cell
     int idCell = 0;
@@ -38,19 +39,18 @@ static void Simple ()
     // UserEquipment *ue = networkManager->createUserEquipment(idUE, posX_ue, posY_ue, posZ_ue, cell, gNb);
     // channel->addDevice(ue);
 
-    networkManager->createMultipleUserEquipments(100, 100, 0, 1000, 0, 1000, 100, cell, gNb);
+    networkManager->createMultipleUserEquipments(10, 0, 1000, 0, 1000, 100, cell, gNb);
+    debug("Simple: User Equipments entity are created");
 
-    debug("Simple: User Equipment entity is created");
-
-    networkManager->calcOnePointSINR();
+    networkManager->runNetwork();
 
     // ----- [ Debugging ] -------------------------------------------------------------------------------------------------
-    if (DEBUGGING == true){
+    if (DEBUGGING == false){
         qDebug() << "Network Manager:";
 
         qDebug() <<"    "<<"Cell IDs list";
         for(auto cell: *networkManager->getCellContainer()){
-            qDebug() <<"        "<< cell->getEquipmentID();
+            qDebug() <<"        "<< cell->getEquipmentId();
             qDebug() <<"        "<<"Cell info:";
             qDebug() <<"            "<<cell;
         }
@@ -58,19 +58,19 @@ static void Simple ()
 
         qDebug() <<"    "<<"gNodeB IDs list";
         for(auto gNb: *networkManager->getGNodeBContainer()){
-            qDebug() <<"        "<< gNb->getEquipmentID();
+            qDebug() <<"        "<< gNb->getEquipmentId();
         }
 
         qDebug() <<"    "<<"UE IDs list";
         for(auto ue: *networkManager->getUserEquipmentContainer()){
-            qDebug() <<"        "<< ue->getEquipmentID();
+            qDebug() <<"        "<< ue->getEquipmentId();
         }
 
         qDebug() <<"    "<<"UE IDs list in CELL";
-        for(auto ue: *cell->getUserEquipmentContainer()){
-            qDebug() <<"        "<< ue->getEquipmentID();
+        for( auto ue: *cell->getUserEquipmentContainer() ){
+            qDebug() <<"        "<< ue->getEquipmentId();
             qDebug() <<"        "<< "Bearers:";
-            for (auto bearer: *ue->getBearerContainer()) {
+            for ( auto bearer: *ue->getBearerContainer() ) {
                 qDebug() <<"            "<< bearer->getId();
             }
             

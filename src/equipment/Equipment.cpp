@@ -26,7 +26,7 @@ Equipment::Equipment()
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
 
-void Equipment::setEquipmentID(int id)
+void Equipment::setEquipmentId(int id)
 {
     debug("Equipment: setting equipment id.");
     id_ = id;
@@ -48,7 +48,7 @@ void Equipment::setEquipmentType(EquipmentType type)
     type_ = type;
 }
 
-int Equipment::getEquipmentID()
+int Equipment::getEquipmentId()
 {
     return id_;
 }

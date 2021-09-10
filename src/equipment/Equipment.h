@@ -56,8 +56,8 @@ public:
     Equipment();
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
-    void setEquipmentID(int id);
-    int getEquipmentID();
+    void setEquipmentId(int id);
+    int getEquipmentId();
 
     void setEquipmentType(EquipmentType type);
     EquipmentType getEquipmentType() const;

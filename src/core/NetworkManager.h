@@ -17,7 +17,7 @@ private:
     QVector<gNodeB*> *gNodeBContainer_;
     QVector<UserEquipment*> *userEquipmentContainer_;
 
-    int startTime_;
+    int workingTime_;
     int currentTime_;
 
 public:
@@ -39,10 +39,10 @@ public:
 
     // Interworking
     void setWorkingTime(int time); // minimum time unit, 1 slot
-    int getWorkingTime();
-    void decreaseTime();
+    int getCurrentTime();
+    void decreaseCurrentTime();
 
-    // ----- [ EQUIPMENT GENERATORS ] --------------------------------------------------------------------------------------
+// ----- [ EQUIPMENT GENERATORS ] --------------------------------------------------------------------------------------
     Cell* createCell (int idCell);
     Cell* createCell (int idCell, gNodeB *targetGNb);
 
@@ -53,7 +53,7 @@ public:
                                         double posX, double posY, double posZ, 
                                         Cell *cell, gNodeB *targetGNodeB);
 
-    void createMultipleUserEquipments(int number, int borderID, int lowX, int highX, int lowY, int highY, int borderZ, 
+    void createMultipleUserEquipments(int number, int lowX, int highX, int lowY, int highY, int borderZ, 
                                    Cell *cell, gNodeB *targetGNodeB);
 
     void attachUEtoCell(Cell *cell, UserEquipment *ue);
@@ -72,8 +72,17 @@ public:
     double calcOnePointSINR();
 
 
-// ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
 
-    //void print();
+// ----- [ SIMULATION ] ------------------------------------------------------------------------------------------------
+
+    void runNetwork();
+
+    void scheduleGNodeB(int currentTime);
+
+    void scheduleCells(QVector<Cell*> *cellContainer);
+
+    // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
+
+    void print();
 };
 

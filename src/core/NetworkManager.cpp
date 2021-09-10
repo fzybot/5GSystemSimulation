@@ -2,6 +2,7 @@
 #include "src/equipment/Cell.h"
 #include "src/equipment/gNodeB.h"
 #include "src/equipment/UserEquipment.h"
+#include "src/protocols/mac_layer/scheduler/Scheduler.h"
 
 #include "src/debug.h"
 
@@ -41,7 +42,7 @@ Cell* NetworkManager::createCell (int idCell)
 {
     debug("NetworkManager: starting to create a cell.");
     Cell *cell = new Cell();
-    cell->setEquipmentID(idCell);
+    cell->setEquipmentId(idCell);
     cell->setEquipmentType(Equipment::EquipmentType::TYPE_CELL);
     getCellContainer()->push_back(cell);
 
@@ -51,7 +52,7 @@ Cell* NetworkManager::createCell (int idCell)
 Cell* NetworkManager::createCell (int idCell, gNodeB *targetGNb)
 {
     Cell *cell = new Cell();
-    cell->setEquipmentID(idCell);
+    cell->setEquipmentId(idCell);
     cell->setEquipmentType(Equipment::EquipmentType::TYPE_CELL);
     cell->setTargetGNodeB(targetGNb);
     targetGNb->addCell(cell);
@@ -89,7 +90,7 @@ UserEquipment* NetworkManager::createUserEquipment (int id,
     return ue;
 }
 
-void NetworkManager::createMultipleUserEquipments(  int number, int borderID, int lowX, int highX, int lowY, int highY, 
+void NetworkManager::createMultipleUserEquipments(  int number, int lowX, int highX, int lowY, int highY, 
                                                     int borderZ, Cell *cell, gNodeB *targetGNodeB )
 {
     for (int i = 1; i <= number; i++) {
@@ -107,12 +108,12 @@ void NetworkManager::createMultipleUserEquipments(  int number, int borderID, in
 
 void NetworkManager::attachUEtoCell(Cell *cell, UserEquipment *ue)
 {
-    getCellByID(cell->getEquipmentID())->attachUE(ue);
+    getCellByID(cell->getEquipmentId())->attachUE(ue);
 }
 
 void NetworkManager::attachGNodeBtoCell(Cell *cell, gNodeB *gNb)
 {
-    getCellByID(cell->getEquipmentID())->setTargetGNodeB(gNb);
+    getCellByID(cell->getEquipmentId())->setTargetGNodeB(gNb);
 }
 
 // ----- [ GETTERS\SETTERS ] -------------------------------------------------------------------------------------------
@@ -137,7 +138,7 @@ QVector<UserEquipment*>* NetworkManager::getUserEquipmentContainer (void)
 Cell* NetworkManager::getCellByID (int cellID)
 {
     for (auto cell : *getCellContainer()) {
-        if (cell->getEquipmentID() == cellID) {
+        if (cell->getEquipmentId() == cellID) {
             return cell;
         }
     }
@@ -147,7 +148,7 @@ Cell* NetworkManager::getCellByID (int cellID)
 gNodeB* NetworkManager::getGNodeBByID (int idGNodeB)
 {
     for (auto gNodeB : *getGNodeBContainer()) {
-        if (gNodeB->getEquipmentID() == idGNodeB) {
+        if (gNodeB->getEquipmentId() == idGNodeB) {
             return gNodeB;
         }
     }
@@ -158,7 +159,7 @@ gNodeB* NetworkManager::getGNodeBByCellID (int idCell)
 {
     for (auto gNodeB : *getGNodeBContainer()) {
         // TODO: Check the correct methods...something could be OVERcoded...should be a simpiest way
-        if (gNodeB->getCellByID(idCell)->getEquipmentID() == idCell) {
+        if (gNodeB->getCellByID(idCell)->getEquipmentId() == idCell) {
             return gNodeB;
         }
     }
@@ -168,7 +169,7 @@ gNodeB* NetworkManager::getGNodeBByCellID (int idCell)
 UserEquipment* NetworkManager::getUserEquipmentByID (int idUE)
 {
     for (auto userEquipment : *getUserEquipmentContainer()) {
-        if (userEquipment->getEquipmentID() == idUE) {
+        if (userEquipment->getEquipmentId() == idUE) {
             return userEquipment;
         }
     }
@@ -186,19 +187,43 @@ double NetworkManager::calcOnePointSINR()
 
 void NetworkManager::setWorkingTime(int time)
 {
+    workingTime_ = time;
     currentTime_ = time;
 }
 
-int NetworkManager::getWorkingTime()
+int NetworkManager::getCurrentTime()
 {
     return currentTime_;
 }
 
-void NetworkManager::decreaseTime()
+void NetworkManager::decreaseCurrentTime()
 {
     currentTime_--;
 }
+// ----- [ SIMULATION ] ------------------------------------------------------------------------------------------------
 
+void NetworkManager::runNetwork()
+{
+    while(currentTime_ != 0) {
+        scheduleGNodeB(currentTime_);
+        decreaseCurrentTime();
+        qDebug() << "Current Time ->" << currentTime_;
+    }
+}
+
+void NetworkManager::scheduleGNodeB(int currentTime)
+{
+    for ( auto gNb: *getGNodeBContainer() ) {
+        scheduleCells(gNb->getCellContainer());
+    }
+}
+
+void NetworkManager::scheduleCells(QVector<Cell*> *cellContainer)
+{
+    for (auto cell: *cellContainer) {
+        cell->getScheduler()->doSchedule(cell->getUserEquipmentContainer());
+    }
+}
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
 
 // void NetworkManager::print()

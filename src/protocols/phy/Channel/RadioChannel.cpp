@@ -51,11 +51,11 @@ QVector<Equipment*>* RadioChannel::getConnectedDevices()
 
 void RadioChannel::delDevice(Equipment *e)
 {
-    debug("RadioChannel: Deleting device with ID: ", e->getEquipmentID());
+    debug("RadioChannel: Deleting device with ID: ", e->getEquipmentId());
     QVector<Equipment*> *newList = new QVector<Equipment*>();
     for (auto equip : *getConnectedDevices())
     {
-        if (equip->getEquipmentID() != e->getEquipmentID()) {
+        if (equip->getEquipmentId() != e->getEquipmentId()) {
             newList->push_back(equip);
         }
     }
@@ -68,7 +68,7 @@ void RadioChannel::delDevice(Equipment *e)
 bool RadioChannel::isConnected(Equipment *e)
 {
     for (auto equip : *getConnectedDevices()) {
-        if (equip->getEquipmentID() == e->getEquipmentID()) {
+        if (equip->getEquipmentId() == e->getEquipmentId()) {
             return true;
         }
     }
@@ -79,6 +79,6 @@ void RadioChannel::printConnectedDevices()
 {
     qDebug() << "Radio Channel: List of connected devices: ";
     for (auto equip : *getConnectedDevices()) {
-        qDebug() << "ID: " << equip->getEquipmentID();
+        qDebug() << "ID: " << equip->getEquipmentId();
     }
 }

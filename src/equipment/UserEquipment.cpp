@@ -19,7 +19,7 @@ UserEquipment::UserEquipment(int id,
                              Cell *cell, gNodeB *targetGNodeB, 
                              Mobility::Model model)
 {
-    setEquipmentID(id);
+    setEquipmentId(id);
     setEquipmentType(Equipment::EquipmentType::TYPE_UE);
     setCurrentCell(cell);
     setTargetGNodeB(targetGNodeB);
