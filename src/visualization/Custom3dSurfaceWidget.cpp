@@ -55,7 +55,7 @@ Custom3dSurfaceWidget::Custom3dSurfaceWidget(QWidget *parent)
     calculationVLayout->addWidget(calculationButton);
     calculationGroupBox->setLayout(calculationVLayout);
 
-    QGroupBox *gradientGroupBox = new QGroupBox(QStringLiteral("Gradient"));
+    gradientGroupBox_ = new QGroupBox(QStringLiteral("Gradient"));
 
     int height = 400;
     int width = 100;
@@ -82,19 +82,23 @@ Custom3dSurfaceWidget::Custom3dSurfaceWidget(QWidget *parent)
         pmp.drawText(60, yPos + 2, QString("%1 m").arg(550 - (i * 110)));
     }
 
-    QLabel *label = new QLabel();
-    label->setPixmap(pm);
+    label_ = new QLabel();
+    label_->setPixmap(pm);
 
     QVBoxLayout *colorMapVBox = new QVBoxLayout;
-    colorMapVBox->addWidget(label);
-    gradientGroupBox->setLayout(colorMapVBox);
+    colorMapVBox->addWidget(label_);
+    gradientGroupBox_->setLayout(colorMapVBox);
 
     heatmapLayout->addWidget(viewGroupBox);
     heatmapLayout->addWidget(calculationGroupBox);
-    heatmapLayout->addWidget(gradientGroupBox);
+    heatmapLayout->addWidget(gradientGroupBox_);
 
     connect(checkboxHeight, &QCheckBox::stateChanged,
                         surface_, &Custom3dSurface::toggleCheckBoxItem);
+
+    connect(checkboxHeight, &QCheckBox::stateChanged,
+                        this, &Custom3dSurfaceWidget::changeGradient);
+
     connect(heightButton, &QRadioButton::clicked,
                         surface_, &Custom3dSurface::toggleRadioButtonItem);
     connect(cityButton, &QRadioButton::clicked,
@@ -107,4 +111,37 @@ Custom3dSurfaceWidget::Custom3dSurfaceWidget(QWidget *parent)
     setLayout(mainLayout);
 }
 
+void Custom3dSurfaceWidget::changeGradient()
+{
+    qDebug() << "!SiGNAL!";
+    int height = 400;
+    int width = 100;
+    int border = 10;
+    QLinearGradient gr(0, 0, 1, height - 2 * border);
+    gr.setColorAt(1.0f, Qt::black);
+    gr.setColorAt(0.0f, Qt::white);
+
+    QPixmap pm(width, height);
+    pm.fill(Qt::transparent);
+    QPainter pmp(&pm);
+    pmp.setBrush(QBrush(gr));
+    pmp.setPen(Qt::NoPen);
+    pmp.drawRect(border, border, 35, height - 2 * border);
+    pmp.setPen(Qt::black);
+    int step = (height - 2 * border) / 5;
+    for (int i = 0; i < 6; i++) {
+        int yPos = i * step + border;
+        pmp.drawLine(border, yPos, 55, yPos);
+        pmp.drawText(60, yPos + 2, QString("%1 m").arg(550 - (i * 110)));
+    }
+
+    QLayout* colorMapVBox = gradientGroupBox_->layout();
+
+    label_->setPixmap(pm);
+
+    colorMapVBox->addWidget(label_);
+
+    gradientGroupBox_->setLayout(colorMapVBox);
+
+}
 
