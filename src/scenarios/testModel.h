@@ -584,9 +584,10 @@ void calculateHeatmap3DDDA(double ***data, int X, int Y, int centerFrequency, do
             vector <CartesianCoordinates> slice;
             slice.push_back(*BS);
 
-            for(int k=0; k<L; ++k){
+            for(int k=1; k<=L; ++k){
                 int i = qRound(startX + (k*stepX));
                 int j = qRound(startY + (k*stepY));
+                if(i<0 || i>=lonc || j<0 || j>=latc) break;
                 double pathloss=0;
                 point->setCoordinateX(i);
                 point->setCoordinateY(j);
