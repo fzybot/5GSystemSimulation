@@ -595,10 +595,12 @@ void calculateHeatmap3Dalt(double ***data, int X, int Y, int centerFrequency, do
            if(Sx>=Sy)
            {
                Cx+=Sx;
+               dx++;
            }
            else
            {
                Cy+=Sy;
+               dy++;
            }
 
            int rdx=0,rdy=0;
@@ -609,12 +611,12 @@ void calculateHeatmap3Dalt(double ***data, int X, int Y, int centerFrequency, do
                if(Cx<=Cy)
                {
                    Cx+=Sx;
-                   ((startI)<0) ? dx-- : dx++;
+                   dx++;
                }
                else
                {
                    Cy+=Sy;
-                   ((startJ)<0) ? dy-- : dy++;
+                   dy++;
                }
 
                        rdx=round(dx*cos(fi*M_PI/180)+dy*sin(fi*M_PI/180));
