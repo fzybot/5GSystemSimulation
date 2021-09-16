@@ -23,6 +23,7 @@ void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
     for (auto ue : *userEquipmentContainer)
     {
         qDebug() << "Scheduling....UE--->" << ue->getEquipmentId();
+        qDebug() << "   BufferSize....UE--->" << ue->getBufferSize();
     }
 }
 

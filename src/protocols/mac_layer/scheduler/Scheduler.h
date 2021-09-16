@@ -18,4 +18,7 @@ public:
 
     void setCell(Cell *cell);
     Cell *getCell();
+
+    void timeDomainScheduling();
+    void frequencyDomainScheduling();
 };

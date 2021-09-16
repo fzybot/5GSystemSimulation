@@ -68,3 +68,35 @@ gNodeB *UserEquipment::getTargetGNodeB()
 {
     return targetGNodeB_;
 }
+
+void UserEquipment::setBufferSize(int size)
+{
+    bufferSize_ = size;
+    currentBufferSize_ = size;
+}
+void UserEquipment::decreaseBuffer(int decSize)
+{
+    currentBufferSize_ = currentBufferSize_ - decSize;
+}
+int UserEquipment::getBufferSize()
+{
+    return currentBufferSize_;
+}
+
+void UserEquipment::setHARQ(bool harq)
+{
+    HARQ_ = harq;
+}
+bool UserEquipment::getHARQ()
+{
+    return HARQ_;
+}
+
+void UserEquipment::setBSR(bool bsr)
+{
+    BSR_ = bsr;
+}
+bool UserEquipment::getBSR()
+{
+    return BSR_;
+}
