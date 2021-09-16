@@ -10,6 +10,9 @@
 Scheduler::Scheduler()
 {
     cell_ = nullptr;
+    firstQueue_ = new QVector<int>;
+    timeQueue_ = new QVector<int>;
+    freqQueue_ = new QVector<int>;
 }
 
 void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
@@ -22,9 +25,13 @@ void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
     qDebug() << "Number of PRBs --->" << nPRB;
     for (auto ue : *userEquipmentContainer)
     {
+        addToQueue(ue->getEquipmentId());
         qDebug() << "Scheduling....UE--->" << ue->getEquipmentId();
         qDebug() << "   BufferSize....UE--->" << ue->getBufferSize();
     }
+
+    timeDomainScheduling();
+    frequencyDomainScheduling();
 }
 
 void Scheduler::setCell(Cell *cell)
@@ -34,4 +41,9 @@ void Scheduler::setCell(Cell *cell)
 Cell *Scheduler::getCell()
 {
     return cell_;
+}
+
+void Scheduler::addToQueue(int id)
+{
+    firstQueue_->push_back(id);
 }

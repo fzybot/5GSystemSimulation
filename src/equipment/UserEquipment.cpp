@@ -100,3 +100,12 @@ bool UserEquipment::getBSR()
 {
     return BSR_;
 }
+
+void UserEquipment::setMeasurementGap(bool gap)
+{
+    measurementGAP_ = gap;
+}
+bool UserEquipment::getMeasurementGap()
+{
+    return measurementGAP_;
+}

@@ -49,6 +49,9 @@ public:
     void setBSR(bool bsr);
     bool getBSR();
 
+    void setMeasurementGap(bool gap);
+    bool getMeasurementGap();
+
     // ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
     void calculateEIRP();
 

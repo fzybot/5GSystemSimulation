@@ -9,7 +9,9 @@ class Scheduler
 {
 protected:
     Cell *cell_;
-    QVector<int> queue_;
+    QVector<int> *firstQueue_;
+    QVector<int> *timeQueue_;
+    QVector<int> *freqQueue_;
 
 public:
     Scheduler();
@@ -21,4 +23,7 @@ public:
 
     void timeDomainScheduling();
     void frequencyDomainScheduling();
+
+    void addToQueue(int id);
+    get 
 };
