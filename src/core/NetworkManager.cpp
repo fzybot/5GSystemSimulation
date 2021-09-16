@@ -222,7 +222,20 @@ void NetworkManager::scheduleCells(QVector<Cell*> *cellContainer)
 {
     for (auto cell: *cellContainer) {
         cell->getScheduler()->doSchedule(cell->getUserEquipmentContainer());
+        if (checkHandOver()) {
+            makeHandOver();
+        }
     }
+}
+
+bool NetworkManager::checkHandOver()
+{
+    return false;
+}
+
+void NetworkManager::makeHandOver()
+{
+    qDebug() << "Hand Over in progress...";
 }
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
 

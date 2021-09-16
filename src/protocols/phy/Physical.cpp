@@ -39,6 +39,6 @@ void Physical::configBandwidth()
 {
     //QString fr, QString band, int scs, double ulBw, double dlBw, int ulOffset, int dlOffset, bool tddTrue = true
     Bandwidth *bw = new Bandwidth("FR1", "n3", 15, 10, 20, 0, 0, true);
-    bandwidthContainer_->push_back(bw);
+    addBandwidth(bw);
     
 }

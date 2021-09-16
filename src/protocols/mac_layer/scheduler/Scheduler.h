@@ -9,6 +9,7 @@ class Scheduler
 {
 protected:
     Cell *cell_;
+    QVector<int> queue_;
 
 public:
     Scheduler();

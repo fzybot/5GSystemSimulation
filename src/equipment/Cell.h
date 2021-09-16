@@ -2,6 +2,7 @@
 #include "Equipment.h"
 
 #include <QVector>
+#include <QPair>
 
 class UserEquipment;
 class RrcEntity;
@@ -27,6 +28,8 @@ protected:
     Physical *phyEntity_;
 
     Scheduler *scheduler_;
+
+    QPair<int, int> coresetRange_;
 
 public:
     Cell();
