@@ -21,8 +21,9 @@ public:
     void setCell(Cell *cell);
     Cell *getCell();
 
-    void timeDomainScheduling();
-    void frequencyDomainScheduling();
+    void timeDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer);
+    void frequencyDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer);
 
     void addToQueue(int id);
+    
 };

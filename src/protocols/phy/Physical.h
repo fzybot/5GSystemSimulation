@@ -18,7 +18,6 @@ protected:
     Signal *txSignal_;
 
     float thermalNoise_;
-
 public:
     Physical();
 

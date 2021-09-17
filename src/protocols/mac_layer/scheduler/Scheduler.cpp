@@ -30,8 +30,18 @@ void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
         qDebug() << "   BufferSize....UE--->" << ue->getBufferSize();
     }
 
-    timeDomainScheduling();
-    frequencyDomainScheduling();
+    timeDomainScheduling(userEquipmentContainer);
+    frequencyDomainScheduling(userEquipmentContainer);
+}
+
+void Scheduler::timeDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer)
+{
+
+}
+
+void Scheduler::frequencyDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer)
+{
+
 }
 
 void Scheduler::setCell(Cell *cell)
@@ -47,14 +57,4 @@ Cell *Scheduler::getCell()
 void Scheduler::addToQueue(int id)
 {
     firstQueue_->push_back(id);
-}
-
-void Scheduler::timeDomainScheduling()
-{
-
-}
-
-void Scheduler::frequencyDomainScheduling()
-{
-
 }
