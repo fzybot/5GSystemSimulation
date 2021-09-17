@@ -4,19 +4,10 @@ class QoSProfile;
 
 class Bearer
 {
-protected:
-    int id_;
-    double ambr;
-
-    QoSProfile *QoS_;
-
 public:
-    Bearer();
-    Bearer(int id);
+    virtual void setId(int id) {}
+    virtual int getId() {}
 
-    void setId(int id);
-    int getId();
-
-    void setQoSProfile(QoSProfile *QoS);
-    QoSProfile *getQoSProfile();
+    virtual void setQoSProfile(QoSProfile *QoS) {}
+    virtual QoSProfile *getQoSProfile() {}
 };

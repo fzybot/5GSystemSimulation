@@ -38,6 +38,7 @@ void Scheduler::setCell(Cell *cell)
 {
     cell_ = cell;
 }
+
 Cell *Scheduler::getCell()
 {
     return cell_;
@@ -46,4 +47,14 @@ Cell *Scheduler::getCell()
 void Scheduler::addToQueue(int id)
 {
     firstQueue_->push_back(id);
+}
+
+void Scheduler::timeDomainScheduling()
+{
+
+}
+
+void Scheduler::frequencyDomainScheduling()
+{
+
 }

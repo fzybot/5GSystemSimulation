@@ -25,5 +25,4 @@ public:
     void frequencyDomainScheduling();
 
     void addToQueue(int id);
-    get 
 };
