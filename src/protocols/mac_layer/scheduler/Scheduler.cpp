@@ -36,7 +36,7 @@ void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
 
 void Scheduler::timeDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer)
 {
-
+    qDebug() << "Starting time scheduling-->";
 }
 
 void Scheduler::frequencyDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer)
