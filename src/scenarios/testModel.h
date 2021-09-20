@@ -73,7 +73,7 @@ void testModel()
     clock_t start, end;
     start = clock();
     //---Rays---
-    calculateHeatmap3Drotate(&data, BaseStation->getCoordinateX(), BaseStation->getCoordinateY(), centerFrequency, h, W, BaseStation,
+    calculateHeatmap3DDDA(&data, BaseStation->getCoordinateX(), BaseStation->getCoordinateY(), centerFrequency, h, W, BaseStation,
                        heightUT, shadowFading);
     end = clock();
 
@@ -156,15 +156,15 @@ int isLOSDDA(vector <CartesianCoordinates> slice)
 
     int kIn = 0;
 
-    int intI = 0;
+    int prevI = 0;
     for(int k=0; k<L; ++k){
         int i = qRound(startX + (k*stepX));
         double j = (startY + (k*stepY));
 
-        if(intI < i){
-            intI = i;
+        if(prevI < i){
+            prevI = i;
             if(i > length) break;
-            if(storeysHeights[(int)(slice[i].getCoordinateY()) * lonc + (int)(slice[i].getCoordinateX())][2] >= j){
+            if(storeysHeights[(int)(slice[i].getCoordinateY()) * lonc + (int)(slice[i].getCoordinateX())][2] * storeysToHeight  >= j){
                 kIn++;
             }
         }
