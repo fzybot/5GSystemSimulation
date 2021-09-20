@@ -137,6 +137,12 @@ void Custom3dSurface::enableCityPic(bool check)
 void Custom3dSurface::calculateModel()
 {
     testModel();
+    QImage empty(0,0,QImage::Format_RGB32);
+    series_->setTexture(empty);
+    QString path = QCoreApplication::applicationDirPath();
+    QString texturePath = QString("/pixelMap.bmp");
+    path.append(texturePath);
+    series_->setTextureFile(path);
 }
 
 void Custom3dSurface::fillFromFileCustom(int num)
