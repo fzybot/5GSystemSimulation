@@ -34,6 +34,9 @@ void calculateHeatmap3Drotate(double ***data, int X, int Y, int centerFrequency,
 void calculateHeatmap3DDDA(double ***data, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS,
                         double heightUT, double shadowFading);
 
+void calculateHeatmap3DBresenham(double ***data, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS,
+                                 double heightUT, double shadowFading);
+
 int isLOS(vector <CartesianCoordinates> slice);
 int isLOS_Hash(QHash <int, CartesianCoordinates> slice);
 int isLOS_Hash2(vector <CartesianCoordinates> slice, QHash<int, vector<float>> Hash);
@@ -135,7 +138,41 @@ double getAvgBuildingHeight()
     qDebug()<<"SUM = " << sum;
     return (sum/count);
 }
+int isLOSDDA(vector <CartesianCoordinates> slice)
+{
 
+    //clock_t start, end;
+    //start = clock();
+    double storeysToHeight = 2.7;
+    int length = slice.size();
+
+    int L = qMax(fabs(slice.size()), fabs(slice.back().getCoordinateZ() - slice.front().getCoordinateZ()));
+    L++;
+    double stepX = ((double)(slice.size()))/L;
+    double stepY = ((double)(slice.back().getCoordinateZ() - slice.front().getCoordinateZ()))/L;
+
+    double startX = 0;
+    double startY = slice.front().getCoordinateZ();
+
+    int kIn = 0;
+
+    int intI = 0;
+    for(int k=0; k<L; ++k){
+        int i = qRound(startX + (k*stepX));
+        double j = (startY + (k*stepY));
+
+        if(intI < i){
+            intI = i;
+            if(i > length) break;
+            if(storeysHeights[(int)(slice[i].getCoordinateY()) * lonc + (int)(slice[i].getCoordinateX())][2] >= j){
+                kIn++;
+            }
+        }
+    }
+
+    return kIn;
+
+}
 int isLOS(vector <CartesianCoordinates> slice)
 {
     //clock_t start, end;
@@ -597,7 +634,7 @@ void calculateHeatmap3DDDA(double ***data, int X, int Y, int centerFrequency, do
                 slice.push_back(*point);
 
                 if((*data)[i][j]!=0) continue;
-                kIn = isLOS(slice);
+                kIn = isLOSDDA(slice);
                 if(kIn == 0)
                 {
                         pathloss = UMa_LOS(startPoint->calculateDistance2D(point), 0, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
@@ -758,7 +795,7 @@ void calculateHeatmap3Drotate(double ***data, int X, int Y, int centerFrequency,
     double pixelToMeter = 1.25;
     double storeysToHeight = 2.7;
     //----------------//
-
+    //TODO: feature to calculate max necessary fi_step
     double fi=fi_start;
 
        while(fi<=fi_end)
@@ -788,7 +825,7 @@ void calculateHeatmap3Drotate(double ***data, int X, int Y, int centerFrequency,
                         k++;
                         continue;
                     }
-                    kIn = isLOS(slice);
+                    kIn = isLOSDDA(slice);
                    if(kIn == 0)
                    {
                            pathloss = UMa_LOS(k*pixelToMeter, 0, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
