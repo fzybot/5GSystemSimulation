@@ -163,7 +163,7 @@ int isLOSDDA(vector <CartesianCoordinates> slice)
 
         if(prevI < i){
             prevI = i;
-            if(i > length) break;
+            if(i >= length) break;
             if(storeysHeights[(int)(slice[i].getCoordinateY()) * lonc + (int)(slice[i].getCoordinateX())][2] * storeysToHeight  >= j){
                 kIn++;
             }
