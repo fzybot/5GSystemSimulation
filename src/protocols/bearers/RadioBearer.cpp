@@ -1,13 +1,15 @@
 #include "RadioBearer.h"
+#include "src/equipment/QoS/QoSProfile.h"
 
 RadioBearer::RadioBearer()
 {
-
+    QoS_ = new QoSProfile();
 }
 
 void RadioBearer::createDefaultBearer(int id)
 {
     setId(id);
+    getQoSProfile()->set5QIValue(8);
     type_ = RadioBearerType::DRB;
 }
 

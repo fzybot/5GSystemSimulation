@@ -2,6 +2,7 @@
 #define PHYSICAL_H
 
 #include <QVector>
+
 class Bandwidth;
 class RadioChannel;
 class MacEntity;
@@ -18,6 +19,9 @@ protected:
     Signal *txSignal_;
 
     float thermalNoise_;
+
+    int maxNumberScheuledUE_ = 10;
+
 public:
     Physical();
 

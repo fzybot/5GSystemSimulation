@@ -26,11 +26,6 @@ Cell::Cell()
     // Scheduler
     createScheduler();
     scheduler_->setCell(this);
-
-    // Bearer config
-    int bearerId = 3;
-    bearerContainer_ = new QVector<RadioBearer *>();
-    createDefaultBearer(bearerId);
 }
 
 void Cell::attachUE(UserEquipment *ue)

@@ -1,6 +1,8 @@
 #pragma once
 #include "src/protocols/bearers/Bearer.h"
 
+class QosProfile;
+
 class RadioBearer : public Bearer
 {
 public:

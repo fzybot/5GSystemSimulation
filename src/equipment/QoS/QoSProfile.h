@@ -4,17 +4,32 @@
 class QoSProfile
 {
 private:
-    int qci_;
-    double maxDelay_;
+    int id_;
+    bool gbrNgbr_;
     int priority_;
-    bool arpPreEmptionCapability_;
-    bool arpPreEmptionVulnerability_;
-    double gbr_;
-    double mbr_;
-
+    int delayBudget_;
+    float packetErrorRate_;
+    int dataBurstVolume_;
+    int defaultAveragingWindow_;
 public:
     QoSProfile();
 
+    void set5QIValue(int value);
 
+    void config(
+                bool gbrNgbr,
+                int priority,
+                double delayBudget,
+                float packetErrorRate,
+                int dataBurstVolume,
+                int defaultAveragingWindow
+                );
+
+    int getId();
+    bool getGbrNbr();
+    int getPriority();
+    int getDelayBudget();
+    float getPacketErrorRate();
+    int getDataBurstVolume();
+    int getDefaultAveragingWindow();
 };
-
