@@ -14,19 +14,23 @@ void QoSProfile::set5QIValue(int value)
     switch(value) {
         // GBR
         case 1 : 
-            config(1,   true, 20, 100,     0.01, 0, 2000); 
-            break;                                              
+            config(1,   true, 20, 100,     0.01, 0, 2000);
+            setDataBurstVolumeRange(100, 200);
+            break;
         case 2 : 
-            config(2,   true, 40, 150,    0.001, 0, 2000); 
+            config(2,   true, 40, 150,    0.001, 0, 2000);
+            setDataBurstVolumeRange(500, 1500);
             break;
         case 3 : 
-            config(3,   true, 30,  50,    0.001, 0, 2000); 
+            config(3,   true, 30,  50,    0.001, 0, 2000);
+            setDataBurstVolumeRange(50, 120);
             break; 
         case 4 : 
             config(4,   true, 50, 300, 0.000001, 0, 2000); 
+            setDataBurstVolumeRange(800, 3500);
             break;   
         case 65 : 
-            config(65, true,  7,  75,     0.01, 0, 2000); 
+            config(65, true,  7,  75,     0.01, 0, 2000);
             break; 
         case 66 : 
             config(66, true, 20, 100,    0.001, 0, 2000); 
@@ -54,19 +58,24 @@ void QoSProfile::set5QIValue(int value)
             break; 
         // Non-GBR
         case 5 : 
-            config(5,  false, 10, 100, 0.000001, 0, 0); 
+            config(5,  false, 10, 100, 0.000001, 0, 0);
+            setDataBurstVolumeRange(50, 80);
             break;  
         case 6 : 
             config(6,  false, 60, 300, 0.000001, 0, 0); 
+            setDataBurstVolumeRange(800, 3000);
             break;  
         case 7 : 
             config(7,  false, 70, 100,    0.001, 0, 0); 
+            setDataBurstVolumeRange(400, 1200);
             break;  
         case 8 : 
             config(8,  false, 80, 300, 0.000001, 0, 0); 
+            setDataBurstVolumeRange(800, 3500);
             break;  
         case 9 : 
-            config(9,  false, 90, 300, 0.000001, 0, 0); 
+            config(9,  false, 90, 300, 0.000001, 0, 0);
+            setDataBurstVolumeRange(800, 3500); 
             break;  
         case 69: 
             config(69, false,  5,  60, 0.000001, 0, 0); 
@@ -128,6 +137,17 @@ int QoSProfile::getDefaultAveragingWindow()
     return defaultAveragingWindow_;
 }
 
+void QoSProfile::setDataBurstVolumeRange(int low, int high)
+{
+    typicalDataBurstSize_.first = low;
+    if (dataBurstVolume_ == 0) {
+        typicalDataBurstSize_.second = high;
+    }
+    else {
+        typicalDataBurstSize_.second = dataBurstVolume_;
+    }
+}
+
 void QoSProfile::showProfile()
 {
     qDebug() << "5QI Value: " << getId();
@@ -137,4 +157,7 @@ void QoSProfile::showProfile()
     qDebug() << "Packet Error Rate: " << getPacketErrorRate();
     qDebug() << "Default Maximum Data Burst Volume: " << getDataBurstVolume();
     qDebug() << "Default Averaging Window: " << getDefaultAveragingWindow();
+
+    qDebug() << "Data Burst Volume Low: " << typicalDataBurstSize_.first;
+    qDebug() << "Data Burst Volume High: " << typicalDataBurstSize_.second;
 }
