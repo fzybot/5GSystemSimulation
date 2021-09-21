@@ -14,13 +14,14 @@ TabMenu::TabMenu(QWidget *parent)
 #pragma endregion TemporaryCode
 
     tabWidget = new QTabWidget;
-    // Tab widget for Map
-    tabWidget->addTab(map_, tr("Map"));
 
     // Tab widget for 3D plot
     tabWidget->addTab(surfaceWidget_, tr("3D Surface"));
 
     tabWidget->addTab(chartsWidget_, tr("Charts"));
+
+    // Tab widget for Map
+    tabWidget->addTab(map_, tr("Map"));
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(tabWidget);

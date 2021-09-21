@@ -9,8 +9,15 @@ RadioBearer::RadioBearer()
 void RadioBearer::createDefaultBearer(int id)
 {
     setId(id);
-    getQoSProfile()->set5QIValue(8);
     type_ = RadioBearerType::DRB;
+    getQoSProfile()->set5QIValue(8);
+}
+
+void RadioBearer::createRadioBearer(RadioBearerType type, int id, int QoSProfile)
+{
+    type_ = type;
+    setId(id);
+    getQoSProfile()->set5QIValue(QoSProfile);
 }
 
 void RadioBearer::setId(int id)

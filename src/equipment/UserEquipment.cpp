@@ -5,6 +5,8 @@
 #include "src/equipment/gNodeB.h"
 #include "src/equipment/Cell.h"
 
+#include <QRandomGenerator>
+
 
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
 
@@ -27,10 +29,17 @@ UserEquipment::UserEquipment(int id,
     setLinkBudgetParameters();
 
     // Bearer config
+    // Default Bearer
     int bearerId = 3;
     bearerContainer_ = new QVector<RadioBearer *>();
     createDefaultBearer(bearerId);
 
+    // Additional Data Bearer
+    bearerId++;
+    int randQoSProfile = QRandomGenerator::global()->bounded(1, 9);
+    createBearer(RadioBearer::RadioBearerType::DRB, bearerId, randQoSProfile);
+
+    // Positioning
     Mobility *m;
     if (model == Mobility::Model::CONSTANT_POSITION)
     {
@@ -44,7 +53,6 @@ UserEquipment::UserEquipment(int id,
     CartesianCoordinates *position = new CartesianCoordinates(posX, posY, posZ);
     m->setPosition(position);
     setMobilityModel(m);
-    delete position;
 }
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------

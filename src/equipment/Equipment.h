@@ -8,8 +8,7 @@
 #include "src/commonParameters.h"
 #include "src/equipment/mobility/Mobility.h"
 #include "src/core/CartesianCoordinates.h"
-
-class RadioBearer;
+#include "src/protocols/bearers/RadioBearer.h"
 
 class Equipment
 {
@@ -69,7 +68,7 @@ public:
     Mobility* getMobilityModel(void);
 
     void createDefaultBearer(int id);
-    void addBearer(RadioBearer *bearer);
+    void createBearer(RadioBearer::RadioBearerType type, int id, int QoSProfile);
     QVector<RadioBearer*> *getBearerContainer();
 
     void setLinkBudgetParameters();

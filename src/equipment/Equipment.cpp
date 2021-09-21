@@ -75,8 +75,10 @@ void Equipment::createDefaultBearer(int id)
     bearerContainer_->push_back(bearer);
 }
 
-void Equipment::addBearer(RadioBearer *bearer)
+void Equipment::createBearer(RadioBearer::RadioBearerType type, int id, int QoSProfile)
 {
+    RadioBearer *bearer = new RadioBearer();
+    bearer->createRadioBearer(type, id, QoSProfile);
     bearerContainer_->push_back(bearer);
 }
 

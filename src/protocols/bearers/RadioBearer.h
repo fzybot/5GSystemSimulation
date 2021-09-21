@@ -32,5 +32,5 @@ public:
     QoSProfile *getQoSProfile();
 
     void createDefaultBearer(int id);
-    void createRadioBearer(RadioBearerType type);
+    void createRadioBearer(RadioBearerType type, int id, int QoSProfile);
 };

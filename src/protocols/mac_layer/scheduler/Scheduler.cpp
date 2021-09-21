@@ -30,6 +30,7 @@ void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
         qDebug() << "Scheduling....UE--->" << ue->getEquipmentId();
         qDebug() << "   BufferSize....UE--->" << ue->getBufferSize();
         ue->getBearerContainer()[0][0]->getQoSProfile()->showProfile();
+        ue->getBearerContainer()[0][1]->getQoSProfile()->showProfile();
     }
 
     timeDomainScheduling(userEquipmentContainer);
