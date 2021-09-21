@@ -1,9 +1,8 @@
 #pragma once
 #include "src/protocols/bearers/Bearer.h"
+#include "src/equipment/QoS/QoSProfile.h"
 
-class QosProfile;
-
-class RadioBearer : public Bearer
+class RadioBearer
 {
 public:
     enum class RadioBearerType
@@ -26,11 +25,11 @@ public:
     RadioBearer();
     RadioBearer(int id);
 
-    virtual void setId(int id) override;
-    virtual int getId() override;
+    void setId(int id);
+    int getId();
 
-    virtual void setQoSProfile(QoSProfile *QoS) override;
-    virtual QoSProfile *getQoSProfile() override;
+    void setQoSProfile(QoSProfile *QoS);
+    QoSProfile *getQoSProfile();
 
     void createDefaultBearer(int id);
     void createRadioBearer(RadioBearerType type);

@@ -27,6 +27,7 @@ void RadioBearer::setQoSProfile(QoSProfile *QoS)
 {
     QoS_ = QoS;
 }
+
 QoSProfile *RadioBearer::getQoSProfile()
 {
     return QoS_;

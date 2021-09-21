@@ -17,6 +17,7 @@ public:
     void set5QIValue(int value);
 
     void config(
+                int id,
                 bool gbrNgbr,
                 int priority,
                 double delayBudget,
@@ -32,4 +33,6 @@ public:
     float getPacketErrorRate();
     int getDataBurstVolume();
     int getDefaultAveragingWindow();
+
+    void showProfile();
 };

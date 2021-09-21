@@ -6,9 +6,9 @@ class Bearer
 {
 public:
 
-    virtual void setId(int id) {}
-    virtual int getId() {}
+    void setId(int id) {}
+    int getId() {}
 
-    virtual void setQoSProfile(QoSProfile *QoS) {}
-    virtual QoSProfile *getQoSProfile() {}
+    void setQoSProfile(QoSProfile *QoS) {}
+    QoSProfile *getQoSProfile() {}
 };

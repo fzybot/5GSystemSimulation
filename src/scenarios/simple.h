@@ -16,7 +16,7 @@ static void Simple ()
 {
     NetworkManager *networkManager = new NetworkManager();
     RadioChannel *channel = new RadioChannel();
-    networkManager->setWorkingTime(20);
+    networkManager->setWorkingTime(1);
 
     // Create Cell
     int idCell = 0;
@@ -39,13 +39,13 @@ static void Simple ()
     // UserEquipment *ue = networkManager->createUserEquipment(idUE, posX_ue, posY_ue, posZ_ue, cell, gNb);
     // channel->addDevice(ue);
 
-    networkManager->createMultipleUserEquipments(10, 0, 1000, 0, 1000, 100, cell, gNb);
+    networkManager->createMultipleUserEquipments(2, 0, 1000, 0, 1000, 100, cell, gNb);
     debug("Simple: User Equipments entity are created");
 
     networkManager->runNetwork();
 
     // ----- [ Debugging ] -------------------------------------------------------------------------------------------------
-    if (DEBUGGING == false){
+    if (DEBUGGING == true){
         qDebug() << "Network Manager:";
 
         qDebug() <<"    "<<"Cell IDs list";
@@ -80,6 +80,6 @@ static void Simple ()
     // TODO: Need to run a first simple simulation
 
     Simulator *simulator = new Simulator();
-    simulator->setTime(100);
+    simulator->setTime(1);
     simulator->run();
 }

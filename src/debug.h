@@ -6,7 +6,7 @@
 #include <iostream>
 
 
-static const bool DEBUGGING = true;
+static const bool DEBUGGING = false;
 
 template <typename T>
 void debug1(int v, T a)

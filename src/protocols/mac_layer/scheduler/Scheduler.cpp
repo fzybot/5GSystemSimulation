@@ -3,6 +3,7 @@
 #include "src/equipment/Cell.h"
 #include "src/protocols/phy/Physical.h"
 #include "src/protocols/phy/Channel/Bandwidth.h"
+#include "src/protocols/bearers/RadioBearer.h"
 
 #include <QDebug>
 #include <QVector>
@@ -28,6 +29,7 @@ void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
         addToQueue(ue->getEquipmentId());
         qDebug() << "Scheduling....UE--->" << ue->getEquipmentId();
         qDebug() << "   BufferSize....UE--->" << ue->getBufferSize();
+        ue->getBearerContainer()[0][0]->getQoSProfile()->showProfile();
     }
 
     timeDomainScheduling(userEquipmentContainer);
