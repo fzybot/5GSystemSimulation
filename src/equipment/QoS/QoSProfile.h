@@ -1,5 +1,5 @@
 #pragma once
-
+#include <QPair>
 
 class QoSProfile
 {
@@ -11,6 +11,9 @@ private:
     float packetErrorRate_;
     int dataBurstVolume_;
     int defaultAveragingWindow_;
+
+    QPair <int, int> typicalDataBurstSize_;
+
 public:
     QoSProfile();
 
@@ -33,6 +36,8 @@ public:
     float getPacketErrorRate();
     int getDataBurstVolume();
     int getDefaultAveragingWindow();
+
+    void setDataBurstVolumeRange(int low, int high);
 
     void showProfile();
 };
