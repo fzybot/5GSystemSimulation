@@ -6,29 +6,33 @@
 class Packet
 {
 private:
-    double m_timeStamp;
-    int m_size;
-    int m_id;
+    double timeStamp_;
+    int size_;
+    int id_;
 
-    QVector<bool> m_data;
+    QVector<bool> data_;
 
 
     void addHeaderSize(int s);
     void setPacketSize(int size);
 
 public:
-    Packet() = default;
+    Packet();
     Packet(QVector<bool> data, double timeStamp, int id);
+
+    ~Packet();
 
     void setTimeStamp(double time);
     double getTimeStemp();
+
     void setId(int pId);
     int getId();
 
+    void setSize(int size); // bytes
+    int getSize();
+
     void setData(QVector<bool> data);
     QVector<bool> getData();
-
-    virtual ~Packet();
 
 // TODO: add classes for all the headers below
 //    void addRTPHeader(RTPHeader *header);

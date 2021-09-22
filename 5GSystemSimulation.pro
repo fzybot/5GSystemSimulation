@@ -28,6 +28,7 @@ SOURCES += \
     src/protocols/bearers/RadioBearer.cpp \
     src/protocols/mac_layer/AMC/AMCEntity.cpp \
     src/protocols/mac_layer/CellMacEntity.cpp \
+    src/protocols/mac_layer/TransportBlock.cpp \
     src/protocols/mac_layer/UeMacEntity.cpp \
     src/visualization/ChartGroupWidget.cpp \
     src/visualization/data/DataSource.cpp \
@@ -80,6 +81,7 @@ HEADERS += \
     src/protocols/mac_layer/AMC/AMCParameters.h \
     src/protocols/mac_layer/AMC/miesmParameters.h \
     src/protocols/mac_layer/CellMacEntity.h \
+    src/protocols/mac_layer/TransportBlock.h \
     src/protocols/mac_layer/UeMacEntity.h \
     src/scenarios/simple.h \
     src/scenarios/testModel.h \

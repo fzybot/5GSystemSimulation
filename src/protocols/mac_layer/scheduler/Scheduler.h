@@ -7,7 +7,15 @@ class gNodeB;
 
 class Scheduler
 {
+public:
+    enum class SchedulingAlgorithm
+    {
+      ROUND_ROBIN,
+      PROPOTIONAL_FAIR,
+    };
+
 protected:
+    SchedulingAlgorithm algorithm_;
     Cell *cell_;
     QVector<int> *firstQueue_;
     QVector<int> *timeQueue_;
@@ -21,8 +29,14 @@ public:
     void setCell(Cell *cell);
     Cell *getCell();
 
+    void setAlgorithm(SchedulingAlgorithm algo);
+    SchedulingAlgorithm getAlgorithm();
+
     void timeDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer);
     void frequencyDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer);
+
+    void roundRobin(QVector<UserEquipment*> *userEquipmentContainer);
+    void propotionalFair(QVector<UserEquipment*> *userEquipmentContainer);
 
     void addToQueue(int id);
     

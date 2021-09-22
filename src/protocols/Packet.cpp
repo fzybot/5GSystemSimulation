@@ -1,11 +1,15 @@
 #include "Packet.h"
 
+Packet::Packet()
+{
+    
+}
 
 Packet::Packet(QVector<bool> data, double timeStamp, int id) :
-    m_data(data),
-    m_id(id),
-    m_timeStamp(timeStamp),
-    m_size(data.size())
+    data_(data),
+    id_(id),
+    timeStamp_(timeStamp),
+    size_(data.size())
 {
     /*
     m_RTPHeader = nullptr;
@@ -33,15 +37,24 @@ Packet::~Packet()
 
 void Packet::setTimeStamp(double time)
 {
-    m_timeStamp = time;
+    timeStamp_ = time;
 }
 
 double Packet::getTimeStemp()
 {
-    return m_timeStamp;
+    return timeStamp_;
 }
 
 void Packet::addHeaderSize(int s)
 {
-    m_size += s;
+    size_ += s;
+}
+
+void Packet::setSize(int size)
+{
+    size_ = size;
+}
+int Packet::getSize()
+{
+    return size_;
 }

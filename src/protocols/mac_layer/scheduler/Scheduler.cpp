@@ -16,6 +16,16 @@ Scheduler::Scheduler()
     freqQueue_ = new QVector<int>;
 }
 
+void Scheduler::setAlgorithm(Scheduler::SchedulingAlgorithm algo)
+{
+    algorithm_ = algo;
+}
+
+Scheduler::SchedulingAlgorithm Scheduler::getAlgorithm()
+{
+    return algorithm_;
+}
+
 void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
 {
     qDebug() << "Current Cell Id------>" << cell_->getEquipmentId();
@@ -43,6 +53,25 @@ void Scheduler::timeDomainScheduling(QVector<UserEquipment*> *userEquipmentConta
 }
 
 void Scheduler::frequencyDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer)
+{
+    switch (algorithm_)
+    {
+    case Scheduler::SchedulingAlgorithm::ROUND_ROBIN:
+        roundRobin(userEquipmentContainer);
+        break;
+
+    case Scheduler::SchedulingAlgorithm::PROPOTIONAL_FAIR:
+        propotionalFair(userEquipmentContainer);
+        break;
+    }
+}
+
+void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
+{
+
+}
+
+void Scheduler::propotionalFair(QVector<UserEquipment*> *userEquipmentContainer)
 {
 
 }

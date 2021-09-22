@@ -24,7 +24,7 @@ Cell::Cell()
     getMacEntity()->configMacEntity();
     
     // Scheduler
-    createScheduler();
+    createScheduler(Scheduler::SchedulingAlgorithm::ROUND_ROBIN);
     scheduler_->setCell(this);
 }
 
@@ -89,9 +89,10 @@ CellMacEntity *Cell::getMacEntity()
     return macEntity_;
 }
 
-void Cell::createScheduler()
+void Cell::createScheduler(Scheduler::SchedulingAlgorithm algo)
 {
     scheduler_ = new Scheduler();
+    scheduler_->setAlgorithm(algo);
 }
 
 void Cell::setScheduler(Scheduler *scheduler)

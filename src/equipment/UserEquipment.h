@@ -19,10 +19,8 @@ protected:
     int currentBufferSize_ = bufferSize_;
 
     // TODO: for this part of code it is needed to do a lot of classes for all simplified objects
-    bool HARQ_ = false;
     bool BSR_ = true;
     bool measurementGAP_ = false;
-    bool VoIP = false;
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
@@ -42,9 +40,6 @@ public:
     void setBufferSize(int size);
     void decreaseBuffer(int decSize);
     int getBufferSize();
-
-    void setHARQ(bool harq);
-    bool getHARQ();
 
     void setBSR(bool bsr);
     bool getBSR();

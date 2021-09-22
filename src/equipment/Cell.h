@@ -1,5 +1,6 @@
 #pragma once
 #include "Equipment.h"
+#include "src/protocols/mac_layer/scheduler/Scheduler.h"
 
 #include <QVector>
 #include <QPair>
@@ -12,7 +13,6 @@ class CellMacEntity;
 class Physical;
 class gNodeB;
 class Antenna;
-class Scheduler;
 
 class Cell: public Equipment
 {
@@ -51,7 +51,7 @@ public:
     void setMacEntity(CellMacEntity *mac);
     CellMacEntity *getMacEntity();
 
-    void createScheduler();
+    void createScheduler(Scheduler::SchedulingAlgorithm algo);
     void setScheduler(Scheduler *scheduler);
     Scheduler *getScheduler();
 };
