@@ -75,6 +75,7 @@ public:
     void setLinkBudgetParameters();
 
     void sync120TimeSlot(int *timeSlot);
+    int getLocalSystem120TimeSlot();
 
     // ----- [ PHYSICAL METHODS ] ------------------------------------------------------------------------------------------
     void calculateThermalNoise();

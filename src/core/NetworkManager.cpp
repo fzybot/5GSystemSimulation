@@ -205,6 +205,7 @@ void NetworkManager::decreaseCurrentTime()
 void NetworkManager::runNetwork()
 {
     while(getCurrentTime() != 0) {
+        qDebug() << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
         qDebug() << "Current 120 Time Slot ->" << getCurrentTime();
         scheduleGNodeB();
         decreaseCurrentTime();
@@ -214,6 +215,8 @@ void NetworkManager::runNetwork()
 void NetworkManager::scheduleGNodeB()
 {
     for ( auto gNb: *getGNodeBContainer() ) {
+        gNb->sync120TimeSlot(current120TimeSlot_);
+        qDebug() << "gNodeB local 120 Time Slot --> " << gNb->getLocalSystem120TimeSlot();
         scheduleCells( gNb->getCellContainer() );
     }
 }

@@ -109,6 +109,11 @@ void Equipment::sync120TimeSlot(int *timeSlot)
     localSystem120TimeSlot_ = *timeSlot;
 }
 
+int Equipment::getLocalSystem120TimeSlot()
+{
+    return localSystem120TimeSlot_;
+}
+
 // ----- [ PHYSICAL METHODS ] ------------------------------------------------------------------------------------------
 void Equipment::calculateThermalNoise()
 {
