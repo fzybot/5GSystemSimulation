@@ -16,7 +16,7 @@ static void Simple ()
 {
     NetworkManager *networkManager = new NetworkManager();
     RadioChannel *channel = new RadioChannel();
-    networkManager->setWorkingTime(1);
+    networkManager->setWorkingTime(2);
 
     // Create Cell
     int idCell = 0;

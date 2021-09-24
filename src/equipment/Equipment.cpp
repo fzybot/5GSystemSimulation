@@ -104,6 +104,11 @@ void Equipment::setLinkBudgetParameters()
     }
 }
 
+void Equipment::sync120TimeSlot(int *timeSlot)
+{
+    localSystem120TimeSlot_ = *timeSlot;
+}
+
 // ----- [ PHYSICAL METHODS ] ------------------------------------------------------------------------------------------
 void Equipment::calculateThermalNoise()
 {

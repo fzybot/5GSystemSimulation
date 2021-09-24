@@ -30,6 +30,7 @@ public:
 protected:
     int id_;
 
+    int localSystem120TimeSlot_;
     double lastTime_;
 
     Equipment::EquipmentState state_;
@@ -72,6 +73,8 @@ public:
     QVector<RadioBearer*> *getBearerContainer();
 
     void setLinkBudgetParameters();
+
+    void sync120TimeSlot(int *timeSlot);
 
     // ----- [ PHYSICAL METHODS ] ------------------------------------------------------------------------------------------
     void calculateThermalNoise();

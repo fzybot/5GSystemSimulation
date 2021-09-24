@@ -187,34 +187,34 @@ double NetworkManager::calcOnePointSINR()
 
 void NetworkManager::setWorkingTime(int time)
 {
-    workingTime_ = time;
-    currentTime_ = time;
+    workit120TimeSlot_ =  new int(time);
+    current120TimeSlot_ = new int(time);
 }
 
 int NetworkManager::getCurrentTime()
 {
-    return currentTime_;
+    return *current120TimeSlot_;
 }
 
 void NetworkManager::decreaseCurrentTime()
 {
-    currentTime_--;
+    *current120TimeSlot_ = *current120TimeSlot_ - 1;
 }
 // ----- [ SIMULATION ] ------------------------------------------------------------------------------------------------
 
 void NetworkManager::runNetwork()
 {
-    while(currentTime_ != 0) {
-        scheduleGNodeB(currentTime_);
+    while(getCurrentTime() != 0) {
+        qDebug() << "Current 120 Time Slot ->" << getCurrentTime();
+        scheduleGNodeB();
         decreaseCurrentTime();
-        qDebug() << "Current Time ->" << currentTime_;
     }
 }
 
-void NetworkManager::scheduleGNodeB(int currentTime)
+void NetworkManager::scheduleGNodeB()
 {
     for ( auto gNb: *getGNodeBContainer() ) {
-        scheduleCells(gNb->getCellContainer());
+        scheduleCells( gNb->getCellContainer() );
     }
 }
 

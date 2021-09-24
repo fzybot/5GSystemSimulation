@@ -17,8 +17,9 @@ private:
     QVector<gNodeB*> *gNodeBContainer_;
     QVector<UserEquipment*> *userEquipmentContainer_;
 
-    int workingTime_;
-    int currentTime_;
+    // Each time value (granularity) is equal to 1 slot for 120 [kHz] SCS.
+    int *workit120TimeSlot_;
+    int *current120TimeSlot_;
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
@@ -77,7 +78,7 @@ public:
 
     void runNetwork();
 
-    void scheduleGNodeB(int currentTime);
+    void scheduleGNodeB();
 
     void scheduleCells(QVector<Cell*> *cellContainer);
 
