@@ -7,7 +7,6 @@ import QtPositioning 5.6
 MapQuickItem {
     id: item
     property string name;
-    property var coordinates
     property var lat
     property var lon
     property var moveToLat : lat

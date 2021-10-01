@@ -22,7 +22,8 @@ Item {
         BS {
             id:base
             name: "Base Station #1"
-            coordinates: QtPositioning.coordinate(55.012902, 82.950326)
+            lat: 55.012902
+            lon: 82.950326
         }
 
         UE {

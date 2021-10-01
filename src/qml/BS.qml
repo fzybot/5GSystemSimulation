@@ -7,10 +7,11 @@ import QtPositioning 5.6
 MapQuickItem {
     id: item
     property string name;
-    property var coordinates
+    property var lat
+    property var lon
     anchorPoint.x: image.width/2
     anchorPoint.y: image.height/2
-    coordinate: coordinates
+    coordinate: QtPositioning.coordinate(lat, lon)
 
     zoomLevel: 13.1
 
