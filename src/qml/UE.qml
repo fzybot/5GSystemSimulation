@@ -8,17 +8,65 @@ MapQuickItem {
     id: item
     property string name;
     property var coordinates
+    property var lat
+    property var lon
+    property var moveToLat : lat
+    property var moveToLon : lon
     anchorPoint.x: image.width/2
     anchorPoint.y: image.height/2
-    coordinate: coordinates
+    coordinate: QtPositioning.coordinate(lat,lon)
+    state:"idle"
 
-    zoomLevel: 13.1
+    //zoomLevel: 1.1
 
     sourceItem: Image{
         id: image
 
         source: "UE.png"
-        height: 10
-        width: 10
+        height: 20
+        width: 20
     }
+
+    states: [
+        State {
+            name: "moved"
+            PropertyChanges {
+                target: item
+                lat:moveToLat
+                lon:moveToLon
+
+            }
+        },
+        State {
+            name: "idle"
+        }
+    ]
+
+    transitions: [
+        Transition {
+            from: "idle"
+            to: "moved"
+            NumberAnimation { properties: "lat,lon"; duration: 1000 }
+        }
+     ]
+
+    Timer {
+        interval: 1000; running: true; repeat: true
+        onTriggered:
+        {
+            if(item.state==="idle"){
+                if(item.lat!==moveToLat || item.lon!==moveToLon){
+                    item.state = "moved"
+                }
+            }
+            if(item.state==="moved"){
+                if(item.lat===moveToLat && item.lon===moveToLon){
+                    item.state = "idle"
+                    lat = moveToLat
+                    lon = moveToLon
+                }
+            }
+        }
+    }
+
 }

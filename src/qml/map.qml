@@ -28,7 +28,10 @@ Item {
         UE {
             id:someUE
             name: "user #1"
-            coordinates: QtPositioning.coordinate(55.012902, 82.970326)
+            lat: 55.012902
+            lon: 82.970326
+            moveToLat: 55.012902
+            moveToLon: 82.950326
         }
     }
 
