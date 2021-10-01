@@ -18,6 +18,22 @@ Item {
         plugin: mapPlugin
         center: QtPositioning.coordinate(55.012902, 82.950326) // Sibsutis
         zoomLevel: 14
+
+        BS {
+            id:base
+            name: "Base Station #1"
+            lat: 55.012902
+            lon: 82.950326
+        }
+
+        UE {
+            id:someUE
+            name: "user #1"
+            lat: 55.012902
+            lon: 82.970326
+            moveToLat: 55.012902
+            moveToLon: 82.950326
+        }
     }
 
     PositionSource {
@@ -51,4 +67,5 @@ Item {
         }
 
     }
+
 }

@@ -25,6 +25,18 @@ void calculateHeatmap3Dfast(double ***data, int X, int Y, int centerFrequency, d
 void calculateHeatmap3DTest(double ***data, int ***data2, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS,
                             double heightUT, double shadowFading);
 
+void calculateHeatmap3Dalt(double ***data, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS,
+                        double heightUT, double shadowFading);
+
+void calculateHeatmap3Drotate(double ***data, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS,
+                        double heightUT, double shadowFading);
+
+void calculateHeatmap3DDDA(double ***data, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS,
+                        double heightUT, double shadowFading);
+
+void calculateHeatmap3DBresenham(double ***data, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS,
+                                 double heightUT, double shadowFading);
+
 int isLOS(vector <CartesianCoordinates> slice);
 int isLOS_Hash(QHash <int, CartesianCoordinates> slice);
 int isLOS_Hash2(vector <CartesianCoordinates> slice, QHash<int, vector<float>> Hash);
@@ -61,7 +73,7 @@ void testModel()
     clock_t start, end;
     start = clock();
     //---Rays---
-    calculateHeatmap3DTest(&data, &data2, BaseStation->getCoordinateX(), BaseStation->getCoordinateY(), centerFrequency, h, W, BaseStation,
+    calculateHeatmap3DDDA(&data, BaseStation->getCoordinateX(), BaseStation->getCoordinateY(), centerFrequency, h, W, BaseStation,
                        heightUT, shadowFading);
     end = clock();
 
@@ -126,7 +138,41 @@ double getAvgBuildingHeight()
     qDebug()<<"SUM = " << sum;
     return (sum/count);
 }
+int isLOSDDA(vector <CartesianCoordinates> slice)
+{
 
+    //clock_t start, end;
+    //start = clock();
+    double storeysToHeight = 2.7;
+    int length = slice.size();
+
+    int L = qMax(fabs(slice.size()), fabs(slice.back().getCoordinateZ() - slice.front().getCoordinateZ()));
+    L++;
+    double stepX = ((double)(slice.size()))/L;
+    double stepY = ((double)(slice.back().getCoordinateZ() - slice.front().getCoordinateZ()))/L;
+
+    double startX = 0;
+    double startY = slice.front().getCoordinateZ();
+
+    int kIn = 0;
+
+    int prevI = 0;
+    for(int k=0; k<L; ++k){
+        int i = qRound(startX + (k*stepX));
+        double j = (startY + (k*stepY));
+
+        if(prevI < i){
+            prevI = i;
+            if(i >= length) break;
+            if(storeysHeights[(int)(slice[i].getCoordinateY()) * lonc + (int)(slice[i].getCoordinateX())][2] * storeysToHeight  >= j){
+                kIn++;
+            }
+        }
+    }
+
+    return kIn;
+
+}
 int isLOS(vector <CartesianCoordinates> slice)
 {
     //clock_t start, end;
@@ -544,6 +590,272 @@ void calculateHeatmap3DTest(double ***data, int ***data2, int X, int Y, int cent
         }
     }
 }
+
+void calculateHeatmap3DDDA(double ***data, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS,
+                        double heightUT, double shadowFading)
+{
+    int x=X, y=Y;
+
+    double BSPower = 43; //[dBm]
+    double AGain = 18;   //[dBm]
+
+    //---[SETTINGS]---//
+    double fi_start = 0;
+    double fi_end = 360;
+    double fi_step = 0.01;
+    double pixelToMeter = 1.25;
+    double storeysToHeight = 2.7;
+    //----------------//
+
+    for(int dirX=0; dirX<lonc; ++dirX){
+        for(int dirY=0; dirY<latc; ++dirY){
+            if((dirX!=0 && (dirY==0 || dirY==latc-1)) ||
+                    (dirY!=0 && (dirX==0 || dirX==lonc-1))){
+            int L = qMax(fabs(dirX - x), fabs(dirY - y));
+            L++;
+            double stepX = ((double)(dirX - x))/L;
+            double stepY = ((double)(dirY - y))/L;
+
+            double startX = x;
+            double startY = y;
+            int kIn=0;
+            CartesianCoordinates *point = new CartesianCoordinates(0, 0, heightUT);
+            CartesianCoordinates *startPoint = new CartesianCoordinates(x,y, BS->getCoordinateZ());
+            vector <CartesianCoordinates> slice;
+            slice.push_back(*BS);
+
+            for(int k=1; k<=L; ++k){
+                int i = qRound(startX + (k*stepX));
+                int j = qRound(startY + (k*stepY));
+                if(i<0 || i>=lonc || j<0 || j>=latc) break;
+                double pathloss=0;
+                point->setCoordinateX(i);
+                point->setCoordinateY(j);
+                slice.push_back(*point);
+
+                if((*data)[i][j]!=0) continue;
+                kIn = isLOSDDA(slice);
+                if(kIn == 0)
+                {
+                        pathloss = UMa_LOS(startPoint->calculateDistance2D(point), 0, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                        if(pathloss == -1){
+                            (*data)[i][j] = 20000;
+                        }
+                        else{
+                        (*data)[i][j]= BSPower + AGain - pathloss;
+                        }
+                }
+                else
+                {
+                    pathloss = UMa_NLOS(startPoint->calculateDistance2D(point) - kIn*pixelToMeter, kIn*pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                    if(pathloss == -1){
+                        (*data)[i][j] = 20000;
+                    }
+                    else{
+                    (*data)[i][j]= BSPower + AGain - pathloss;
+                    }
+
+                }
+
+            }
+            }
+        }
+    }
+
+}
+
+void calculateHeatmap3Dalt(double ***data, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS,
+                        double heightUT, double shadowFading)
+{
+    int x=X, y=Y;
+
+    double BSPower = 43; //[dBm]
+    double AGain = 18;   //[dBm]
+
+    //---[SETTINGS]---//
+    double fi_start = 0;
+    double fi_end = 360;
+    double fi_step = 0.01;
+    double pixelToMeter = 1.25;
+    double storeysToHeight = 2.7;
+    //----------------//
+
+    double fi=fi_start;
+
+    int startI=0;
+    int startJ=0;
+
+       while(fi<=fi_end)
+       {
+           startI=1;
+           startJ=latc;
+
+           double C=0,Sx=0,Sy=0;
+           double Cx=0,Cy=0;
+           int dx=0,dy=0;
+
+           C=sqrt(pow(startI,2) + pow(startJ,2));
+
+           Sx=sqrt(1 + pow(startJ/startI,2));
+           Sy=sqrt(1 + pow(startI/startJ,2));
+
+           dx=0;
+           dy=0;
+           Cx=0;
+           Cy=0;
+
+           int k=0;
+           int kIn = 0;
+           double pathloss = 0;
+
+           if(Sx>=Sy)
+           {
+               Cx+=Sx;
+               dx++;
+           }
+           else
+           {
+               Cy+=Sy;
+               dy++;
+           }
+
+           int rdx=0,rdy=0;
+           vector <CartesianCoordinates> slice;
+           slice.push_back(*BS);
+           do
+           {
+               if(Cx<=Cy)
+               {
+                   Cx+=Sx;
+                   dx++;
+               }
+               else
+               {
+                   Cy+=Sy;
+                   dy++;
+               }
+
+                       rdx=round(dx*cos(fi*M_PI/180)+dy*sin(fi*M_PI/180));
+                       rdy=round(dx*(-1)*sin(fi*M_PI/180)+dy*cos(fi*M_PI/180));
+
+                       rdx=rdx+x;
+                       rdy=rdy+y;
+
+                       if(rdx<0 || rdx>=lonc || rdy<0 || rdy>=latc) break;
+                    slice.push_back(CartesianCoordinates(rdx, rdy, heightUT));
+                    if((*data)[rdx][rdy]!=0){
+                        k++;
+                        continue;
+                    }
+                    kIn = isLOS(slice);
+                   if(kIn == 0)
+                   {
+                           pathloss = UMa_LOS(k*pixelToMeter, 0, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                           if(pathloss == -1){
+                               (*data)[rdx][rdy] = 20000;
+                           }
+                           else{
+                           (*data)[rdx][rdy]= BSPower + AGain - pathloss;
+                           }
+                           k++;
+                   }
+                   else
+                   {
+                       pathloss = UMa_NLOS((k-kIn)*pixelToMeter, kIn*pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                       if(pathloss == -1){
+                           (*data)[rdx][rdy] = 20000;
+                       }
+                       else{
+                       (*data)[rdx][rdy]= BSPower + AGain - pathloss;
+                       }
+                       k++;
+                       kIn++;
+                   }
+
+           }while(rdy>=0 && rdy<latc && rdx>=0 && rdx<lonc);
+
+       fi=fi+fi_step;
+   }
+}
+
+
+
+void calculateHeatmap3Drotate(double ***data, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS,
+                        double heightUT, double shadowFading)
+{
+    int x=X, y=Y;
+
+    double BSPower = 43; //[dBm]
+    double AGain = 18;   //[dBm]
+
+    //---[SETTINGS]---//
+    double fi_start = 0;
+    double fi_end = 360;
+    double fi_step = 0.01;
+    double pixelToMeter = 1.25;
+    double storeysToHeight = 2.7;
+    //----------------//
+    //TODO: feature to calculate max necessary fi_step
+    double fi=fi_start;
+
+       while(fi<=fi_end)
+       {
+           int dx=0,dy=0;
+
+           int k=0;
+           int kIn = 0;
+           double pathloss = 0;
+
+           int rdx=0,rdy=0;
+           vector <CartesianCoordinates> slice;
+           slice.push_back(*BS);
+           do
+           {
+               dy++;
+
+                       rdx=round(dx*cos(fi*M_PI/180)+dy*sin(fi*M_PI/180));
+                       rdy=round(dx*(-1)*sin(fi*M_PI/180)+dy*cos(fi*M_PI/180));
+
+                       rdx=rdx+x;
+                       rdy=rdy+y;
+
+                       if(rdx<0 || rdx>=lonc || rdy<0 || rdy>=latc) break;
+                    slice.push_back(CartesianCoordinates(rdx, rdy, heightUT));
+                    if((*data)[rdx][rdy]!=0){
+                        k++;
+                        continue;
+                    }
+                    kIn = isLOSDDA(slice);
+                   if(kIn == 0)
+                   {
+                           pathloss = UMa_LOS(k*pixelToMeter, 0, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                           if(pathloss == -1){
+                               (*data)[rdx][rdy] = 20000;
+                           }
+                           else{
+                           (*data)[rdx][rdy]= BSPower + AGain - pathloss;
+                           }
+                           k++;
+                   }
+                   else
+                   {
+                       pathloss = UMa_NLOS((k-kIn)*pixelToMeter, kIn*pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                       if(pathloss == -1){
+                           (*data)[rdx][rdy] = 20000;
+                       }
+                       else{
+                       (*data)[rdx][rdy]= BSPower + AGain - pathloss;
+                       }
+                       k++;
+                       kIn++;
+                   }
+
+           }while(rdy>=0 && rdy<latc && rdx>=0 && rdx<lonc);
+
+       fi=fi+fi_step;
+   }
+}
+
 
 void calculateHeatmap3Dfast(double ***data, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS,
                         double heightUT, double shadowFading)

@@ -2,5 +2,9 @@
     <qresource prefix="/">
         <file>qml/map.qml</file>
         <file>qml/test_item.qml</file>
+        <file>qml/BS.png</file>
+        <file>qml/UE.png</file>
+        <file>qml/BS.qml</file>
+        <file>qml/UE.qml</file>
     </qresource>
 </RCC>
