@@ -19,24 +19,17 @@ Item {
         center: QtPositioning.coordinate(55.012902, 82.950326) // Sibsutis
         zoomLevel: 14
 
-        MapQuickItem {
-            id: item
-
-            anchorPoint.x: image.width/2
-            anchorPoint.y: image.height/2
-            coordinate: QtPositioning.coordinate(55.012902, 82.950326)
-
-            zoomLevel: 13.1
-
-            sourceItem: Image{
-                id: image
-                //color: "red"
-                source: "BS.png"
-                height: 10
-                width: 10
-            }
+        BS {
+            id:base
+            name: "Base Station #1"
+            coordinates: QtPositioning.coordinate(55.012902, 82.950326)
         }
 
+        UE {
+            id:someUE
+            name: "user #1"
+            coordinates: QtPositioning.coordinate(55.012902, 82.970326)
+        }
     }
 
     PositionSource {
