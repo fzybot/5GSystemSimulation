@@ -31,6 +31,7 @@ SOURCES += \
     src/protocols/mac_layer/TransportBlock.cpp \
     src/protocols/mac_layer/UeMacEntity.cpp \
     src/visualization/ChartGroupWidget.cpp \
+    src/visualization/MapToCpp.cpp \
     src/visualization/data/DataSource.cpp \
     src/visualization/menu/mainWindow.cpp \
     src/core/CartesianCoordinates.cpp \
@@ -86,6 +87,7 @@ HEADERS += \
     src/scenarios/simple.h \
     src/scenarios/testModel.h \
     src/visualization/ChartGroupWidget.h \
+    src/visualization/MapToCpp.h \
     src/visualization/data/DataSource.h \
     src/visualization/menu/mainWindow.h \
     src/commonParameters.h \

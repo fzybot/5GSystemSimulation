@@ -3,10 +3,9 @@ import QtQuick.Window 2.14
 import QtLocation 5.6
 import QtPositioning 5.6
 
-
 Item {
     visible: true
-
+    property int someNumber: 13
     Plugin {
         id: mapPlugin
         name: "osm"
@@ -17,23 +16,8 @@ Item {
         anchors.fill: parent
         plugin: mapPlugin
         center: QtPositioning.coordinate(55.012902, 82.950326) // Sibsutis
-        zoomLevel: 14
+        zoomLevel: 14     
 
-        BS {
-            id:base
-            name: "Base Station #1"
-            lat: 55.012902
-            lon: 82.950326
-        }
-
-        UE {
-            id:someUE
-            name: "user #1"
-            lat: 55.012902
-            lon: 82.970326
-            moveToLat: 55.012902
-            moveToLon: 82.950326
-        }
     }
 
     PositionSource {

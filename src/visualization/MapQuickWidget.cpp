@@ -1,8 +1,14 @@
 #include "MapQuickWidget.h"
+#include "MapToCpp.h"
 
 #include <QDebug>
 #include <QQmlComponent>
 
+#include <QGuiApplication>
+#include <QQmlProperty>
+#include <QQuickView>
+#include <QQuickItem>
+#include <QMetaObject>
 
 
 MapQuickWidget::MapQuickWidget(QWidget* parent) :
@@ -11,10 +17,24 @@ MapQuickWidget::MapQuickWidget(QWidget* parent) :
 {
     connect(manager, &QNetworkAccessManager::finished, this, &MapQuickWidget::findAddress);
 
+    QQuickView view(QUrl("qrc://src/qml/map.qml"));
+    view.show();
+
+    QObject *qmlObj=view.rootObject();
+
+    qDebug()<<"qml root height"<<qmlObj->property("someNumber");
+    QQmlProperty(qmlObj,"someNumber").write(200);
+    qDebug()<<"qml root height"<<qmlObj->property("someNumber");
+
+
+    //---------
     setSource(QUrl("qrc://src/qml/map.qml"));
     setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     getAddress("55°00'46.3N", "82°57'01.5E");
+
+    //UE->setProperty("moveToLat", "55.012902");
+
     //getAddress("80°00'47.5N", "82°57'01.9E");
     //getAddress("60°00'47.5N", "52°57'01.9E");
     //getAddress("34°00'47.5N", "12°57'01.9E");
