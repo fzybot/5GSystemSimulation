@@ -3,9 +3,13 @@
 #include <QVector>
 #include <QBitArray>
 #include "src/protocols/Protocol.h"
+#include "src/protocols/mac_layer/TransportBlock.h"
+#include "src/protocols/Packet.h"
+
 class Equipment;
 class AMCEntity;
 class HARQEntity;
+class RlcPacket;
 
 class MacEntity
 {
@@ -43,4 +47,7 @@ public:
     //void createShcedulerEntity();
 
     void configMacEntity();
+
+    TransportBlock* packetToTBS(Packet* packet);
+    TransportBlock* rlcToTBS(RlcPacket* packet);
 };

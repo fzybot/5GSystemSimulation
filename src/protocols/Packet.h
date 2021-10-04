@@ -5,22 +5,22 @@
 
 class Packet
 {
-private:
+protected:
     double timeStamp_;
     int size_;
     int id_;
 
     QVector<bool> data_;
 
-
-    void addHeaderSize(int s);
-    void setPacketSize(int size);
-
 public:
     Packet();
     Packet(QVector<bool> data, double timeStamp, int id);
+    Packet(int size, double timeStamp, int id);
 
     ~Packet();
+
+    void addHeaderSize(int s);
+    void setPacketSize(int size);
 
     void setTimeStamp(double time);
     double getTimeStemp();
@@ -34,38 +34,40 @@ public:
     void setData(QVector<bool> data);
     QVector<bool> getData();
 
-// TODO: add classes for all the headers below
-//    void addRTPHeader(RTPHeader *header);
-//    RTPHeader* getRTPHeader();
+    // TODO: add to raw data realisation according to specifications
+    QVector<bool> *toRawData();
 
-//    void addUDPHeader(UDPHeader *header);
-//    UDPHeader* getUDPHeader();
+    // TODO: add classes for all the headers below
+    //    void addRTPHeader(RTPHeader *header);
+    //    RTPHeader* getRTPHeader();
 
-//    void addIPHeader(IPHeader *header);
-//    IPHeader* getIPHeader();
+    //    void addUDPHeader(UDPHeader *header);
+    //    UDPHeader* getUDPHeader();
 
-//    void addSDAPHeader (SDAPHeader *header);
-//    SDAPHeader* getSDAPHeader();
+    //    void addIPHeader(IPHeader *header);
+    //    IPHeader* getIPHeader();
 
-//    void addPDCPHeader(PDCPHeader *header);
-//    PDCDHeader* getPDCPHeader();
+    //    void addSDAPHeader (SDAPHeader *header);
+    //    SDAPHeader* getSDAPHeader();
 
-//    void addRLCHeader(RLCHeader *header);
-//    RLCHeader* getRLCHeader();
+    //    void addPDCPHeader(PDCPHeader *header);
+    //    PDCDHeader* getPDCPHeader();
 
-//    void addMACHeader(MACHeader *header);
-//    MACHeader* getMACHeader();
+    //    void addRLCHeader(RLCHeader *header);
+    //    RLCHeader* getRLCHeader();
 
+    //    void addMACHeader(MACHeader *header);
+    //    MACHeader* getMACHeader();
 
-/*
+    /*
  * Additional headers per each packet from RTP (for VoIP packets) down to
  *
  */
-//    RTPHeader *m_RTPHeader;
-//    UPDHeader *m_UDPHeader;
-//    IPHeader *m_IPHeader;
-//    SDAPHeader *m_SDAPHeader;
-//    PDCPHeader *m_PDCPHeader;
-//    RLCHeader *m_RLCHeader;
-//    MACHeader *m_MACHeader;
+    //    RTPHeader *m_RTPHeader;
+    //    UPDHeader *m_UDPHeader;
+    //    IPHeader *m_IPHeader;
+    //    SDAPHeader *m_SDAPHeader;
+    //    PDCPHeader *m_PDCPHeader;
+    //    RLCHeader *m_RLCHeader;
+    //    MACHeader *m_MACHeader;
 };

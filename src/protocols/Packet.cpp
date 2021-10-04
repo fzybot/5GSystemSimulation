@@ -5,12 +5,12 @@ Packet::Packet()
     
 }
 
-Packet::Packet(QVector<bool> data, double timeStamp, int id) :
-    data_(data),
-    id_(id),
-    timeStamp_(timeStamp),
-    size_(data.size())
+Packet::Packet(QVector<bool> data, double timeStamp, int id)
 {
+    data_ = data;
+    id_ = id;
+    timeStamp_ = timeStamp;
+    size_ = data.size();
     /*
     m_RTPHeader = nullptr;
     m_UDPHeader = nullptr;
@@ -20,6 +20,13 @@ Packet::Packet(QVector<bool> data, double timeStamp, int id) :
     m_RLCHeader = nullptr;
     m_MACHeader = nullptr;
     */
+}
+
+Packet::Packet(int size, double timeStamp, int id)
+{
+    size_ = size;
+    timeStamp_ = timeStamp;
+    id_ = id;
 }
 
 Packet::~Packet()

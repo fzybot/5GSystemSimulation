@@ -212,6 +212,7 @@ void NetworkManager::runNetwork()
     }
 }
 
+// TODO: Here we could make parallel calculations!!! Threads, etc.
 void NetworkManager::scheduleGNodeB()
 {
     for ( auto gNb: *getGNodeBContainer() ) {
@@ -221,13 +222,14 @@ void NetworkManager::scheduleGNodeB()
     }
 }
 
+// TODO: Here we could make parallel calculations!!! Threads, etc.
 void NetworkManager::scheduleCells(QVector<Cell*> *cellContainer)
 {
     for (auto cell: *cellContainer) {
-        cell->getScheduler()->doSchedule(cell->getUserEquipmentContainer());
         if (checkHandOver()) {
             makeHandOver();
         }
+        cell->getScheduler()->doSchedule(cell->getUserEquipmentContainer());
     }
 }
 
