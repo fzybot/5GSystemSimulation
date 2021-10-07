@@ -45,17 +45,22 @@ static void Simple ()
     networkManager->runNetwork();
 
     // ----- [ Debugging ] -------------------------------------------------------------------------------------------------
-    if (DEBUGGING == true){
+    if (DEBUGGING == false){
         qDebug() << "Network Manager:";
 
         qDebug() <<"    "<<"Cell IDs list";
         for(auto cell: *networkManager->getCellContainer()){
-            qDebug() <<"        "<< cell->getEquipmentId();
-            qDebug() <<"        "<<"Cell info:";
-            qDebug() <<"            "<<cell;
+            qDebug() <<"        "<< "Cell id: " << cell->getEquipmentId();
+            qDebug() <<"            "<<"Cell info:";
+            qDebug() <<"            "<<"UE IDs list in CELL";
+            for( auto ue: *cell->getUserEquipmentContainer() ){
+                qDebug() <<"            "<< "UE id: " << ue->getEquipmentId();
+                qDebug() <<"                "<< "Bearers:";
+                for ( auto bearer: *ue->getBearerContainer() ) {
+                    qDebug() <<"                "<< "id: " << bearer->getId();
+                }
+            }
         }
-
-
         qDebug() <<"    "<<"gNodeB IDs list";
         for(auto gNb: *networkManager->getGNodeBContainer()){
             qDebug() <<"        "<< gNb->getEquipmentId();
@@ -64,17 +69,6 @@ static void Simple ()
         qDebug() <<"    "<<"UE IDs list";
         for(auto ue: *networkManager->getUserEquipmentContainer()){
             qDebug() <<"        "<< ue->getEquipmentId();
-        }
-
-        qDebug() <<"    "<<"UE IDs list in CELL";
-        for( auto ue: *cell->getUserEquipmentContainer() ){
-            qDebug() <<"        "<< ue->getEquipmentId();
-            qDebug() <<"        "<< "Bearers:";
-            for ( auto bearer: *ue->getBearerContainer() ) {
-                qDebug() <<"            "<< bearer->getId();
-            }
-            
-
         }
     }
     // TODO: Need to run a first simple simulation
