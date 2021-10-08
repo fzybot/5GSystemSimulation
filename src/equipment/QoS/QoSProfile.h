@@ -3,7 +3,7 @@
 
 class QoSProfile
 {
-private:
+protected:
     int id_;
     bool gbrNgbr_;
     int priority_;
@@ -12,7 +12,7 @@ private:
     int dataBurstVolume_;
     int defaultAveragingWindow_;
 
-    QPair <int, int> typicalDataBurstSize_;
+    QPair <int, int> dataBurstVolumeRangeSize_;
 
 public:
     QoSProfile();
@@ -38,6 +38,7 @@ public:
     int getDefaultAveragingWindow();
 
     void setDataBurstVolumeRange(int low, int high);
+    QPair<int , int> &getDataBurstVolumeRange();
 
     void showProfile();
 };

@@ -1,5 +1,9 @@
 #include "RadioBearer.h"
 #include "src/equipment/QoS/QoSProfile.h"
+#include "src/protocols/Packet.h"
+
+#include <QRandomGenerator>
+#include <QDebug>
 
 RadioBearer::RadioBearer()
 {
@@ -38,4 +42,22 @@ void RadioBearer::setQoSProfile(QoSProfile *QoS)
 QoSProfile *RadioBearer::getQoSProfile()
 {
     return QoS_;
+}
+
+void RadioBearer::generatePackets(int number, int currentSlot)
+{
+    if (QoS_ != nullptr) {
+        for (int i = 0; i < number; i++) {
+            int size = QRandomGenerator::global()->bounded( getQoSProfile()->getDataBurstVolumeRange().first, 
+                                                            getQoSProfile()->getDataBurstVolumeRange().second);
+            qDebug() << "Packt size ------>>>>> " << size;
+            Packet pack(size, currentSlot, i);
+            packetsInBuffer_.push_back(pack);
+        }
+    }
+}
+
+QVector<Packet> &RadioBearer::getPacketsContainer()
+{
+    return packetsInBuffer_;
 }

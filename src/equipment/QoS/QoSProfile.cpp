@@ -139,13 +139,18 @@ int QoSProfile::getDefaultAveragingWindow()
 
 void QoSProfile::setDataBurstVolumeRange(int low, int high)
 {
-    typicalDataBurstSize_.first = low;
+    dataBurstVolumeRangeSize_.first = low;
     if (dataBurstVolume_ == 0) {
-        typicalDataBurstSize_.second = high;
+        dataBurstVolumeRangeSize_.second = high;
     }
     else {
-        typicalDataBurstSize_.second = dataBurstVolume_;
+        dataBurstVolumeRangeSize_.second = dataBurstVolume_;
     }
+}
+
+QPair<int, int> &QoSProfile::getDataBurstVolumeRange() 
+{
+    return dataBurstVolumeRangeSize_;
 }
 
 void QoSProfile::showProfile()
@@ -158,6 +163,6 @@ void QoSProfile::showProfile()
     qDebug() << "Default Maximum Data Burst Volume: " << getDataBurstVolume();
     qDebug() << "Default Averaging Window: " << getDefaultAveragingWindow();
 
-    qDebug() << "Data Burst Volume Low: " << typicalDataBurstSize_.first;
-    qDebug() << "Data Burst Volume High: " << typicalDataBurstSize_.second;
+    qDebug() << "Data Burst Volume Low: " << dataBurstVolumeRangeSize_.first;
+    qDebug() << "Data Burst Volume High: " << dataBurstVolumeRangeSize_.second;
 }

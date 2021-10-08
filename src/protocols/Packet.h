@@ -9,6 +9,7 @@ protected:
     double timeStamp_;
     int size_;
     int id_;
+    int slotToTransmit_;
 
     QVector<bool> data_;
 
@@ -16,6 +17,7 @@ public:
     Packet();
     Packet(QVector<bool> data, double timeStamp, int id);
     Packet(int size, double timeStamp, int id);
+    Packet(int size, int slot, int id);
 
     ~Packet();
 

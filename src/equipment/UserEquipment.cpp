@@ -39,6 +39,9 @@ UserEquipment::UserEquipment(int id,
     int randQoSProfile = QRandomGenerator::global()->bounded(1, 9);
     createBearer(RadioBearer::RadioBearerType::DRB, bearerId, randQoSProfile);
 
+    // Generate Traffic per each bearer
+    generatePacketsPerBearer();
+
     // Positioning
     Mobility *m;
     if (model == Mobility::Model::CONSTANT_POSITION)

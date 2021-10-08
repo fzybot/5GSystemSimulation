@@ -29,6 +29,13 @@ Packet::Packet(int size, double timeStamp, int id)
     id_ = id;
 }
 
+Packet::Packet(int size, int slot, int id)
+{
+    size_ = size;
+    slotToTransmit_ = slot;
+    id_ = id;
+}
+
 Packet::~Packet()
 {
     /*
