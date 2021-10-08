@@ -9,7 +9,9 @@
 #include <QQuickView>
 #include <QQuickItem>
 #include <QMetaObject>
-
+#include "UEModel.h"
+#include <QQmlEngine>
+#include <QQmlContext>
 
 MapQuickWidget::MapQuickWidget(QWidget* parent) :
     QQuickWidget(parent),
@@ -17,15 +19,15 @@ MapQuickWidget::MapQuickWidget(QWidget* parent) :
 {
     connect(manager, &QNetworkAccessManager::finished, this, &MapQuickWidget::findAddress);
 
-    QQuickView view(QUrl("qrc://src/qml/map.qml"));
+    UEModel ueModel;
+
+    QQuickView view;
+
+    QQmlContext *context = view.engine()->rootContext();
+    context->setContextProperty("_ueModel", &ueModel);
+
+    view.setSource(QUrl("qrc://src/qml/map.qml"));
     view.show();
-
-    QObject *qmlObj=view.rootObject();
-
-    qDebug()<<"qml root height"<<qmlObj->property("someNumber");
-    QQmlProperty(qmlObj,"someNumber").write(200);
-    qDebug()<<"qml root height"<<qmlObj->property("someNumber");
-
 
     //---------
     setSource(QUrl("qrc://src/qml/map.qml"));

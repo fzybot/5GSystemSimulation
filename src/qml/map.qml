@@ -5,7 +5,6 @@ import QtPositioning 5.6
 
 Item {
     visible: true
-    property int someNumber: 13
     Plugin {
         id: mapPlugin
         name: "osm"
@@ -16,9 +15,12 @@ Item {
         anchors.fill: parent
         plugin: mapPlugin
         center: QtPositioning.coordinate(55.012902, 82.950326) // Sibsutis
-        zoomLevel: 14     
+        zoomLevel: 14
 
-    }
+
+
+        }
+
 
     PositionSource {
         id: src
