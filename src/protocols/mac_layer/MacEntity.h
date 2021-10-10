@@ -19,6 +19,8 @@ protected:
     AMCEntity *amcEntity_;
     HARQEntity *harqEntity_;
 
+    TransportBlock tbsEntity_;
+
     // Data transmission
     QVector<int> *dataBuffer_;
 

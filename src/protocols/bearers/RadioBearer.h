@@ -1,6 +1,6 @@
 #pragma once
 #include "src/protocols/bearers/Bearer.h"
-#include "src/equipment/QoS/QoSProfile.h"
+#include "src/protocols/QoS/QoSProfile.h"
 #include "src/protocols/Packet.h"
 
 class RadioBearer
@@ -18,11 +18,15 @@ private:
     RadioBearer::RadioBearerType type_;
 
     int id_;
-    double ambr;
+    double ambr_;
 
     QoSProfile *QoS_;
 
     QVector<Packet> packetsInBuffer_;
+
+    // COUNTERS 
+    int counterDataTransmitted_;
+    int counterSlotTransmitted_;
 
 public:
     RadioBearer();
@@ -39,4 +43,7 @@ public:
 
     void generatePackets(int number, int currentSlot);
     QVector<Packet> &getPacketsContainer();
+
+    int &getCounterDataTransmitted();
+    int &getCounterSlotTransmitted();
 };

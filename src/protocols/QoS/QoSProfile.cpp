@@ -15,11 +15,11 @@ void QoSProfile::set5QIValue(int value)
         // GBR
         case 1 : 
             config(1,   true, 20, 100,     0.01, 0, 2000);
-            setDataBurstVolumeRange(100, 200);
+            setDataBurstVolumeRange(100, 160);
             break;
         case 2 : 
             config(2,   true, 40, 150,    0.001, 0, 2000);
-            setDataBurstVolumeRange(500, 1500);
+            setDataBurstVolumeRange(200, 1500);
             break;
         case 3 : 
             config(3,   true, 30,  50,    0.001, 0, 2000);
@@ -27,7 +27,7 @@ void QoSProfile::set5QIValue(int value)
             break; 
         case 4 : 
             config(4,   true, 50, 300, 0.000001, 0, 2000); 
-            setDataBurstVolumeRange(800, 3500);
+            setDataBurstVolumeRange(500, 2500);
             break;   
         case 65 : 
             config(65, true,  7,  75,     0.01, 0, 2000);
@@ -63,7 +63,7 @@ void QoSProfile::set5QIValue(int value)
             break;  
         case 6 : 
             config(6,  false, 60, 300, 0.000001, 0, 0); 
-            setDataBurstVolumeRange(800, 3000);
+            setDataBurstVolumeRange(800, 2000);
             break;  
         case 7 : 
             config(7,  false, 70, 100,    0.001, 0, 0); 
@@ -71,11 +71,11 @@ void QoSProfile::set5QIValue(int value)
             break;  
         case 8 : 
             config(8,  false, 80, 300, 0.000001, 0, 0); 
-            setDataBurstVolumeRange(800, 3500);
+            setDataBurstVolumeRange(800, 1800);
             break;  
         case 9 : 
             config(9,  false, 90, 300, 0.000001, 0, 0);
-            setDataBurstVolumeRange(800, 3500); 
+            setDataBurstVolumeRange(800, 1500); 
             break;  
         case 69: 
             config(69, false,  5,  60, 0.000001, 0, 0); 

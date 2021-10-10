@@ -104,3 +104,8 @@ Scheduler *Cell::getScheduler()
 {
     return scheduler_;
 }
+
+void Cell::schedule()
+{
+    this->getScheduler()->doSchedule(this->getUserEquipmentContainer());
+}

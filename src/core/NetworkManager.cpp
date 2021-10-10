@@ -187,18 +187,18 @@ double NetworkManager::calcOnePointSINR()
 
 void NetworkManager::setWorkingTime(int time)
 {
-    workit120TimeSlot_ =  new int(time);
-    current120TimeSlot_ = new int(time);
+    workit120TimeSlot_ =  time;
+    current120TimeSlot_ = time;
 }
 
-int NetworkManager::getCurrentTime()
+int &NetworkManager::getCurrentTime()
 {
-    return *current120TimeSlot_;
+    return current120TimeSlot_;
 }
 
 void NetworkManager::decreaseCurrentTime()
 {
-    *current120TimeSlot_ = *current120TimeSlot_ - 1;
+    current120TimeSlot_ = current120TimeSlot_ - 1;
 }
 // ----- [ SIMULATION ] ------------------------------------------------------------------------------------------------
 
@@ -218,7 +218,7 @@ void NetworkManager::scheduleGNodeB()
     for ( auto gNb: *getGNodeBContainer() ) {
         gNb->sync120TimeSlot(current120TimeSlot_);
         qDebug() << "gNodeB local 120 Time Slot --> " << gNb->getLocalSystem120TimeSlot();
-        scheduleCells( gNb->getCellContainer() );
+        scheduleCells(gNb->getCellContainer());
     }
 }
 
@@ -229,7 +229,7 @@ void NetworkManager::scheduleCells(QVector<Cell*> *cellContainer)
         if (checkHandOver()) {
             makeHandOver();
         }
-        cell->getScheduler()->doSchedule(cell->getUserEquipmentContainer());
+        cell->schedule();
     }
 }
 

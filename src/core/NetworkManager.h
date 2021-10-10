@@ -18,8 +18,8 @@ private:
     QVector<UserEquipment*> *userEquipmentContainer_;
 
     // Each time value (granularity) is equal to 1 slot for 120 [kHz] SCS.
-    int *workit120TimeSlot_;
-    int *current120TimeSlot_;
+    int workit120TimeSlot_;
+    int current120TimeSlot_;
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ public:
 
     // Interworking
     void setWorkingTime(int time); // minimum time unit, 1 slot
-    int getCurrentTime();
+    int &getCurrentTime();
     void decreaseCurrentTime();
 
 // ----- [ EQUIPMENT GENERATORS ] --------------------------------------------------------------------------------------

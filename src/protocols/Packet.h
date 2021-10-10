@@ -9,7 +9,8 @@ protected:
     double timeStamp_;
     int size_;
     int id_;
-    int slotToTransmit_;
+    int timeSlotGenerated_;
+    int timeSlotTransmitted_;
 
     QVector<bool> data_;
 

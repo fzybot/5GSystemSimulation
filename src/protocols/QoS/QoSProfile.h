@@ -11,8 +11,8 @@ protected:
     float packetErrorRate_;
     int dataBurstVolume_;
     int defaultAveragingWindow_;
-
-    QPair <int, int> dataBurstVolumeRangeSize_;
+    int periodicity_;
+    QPair<int, int> dataBurstVolumeRangeSize_;
 
 public:
     QoSProfile();

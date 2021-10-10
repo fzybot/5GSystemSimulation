@@ -32,7 +32,7 @@ Packet::Packet(int size, double timeStamp, int id)
 Packet::Packet(int size, int slot, int id)
 {
     size_ = size;
-    slotToTransmit_ = slot;
+    timeSlotGenerated_ = slot;
     id_ = id;
 }
 

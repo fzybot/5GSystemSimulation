@@ -54,4 +54,5 @@ public:
     void createScheduler(Scheduler::SchedulingAlgorithm algo);
     void setScheduler(Scheduler *scheduler);
     Scheduler *getScheduler();
+    void schedule();
 };

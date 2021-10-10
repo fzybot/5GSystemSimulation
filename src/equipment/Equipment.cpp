@@ -111,9 +111,9 @@ void Equipment::setLinkBudgetParameters()
     }
 }
 
-void Equipment::sync120TimeSlot(int *timeSlot)
+void Equipment::sync120TimeSlot(int &timeSlot)
 {
-    localSystem120TimeSlot_ = *timeSlot;
+    localSystem120TimeSlot_ = timeSlot;
 }
 
 int Equipment::getLocalSystem120TimeSlot()

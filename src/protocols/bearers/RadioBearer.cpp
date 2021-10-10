@@ -1,5 +1,5 @@
 #include "RadioBearer.h"
-#include "src/equipment/QoS/QoSProfile.h"
+#include "src/protocols/QoS/QoSProfile.h"
 #include "src/protocols/Packet.h"
 
 #include <QRandomGenerator>
@@ -60,4 +60,13 @@ void RadioBearer::generatePackets(int number, int currentSlot)
 QVector<Packet> &RadioBearer::getPacketsContainer()
 {
     return packetsInBuffer_;
+}
+
+int &RadioBearer::getCounterDataTransmitted()
+{
+    return counterDataTransmitted_;
+}
+int &RadioBearer::getCounterSlotTransmitted()
+{
+    return counterSlotTransmitted_;
 }
