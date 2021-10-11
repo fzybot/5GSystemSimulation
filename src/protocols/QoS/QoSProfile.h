@@ -4,14 +4,14 @@
 class QoSProfile
 {
 protected:
-    int id_;
-    bool gbrNgbr_;
-    int priority_;
-    int delayBudget_;
-    float packetErrorRate_;
-    int dataBurstVolume_;
-    int defaultAveragingWindow_;
-    int periodicity_;
+    int             id_;
+    bool            gbrNgbr_;
+    int             priority_;
+    int             delayBudget_;
+    float           packetErrorRate_;
+    int             dataBurstVolume_;
+    int             defaultAveragingWindow_;
+    int             periodicity_;
     QPair<int, int> dataBurstVolumeRangeSize_;
 
 public:
