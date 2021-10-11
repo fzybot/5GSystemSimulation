@@ -145,6 +145,7 @@ void QoSProfile::setDataBurstVolumeRange(int low, int high)
     }
     else {
         dataBurstVolumeRangeSize_.second = dataBurstVolume_;
+        dataBurstVolumeRangeSize_.first = dataBurstVolume_;
     }
 }
 
