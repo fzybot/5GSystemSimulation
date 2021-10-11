@@ -19,7 +19,7 @@ private:
     PropagationLossModel *propagationLossModel_;
 
 public:
-    enum ChannelModel
+    enum class ChannelModel
     {
       CHANNEL_MODEL_MACROCELL_URBAN,
       CHANNEL_MODEL_MACROCELL_SUB_URBAN,
