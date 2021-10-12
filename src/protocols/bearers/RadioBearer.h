@@ -21,8 +21,9 @@ private:
     int             id_;
     double          ambr_;
     QoSProfile      *QoS_;
-    ServiceTrafficProfile  trafficProfile_;
-    QVector<Packet> packetsInBuffer_;
+
+    ServiceTrafficProfile   trafficProfile_;
+    QVector<Packet>         packetsInBuffer_;
 
     // COUNTERS 
     int counterDataTransmitted_;
