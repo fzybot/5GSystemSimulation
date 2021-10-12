@@ -17,8 +17,8 @@ public:
 private:
     RadioBearer::RadioBearerType type_;
 
-    int id_;
-    double ambr_;
+    int     id_;
+    double  ambr_;
 
     QoSProfile *QoS_;
 
