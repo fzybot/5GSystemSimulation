@@ -1,7 +1,7 @@
 #include "RadioBearer.h"
 #include "src/protocols/QoS/QoSProfile.h"
 #include "src/protocols/Packet.h"
-#include "src/protocols/TrafficProfile.h"
+#include "src/protocols/ServiceTrafficProfile.h"
 
 #include <QRandomGenerator>
 #include <QDebug>
@@ -45,12 +45,12 @@ QoSProfile *RadioBearer::getQoSProfile()
     return QoS_;
 }
 
-void RadioBearer::setTrafficProfile(TrafficProfile::Profile profile)
+void RadioBearer::setTrafficProfile(ServiceTrafficProfile::Profile profile)
 {
 
 }
 
-TrafficProfile &RadioBearer::getTrafficProfile()
+ServiceTrafficProfile &RadioBearer::getTrafficProfile()
 {
     return trafficProfile_;
 }

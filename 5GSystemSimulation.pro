@@ -24,7 +24,7 @@ SOURCES += \
     src/protocols/QoS/QoSProfile.cpp \
     src/equipment/mobility/ConstantPosition.cpp \
     src/protocols/Protocol.cpp \
-    src/protocols/TrafficProfile.cpp \
+    src/protocols/ServiceTrafficProfile.cpp \
     src/protocols/bearers/Bearer.cpp \
     src/protocols/bearers/RadioBearer.cpp \
     src/protocols/mac_layer/AMC/AMCEntity.cpp \
@@ -75,7 +75,7 @@ HEADERS += \
     src/protocols/QoS/QoSProfile.h \
     src/equipment/mobility/ConstantPosition.h \
     src/protocols/Protocol.h \
-    src/protocols/TrafficProfile.h \
+    src/protocols/ServiceTrafficProfile.h \
     src/protocols/bearers/Bearer.h \
     src/protocols/bearers/RadioBearer.h \
     src/protocols/mac_layer/AMC/miesmEffSINR.h \
