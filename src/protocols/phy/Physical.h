@@ -20,7 +20,7 @@ protected:
 
     float thermalNoise_;
 
-    int maxNumberScheuledUE_ = 10;
+    int maxNumberOfScheuledUE_ = 10;
 
 public:
     Physical();

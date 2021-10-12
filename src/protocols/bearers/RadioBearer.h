@@ -2,6 +2,7 @@
 #include "src/protocols/bearers/Bearer.h"
 #include "src/protocols/QoS/QoSProfile.h"
 #include "src/protocols/Packet.h"
+#include "src/protocols/TrafficProfile.h"
 
 class RadioBearer
 {
@@ -17,11 +18,10 @@ public:
 private:
     RadioBearer::RadioBearerType type_;
 
-    int     id_;
-    double  ambr_;
-
-    QoSProfile *QoS_;
-
+    int             id_;
+    double          ambr_;
+    QoSProfile      *QoS_;
+    TrafficProfile  trafficProfile_;
     QVector<Packet> packetsInBuffer_;
 
     // COUNTERS 
@@ -40,6 +40,9 @@ public:
 
     void createDefaultBearer(int id);
     void createRadioBearer(RadioBearerType type, int id, int QoSProfile);
+
+    void setTrafficProfile(TrafficProfile::Profile profile);
+    TrafficProfile &getTrafficProfile();
 
     void generatePackets(int number, int currentSlot);
     QVector<Packet> &getPacketsContainer();

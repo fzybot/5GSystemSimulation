@@ -1,6 +1,7 @@
 #include "RadioBearer.h"
 #include "src/protocols/QoS/QoSProfile.h"
 #include "src/protocols/Packet.h"
+#include "src/protocols/TrafficProfile.h"
 
 #include <QRandomGenerator>
 #include <QDebug>
@@ -42,6 +43,16 @@ void RadioBearer::setQoSProfile(QoSProfile *QoS)
 QoSProfile *RadioBearer::getQoSProfile()
 {
     return QoS_;
+}
+
+void RadioBearer::setTrafficProfile(TrafficProfile::Profile profile)
+{
+
+}
+
+TrafficProfile &RadioBearer::getTrafficProfile()
+{
+    return trafficProfile_;
 }
 
 void RadioBearer::generatePackets(int number, int currentSlot)

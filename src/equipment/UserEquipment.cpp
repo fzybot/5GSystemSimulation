@@ -56,6 +56,7 @@ UserEquipment::UserEquipment(int id,
     CartesianCoordinates *position = new CartesianCoordinates(posX, posY, posZ);
     m->setPosition(position);
     setMobilityModel(m);
+    delete position;
 }
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------

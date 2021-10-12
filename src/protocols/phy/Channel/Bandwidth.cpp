@@ -38,6 +38,41 @@ Bandwidth::Bandwidth(QString fr, QString band, int scs, double ulBw,
     }
 }
 
+QString Bandwidth::getFrequencyRange()
+{
+    return frequencyRange_;
+}
+
+QString Bandwidth::getBand()
+{
+    return operatingBand_;
+}
+
+double Bandwidth::getCarrierFreq()
+{
+    return carrierFreq_;
+}
+
+double Bandwidth::getUlBandwidth()
+{
+    return ulBandwidth_;
+}
+
+double Bandwidth::getDlBandwidth()
+{
+    return dlBandwidth_;
+}
+
+double Bandwidth::getBandwidth()
+{
+    return bandwidth_;
+}
+
+int Bandwidth::getSCS()
+{
+    return subcarrierSpacing_;
+}
+
 int Bandwidth::getNumberOfPRB()
 {
     return numPRB_;
