@@ -21,10 +21,10 @@ SOURCES += \
     main.cpp \
     src/core/NetworkManager.cpp \
     src/core/Simulator.cpp \
-    src/protocols/QoS/QoSProfile.cpp \
+    src/protocols/bearers/QoS/QoSProfile.cpp \
     src/equipment/mobility/ConstantPosition.cpp \
     src/protocols/Protocol.cpp \
-    src/protocols/ServiceTrafficProfile.cpp \
+    src/protocols/bearers/ServiceTrafficProfile.cpp \
     src/protocols/bearers/Bearer.cpp \
     src/protocols/bearers/RadioBearer.cpp \
     src/protocols/mac_layer/AMC/AMCEntity.cpp \
@@ -72,10 +72,10 @@ HEADERS += \
     src/core/NetworkManager.h \
     src/core/Simulator.h \
     src/debug.h \
-    src/protocols/QoS/QoSProfile.h \
+    src/protocols/bearers/QoS/QoSProfile.h \
     src/equipment/mobility/ConstantPosition.h \
     src/protocols/Protocol.h \
-    src/protocols/ServiceTrafficProfile.h \
+    src/protocols/bearers/ServiceTrafficProfile.h \
     src/protocols/bearers/Bearer.h \
     src/protocols/bearers/RadioBearer.h \
     src/protocols/mac_layer/AMC/miesmEffSINR.h \

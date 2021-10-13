@@ -1,7 +1,7 @@
 #include "RadioBearer.h"
-#include "src/protocols/QoS/QoSProfile.h"
+#include "src/protocols/bearers/QoS/QoSProfile.h"
 #include "src/protocols/Packet.h"
-#include "src/protocols/ServiceTrafficProfile.h"
+#include "src/protocols/bearers/ServiceTrafficProfile.h"
 
 #include <QRandomGenerator>
 #include <QDebug>

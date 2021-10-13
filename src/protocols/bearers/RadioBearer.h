@@ -1,8 +1,8 @@
 #pragma once
 #include "src/protocols/bearers/Bearer.h"
-#include "src/protocols/QoS/QoSProfile.h"
+#include "src/protocols/bearers/QoS/QoSProfile.h"
 #include "src/protocols/Packet.h"
-#include "src/protocols/ServiceTrafficProfile.h"
+#include "src/protocols/bearers/ServiceTrafficProfile.h"
 
 class RadioBearer
 {
