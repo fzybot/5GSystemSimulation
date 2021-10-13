@@ -3,6 +3,7 @@
 #include "src/equipment/gNodeB.h"
 #include "src/equipment/UserEquipment.h"
 #include "src/protocols/mac_layer/scheduler/Scheduler.h"
+#include "src/protocols/mac_layer/CellMacEntity.h"
 
 #include "src/debug.h"
 
@@ -229,7 +230,7 @@ void NetworkManager::scheduleCells(QVector<Cell*> *cellContainer)
         if (checkHandOver()) {
             makeHandOver();
         }
-        cell->schedule();
+        cell->getMacEntity()->schedule(cell);
     }
 }
 

@@ -5,8 +5,8 @@
 #include "src/protocols/Protocol.h"
 #include "src/protocols/mac_layer/TransportBlock.h"
 #include "src/protocols/Packet.h"
+#include "src/equipment/Cell.h"
 
-class Equipment;
 class AMCEntity;
 class HARQEntity;
 class RlcPacket;
@@ -15,14 +15,12 @@ class MacEntity
 {
 protected:
     // Connected Entities
-    Equipment *device_;
+    Cell *device_;
     AMCEntity *amcEntity_;
     HARQEntity *harqEntity_;
 
-    TransportBlock tbsEntity_;
-
-    // Data transmission
-    QVector<int> *dataBuffer_;
+    // Data in buffer
+    QVector<TransportBlock> transportBlockContainer_;
 
     // PHY configuration
     QVector< QVector< QBitArray > > *resourceElementMatrix; // per 1 slot
@@ -37,19 +35,22 @@ public:
     MacEntity();
     virtual ~MacEntity() {};
 
-    void setDevice(Equipment *e);
-    Equipment *getDevice();
+    void setDevice(Cell *e);
+    Cell *getDevice();
 
     void createAMCEntity();
     void setAMCEntity(AMCEntity *amc);
     AMCEntity *getAMCEntity (void);
     void delAMCEntity();
 
+    void configMacEntity();
+
     //TODO: Deal with the scheduler
     //void createShcedulerEntity();
 
-    void configMacEntity();
+    void packetsToTransportBlockContainer(QVector<Packet> &packetContainer);
+    QVector<TransportBlock> &getTransportBlockContainer();
 
-    TransportBlock* packetToTBS(Packet* packet);
-    TransportBlock* rlcToTBS(RlcPacket* packet);
+    TransportBlock* packetToTBS(Packet &packet);
+    TransportBlock* rlcToTBS(RlcPacket &packet);
 };

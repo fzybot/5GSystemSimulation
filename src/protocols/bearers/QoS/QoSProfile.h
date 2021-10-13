@@ -14,6 +14,8 @@ protected:
     int             periodicity_;
     QPair<int, int> dataBurstVolumeRangeSize_;
 
+    // Schedyuling weights
+
 public:
     QoSProfile();
 

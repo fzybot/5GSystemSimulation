@@ -18,16 +18,14 @@ class Cell: public Equipment
 {
 protected:
     QVector<UserEquipment*> *userEquipmentContainer_;
-    gNodeB *targetGNodeB_;
-    Antenna *antenna_;
+    gNodeB                  *targetGNodeB_;
+    Antenna                 *antenna_;
 
-    RrcEntity *rrc;
-    PdcpEntity *pdcp;
-    RlcEntity *rlc;
-    CellMacEntity *macEntity_;
-    Physical *phyEntity_;
-
-    Scheduler *scheduler_;
+    RrcEntity       *rrc;
+    PdcpEntity      *pdcp;
+    RlcEntity       *rlc;
+    CellMacEntity   *macEntity_;
+    Physical        *phyEntity_;
 
     QPair<int, int> coresetRange_;
 
@@ -35,7 +33,7 @@ public:
     Cell();
 
     void attachUE(UserEquipment *ue);
-    QVector<UserEquipment*> *getUserEquipmentContainer (void);
+    QVector<UserEquipment*> *getUserEquipmentContainer();
 
     void setTargetGNodeB(gNodeB *gNb);
     gNodeB *getTargetGNodeB();
@@ -50,9 +48,4 @@ public:
     void createMacEntity();
     void setMacEntity(CellMacEntity *mac);
     CellMacEntity *getMacEntity();
-
-    void createScheduler(Scheduler::SchedulingAlgorithm algo);
-    void setScheduler(Scheduler *scheduler);
-    Scheduler *getScheduler();
-    void schedule();
 };

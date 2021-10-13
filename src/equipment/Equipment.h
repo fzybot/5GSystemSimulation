@@ -28,17 +28,15 @@ public:
     };
 
 protected:
-    int id_;
+    int     id_;
+    int     localSystem120TimeSlot_;
+    double  lastTime_;
 
-    int localSystem120TimeSlot_;
-    double lastTime_;
+    Equipment::EquipmentState   state_;
+    Equipment::EquipmentType    type_;
 
-    Equipment::EquipmentState state_;
-    Equipment::EquipmentType type_;
-
-    Mobility *mobility_;
-
-    QVector<RadioBearer*> *bearerContainer_;
+    Mobility                *mobility_;
+    QVector<RadioBearer*>   *bearerContainer_;
 
     // TODO: Add physical layer
     // TODO: Add protocol stack

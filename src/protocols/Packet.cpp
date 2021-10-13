@@ -33,6 +33,7 @@ Packet::Packet(int size, int slot, int id)
 {
     size_ = size;
     timeSlotGenerated_ = slot;
+    timeSlotToTransmit_ = slot;
     id_ = id;
 }
 
@@ -71,4 +72,14 @@ void Packet::setSize(int size)
 int Packet::getSize()
 {
     return size_;
+}
+
+void Packet::setSlotToTransmit(int slot)
+{
+    timeSlotToTransmit_ = slot;
+}
+
+int Packet::getSlotToTransmit()
+{
+    return timeSlotToTransmit_;
 }

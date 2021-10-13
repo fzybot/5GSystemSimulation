@@ -38,7 +38,6 @@ void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
     {
         addToQueue(ue->getEquipmentId());
         qDebug() << "Scheduling....UE--->" << ue->getEquipmentId();
-        qDebug() << "   BufferSize....UE--->" << ue->getBufferSize();
         ue->getBearerContainer()[0][0]->getQoSProfile()->showProfile();
         ue->getBearerContainer()[0][1]->getQoSProfile()->showProfile();
     }

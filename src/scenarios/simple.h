@@ -57,7 +57,7 @@ static void Simple ()
                 qDebug() <<"            "<< "UE id: " << ue->getEquipmentId();
                 qDebug() <<"                "<< "Bearers:";
                 for ( auto bearer: *ue->getBearerContainer() ) {
-                    qDebug() <<"                "<< "id: " << bearer->getId();
+                    qDebug() <<"                "<< "5QI: " << bearer->getQoSProfile()->getId();
                 }
             }
         }

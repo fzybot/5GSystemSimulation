@@ -15,9 +15,6 @@ protected:
     gNodeB *targetGNodeB_;
     Cell *currentCell_;
 
-    int bufferSize_ = 10 * pow(10, 6); // bit
-    int currentBufferSize_ = bufferSize_;
-
     // TODO: for this part of code it is needed to do a lot of classes for all simplified objects
     bool BSR_ = true;
     bool measurementGAP_ = false;

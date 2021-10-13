@@ -10,7 +10,8 @@ protected:
     int size_;
     int id_;
     int timeSlotGenerated_;
-    int timeSlotTransmitted_;
+    int timeSlotToTransmit_;
+    int timeSlotTransmitted_ = -1000;
 
     QVector<bool> data_;
 
@@ -33,6 +34,9 @@ public:
 
     void setSize(int size); // bytes
     int getSize();
+
+    void setSlotToTransmit(int slot);
+    int getSlotToTransmit();
 
     void setData(QVector<bool> data);
     QVector<bool> getData();
