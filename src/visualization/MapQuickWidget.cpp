@@ -23,19 +23,18 @@ MapQuickWidget::MapQuickWidget(QWidget* parent) :
 
     QQuickView view;
 
-    QQmlContext *context = view.engine()->rootContext();
+    QQmlContext *context = this->engine()->rootContext();
+
+    //QQmlContext *context = view.engine()->rootContext();
     context->setContextProperty("_ueModel", &ueModel);
 
-    view.setSource(QUrl("qrc://src/qml/map.qml"));
-    view.show();
+    setSource(QUrl("qrc://src/qml/map.qml"));
 
     //---------
-    setSource(QUrl("qrc://src/qml/map.qml"));
+    //setSource(QUrl("qrc://src/qml/map.qml"));
     setResizeMode(QQuickWidget::SizeRootObjectToView);
 
-    getAddress("55°00'46.3N", "82°57'01.5E");
-
-    //UE->setProperty("moveToLat", "55.012902");
+    //getAddress("55°00'46.3N", "82°57'01.5E");
 
     //getAddress("80°00'47.5N", "82°57'01.9E");
     //getAddress("60°00'47.5N", "52°57'01.9E");
