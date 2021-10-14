@@ -2,14 +2,17 @@
 #define UEMODEL_H
 
 #include <QAbstractListModel>
+#include <QDebug>
 
 struct Data {
     Data() {}
-    Data( const QString& name, double lat, double lon )
-        : name(name), lat(lat), lon(lon) {}
+    Data( const QString& name, double lat, double lon, double moveToLat, double moveToLon)
+        : name(name), lat(lat), lon(lon) , moveToLat(moveToLat), moveToLon(moveToLon){}
     QString name;
     double lat;
     double lon;
+    double moveToLat;
+    double moveToLon;
 };
 
 
@@ -22,7 +25,9 @@ public:
     enum Roles {
         NameRole = Qt::UserRole,
         LatRole,
-        LonRole
+        LonRole,
+        MoveToLatRole,
+        MoveToLonRole
     };
 
     explicit UEModel(QObject *parent = nullptr);

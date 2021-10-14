@@ -19,16 +19,19 @@ MapQuickWidget::MapQuickWidget(QWidget* parent) :
 {
     connect(manager, &QNetworkAccessManager::finished, this, &MapQuickWidget::findAddress);
 
-    UEModel ueModel;
+    UEModel* ueModel = new UEModel;
 
-    QQuickView view;
+    this->engine()->rootContext()->setContextProperty("_ueModel", ueModel);
+    setSource(QUrl("qrc://src/qml/map.qml"));
 
-    QQmlContext *context = this->engine()->rootContext();
+    //QQuickView view;
+
+    //QQmlContext *context = this->engine()->rootContext();
 
     //QQmlContext *context = view.engine()->rootContext();
-    context->setContextProperty("_ueModel", &ueModel);
+    //context->setContextProperty("_ueModel", &ueModel);
 
-    setSource(QUrl("qrc://src/qml/map.qml"));
+    //setSource(QUrl("qrc://src/qml/map.qml"));
 
     //---------
     //setSource(QUrl("qrc://src/qml/map.qml"));

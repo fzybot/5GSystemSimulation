@@ -5,7 +5,7 @@ import QtPositioning 5.6
 
 
 MapQuickItem {
-    //id: item
+    id: item
     property string name;
     property real lat
     property real lon
@@ -50,7 +50,7 @@ MapQuickItem {
      ]
 
     Timer {
-        interval: 1000; running: true; repeat: true
+        interval: 10; running: true; repeat: true
         onTriggered:
         {
             if(item.state==="idle"){

@@ -17,6 +17,17 @@ Item {
         center: QtPositioning.coordinate(55.012902, 82.950326) // Sibsutis
         zoomLevel: 14
 
+        MapItemView{
+            model: _ueModel
+            delegate: UE{
+                name: model.name
+                lat: model.lat
+                lon: model.lon
+                moveToLat: model.moveToLat
+                moveToLon: model.moveToLon
+            }
+        }
+
 
 
         }

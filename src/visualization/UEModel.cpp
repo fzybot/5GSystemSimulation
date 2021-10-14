@@ -4,8 +4,8 @@ UEModel::UEModel(QObject *parent)
     : QAbstractListModel(parent)
 {
 
-    m_data
-            << Data("user1",55.012902, 82.950326);
+    m_data << Data("user1", 55.012902, 82.950326, 55.022902, 82.960326)
+           << Data("user2", 55.013902, 82.951326, 55.023902, 82.961326);
 }
 
 int UEModel::rowCount(const QModelIndex &parent) const
@@ -33,6 +33,10 @@ QVariant UEModel::data(const QModelIndex &index, int role) const
         return data.lat;
     else if ( role == LonRole)
         return data.lon;
+    else if ( role == MoveToLatRole)
+        return data.moveToLat;
+    else if ( role == MoveToLonRole)
+        return data.moveToLon;
     else return QVariant();
 
 
@@ -43,7 +47,9 @@ QHash<int, QByteArray> UEModel::roleNames() const
     static QHash<int, QByteArray> mapping{
         {NameRole, "name"},
         {LatRole, "lat"},
-        {LonRole, "lon"}
+        {LonRole, "lon"},
+        {MoveToLatRole, "moveToLat"},
+        {MoveToLonRole, "moveToLon"}
     };
 
     return mapping;
@@ -52,7 +58,19 @@ QHash<int, QByteArray> UEModel::roleNames() const
 bool UEModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (data(index, role) != value) {
-        // FIXME: Implement me!
+        Data& data = m_data[ index.row() ];
+
+        if ( role == NameRole )
+            data.name = value.toString();
+        else if ( role == LatRole )
+            data.lat = value.toDouble();
+        else if ( role == LonRole)
+            data.lon = value.toDouble();
+        else if ( role == MoveToLatRole)
+            data.moveToLat = value.toDouble();
+        else if ( role == MoveToLonRole)
+            data.moveToLon = value.toDouble();
+
         emit dataChanged(index, index, QVector<int>() << role);
         return true;
     }
@@ -66,3 +84,4 @@ Qt::ItemFlags UEModel::flags(const QModelIndex &index) const
 
     return Qt::ItemIsEditable; // FIXME: Implement me!
 }
+
