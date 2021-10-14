@@ -24,10 +24,16 @@ static void Simple ()
     int posY = 100;
     int posZ = 50;
     Cell *cell = networkManager->createCell(idCell);
+    int idCell_01 = 1;
+    int posX_01 = 200;
+    int posY_01 = 200;
+    int posZ_01 = 50;
+    Cell *cell_01 = networkManager->createCell(idCell_01);
 
     // Create gNodeB
     int idGNb = 1000;
     gNodeB *gNb = networkManager->createGNodeB(idGNb, cell, posX, posY, posZ);
+    gNb->addCell(cell_01);
     debug("Simple: gNodeB entity is created");
     channel->addDevice(gNb);
 
@@ -39,7 +45,8 @@ static void Simple ()
     // UserEquipment *ue = networkManager->createUserEquipment(idUE, posX_ue, posY_ue, posZ_ue, cell, gNb);
     // channel->addDevice(ue);
 
-    networkManager->createMultipleUserEquipments(2, 0, 1000, 0, 1000, 100, cell, gNb);
+    networkManager->createMultipleUserEquipments(2, 0, 200, 0, 1000, 100, cell, gNb);
+    networkManager->createMultipleUserEquipments(2, 0, 200, 0, 1000, 100, cell_01, gNb);
     debug("Simple: User Equipments entity are created");
 
     networkManager->runNetwork();
