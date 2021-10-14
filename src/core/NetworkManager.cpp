@@ -95,11 +95,11 @@ void NetworkManager::createMultipleUserEquipments(  int number, int lowX, int hi
                                                     int borderZ, Cell *cell, gNodeB *targetGNodeB )
 {
     for (int i = 1; i <= number; i++) {
-        int id = i + 10000;
+        ueIdLocal_ += 1;
         int posX = QRandomGenerator::global()->bounded(lowX, highX);
         int posY = QRandomGenerator::global()->bounded(lowY, highY);
         int posZ = QRandomGenerator::global()->bounded(1, borderZ);
-        UserEquipment *ue = new UserEquipment(  id,
+        UserEquipment *ue = new UserEquipment(  ueIdLocal_,
                                                 posX, posY, posZ, cell, targetGNodeB,
                                                 Mobility::Model::CONSTANT_POSITION);
         getUserEquipmentContainer()->push_back(ue);

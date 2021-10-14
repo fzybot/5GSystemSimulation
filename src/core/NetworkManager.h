@@ -13,8 +13,12 @@ class Mobility;
 class NetworkManager
 {
 private:
-    QVector<Cell*> *cellContainer_;
-    QVector<gNodeB*> *gNodeBContainer_;
+    int cellIdLocal_;
+    int gNbIdLocal_;
+    int ueIdLocal_ = 10000;
+
+    QVector<Cell *> *cellContainer_;
+    QVector<gNodeB*>        *gNodeBContainer_;
     QVector<UserEquipment*> *userEquipmentContainer_;
 
     // Each time value (granularity) is equal to 1 slot for 120 [kHz] SCS.
