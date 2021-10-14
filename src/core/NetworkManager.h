@@ -82,6 +82,8 @@ public:
 
     void scheduleCells(QVector<Cell*> *cellContainer);
 
+    void generateTrafficPerUE(QVector<UserEquipment*> *ueContainer);
+
     // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
 
     void print();

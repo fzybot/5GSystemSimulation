@@ -1,8 +1,9 @@
 #include "Packet.h"
+#include "src/protocols/bearers/RadioBearer.h"
 
 Packet::Packet()
 {
-    
+    bearer_ = new RadioBearer();
 }
 
 Packet::Packet(QVector<bool> data, double timeStamp, int id)
@@ -29,12 +30,13 @@ Packet::Packet(int size, double timeStamp, int id)
     id_ = id;
 }
 
-Packet::Packet(int size, int slot, int id)
+Packet::Packet(int size, int slot, int id, RadioBearer *bearer)
 {
     size_ = size;
     timeSlotGenerated_ = slot;
     timeSlotToTransmit_ = slot;
     id_ = id;
+    setBearer(bearer);
 }
 
 Packet::~Packet()
@@ -82,4 +84,14 @@ void Packet::setSlotToTransmit(int slot)
 int Packet::getSlotToTransmit()
 {
     return timeSlotToTransmit_;
+}
+
+void Packet::setBearer(RadioBearer *bearer)
+{
+    bearer_ = bearer;
+}
+
+RadioBearer *Packet::getBearer()
+{
+    return bearer_;
 }

@@ -87,13 +87,6 @@ QVector<RadioBearer*> *Equipment::getBearerContainer()
     return bearerContainer_;
 }
 
-void Equipment::generatePacketsPerBearer()
-{
-    for(auto bearer: *getBearerContainer()) {
-        bearer->generatePackets(100, localSystem120TimeSlot_);
-    }
-}
-
 void Equipment::setLinkBudgetParameters()
 {
     if (type_ == EquipmentType::TYPE_CELL) {

@@ -230,7 +230,20 @@ void NetworkManager::scheduleCells(QVector<Cell*> *cellContainer)
         if (checkHandOver()) {
             makeHandOver();
         }
+        generateTrafficPerUE(cell->getUserEquipmentContainer());
+
+        // TODO: somehow fix the loop
+        for (auto ue : *cell->getUserEquipmentContainer()) {
+            cell->getMacEntity()->packetsToTransportBlockContainer(ue->getPacketsContainer());
+        }
         cell->getMacEntity()->schedule(cell);
+    }
+}
+
+void NetworkManager::generateTrafficPerUE(QVector<UserEquipment*> *ueContainer)
+{
+    for (auto ue: *ueContainer) {
+        ue->generatePacketsPerBearer();
     }
 }
 
@@ -243,6 +256,8 @@ void NetworkManager::makeHandOver()
 {
     qDebug() << "Hand Over in progress...";
 }
+
+
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
 
 // void NetworkManager::print()

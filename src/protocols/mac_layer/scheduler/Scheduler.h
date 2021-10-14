@@ -15,11 +15,11 @@ public:
     };
 
 protected:
-    SchedulingAlgorithm algorithm_;
-    Cell *cell_;
-    QVector<int> *firstQueue_;
-    QVector<int> *timeQueue_;
-    QVector<int> *freqQueue_;
+    SchedulingAlgorithm     algorithm_;
+    Cell                    *cell_;
+    QVector<int>            *firstQueue_;
+    QVector<int>            *timeQueue_;
+    QVector<int>            *freqQueue_;
 
 public:
     Scheduler();

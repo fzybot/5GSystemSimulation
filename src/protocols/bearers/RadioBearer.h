@@ -23,7 +23,6 @@ private:
     QoSProfile      *QoS_;
 
     ServiceTrafficProfile   trafficProfile_;
-    QVector<Packet>         packetsInBuffer_;
 
     // COUNTERS 
     int counterDataTransmitted_;
@@ -44,9 +43,6 @@ public:
 
     void setTrafficProfile(ServiceTrafficProfile::Profile profile);
     ServiceTrafficProfile &getTrafficProfile();
-
-    void generatePackets(int number, int currentSlot);
-    QVector<Packet> &getPacketsContainer();
 
     int &getCounterDataTransmitted();
     int &getCounterSlotTransmitted();

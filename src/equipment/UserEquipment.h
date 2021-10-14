@@ -2,7 +2,8 @@
 
 
 #include "src/equipment/Equipment.h"
-
+#include "src/protocols/Packet.h"
+#include "src/protocols/bearers/QoS/QoSProfile.h"
 #include <QVector>
 
 class gNodeB;
@@ -12,12 +13,14 @@ class UserEquipment : public Equipment
 {
 
 protected:
-    gNodeB *targetGNodeB_;
-    Cell *currentCell_;
-
+    gNodeB              *targetGNodeB_;
+    Cell                *currentCell_;
+    QVector<Packet>     packetsInBuffer_;
+    
     // TODO: for this part of code it is needed to do a lot of classes for all simplified objects
     bool BSR_ = true;
     bool measurementGAP_ = false;
+
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
@@ -37,6 +40,11 @@ public:
     void setBufferSize(int size);
     void decreaseBuffer(int decSize);
     int getBufferSize();
+
+    void generatePackets(int number, int currentSlot, RadioBearer *bearer);
+    QVector<Packet> &getPacketsContainer();
+
+    void generatePacketsPerBearer();
 
     void setBSR(bool bsr);
     bool getBSR();

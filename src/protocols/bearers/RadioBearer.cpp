@@ -55,24 +55,6 @@ ServiceTrafficProfile &RadioBearer::getTrafficProfile()
     return trafficProfile_;
 }
 
-void RadioBearer::generatePackets(int number, int currentSlot)
-{
-    if (QoS_ != nullptr) {
-        for (int i = 0; i < number; i++) {
-            int size = QRandomGenerator::global()->bounded( getQoSProfile()->getDataBurstVolumeRange().first, 
-                                                            getQoSProfile()->getDataBurstVolumeRange().second);
-            qDebug() << "Packt size ------>>>>> " << size;
-            Packet pack(size, currentSlot, i);
-            packetsInBuffer_.push_back(pack);
-        }
-    }
-}
-
-QVector<Packet> &RadioBearer::getPacketsContainer()
-{
-    return packetsInBuffer_;
-}
-
 int &RadioBearer::getCounterDataTransmitted()
 {
     return counterDataTransmitted_;

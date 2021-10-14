@@ -4,6 +4,7 @@
 #include "src/protocols/phy/Physical.h"
 #include "src/protocols/phy/Channel/Bandwidth.h"
 #include "src/protocols/bearers/RadioBearer.h"
+#include "src/protocols/mac_layer/CellMacEntity.h"
 
 #include <QDebug>
 #include <QVector>
@@ -42,6 +43,7 @@ void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
         ue->getBearerContainer()[0][1]->getQoSProfile()->showProfile();
     }
 
+    qDebug() << "Number of TBS: "<< cell_->getMacEntity()->getTransportBlockContainer().length();
     timeDomainScheduling(userEquipmentContainer);
     frequencyDomainScheduling(userEquipmentContainer);
 }

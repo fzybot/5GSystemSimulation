@@ -1,7 +1,10 @@
 #pragma once
 
+#include "src/protocols/bearers/RadioBearer.h"
 
 #include <QVector>
+
+class RadioBearer;
 
 class Packet
 {
@@ -12,6 +15,7 @@ protected:
     int timeSlotGenerated_;
     int timeSlotToTransmit_;
     int timeSlotTransmitted_ = -1000;
+    RadioBearer *bearer_;
 
     QVector<bool> data_;
 
@@ -19,7 +23,7 @@ public:
     Packet();
     Packet(QVector<bool> data, double timeStamp, int id);
     Packet(int size, double timeStamp, int id);
-    Packet(int size, int slot, int id);
+    Packet(int size, int slot, int id, RadioBearer *bearer);
 
     ~Packet();
 
@@ -40,6 +44,9 @@ public:
 
     void setData(QVector<bool> data);
     QVector<bool> getData();
+
+    void setBearer(RadioBearer *bearer);
+    RadioBearer *getBearer();
 
     // TODO: add to raw data realisation according to specifications
     QVector<bool> *toRawData();

@@ -40,7 +40,7 @@ UserEquipment::UserEquipment(int id,
     createBearer(RadioBearer::RadioBearerType::DRB, bearerId, randQoSProfile);
 
     // Generate Traffic per each bearer
-    generatePacketsPerBearer();
+    //generatePacketsPerBearer();
 
     // Positioning
     Mobility *m;
@@ -99,4 +99,30 @@ void UserEquipment::setMeasurementGap(bool gap)
 bool UserEquipment::getMeasurementGap()
 {
     return measurementGAP_;
+}
+
+void UserEquipment::generatePacketsPerBearer()
+{
+    for(auto bearer: *getBearerContainer()) {
+        this->generatePackets(100, localSystem120TimeSlot_, bearer);
+    }
+}
+
+
+void UserEquipment::generatePackets(int number, int currentSlot, RadioBearer *bearer)
+{
+    if (bearer->getQoSProfile() != nullptr) {
+        for (int i = 0; i < number; i++) {
+            int size = QRandomGenerator::global()->bounded( bearer->getQoSProfile()->getDataBurstVolumeRange().first, 
+                                                            bearer->getQoSProfile()->getDataBurstVolumeRange().second);
+            qDebug() << "Packt size ------>>>>> " << size;
+            Packet pack(size, currentSlot, i, bearer);
+            packetsInBuffer_.push_back(pack);
+        }
+    }
+}
+
+QVector<Packet> &UserEquipment::getPacketsContainer()
+{
+    return packetsInBuffer_;
 }

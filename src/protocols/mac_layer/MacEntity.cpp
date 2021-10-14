@@ -58,5 +58,5 @@ void MacEntity::packetsToTransportBlockContainer(QVector<Packet> &packetContaine
 
 QVector<TransportBlock> &MacEntity::getTransportBlockContainer()
 {
-
+    return transportBlockContainer_;
 }

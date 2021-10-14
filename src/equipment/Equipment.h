@@ -69,7 +69,6 @@ public:
     void createDefaultBearer(int id);
     void createBearer(RadioBearer::RadioBearerType type, int id, int QoSProfile);
     QVector<RadioBearer*> *getBearerContainer();
-    void generatePacketsPerBearer();
 
     void setLinkBudgetParameters();
 
