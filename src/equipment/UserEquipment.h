@@ -18,8 +18,9 @@ protected:
     QVector<Packet>     packetsInBuffer_;
     
     // TODO: for this part of code it is needed to do a lot of classes for all simplified objects
-    bool BSR_ = true;
-    bool measurementGAP_ = false;
+    float   sinr_;
+    bool    BSR_ = true;
+    bool    measurementGAP_ = false;
 
 
 public:
