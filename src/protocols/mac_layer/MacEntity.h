@@ -48,6 +48,8 @@ public:
     //TODO: Deal with the scheduler
     //void createShcedulerEntity();
 
+    int calculateTransportBlockSize(int packetSize);
+
     void packetsToTransportBlockContainer(QVector<Packet> &packetContainer);
     QVector<TransportBlock> &getTransportBlockContainer();
 

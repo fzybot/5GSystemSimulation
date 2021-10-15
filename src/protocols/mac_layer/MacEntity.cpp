@@ -48,6 +48,16 @@ void MacEntity::configMacEntity()
     createAMCEntity();
 }
 
+int calculateTransportBlockSize(int packetSize)
+{
+    // TS 38.214 (g70): Physical Layer Procedures for Data. 5.1.3.2: Transport block size determination 
+    // in this case only for PDSCH channel TBS is calculated.
+    int transportBlockSize;
+    int resourceElementsPerSlot; // for PDSCH channel
+
+    return transportBlockSize;
+}
+
 void MacEntity::packetsToTransportBlockContainer(QVector<Packet> &packetContainer)
 {
     for (auto pack : packetContainer) {

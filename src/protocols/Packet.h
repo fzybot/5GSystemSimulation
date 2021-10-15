@@ -49,7 +49,7 @@ public:
     RadioBearer *getBearer();
 
     // TODO: add to raw data realisation according to specifications
-    QVector<bool> *toRawData();
+    QVector<bool> &toRawData();
 
     // TODO: add classes for all the headers below
     //    void addRTPHeader(RTPHeader *header);

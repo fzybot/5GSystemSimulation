@@ -12,6 +12,13 @@ class Mobility;
 
 class NetworkManager
 {
+public:
+    enum class SINRCalcMethod
+    {
+        STUPID,
+        SIGNAL,
+        SIGNAL_DOPPLER
+    };
 private:
     int cellIdLocal_;
     int gNbIdLocal_;
@@ -77,6 +84,10 @@ public:
     bool checkHandOver();
     void makeHandOver();
     double calcOnePointSINR();
+    void calculateSINRPerUE(NetworkManager::SINRCalcMethod method);
+    void calculateSINRPerUE_stupid();
+    void calculateSINRPerUE_signals();
+    void calculateSINRPerUE_signal_doppler();
 
     // ----- [ SIMULATION ] ------------------------------------------------------------------------------------------------
 
