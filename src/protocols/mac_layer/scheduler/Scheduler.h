@@ -17,9 +17,12 @@ public:
 protected:
     SchedulingAlgorithm     algorithm_;
     Cell                    *cell_;
-    QVector<int>            *firstQueue_;
-    QVector<int>            *timeQueue_;
-    QVector<int>            *freqQueue_;
+    QVector<UserEquipment*> *firstQueue_;
+    QVector<UserEquipment*> *timeQueue_;
+    QVector<UserEquipment*> *freqQueue_;
+
+private:
+    int nPRB_ = 0;
 
 public:
     Scheduler();
@@ -38,9 +41,15 @@ public:
     void roundRobin(QVector<UserEquipment*> *userEquipmentContainer);
     void propotionalFair(QVector<UserEquipment*> *userEquipmentContainer);
 
+    void setNumPRB(int nPRB);
+    int getNumPRB();
+
+    // TODO: finish these methods
     void checkMeasGap(QVector<UserEquipment*> *userEquipmentContainer);
     void checkDRX(QVector<UserEquipment*> *userEquipmentContainer);
     void checkTransmitSlot(QVector<UserEquipment *> *userEquipmentContainer);
+
+
 
     void addToQueue(int id);
     

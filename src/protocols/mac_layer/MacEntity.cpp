@@ -61,6 +61,7 @@ int calculateTransportBlockSize(int packetSize)
 void MacEntity::packetsToTransportBlockContainer(QVector<Packet> &packetContainer)
 {
     for (auto pack : packetContainer) {
+        getDevice()->getUserEquipmentContainer();
         TransportBlock tbs(pack);
         transportBlockContainer_.push_back(tbs);
     }

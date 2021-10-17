@@ -15,9 +15,9 @@ class MacEntity
 {
 protected:
     // Connected Entities
-    Cell *device_;
-    AMCEntity *amcEntity_;
-    HARQEntity *harqEntity_;
+    Cell        *device_;
+    AMCEntity   *amcEntity_;
+    HARQEntity  *harqEntity_;
 
     // Data in buffer
     QVector<TransportBlock> transportBlockContainer_;

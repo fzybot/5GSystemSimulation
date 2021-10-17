@@ -9,12 +9,13 @@ class RadioBearer;
 class Packet
 {
 protected:
-    double timeStamp_;
-    int size_;
-    int id_;
-    int timeSlotGenerated_;
-    int timeSlotToTransmit_;
-    int timeSlotTransmitted_ = -1000;
+    double  timeStamp_;
+    int     size_;
+    int     id_;
+    int     timeSlotGenerated_;
+    int     timeSlotToTransmit_;
+    int     timeSlotTransmitted_ = -1000;
+    
     RadioBearer *bearer_;
 
     QVector<bool> data_;

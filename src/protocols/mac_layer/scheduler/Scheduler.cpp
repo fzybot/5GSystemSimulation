@@ -12,9 +12,9 @@
 Scheduler::Scheduler()
 {
     cell_ = nullptr;
-    firstQueue_ = new QVector<int>;
-    timeQueue_ = new QVector<int>;
-    freqQueue_ = new QVector<int>;
+    firstQueue_ = new QVector<UserEquipment*>;
+    timeQueue_ = new QVector<UserEquipment*>;
+    freqQueue_ = new QVector<UserEquipment*>;
 }
 
 void Scheduler::setAlgorithm(Scheduler::SchedulingAlgorithm algo)
@@ -29,28 +29,26 @@ Scheduler::SchedulingAlgorithm Scheduler::getAlgorithm()
 
 void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
 {
-    qDebug() << "Current Cell Id------>" << cell_->getEquipmentId();
-    int nPRB;
-    
-    nPRB = cell_->getPhyEntity()->getBandwidthContainer()[0][0]->getNumberOfPRB();
+    qDebug() << "Current Cell Id------>" << cell_->getEquipmentId(); 
+    setNumPRB( cell_->getPhyEntity()->getBandwidthContainer()[0][0]->getNumberOfPRB() );
 
-    qDebug() << "Number of PRBs --->" << nPRB;
-    for (auto ue : *userEquipmentContainer)
-    {
-        addToQueue(ue->getEquipmentId());
-        qDebug() << "Scheduling....UE--->" << ue->getEquipmentId();
-        ue->getBearerContainer()[0][0]->getQoSProfile()->showProfile();
-        ue->getBearerContainer()[0][1]->getQoSProfile()->showProfile();
-    }
-
+    qDebug() << "Number of PRBs --->" << getNumPRB();
     qDebug() << "Number of TBS: "<< cell_->getMacEntity()->getTransportBlockContainer().length();
     timeDomainScheduling(userEquipmentContainer);
-    frequencyDomainScheduling(userEquipmentContainer);
+    frequencyDomainScheduling(timeQueue_);
 }
 
 void Scheduler::timeDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer)
 {
+    timeQueue_->clear();
     qDebug() << "Starting time scheduling-->";
+    qDebug() <<"    "<<"Number of UE-->" << userEquipmentContainer->length();
+    for (auto ue : *userEquipmentContainer) {
+        if (ue->getBSR() != false && ue->getMeasurementGap() != true && ue->getDRX() != true) {
+            timeQueue_->push_back(ue);
+        }
+    }
+    qDebug() <<"    "<< "Number of UE Scheduled in time-->" << timeQueue_->length();
 }
 
 void Scheduler::frequencyDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer)
@@ -69,12 +67,27 @@ void Scheduler::frequencyDomainScheduling(QVector<UserEquipment*> *userEquipment
 
 void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
 {
-
+    freqQueue_->clear();
+    qDebug() << "Scheduler::roundRobin::Starting frequency diomain scheduling (ROUND ROBIN)-->";
+    for (auto timeUE: *userEquipmentContainer) {
+        qDebug() <<"    "<<"UE sinr --->"<< timeUE->getSINR();
+        //getCell()->getMacEntity();
+    }
 }
 
 void Scheduler::propotionalFair(QVector<UserEquipment*> *userEquipmentContainer)
 {
 
+}
+
+void Scheduler::setNumPRB(int nPRB)
+{
+    nPRB_ = nPRB;
+}
+
+int Scheduler::getNumPRB()
+{
+    return nPRB_;
 }
 
 void Scheduler::setCell(Cell *cell)
@@ -86,10 +99,4 @@ Cell *Scheduler::getCell()
 {
     return cell_;
 }
-
-void Scheduler::addToQueue(int id)
-{
-    firstQueue_->push_back(id);
-}
-
 

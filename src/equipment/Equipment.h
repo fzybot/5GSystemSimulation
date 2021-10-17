@@ -49,6 +49,18 @@ protected:
     float additionalGain_ = 0;
     float additionalLoss_ = 0;
 
+    // COUNTERS
+    // Throughput
+    int cDataTransmitted_ = 0;           // in [bytes]
+    int cDataTransmittedOverWindow_ = 0; // in [bytes]
+    int cWindowSize_;                // in [ms]
+
+    // Delays
+    int cSuccPacketTransmitted_ = 0;
+    int cNumberOfPacketRetr_ = 0;
+    int cAveragePacketDelay_;
+    // Losses
+
 public:
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
     Equipment();
@@ -75,10 +87,17 @@ public:
     void sync120TimeSlot(int &timeSlot);
     int getLocalSystem120TimeSlot();
 
-    // ----- [ PHYSICAL METHODS ] ------------------------------------------------------------------------------------------
+// ----- [ PHYSICAL METHODS ] ------------------------------------------------------------------------------------------
     void calculateThermalNoise();
 
-// ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
+// ----- [ COUNTERS ] --------------------------------------------------------------------------------------------------
+    void setCountWindowSize(int windSize);
+    void addCountDataTransmitted(int bytes);
+    void calcCountDataTransmittedOverWindow();
+
+    void addCountSuccPacketTransmitted();
+
+    // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
     void print();
 
 };

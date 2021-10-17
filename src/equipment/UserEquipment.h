@@ -18,10 +18,10 @@ protected:
     QVector<Packet>     packetsInBuffer_;
     
     // TODO: for this part of code it is needed to do a lot of classes for all simplified objects
-    float   sinr_;
+    double   sinr_;
     bool    BSR_ = true;
     bool    measurementGAP_ = false;
-
+    bool    DRX_ = false;
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
@@ -49,9 +49,12 @@ public:
 
     void setBSR(bool bsr);
     bool getBSR();
-
     void setMeasurementGap(bool gap);
     bool getMeasurementGap();
+    void setDRX(bool drx);
+    bool getDRX();
+    void setSINR(double sinr);
+    double getSINR();
 
     // ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
     void calculateEIRP();

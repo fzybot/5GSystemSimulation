@@ -24,7 +24,7 @@ private:
     int gNbIdLocal_;
     int ueIdLocal_ = 10000;
 
-    QVector<Cell *> *cellContainer_;
+    QVector<Cell *>         *cellContainer_;
     QVector<gNodeB*>        *gNodeBContainer_;
     QVector<UserEquipment*> *userEquipmentContainer_;
 

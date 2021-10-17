@@ -39,6 +39,10 @@ UserEquipment::UserEquipment(int id,
     int randQoSProfile = QRandomGenerator::global()->bounded(1, 9);
     createBearer(RadioBearer::RadioBearerType::DRB, bearerId, randQoSProfile);
 
+    // Random SINR
+    int localSINR = QRandomGenerator::global()->bounded(-7, 25);
+    setSINR(localSINR);
+
     // Generate Traffic per each bearer
     //generatePacketsPerBearer();
 
@@ -101,6 +105,26 @@ bool UserEquipment::getMeasurementGap()
     return measurementGAP_;
 }
 
+void UserEquipment::setDRX(bool drx)
+{
+    DRX_ = drx;
+}
+
+bool UserEquipment::getDRX()
+{
+    return DRX_;
+}
+
+void UserEquipment::setSINR(double sinr)
+{
+    sinr_ = sinr;
+}
+
+double UserEquipment::getSINR()
+{
+    return sinr_;
+}
+
 void UserEquipment::generatePacketsPerBearer()
 {
     for(auto bearer: *getBearerContainer()) {
@@ -115,7 +139,7 @@ void UserEquipment::generatePackets(int number, int currentSlot, RadioBearer *be
         for (int i = 0; i < number; i++) {
             int size = QRandomGenerator::global()->bounded( bearer->getQoSProfile()->getDataBurstVolumeRange().first, 
                                                             bearer->getQoSProfile()->getDataBurstVolumeRange().second);
-            qDebug() << "Packt size ------>>>>> " << size;
+            qDebug() << "UserEquipment::generatePackets::Packt size ------>>>>> " << size;
             Packet pack(size, currentSlot, i, bearer);
             packetsInBuffer_.push_back(pack);
         }
