@@ -28,6 +28,8 @@ private:
     QVector<gNodeB*>        *gNodeBContainer_;
     QVector<UserEquipment*> *userEquipmentContainer_;
 
+    SINRCalcMethod methodSINR_;
+
     // Each time value (granularity) is equal to 1 slot for 120 [kHz] SCS.
     int workit120TimeSlot_;
     int current120TimeSlot_;
@@ -53,6 +55,9 @@ public:
     void setWorkingTime(int time); // minimum time unit, 1 slot
     int &getCurrentTime();
     void decreaseCurrentTime();
+
+    void setSINRCalcMethod(NetworkManager::SINRCalcMethod method);
+    NetworkManager::SINRCalcMethod getSINRCalcMethod();
 
 // ----- [ EQUIPMENT GENERATORS ] --------------------------------------------------------------------------------------
     Cell* createCell (int idCell);
@@ -83,13 +88,15 @@ public:
 
     bool checkHandOver();
     void makeHandOver();
-    double calcOnePointSINR();
-    void calculateSINRPerUE(NetworkManager::SINRCalcMethod method);
-    void calculateSINRPerUE_stupid();
-    void calculateSINRPerUE_signals();
-    void calculateSINRPerUE_signal_doppler();
 
-    // ----- [ SIMULATION ] ------------------------------------------------------------------------------------------------
+    // 'Equipment' is equal to 'Cell' & 'UserEquipment'
+    double calcOnePointSINR();
+    void calculateSINRPerEquipment(NetworkManager::SINRCalcMethod method);
+    void calculateSINRPerEquipment_stupid();
+    void calculateSINRPerEquipment_signals();
+    void calculateSINRPerEquipment_signal_doppler();
+
+// ----- [ SIMULATION ] ------------------------------------------------------------------------------------------------
 
     void runNetwork();
 
@@ -99,7 +106,7 @@ public:
 
     void generateTrafficPerUE(QVector<UserEquipment*> *ueContainer);
 
-    // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
+// ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
 
     void print();
 };

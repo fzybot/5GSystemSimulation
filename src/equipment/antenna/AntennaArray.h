@@ -26,5 +26,6 @@ public:
     void addAntenna(Antenna ant);
     Antenna* getAntennaByID(int ID);
 
+    QVector<Antenna> &getAntennaArray();
 };
 

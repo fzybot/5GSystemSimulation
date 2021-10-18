@@ -69,130 +69,130 @@ int AMCEntity::GetMCSIndexFromEfficiency(double efficiency)
     return mcs;
 }
 
-int AMCEntity::GetTBSizeFromMCS (int mcs)
-{
-    return TransportBlockSizeTable[0][McsToItbs[mcs]];
-}
+// int AMCEntity::GetTBSizeFromMCS (int mcs)
+// {
+//     return TransportBlockSizeTable[0][McsToItbs[mcs]];
+// }
 
-int AMCEntity::GetTBSizeFromMCS (int mcs, int nbRBs)
-{
-    int itbs = McsToItbs[mcs];
-    return (TransportBlockSizeTable[nbRBs - 1][itbs]);
-}
+// int AMCEntity::GetTBSizeFromMCS (int mcs, int nbRBs)
+// {
+//     int itbs = McsToItbs[mcs];
+//     return (TransportBlockSizeTable[nbRBs - 1][itbs]);
+// }
 
-int AMCEntity::GetTBSizeFromMCS (int mcs, int nbRBs, int nbLayers)
-{
-    int itbs = McsToItbs[mcs];
-    int tbs;
-    int baselineTbs;
-    switch(nbLayers) {
-        case 1:
-            tbs = TransportBlockSizeTable[nbRBs - 1][itbs];
-            break;
+// int AMCEntity::GetTBSizeFromMCS (int mcs, int nbRBs, int nbLayers)
+// {
+//     int itbs = McsToItbs[mcs];
+//     int tbs;
+//     int baselineTbs;
+//     switch(nbLayers) {
+//         case 1:
+//             tbs = TransportBlockSizeTable[nbRBs - 1][itbs];
+//             break;
 
-        case 2:
-            if( nbRBs < 56) {
-                tbs = TransportBlockSizeTable[nbRBs * 2 - 1][itbs];
-            }
-            else {
-                baselineTbs = TransportBlockSizeTable[nbRBs - 1][itbs];
-                // TODO: optimize using dicotomic search, because data is already ordered
-                for (int i = 0; i < 120; i++) {
-                    if( TbsL1ToL2Translation[0][i] == baselineTbs) {
-                        tbs = TbsL1ToL2Translation[1][i];
-                        break;
-                    }
-                }
-            }
-            break;
+//         case 2:
+//             if( nbRBs < 56) {
+//                 tbs = TransportBlockSizeTable[nbRBs * 2 - 1][itbs];
+//             }
+//             else {
+//                 baselineTbs = TransportBlockSizeTable[nbRBs - 1][itbs];
+//                 // TODO: optimize using dicotomic search, because data is already ordered
+//                 for (int i = 0; i < 120; i++) {
+//                     if( TbsL1ToL2Translation[0][i] == baselineTbs) {
+//                         tbs = TbsL1ToL2Translation[1][i];
+//                         break;
+//                     }
+//                 }
+//             }
+//             break;
 
-        case 3:
-            if( nbRBs < 37) {
-                tbs = TransportBlockSizeTable[nbRBs * 3 - 1][itbs];
-            }
-            else {
-                baselineTbs = TransportBlockSizeTable[nbRBs - 1][itbs];
-                // TODO: optimize using dicotomic search, because data is already ordered
-                for (int i = 0; i < 134; i++) {
-                    if( TbsL1ToL3Translation[0][i] == baselineTbs) {
-                        tbs = TbsL1ToL3Translation[1][i];
-                        break;
-                    }
-                }
-            }
-            break;
+//         case 3:
+//             if( nbRBs < 37) {
+//                 tbs = TransportBlockSizeTable[nbRBs * 3 - 1][itbs];
+//             }
+//             else {
+//                 baselineTbs = TransportBlockSizeTable[nbRBs - 1][itbs];
+//                 // TODO: optimize using dicotomic search, because data is already ordered
+//                 for (int i = 0; i < 134; i++) {
+//                     if( TbsL1ToL3Translation[0][i] == baselineTbs) {
+//                         tbs = TbsL1ToL3Translation[1][i];
+//                         break;
+//                     }
+//                 }
+//             }
+//             break;
 
-        case 4:
-            if( nbRBs < 28) {
-                tbs = TransportBlockSizeTable[nbRBs * 4 - 1][itbs];
-            }
-            else
-            {
-                baselineTbs = TransportBlockSizeTable[nbRBs - 1][itbs];
-                // TODO: optimize using dicotomic search, because data is already ordered
-                for (int i = 0; i < 142; i++) {
-                    if( TbsL1ToL4Translation[0][i] == baselineTbs) {
-                        tbs = TbsL1ToL4Translation[1][i];
-                        break;
-                    }
-                }
-            }
-            break;
+//         case 4:
+//             if( nbRBs < 28) {
+//                 tbs = TransportBlockSizeTable[nbRBs * 4 - 1][itbs];
+//             }
+//             else
+//             {
+//                 baselineTbs = TransportBlockSizeTable[nbRBs - 1][itbs];
+//                 // TODO: optimize using dicotomic search, because data is already ordered
+//                 for (int i = 0; i < 142; i++) {
+//                     if( TbsL1ToL4Translation[0][i] == baselineTbs) {
+//                         tbs = TbsL1ToL4Translation[1][i];
+//                         break;
+//                     }
+//                 }
+//             }
+//             break;
 
-        default:
-            qDebug() << "Invalid number of layers for TBS calculation: " << nbLayers;
-            exit(1);
-            break;
-    }
-    return tbs;
-}
+//         default:
+//             qDebug() << "Invalid number of layers for TBS calculation: " << nbLayers;
+//             exit(1);
+//             break;
+//     }
+//     return tbs;
+// }
 
 
-int AMCEntity::GetTBSizeFromMCS (int mcs1, int mcs2, int nbRBs, int rank)
-{
-    int tbs;
-    switch(rank)
-    {
-        case 1:
-            tbs = GetTBSizeFromMCS (mcs1, nbRBs, 1);
-            break;
-        case 2:
-            tbs = GetTBSizeFromMCS (mcs1, nbRBs, 1) + GetTBSizeFromMCS (mcs2, nbRBs, 1);
-            break;
-        case 3:
-            tbs = GetTBSizeFromMCS (mcs1, nbRBs, 1) + GetTBSizeFromMCS (mcs2, nbRBs, 2);
-            break;
-        case 4:
-            tbs = GetTBSizeFromMCS (mcs1, nbRBs, 2) + GetTBSizeFromMCS (mcs2, nbRBs, 2);
-            break;
-        case 5:
-            tbs = GetTBSizeFromMCS (mcs1, nbRBs, 2) + GetTBSizeFromMCS (mcs2, nbRBs, 3);
-            break;
-        case 6:
-            tbs = GetTBSizeFromMCS (mcs1, nbRBs, 3) + GetTBSizeFromMCS (mcs2, nbRBs, 3);
-            break;
-        case 7:
-            tbs = GetTBSizeFromMCS (mcs1, nbRBs, 3) + GetTBSizeFromMCS (mcs2, nbRBs, 4);
-            break;
-        case 8:
-            tbs = GetTBSizeFromMCS (mcs1, nbRBs, 4) + GetTBSizeFromMCS (mcs2, nbRBs, 4);
-            break;
-        default:
-            qDebug() << "Invalid rank for TBS calculation: " << rank;
-            exit(1);
-            break;
-    }
-    return tbs;
-}
+// int AMCEntity::GetTBSizeFromMCS (int mcs1, int mcs2, int nbRBs, int rank)
+// {
+//     int tbs;
+//     switch(rank)
+//     {
+//         case 1:
+//             tbs = GetTBSizeFromMCS (mcs1, nbRBs, 1);
+//             break;
+//         case 2:
+//             tbs = GetTBSizeFromMCS (mcs1, nbRBs, 1) + GetTBSizeFromMCS (mcs2, nbRBs, 1);
+//             break;
+//         case 3:
+//             tbs = GetTBSizeFromMCS (mcs1, nbRBs, 1) + GetTBSizeFromMCS (mcs2, nbRBs, 2);
+//             break;
+//         case 4:
+//             tbs = GetTBSizeFromMCS (mcs1, nbRBs, 2) + GetTBSizeFromMCS (mcs2, nbRBs, 2);
+//             break;
+//         case 5:
+//             tbs = GetTBSizeFromMCS (mcs1, nbRBs, 2) + GetTBSizeFromMCS (mcs2, nbRBs, 3);
+//             break;
+//         case 6:
+//             tbs = GetTBSizeFromMCS (mcs1, nbRBs, 3) + GetTBSizeFromMCS (mcs2, nbRBs, 3);
+//             break;
+//         case 7:
+//             tbs = GetTBSizeFromMCS (mcs1, nbRBs, 3) + GetTBSizeFromMCS (mcs2, nbRBs, 4);
+//             break;
+//         case 8:
+//             tbs = GetTBSizeFromMCS (mcs1, nbRBs, 4) + GetTBSizeFromMCS (mcs2, nbRBs, 4);
+//             break;
+//         default:
+//             qDebug() << "Invalid rank for TBS calculation: " << rank;
+//             exit(1);
+//             break;
+//     }
+//     return tbs;
+// }
 
-double AMCEntity::GetEfficiencyFromCQI (int cqi)
-{
-    int mcs = GetMCSFromCQI (cqi);
-    int bits = GetTBSizeFromMCS (mcs,1);
-    //eff = rate / bandwidth
-    double eff = (bits/0.001)/180000.;
-    return eff;
-}
+// double AMCEntity::GetEfficiencyFromCQI (int cqi)
+// {
+//     int mcs = GetMCSFromCQI (cqi);
+//     int bits = GetTBSizeFromMCS (mcs,1);
+//     //eff = rate / bandwidth
+//     double eff = (bits/0.001)/180000.;
+//     return eff;
+// }
 
 
 int AMCEntity::GetModulationOrderFromMCS(int mcs)

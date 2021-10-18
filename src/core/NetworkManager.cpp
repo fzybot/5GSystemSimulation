@@ -167,6 +167,18 @@ gNodeB* NetworkManager::getGNodeBByCellID (int idCell)
     return nullptr;
 }
 
+void NetworkManager::setSINRCalcMethod(NetworkManager::SINRCalcMethod method)
+{
+    methodSINR_ = method;
+}
+
+NetworkManager::SINRCalcMethod NetworkManager::getSINRCalcMethod()
+{
+    return methodSINR_;
+}
+
+// ----- [ EQUIPMENT GENERATORS ] --------------------------------------------------------------------------------------
+
 UserEquipment* NetworkManager::getUserEquipmentByID (int idUE)
 {
     for (auto userEquipment : *getUserEquipmentContainer()) {
@@ -208,6 +220,8 @@ void NetworkManager::runNetwork()
     while(getCurrentTime() != 0) {
         qDebug() << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
         qDebug() << "Current 120 Time Slot ->" << getCurrentTime();
+        // Calculate SINR for each Equipment
+        calculateSINRPerEquipment(methodSINR_);
         scheduleGNodeB();
         decreaseCurrentTime();
     }
@@ -233,9 +247,9 @@ void NetworkManager::scheduleCells(QVector<Cell*> *cellContainer)
         generateTrafficPerUE(cell->getUserEquipmentContainer());
 
         // TODO: somehow fix the loop
-        for (auto ue : *cell->getUserEquipmentContainer()) {
-            cell->getMacEntity()->packetsToTransportBlockContainer(ue->getPacketsContainer());
-        }
+//        for (auto ue : *cell->getUserEquipmentContainer()) {
+//            cell->getMacEntity()->packetsToTransportBlockContainer(ue->getPacketsContainer());
+//        }
         cell->getMacEntity()->schedule(cell);
     }
 }
@@ -257,40 +271,42 @@ void NetworkManager::makeHandOver()
     qDebug() << "Hand Over in progress...";
 }
 
-void NetworkManager::calculateSINRPerUE(NetworkManager::SINRCalcMethod method)
+void NetworkManager::calculateSINRPerEquipment(NetworkManager::SINRCalcMethod method)
 {
     switch (method)
     {
     case NetworkManager::SINRCalcMethod::STUPID:
-        calculateSINRPerUE_stupid();
+        calculateSINRPerEquipment_stupid();
         break;
     case NetworkManager::SINRCalcMethod::SIGNAL:
-        calculateSINRPerUE_signals();
+        calculateSINRPerEquipment_signals();
         break;
     case NetworkManager::SINRCalcMethod::SIGNAL_DOPPLER:
-        calculateSINRPerUE_signal_doppler();
+        calculateSINRPerEquipment_signal_doppler();
         break;
     default:
         break;
     } 
 }
 
-void NetworkManager::calculateSINRPerUE_stupid()
+void NetworkManager::calculateSINRPerEquipment_stupid()
 {
     float sinr;
     float pathLosses; // in [dBm]
 
-    for (auto ue : *getUserEquipmentContainer()) {
-        
+    for ( auto ue : *getUserEquipmentContainer() ) {
+        for ( auto cell: *getCellContainer() ) {
+            
+        }
     }
 }
 
-void NetworkManager::calculateSINRPerUE_signals()
+void NetworkManager::calculateSINRPerEquipment_signals()
 {
     float sinr;
 }
 
-void NetworkManager::calculateSINRPerUE_signal_doppler()
+void NetworkManager::calculateSINRPerEquipment_signal_doppler()
 {
     float sinr;
 }

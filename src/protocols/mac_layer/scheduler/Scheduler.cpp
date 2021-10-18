@@ -5,6 +5,7 @@
 #include "src/protocols/phy/Channel/Bandwidth.h"
 #include "src/protocols/bearers/RadioBearer.h"
 #include "src/protocols/mac_layer/CellMacEntity.h"
+#include "src/protocols/mac_layer/AMC/AMCEntity.h"
 
 #include <QDebug>
 #include <QVector>
@@ -71,7 +72,10 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
     qDebug() << "Scheduler::roundRobin::Starting frequency diomain scheduling (ROUND ROBIN)-->";
     for (auto timeUE: *userEquipmentContainer) {
         qDebug() <<"    "<<"UE sinr --->"<< timeUE->getSINR();
-        //getCell()->getMacEntity();
+        int cqi = getCell()->getMacEntity()->getAMCEntity()->GetCQIFromSinr (timeUE->getSINR());
+        int msc = getCell()->getMacEntity()->getAMCEntity()->GetMCSFromCQI(cqi);
+        int tbs = 0;
+        qDebug() <<"    "<<"UE CQI|MSC|TBS --->"<< cqi << msc << tbs;
     }
 }
 
@@ -82,6 +86,7 @@ void Scheduler::propotionalFair(QVector<UserEquipment*> *userEquipmentContainer)
 
 void Scheduler::updateAvailableNumPRB(int nPRB)
 {
+    nPRB_ = nPRB;
     nAvailablePRB_ = nPRB;
 }
 

@@ -27,3 +27,8 @@ void AntennaArray::addAntenna(Antenna ant)
 {
     antennaArray_.push_back(ant);
 }
+
+QVector<Antenna> &AntennaArray::getAntennaArray()
+{
+    return antennaArray_;
+}

@@ -15,7 +15,7 @@ class UserEquipment : public Equipment
 protected:
     gNodeB              *targetGNodeB_;
     Cell                *currentCell_;
-    QVector<Packet>     packetsInBuffer_;
+    QVector<Packet*>     packetsInBuffer_;
     
     // TODO: for this part of code it is needed to do a lot of classes for all simplified objects
     double   sinr_;
@@ -43,7 +43,7 @@ public:
     int getBufferSize();
 
     void generatePackets(int number, int currentSlot, RadioBearer *bearer);
-    QVector<Packet> &getPacketsContainer();
+    QVector<Packet*> &getPacketsContainer();
 
     void generatePacketsPerBearer();
 

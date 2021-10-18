@@ -49,6 +49,7 @@ static void Simple ()
     networkManager->createMultipleUserEquipments(2, 0, 200, 0, 1000, 100, cell_01, gNb);
     debug("Simple: User Equipments entity are created");
 
+    networkManager->setSINRCalcMethod(NetworkManager::SINRCalcMethod::STUPID);
     networkManager->runNetwork();
 
     // ----- [ Debugging ] -------------------------------------------------------------------------------------------------

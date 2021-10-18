@@ -22,6 +22,7 @@ protected:
     QVector<UserEquipment*> *freqQueue_;
 
 private:
+    int nPRB_ = 0;
     int nAvailablePRB_ = 0;
     int maxNumberOfScheuledUE_ = 10;
 

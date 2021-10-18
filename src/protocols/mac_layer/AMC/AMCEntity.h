@@ -4,8 +4,8 @@
 
 class AMCEntity
 {
-private:
-    double* SINRForCQIIndex;
+// private:
+//     double* SINRForCQIIndex;
 public:
     AMCEntity();
     virtual ~AMCEntity();
@@ -14,15 +14,18 @@ public:
     int GetMCSIndexFromEfficiency(double spectralEfficiency);
     int GetMCSFromCQI (int cqi);
     int GetCQIFromMCS (int mcs);
-    int GetTBSizeFromMCS (int mcs);
-    int GetTBSizeFromMCS (int mcs, int nbRBs);
-    int GetTBSizeFromMCS (int mcs, int nbRBs, int nbLayers);
-    int GetTBSizeFromMCS (int mcs1, int mcs2, int nbRBs, int rank);
-    double GetEfficiencyFromCQI (int cqi);
+    int getTBSizeFromMCS(int mcs, int nPRB, bool NR = true);
+    double GetEfficiencyFromCQI(int cqi);
     int GetCQIFromSinr (double sinr);
     double GetSinrFromCQI (int cqi);
     int GetModulationOrderFromMCS(int mcs);
     int GetMCSFromSinrVector(const QVector<double> &sinr);
 
     QVector<int> CreateCqiFeedbacks (QVector<double> sinr);
+
+    // FOR LTE
+    // int GetTBSizeFromMCS (int mcs);
+    // int GetTBSizeFromMCS (int mcs, int nbRBs);
+    // int GetTBSizeFromMCS (int mcs, int nbRBs, int nbLayers);
+    // int GetTBSizeFromMCS (int mcs1, int mcs2, int nbRBs, int rank);
 };
