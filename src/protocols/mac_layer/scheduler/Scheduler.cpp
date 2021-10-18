@@ -30,10 +30,10 @@ Scheduler::SchedulingAlgorithm Scheduler::getAlgorithm()
 void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
 {
     qDebug() << "Current Cell Id------>" << cell_->getEquipmentId(); 
-    setNumPRB( cell_->getPhyEntity()->getBandwidthContainer()[0][0]->getNumberOfPRB() );
+    updateAvailableNumPRB( cell_->getPhyEntity()->getBandwidthContainer()[0][0]->getNumberOfPRB() );
+    // qDebug() << "Number of PRBs --->" << getNumPRB();
+    // qDebug() << "Number of TBS: "<< cell_->getMacEntity()->getTransportBlockContainer().length();
 
-    qDebug() << "Number of PRBs --->" << getNumPRB();
-    qDebug() << "Number of TBS: "<< cell_->getMacEntity()->getTransportBlockContainer().length();
     timeDomainScheduling(userEquipmentContainer);
     frequencyDomainScheduling(timeQueue_);
 }
@@ -80,14 +80,14 @@ void Scheduler::propotionalFair(QVector<UserEquipment*> *userEquipmentContainer)
 
 }
 
-void Scheduler::setNumPRB(int nPRB)
+void Scheduler::updateAvailableNumPRB(int nPRB)
 {
-    nPRB_ = nPRB;
+    nAvailablePRB_ = nPRB;
 }
 
-int Scheduler::getNumPRB()
+int Scheduler::getAvailableNumPRB()
 {
-    return nPRB_;
+    return nAvailablePRB_;
 }
 
 void Scheduler::setCell(Cell *cell)

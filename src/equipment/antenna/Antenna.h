@@ -5,7 +5,7 @@
 class Antenna
 {  
 public:
-    enum AntennaType
+    enum class AntennaType
     {
         ANTENNA_TYPE_OMNIDIRECTIONAL,
         ANTENNA_TYPE_TRI_SECTOR,
@@ -14,7 +14,7 @@ public:
     };
 
     // TODO: add antenna patterns
-    enum AntennaPattern
+    enum class AntennaPattern
     {
         ONE,
         TWO
@@ -22,14 +22,14 @@ public:
 
 private:
     AntennaType type_;
-    int ID_;
-    float antennaGain_; // with beamforming gain
-    float feederLoss_; // assuming with MHA\THA
+    int         ID_;
+    float       antennaGain_; // with beamforming gain
+    float       feederLoss_; // assuming with MHA\THA
 
     // The position inside Antenna Array matrix
-    int positionX_;
-    int positionY_;
-    float length; // in cm (lambda)
+    int     positionX_;
+    int     positionY_;
+    float   length; // in cm (lambda)
 
 
     double horizBeamwidth_;
@@ -43,9 +43,10 @@ private:
 public:
     Antenna();
     Antenna(int posX, int posY);
+    Antenna(int posX, int posY, Antenna::AntennaType type);
 
-    void setAntennaType(AntennaType type);
-    AntennaType getAntennaType();
+    void setAntennaType(Antenna::AntennaType type);
+    Antenna::AntennaType getAntennaType();
 
     void setPosition(int x, int y);
 
