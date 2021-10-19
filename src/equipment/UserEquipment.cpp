@@ -139,7 +139,7 @@ void UserEquipment::generatePackets(int number, int currentSlot, RadioBearer *be
         for (int i = 0; i < number; i++) {
             int size = QRandomGenerator::global()->bounded( bearer->getQoSProfile()->getDataBurstVolumeRange().first, 
                                                             bearer->getQoSProfile()->getDataBurstVolumeRange().second);
-            qDebug() << "UserEquipment::generatePackets::Packt size ------>>>>> " << size;
+            //qDebug() << "UserEquipment::generatePackets::Packt size ------>>>>> " << size;
             Packet  *pack = new Packet(size, currentSlot, i, bearer);
             packetsInBuffer_.push_back(pack);
         }

@@ -19,19 +19,46 @@ AMCEntity::~AMCEntity()
 
 }
 
-int AMCEntity::GetCQIFromEfficiency (double Efficiency)
+int AMCEntity::GetCQIFromSinr (double sinr)
 {
     int cqi = 1; // == CQIIndex[0]
-    while (EfficiencyForCQIIndex[cqi] < Efficiency && cqi <= 14) {
+    while (SINRForCQIIndex[cqi] <= sinr && cqi <= 14) {
         cqi++;
     }
     return cqi;
 }
 
-int AMCEntity::GetCQIFromSinr (double sinr)
+int AMCEntity::GetMCSFromCQI (int cqi)
+{
+    switch (MCSIndexTableNumber_)
+    {
+    case 1:
+        return MapCQIToMCSTable1[cqi - 1];
+        break;
+    case 2:
+        return MapCQIToMCSTable2[cqi - 1];
+        break;
+    case 3:
+        return MapCQIToMCSTable3[cqi - 1];
+        break;
+    default:
+        return 0;
+        break;
+    }
+}
+
+int AMCEntity::getTBSizeFromMCS(int mcs, int nPRB)
+{
+    int tbs;
+
+    return tbs;
+}
+
+// ----- [ LTE ] -------------------------------------------------------------------------------------------------------
+int AMCEntity::GetCQIFromEfficiency (double Efficiency)
 {
     int cqi = 1; // == CQIIndex[0]
-    while (SINRForCQIIndex[cqi] <= sinr && cqi <= 14) {
+    while (EfficiencyForCQIIndex[cqi] < Efficiency && cqi <= 14) {
         cqi++;
     }
     return cqi;
@@ -43,22 +70,17 @@ double AMCEntity::GetSinrFromCQI (int cqi)
     return sinr;
 }
 
-int AMCEntity::GetMCSFromCQI (int cqi)
-{
-    return MapCQIToMCS [cqi-1];
-}
-
-int AMCEntity::GetCQIFromMCS (int mcs)
-{
-    int cqi = 0;
-    for (int i=0; i<15; i++) {
-        if (mcs <= MapCQIToMCS[i]) {
-            cqi = i+1;
-            break;
-        }
-    }
-    return cqi;
-}
+//int AMCEntity::GetCQIFromMCS (int mcs)
+//{
+//    int cqi = 0;
+//    for (int i=0; i<15; i++) {
+//        if (mcs <= MapCQIToMCS[i]) {
+//            cqi = i+1;
+//            break;
+//        }
+//    }
+//    return cqi;
+//}
 
 int AMCEntity::GetMCSIndexFromEfficiency(double efficiency)
 {
@@ -68,6 +90,38 @@ int AMCEntity::GetMCSIndexFromEfficiency(double efficiency)
     }
     return mcs;
 }
+
+int AMCEntity::GetModulationOrderFromMCS(int mcs)
+{
+    return ModulationSchemeForMCSIndex[mcs];
+}
+
+
+int AMCEntity::GetMCSFromSinrVector(const QVector<double> &sinr)
+{
+    int mcs = 0;
+    for (int modulationOrder=2; modulationOrder<7; modulationOrder+=2) {
+        double estimated_effsinr = GetMiesmEffectiveSinr(sinr, modulationOrder);
+        int estimated_cqi = GetCQIFromSinr(estimated_effsinr);
+        int estimated_mcs = GetMCSFromCQI(estimated_cqi);
+        int estimated_modulation_order = GetModulationOrderFromMCS(estimated_mcs);
+        if(estimated_modulation_order == modulationOrder) {
+            mcs = estimated_mcs;
+        }
+    }
+    return mcs;
+}
+
+QVector<int> AMCEntity::CreateCqiFeedbacks (QVector<double> sinr)
+{
+    QVector<int> cqi;
+    for (auto sinr_ : sinr) {
+        int cqi_ = GetCQIFromSinr (sinr_);
+        cqi.push_back (cqi_);
+    }
+    return cqi;
+}
+
 
 // int AMCEntity::GetTBSizeFromMCS (int mcs)
 // {
@@ -193,35 +247,3 @@ int AMCEntity::GetMCSIndexFromEfficiency(double efficiency)
 //     double eff = (bits/0.001)/180000.;
 //     return eff;
 // }
-
-
-int AMCEntity::GetModulationOrderFromMCS(int mcs)
-{
-    return ModulationSchemeForMCSIndex[mcs];
-}
-
-
-int AMCEntity::GetMCSFromSinrVector(const QVector<double> &sinr)
-{
-    int mcs = 0;
-    for (int modulationOrder=2; modulationOrder<7; modulationOrder+=2) {
-        double estimated_effsinr = GetMiesmEffectiveSinr(sinr, modulationOrder);
-        int estimated_cqi = GetCQIFromSinr(estimated_effsinr);
-        int estimated_mcs = GetMCSFromCQI(estimated_cqi);
-        int estimated_modulation_order = GetModulationOrderFromMCS(estimated_mcs);
-        if(estimated_modulation_order == modulationOrder) {
-            mcs = estimated_mcs;
-        }
-    }
-    return mcs;
-}
-
-QVector<int> AMCEntity::CreateCqiFeedbacks (QVector<double> sinr)
-{
-    QVector<int> cqi;
-    for (auto sinr_ : sinr) {
-        int cqi_ = GetCQIFromSinr (sinr_);
-        cqi.push_back (cqi_);
-    }
-    return cqi;
-}

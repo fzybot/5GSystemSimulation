@@ -4,6 +4,8 @@
 #include "src/equipment/UserEquipment.h"
 #include "src/protocols/mac_layer/scheduler/Scheduler.h"
 #include "src/protocols/mac_layer/CellMacEntity.h"
+#include "src/protocols/phy/Physical.h"
+#include "src/protocols/phy/Channel/Bandwidth.h"
 
 #include "src/debug.h"
 
@@ -250,7 +252,13 @@ void NetworkManager::scheduleCells(QVector<Cell*> *cellContainer)
 //        for (auto ue : *cell->getUserEquipmentContainer()) {
 //            cell->getMacEntity()->packetsToTransportBlockContainer(ue->getPacketsContainer());
 //        }
-        cell->getMacEntity()->schedule(cell);
+        // TODO: need some fix in order to schedule multiple bandwidth with differens SCS
+        int scs = cell->getPhyEntity()->getBandwidthContainer()[0][0]->getSCS();
+        if ( cell->getLocalSystem120TimeSlot() % (120 / scs) == 0 ) {
+            qDebug() << cell->getLocalSystem120TimeSlot() % (120 / scs);
+            qDebug() << "NetworkManager::scheduleCells:: cell SCS --> " << scs;
+            cell->getMacEntity()->schedule(cell);
+        }
     }
 }
 

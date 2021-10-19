@@ -11,6 +11,7 @@ class Signal;
 class Physical
 {
 protected:
+    int                 numerologyIndex_ = 0;
     RadioChannel        *dlChannel_;
     RadioChannel        *ulChannel_;
     QVector<Bandwidth*> *bandwidthContainer_;
