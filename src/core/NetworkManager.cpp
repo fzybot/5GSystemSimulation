@@ -203,7 +203,7 @@ double NetworkManager::calcOnePointSINR()
 void NetworkManager::setWorkingTime(int time)
 {
     workit120TimeSlot_ =  time;
-    current120TimeSlot_ = time;
+    current120TimeSlot_ = 1;
 }
 
 int &NetworkManager::getCurrentTime()
@@ -211,21 +211,26 @@ int &NetworkManager::getCurrentTime()
     return current120TimeSlot_;
 }
 
-void NetworkManager::decreaseCurrentTime()
+int &NetworkManager::getWorkingTime()
 {
-    current120TimeSlot_ = current120TimeSlot_ - 1;
+    return workit120TimeSlot_;
+}
+
+void NetworkManager::increaseCurrentTime()
+{
+    current120TimeSlot_ = current120TimeSlot_ + 1;
 }
 // ----- [ SIMULATION ] ------------------------------------------------------------------------------------------------
 
 void NetworkManager::runNetwork()
 {
-    while(getCurrentTime() != 0) {
+    while(getCurrentTime() != getWorkingTime()) {
         qDebug() << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
         qDebug() << "Current 120 Time Slot ->" << getCurrentTime();
         // Calculate SINR for each Equipment
         calculateSINRPerEquipment(methodSINR_);
         scheduleGNodeB();
-        decreaseCurrentTime();
+        increaseCurrentTime();
     }
 }
 
@@ -246,6 +251,7 @@ void NetworkManager::scheduleCells(QVector<Cell*> *cellContainer)
         if (checkHandOver()) {
             makeHandOver();
         }
+        cell->sync120TimeSlot(current120TimeSlot_);
         generateTrafficPerUE(cell->getUserEquipmentContainer());
 
         // TODO: somehow fix the loop
@@ -257,6 +263,7 @@ void NetworkManager::scheduleCells(QVector<Cell*> *cellContainer)
         if ( cell->getLocalSystem120TimeSlot() % (120 / scs) == 0 ) {
             qDebug() << cell->getLocalSystem120TimeSlot() % (120 / scs);
             qDebug() << "NetworkManager::scheduleCells:: cell SCS --> " << scs;
+            qDebug() << "NetworkManager::scheduleCells:: cell time slot --> " << cell->getLocalSystem120TimeSlot();
             cell->getMacEntity()->schedule(cell);
         }
     }

@@ -73,9 +73,9 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
     for (auto timeUE: *userEquipmentContainer) {
         qDebug() <<"    "<<"UE sinr --->"<< timeUE->getSINR();
         int cqi = getCell()->getMacEntity()->getAMCEntity()->GetCQIFromSinr (timeUE->getSINR());
-        int msc = getCell()->getMacEntity()->getAMCEntity()->GetMCSFromCQI(cqi);
-        int tbs = 0;
-        qDebug() <<"    "<<"UE CQI|MSC|TBS --->"<< cqi << msc << tbs;
+        int mcs = getCell()->getMacEntity()->getAMCEntity()->GetMCSFromCQI(cqi);
+        int tbs = getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(26, 3, 1);
+        qDebug() <<"    "<<"UE CQI|MSC|TBS --->"<< cqi << mcs << tbs;
     }
 }
 

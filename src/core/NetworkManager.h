@@ -54,7 +54,8 @@ public:
     // Interworking
     void setWorkingTime(int time); // minimum time unit, 1 slot
     int &getCurrentTime();
-    void decreaseCurrentTime();
+    int &getWorkingTime();
+    void increaseCurrentTime();
 
     void setSINRCalcMethod(NetworkManager::SINRCalcMethod method);
     NetworkManager::SINRCalcMethod getSINRCalcMethod();

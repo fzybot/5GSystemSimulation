@@ -14,10 +14,10 @@ public:
 
     int GetCQIFromSinr (double sinr);
     int GetMCSFromCQI (int cqi);
-    int getTBSizeFromMCS(int mcs, int nPRB);
+    int getTBSizeFromMCS(int mcs, int nPRB, int nLayers);
+    int findClosestTbs3824(int nInfo);
 
-
-// ----- [ LTE ] -------------------------------------------------------------------------------------------------------
+    // ----- [ LTE ] -------------------------------------------------------------------------------------------------------
     int GetCQIFromEfficiency (double sinr);
     int GetMCSIndexFromEfficiency(double spectralEfficiency);
     int GetCQIFromMCS (int mcs);

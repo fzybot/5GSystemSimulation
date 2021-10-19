@@ -1,13 +1,12 @@
-
-#include <QVector>
-#include <QtMath>
-#include <QDebug>
-
 #include "AMCEntity.h"
 #include "AMCParameters.h"
 #include "src/protocols/mac_layer/AMC/miesmEffSINR.h"
 
 #include "src/debug.h"
+
+#include <QVector>
+#include <QtMath>
+#include <QDebug>
 
 AMCEntity::AMCEntity()
 {
@@ -47,11 +46,58 @@ int AMCEntity::GetMCSFromCQI (int cqi)
     }
 }
 
-int AMCEntity::getTBSizeFromMCS(int mcs, int nPRB)
+int AMCEntity::getTBSizeFromMCS(int mcs, int nPRB, int nLayers)
 {
+    double R = TargetCodeRateTable1PDSCH[mcs];
+    int Qm = ModulationOrderTable1PDSCH[mcs];
     int tbs;
+    int nScRb = 12;
+    int nSymbSlot = 14; // Depends on SLIV (max 14 or 12)
+    int nDmrsRb = 0;    // TODO: add method to automatically calculate the value based on DCI format
+    int nOhRb = 0;      // Some overheads. TODO: may be need some calculation
 
+    int nRePrime = nScRb * (nSymbSlot - nDmrsRb - nOhRb);
+    int nRe = qMin(156, nRePrime) * nPRB;
+    R = R / 1024;
+    int nInfo = nRe * R * Qm * nLayers;
+    qDebug() << "R | Q: " << R << Qm;
+    qDebug() << "nInfo: " << nInfo;
+
+    if (nInfo <= 3824) {
+        int n = qMax(3, (int)log2(nInfo) - 6);
+        qDebug() << "n: " << n;
+        int nInfoPrime = qMax(24, (int)pow(2, n) * (int)(nInfo / pow(2, n)));
+        qDebug() << "nInfoPrime: " << nInfoPrime;
+        // TODO: find the closest from table
+        tbs = nInfoPrime;
+    } else {
+        int n = log2(nInfo - 24) - 5;
+        int nInfoPrime = pow(2, n) * round( (nInfo - 24) / pow(2, n) );
+        if ( R  <= 0.25) {
+            int c = (nInfoPrime + 24) / 3816;
+            tbs = 8 * c* ( (nInfoPrime + 24) / (8 * c) ) - 24;
+        } else {
+            if(nInfoPrime >= 8424) {
+                int c = (nInfoPrime + 24) / 8424;
+                tbs = 8 * c* ( (nInfoPrime + 24) / (8 * c) ) - 24;
+            } else {
+                tbs = 8 * ( (nInfoPrime + 24) / 8 ) - 24;
+            }
+        }
+    }
     return tbs;
+}
+
+int AMCEntity::findClosestTbs3824(int nInfo)
+{
+    int index;
+    int min = 10000000;
+    for (int i = 0; i < 93; i++) {
+        if (nInfo - TBSforNinfo[i] == 0 ){
+            
+        }
+    }
+    return index;
 }
 
 // ----- [ LTE ] -------------------------------------------------------------------------------------------------------
