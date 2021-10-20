@@ -30,8 +30,10 @@ Scheduler::SchedulingAlgorithm Scheduler::getAlgorithm()
 
 void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
 {
-    qDebug() << "Current Cell Id------>" << cell_->getEquipmentId(); 
-    updateAvailableNumPRB( cell_->getPhyEntity()->getBandwidthContainer()[0][0]->getNumberOfPRB() );
+    qDebug() << "Current Cell Id------>" << cell_->getEquipmentId();
+    int nPrb;
+    nPrb = cell_->getPhyEntity()->getBandwidthContainer()[0][0]->getNumberOfPRB();
+    updateAvailableNumPRB(nPrb);
     // qDebug() << "Number of PRBs --->" << getNumPRB();
     // qDebug() << "Number of TBS: "<< cell_->getMacEntity()->getTransportBlockContainer().length();
 
@@ -41,14 +43,13 @@ void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
 
 void Scheduler::timeDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer)
 {
+    qDebug() << "Starting time scheduling-->";
     timeQueue_->clear();
     for (auto ue : *userEquipmentContainer) {
         if (ue->getBSR() != false && ue->getMeasurementGap() != true && ue->getDRX() != true) {
             timeQueue_->push_back(ue);
         }
     }
-
-    // qDebug() << "Starting time scheduling-->";
     // qDebug() <<"    "<<"Number of UE-->" << userEquipmentContainer->length();
     // qDebug() <<"    "<< "Number of UE Scheduled in time-->" << timeQueue_->length();
 }
@@ -71,7 +72,6 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
 {
     qDebug() << "Scheduler::roundRobin::Starting frequency diomain scheduling (ROUND ROBIN)-->";
 
-    freqQueue_->clear();
     for (auto timeUE: *userEquipmentContainer) {
         int ueSINR = timeUE->getSINR();
         int ueBufferSize = timeUE->getBufferSize();
@@ -80,9 +80,11 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
         int nPrbPerUe = calculateOptimalNumberOfPrbPerUe(mcs, nPrb_, ueBufferSize);
         int tbs = getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(mcs, nPrbPerUe, nLayers_);
 
+        qDebug() <<"    "<<"UE Id --->"<< timeUE->getEquipmentId();
         qDebug() <<"    "<<"UE SINR|CQI|MSC|TBS --->"<< ueSINR << cqi << mcs << tbs;
         qDebug() <<"    "<<"UE Buffer Size --->"<< timeUE->getBufferSize();
         qDebug() <<"    "<<"UE allocated PRBs --->"<< nPrbPerUe;
+        qDebug() <<"    "<<"mark"<< "1";
 
     }
 }
@@ -115,7 +117,7 @@ int Scheduler::calculateOptimalNumberOfPrbPerUe(int mcs, int maxPrb, int ueBuffe
             maxPossiblePrb = i;
         }
     }
-        return maxPossiblePrb;
+    return maxPossiblePrb;
 }
 
 void Scheduler::setCell(Cell *cell)

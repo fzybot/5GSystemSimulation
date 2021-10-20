@@ -56,9 +56,10 @@ int AMCEntity::getTBSizeFromMCS(int mcs, int nPRB, int nLayers)
     int nDmrsRb = 0;    // TODO: add method to automatically calculate the value based on DCI format
     int nOhRb = 0;      // Some overheads. TODO: may be need some calculation
 
+    R = R / 1024;
     int nRePrime = nScRb * (nSymbSlot - nDmrsRb - nOhRb);
     int nRe = qMin(156, nRePrime) * nPRB;
-    R = R / 1024;
+
     int nInfo = nRe * R * Qm * nLayers;
 
     if (nInfo <= 3824) {
@@ -69,7 +70,7 @@ int AMCEntity::getTBSizeFromMCS(int mcs, int nPRB, int nLayers)
         tbs = TBSforNinfo[index];
     } else {
         int n = log2(nInfo - 24) - 5;
-        int nInfoPrime = pow(2, n) * round( (nInfo - 24) / pow(2, n) );
+        int nInfoPrime = pow(2, n) * round((nInfo - 24) / pow(2, n));
         if ( R  <= 0.25) {
             int c = (nInfoPrime + 24) / 3816;
             tbs = 8 * c* ( (nInfoPrime + 24) / (8 * c) ) - 24;
