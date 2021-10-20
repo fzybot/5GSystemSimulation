@@ -60,16 +60,13 @@ int AMCEntity::getTBSizeFromMCS(int mcs, int nPRB, int nLayers)
     int nRe = qMin(156, nRePrime) * nPRB;
     R = R / 1024;
     int nInfo = nRe * R * Qm * nLayers;
-    qDebug() << "R | Q: " << R << Qm;
-    qDebug() << "nInfo: " << nInfo;
 
     if (nInfo <= 3824) {
         int n = qMax(3, (int)log2(nInfo) - 6);
-        qDebug() << "n: " << n;
         int nInfoPrime = qMax(24, (int)pow(2, n) * (int)(nInfo / pow(2, n)));
-        qDebug() << "nInfoPrime: " << nInfoPrime;
-        // TODO: find the closest from table
-        tbs = nInfoPrime;
+        // Finding the closest value from TBS table
+        int index = findClosestTbs3824(nInfoPrime);
+        tbs = TBSforNinfo[index];
     } else {
         int n = log2(nInfo - 24) - 5;
         int nInfoPrime = pow(2, n) * round( (nInfo - 24) / pow(2, n) );
@@ -93,8 +90,9 @@ int AMCEntity::findClosestTbs3824(int nInfo)
     int index;
     int min = 10000000;
     for (int i = 0; i < 93; i++) {
-        if (nInfo - TBSforNinfo[i] == 0 ){
-            
+        if (abs(nInfo - TBSforNinfo[i]) <= min ){
+            min = abs(nInfo - TBSforNinfo[i]);
+            index = i;
         }
     }
     return index;

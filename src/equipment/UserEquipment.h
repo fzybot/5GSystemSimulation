@@ -22,6 +22,7 @@ protected:
     bool    BSR_ = true;
     bool    measurementGAP_ = false;
     bool    DRX_ = false;
+    int     bufferSize_ = 0;
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
@@ -38,7 +39,7 @@ public:
     void setTargetGNodeB(gNodeB *gNb);
     gNodeB *getTargetGNodeB();
 
-    void setBufferSize(int size);
+    void addToBuffer(int size);
     void decreaseBuffer(int decSize);
     int getBufferSize();
 

@@ -42,14 +42,15 @@ void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
 void Scheduler::timeDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer)
 {
     timeQueue_->clear();
-    qDebug() << "Starting time scheduling-->";
-    qDebug() <<"    "<<"Number of UE-->" << userEquipmentContainer->length();
     for (auto ue : *userEquipmentContainer) {
         if (ue->getBSR() != false && ue->getMeasurementGap() != true && ue->getDRX() != true) {
             timeQueue_->push_back(ue);
         }
     }
-    qDebug() <<"    "<< "Number of UE Scheduled in time-->" << timeQueue_->length();
+
+    // qDebug() << "Starting time scheduling-->";
+    // qDebug() <<"    "<<"Number of UE-->" << userEquipmentContainer->length();
+    // qDebug() <<"    "<< "Number of UE Scheduled in time-->" << timeQueue_->length();
 }
 
 void Scheduler::frequencyDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer)
@@ -68,14 +69,21 @@ void Scheduler::frequencyDomainScheduling(QVector<UserEquipment*> *userEquipment
 
 void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
 {
-    freqQueue_->clear();
     qDebug() << "Scheduler::roundRobin::Starting frequency diomain scheduling (ROUND ROBIN)-->";
+
+    freqQueue_->clear();
     for (auto timeUE: *userEquipmentContainer) {
-        qDebug() <<"    "<<"UE sinr --->"<< timeUE->getSINR();
-        int cqi = getCell()->getMacEntity()->getAMCEntity()->GetCQIFromSinr (timeUE->getSINR());
+        int ueSINR = timeUE->getSINR();
+        int ueBufferSize = timeUE->getBufferSize();
+        int cqi = getCell()->getMacEntity()->getAMCEntity()->GetCQIFromSinr (ueSINR);
         int mcs = getCell()->getMacEntity()->getAMCEntity()->GetMCSFromCQI(cqi);
-        int tbs = getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(26, 3, 1);
-        qDebug() <<"    "<<"UE CQI|MSC|TBS --->"<< cqi << mcs << tbs;
+        int nPrbPerUe = calculateOptimalNumberOfPrbPerUe(mcs, nPrb_, ueBufferSize);
+        int tbs = getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(mcs, nPrbPerUe, nLayers_);
+
+        qDebug() <<"    "<<"UE SINR|CQI|MSC|TBS --->"<< ueSINR << cqi << mcs << tbs;
+        qDebug() <<"    "<<"UE Buffer Size --->"<< timeUE->getBufferSize();
+        qDebug() <<"    "<<"UE allocated PRBs --->"<< nPrbPerUe;
+
     }
 }
 
@@ -86,13 +94,28 @@ void Scheduler::propotionalFair(QVector<UserEquipment*> *userEquipmentContainer)
 
 void Scheduler::updateAvailableNumPRB(int nPRB)
 {
-    nPRB_ = nPRB;
-    nAvailablePRB_ = nPRB;
+    nPrb_ = nPRB;
+    nRemainingPrb_ = nPRB;
 }
 
 int Scheduler::getAvailableNumPRB()
 {
-    return nAvailablePRB_;
+    return nRemainingPrb_;
+}
+
+int Scheduler::calculateOptimalNumberOfPrbPerUe(int mcs, int maxPrb, int ueBuffer)
+{
+    int min = ueBuffer;
+    int maxPossiblePrb = 1;
+    int tbs;
+    for (int i = 1; i <= maxPrb; i++) {
+        tbs = getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(mcs, i, nLayers_);
+        if (abs(ueBuffer - tbs) < min) {
+            min = abs(ueBuffer - tbs);
+            maxPossiblePrb = i;
+        }
+    }
+        return maxPossiblePrb;
 }
 
 void Scheduler::setCell(Cell *cell)

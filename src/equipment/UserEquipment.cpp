@@ -125,10 +125,25 @@ double UserEquipment::getSINR()
     return sinr_;
 }
 
+void UserEquipment::addToBuffer(int size)
+{
+    bufferSize_ += size;
+}
+
+void UserEquipment::decreaseBuffer(int decSize)
+{
+    bufferSize_ -= decSize;
+}
+
+int UserEquipment::getBufferSize()
+{
+    return bufferSize_;
+}
+
 void UserEquipment::generatePacketsPerBearer()
 {
     for(auto bearer: *getBearerContainer()) {
-        this->generatePackets(100, localSystem120TimeSlot_, bearer);
+        this->generatePackets(1, localSystem120TimeSlot_, bearer);
     }
 }
 
@@ -142,6 +157,7 @@ void UserEquipment::generatePackets(int number, int currentSlot, RadioBearer *be
             //qDebug() << "UserEquipment::generatePackets::Packt size ------>>>>> " << size;
             Packet  *pack = new Packet(size, currentSlot, i, bearer);
             packetsInBuffer_.push_back(pack);
+            addToBuffer(size);
         }
     }
 }

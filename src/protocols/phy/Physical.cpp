@@ -39,7 +39,7 @@ QVector<Bandwidth*> *Physical::getBandwidthContainer()
 void Physical::configBandwidth()
 {
     //QString fr, QString band, int scs, double ulBw, double dlBw, int ulOffset, int dlOffset, bool tddTrue = true
-    Bandwidth *bw = new Bandwidth("FR1", "n3", NUMEROLOGY[numerologyIndex_], 10, 20, 0, 0, true);
+    Bandwidth *bw = new Bandwidth("FR1", "n3", NUMEROLOGY[numerologyIndex_], 10, 50, 0, 0, true);
     addBandwidth(bw);
     
 }

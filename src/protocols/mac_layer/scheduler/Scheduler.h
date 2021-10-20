@@ -22,9 +22,12 @@ protected:
     QVector<UserEquipment*> *freqQueue_;
 
 private:
-    int nPRB_ = 0;
-    int nAvailablePRB_ = 0;
-    int maxNumberOfScheuledUE_ = 10;
+    int nLayers_ = 1;
+    int nPrb_ = 0;
+    int nRemainingPrb_ = 0;
+    int nMaxScheuledUe_ = 5;
+    int currentScheduledUe = 0;
+    int nMinPrbPerUe_ = 1;
 
 public:
     Scheduler();
@@ -47,6 +50,7 @@ public:
     // Support methods
     void updateAvailableNumPRB(int nPRB);
     int getAvailableNumPRB();
+    int calculateOptimalNumberOfPrbPerUe(int mcs, int maxPrb, int ueBuffer);
 
     // TODO: finish these methods
     void checkMeasGap(QVector<UserEquipment*> *userEquipmentContainer);
