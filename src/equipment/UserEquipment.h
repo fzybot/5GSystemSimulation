@@ -18,11 +18,11 @@ protected:
     QVector<Packet*>     packetsInBuffer_;
     
     // TODO: for this part of code it is needed to do a lot of classes for all simplified objects
-    double   sinr_;
-    bool    BSR_ = true;
-    bool    measurementGAP_ = false;
-    bool    DRX_ = false;
-    int     bufferSize_ = 0;
+    double      sinr_;
+    bool        BSR_ = true;
+    bool        measurementGAP_ = false;
+    bool        DRX_ = false;
+    int         bufferSize_ = 0;
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------

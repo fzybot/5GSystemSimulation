@@ -88,9 +88,11 @@ int AMCEntity::getTBSizeFromMCS(int mcs, int nPRB, int nLayers)
 
 int AMCEntity::findClosestTbs3824(int nInfo)
 {
+    qDebug() <<"    "<<"AMCEntity::findClosestTbs3824";
     int index;
     int min = 10000000;
     for (int i = 0; i < 93; i++) {
+        qDebug() <<"    "<<"AMCEntity::findClosestTbs3824::i --> " << i;
         if (abs(nInfo - TBSforNinfo[i]) <= min ){
             min = abs(nInfo - TBSforNinfo[i]);
             index = i;

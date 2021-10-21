@@ -40,7 +40,7 @@ UserEquipment::UserEquipment(int id,
     createBearer(RadioBearer::RadioBearerType::DRB, bearerId, randQoSProfile);
 
     // Random SINR
-    int localSINR = QRandomGenerator::global()->bounded(-7, 25);
+    int localSINR = QRandomGenerator::global()->bounded(-7, 19);
     setSINR(localSINR);
 
     // Generate Traffic per each bearer
