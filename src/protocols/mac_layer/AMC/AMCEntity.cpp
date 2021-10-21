@@ -99,6 +99,16 @@ int AMCEntity::findClosestTbs3824(int nInfo)
     return index;
 }
 
+void AMCEntity::showParameters()
+{
+    qDebug() <<"    "<<"AMCEntity::showParameters::modulation length: "<< MCSIndexTable1PDSCH.length();
+    qDebug() <<"    "<<"AMCEntity::showParameters::modulation length: "<< ModulationOrderTable1PDSCH.length();
+    qDebug() <<"    "<<"AMCEntity::showParameters::modulation length: "<< TargetCodeRateTable1PDSCH.length();
+    qDebug() <<"    "<<"AMCEntity::showParameters::modulation length: "<< SpectralEfficiencyTable1PDSCH.length();
+    qDebug() <<"    "<<"AMCEntity::showParameters::modulation length: "<< TBSforNinfo.length();
+
+}
+
 // ----- [ LTE ] -------------------------------------------------------------------------------------------------------
 int AMCEntity::GetCQIFromEfficiency (double Efficiency)
 {

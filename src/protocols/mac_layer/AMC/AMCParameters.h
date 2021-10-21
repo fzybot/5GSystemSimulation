@@ -1,9 +1,11 @@
 #pragma once
 
+#include <QVector>
+
 // ----- [ 5G NR ] -----------------------------------------------------------------------------------------------------
 
 // 38.214 - Table 5.1.3.1-1: MCS index Table 1 for PDSCH
-int MCSIndexTable1PDSCH[32] =
+QVector<int> MCSIndexTable1PDSCH =
 {
   0,  1,  2,  3,  4,  5,  6,  7,  8,  9,           //QPSK
   10, 11, 12, 13, 14, 15, 16,                      //16-QAM
@@ -11,7 +13,7 @@ int MCSIndexTable1PDSCH[32] =
   29, 30, 31                                       //RESERVED
 };
 
-int ModulationOrderTable1PDSCH[32] = 
+QVector<int> ModulationOrderTable1PDSCH = 
 {
   2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
   4, 4, 4, 4, 4, 4, 4, 
@@ -19,7 +21,7 @@ int ModulationOrderTable1PDSCH[32] =
   2, 4, 6 
 };
 
-int TargetCodeRateTable1PDSCH[32] = 
+QVector<int> TargetCodeRateTable1PDSCH = 
 {
   120, 157, 193, 251, 308, 379, 449, 526, 602, 679, 
   340, 378, 434, 490, 553, 616, 658, 
@@ -27,7 +29,7 @@ int TargetCodeRateTable1PDSCH[32] =
   0, 0, 0
 };
 
-double SpectralEfficiencyTable1PDSCH[32] = 
+QVector<double> SpectralEfficiencyTable1PDSCH = 
 {
   0.2344, 0.3066, 0.3770, 0.4902, 0.6016, 0.7402, 0.8770, 1.0273, 1.1758, 1.3262, 
   1.3281, 1.4766, 1.6953, 1.9141, 2.1602, 2.4063, 2.5703, 
@@ -36,7 +38,7 @@ double SpectralEfficiencyTable1PDSCH[32] =
 };
 
 // 38.214 - Table 5.1.3.1-2: MCS index Table 2 for PDSCH
-int MCSIndexTable2PDSCH[32] =
+QVector<int> MCSIndexTable2PDSCH =
 {
   0,  1,  2,  3,  4,                  // QPSK
   5,  6,  7,  8,  9,  10,             // 16-QAM
@@ -45,7 +47,7 @@ int MCSIndexTable2PDSCH[32] =
   28, 29, 30, 31                      // RESERVED
 };
 
-int ModulationOrderTable2PDSCH[32] = 
+QVector<int> ModulationOrderTable2PDSCH = 
 {
   2, 2, 2, 2, 2, 
   4, 4, 4, 4, 4, 4, 
@@ -54,7 +56,7 @@ int ModulationOrderTable2PDSCH[32] =
   2, 4, 6, 8
 };
 
-int TargetCodeRateTable2PDSCH[32] = 
+QVector<int> TargetCodeRateTable2PDSCH = 
 {
   120, 193, 308, 449, 602, 
   378, 434, 490, 553, 616, 658, 
@@ -63,7 +65,7 @@ int TargetCodeRateTable2PDSCH[32] =
   0, 0, 0, 0
 };
 
-double SpectralEfficiencyTable2PDSCH[32] = 
+QVector<double> SpectralEfficiencyTable2PDSCH = 
 {
   0.2344, 0.377, 0.6016, 0.877, 1.1758, 
   1.4766, 1.6953, 1.9141, 2.1602, 2.4063, 2.5703, 
@@ -73,7 +75,7 @@ double SpectralEfficiencyTable2PDSCH[32] =
 };
 
 // 38.214 - Table 5.1.3.1-3: MCS index Table 3 for PDSCH
-int MCSIndexTable3PDSCH[32] =
+QVector<int> MCSIndexTable3PDSCH =
 {
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, // QPSK
   15, 16, 17, 18, 19, 20,                           // 16-QAM
@@ -81,7 +83,7 @@ int MCSIndexTable3PDSCH[32] =
   29, 30, 31                                        // RESERVED
 };
 
-int ModulationOrderTable3PDSCH[32] = 
+QVector<int> ModulationOrderTable3PDSCH = 
 {
   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 
   4, 4, 4, 4, 4, 
@@ -89,7 +91,7 @@ int ModulationOrderTable3PDSCH[32] =
   2, 4, 6
 };
 
-int TargetCodeRateTable3PDSCH[32] = 
+QVector<int> TargetCodeRateTable3PDSCH = 
 {
   30, 40, 50, 64, 78, 99, 120, 157, 193, 251, 308, 379, 449, 526, 602, 
   340, 378, 434, 490, 553, 616, 
@@ -97,7 +99,7 @@ int TargetCodeRateTable3PDSCH[32] =
   0, 0, 0
 };
 
-double SpectralEfficiencyTable3PDSCH[32] = 
+QVector<double> SpectralEfficiencyTable3PDSCH = 
 {
   0.0586, 0.0781, 0.0977, 0.1250, 0.1523, 0.1934, 0.2344, 0.3066, 0.377, 0.4902, 0.6016, 0.7420, 0.877, 1.0273, 1.1758, 
   1.3281, 1.4766, 1.6953, 1.9141, 2.1602, 2.4063,
@@ -106,7 +108,7 @@ double SpectralEfficiencyTable3PDSCH[32] =
 };
 
 // 38.214  - Table 5.1.3.2-1: TBS for N_info <= 3824
-int TBSforNinfo[93] = 
+QVector<int> TBSforNinfo = 
 {
   24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 208, 224, 240, 
   256, 272, 288, 304, 320, 336, 352, 368, 384, 408, 432, 456, 480, 504, 528, 552, 576, 608, 640, 672, 704, 736, 768, 
@@ -118,7 +120,7 @@ int TBSforNinfo[93] =
 
 // SINR
 // TODO: Need some correction & investigation
-double SINRForCQIIndex[15] =
+QVector<double> SINRForCQIIndex =
 {
   -6.75,
   -4.96,
@@ -137,14 +139,14 @@ double SINRForCQIIndex[15] =
   19.97
 };
 
-int MapCQIToMCSTable1[15] =
+QVector<int> MapCQIToMCSTable1 =
 {
   0, 1, 3, 5, 7, 9,      //QPSK
   11, 13, 15,            //16-QAM
   18, 20, 22, 24, 26, 28 //64-QAM
 };
 
-int MapCQIToMCSTable2[15] =
+QVector<int> MapCQIToMCSTable2 =
 {
   0, 1, 3,            // QPSK
   5, 7, 9,            // 16-QAM
@@ -152,12 +154,22 @@ int MapCQIToMCSTable2[15] =
   21, 23, 25, 27      // 256-QAM
 };
 
-int MapCQIToMCSTable3[15] =
+QVector<int> MapCQIToMCSTable3 =
 {
   0, 2, 4, 6, 8, 10, 12, 14,  // QPSK
   16, 18, 20,                 // 16-QAM
   22, 24, 26, 28              // 64-QAM
 };
+
+
+
+
+
+
+
+
+
+
 
 // ----- [ LTE ] -------------------------------------------------------------------------------------------------------
 int ModulationSchemeForMCSIndex[32] =

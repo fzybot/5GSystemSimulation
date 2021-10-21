@@ -17,6 +17,8 @@ public:
     int getTBSizeFromMCS(int mcs, int nPRB, int nLayers);
     int findClosestTbs3824(int nInfo);
 
+    void showParameters();
+
     // ----- [ LTE ] -------------------------------------------------------------------------------------------------------
     int GetCQIFromEfficiency (double sinr);
     int GetMCSIndexFromEfficiency(double spectralEfficiency);

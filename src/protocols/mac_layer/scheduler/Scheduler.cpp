@@ -38,7 +38,9 @@ void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
     // qDebug() << "Number of TBS: "<< cell_->getMacEntity()->getTransportBlockContainer().length();
 
     timeDomainScheduling(userEquipmentContainer);
-    frequencyDomainScheduling(timeQueue_);
+    if (timeQueue_->length() > 0){
+        frequencyDomainScheduling(timeQueue_);
+    }
 }
 
 void Scheduler::timeDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer)
@@ -71,7 +73,7 @@ void Scheduler::frequencyDomainScheduling(QVector<UserEquipment*> *userEquipment
 void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
 {
     qDebug() << "Scheduler::roundRobin::Starting frequency diomain scheduling (ROUND ROBIN)-->";
-
+    qDebug() << "Scheduler::roundRobin::userEquipmentContainer length -->" << userEquipmentContainer->length();
     for (auto timeUE: *userEquipmentContainer) {
         int ueSINR = timeUE->getSINR();
         int ueBufferSize = timeUE->getBufferSize();
@@ -85,7 +87,7 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
         qDebug() <<"    "<<"UE Buffer Size --->"<< timeUE->getBufferSize();
         qDebug() <<"    "<<"UE allocated PRBs --->"<< nPrbPerUe;
         qDebug() <<"    "<<"mark"<< "1";
-
+        getCell()->getMacEntity()->getAMCEntity()->showParameters();
     }
 }
 
