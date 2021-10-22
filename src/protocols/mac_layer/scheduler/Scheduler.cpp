@@ -13,9 +13,9 @@
 Scheduler::Scheduler()
 {
     cell_ = nullptr;
-    firstQueue_ = new QVector<UserEquipment*>;
-    timeQueue_ = new QVector<UserEquipment*>;
-    freqQueue_ = new QVector<UserEquipment*>;
+    firstQueue_ = new QVector<UserEquipment *>;
+    timeQueue_ = new QVector<UserEquipment *>;
+    freqQueue_ = new QVector<UserEquipment *>;
 }
 
 void Scheduler::setAlgorithm(Scheduler::SchedulingAlgorithm algo)
@@ -77,22 +77,20 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
     for (auto timeUE: *userEquipmentContainer) {
         int ueSINR = timeUE->getSINR();
         int ueBufferSize = timeUE->getBufferSize();
-        qDebug() << "Scheduler::roundRobin::ue SINR -->" << ueSINR;
         int cqi = getCell()->getMacEntity()->getAMCEntity()->GetCQIFromSinr (ueSINR);
-        qDebug() << "Scheduler::roundRobin::CQI size -->" << cqi;
         int mcs = getCell()->getMacEntity()->getAMCEntity()->GetMCSFromCQI(cqi);
-        qDebug() << "Scheduler::roundRobin::MCS size -->" << mcs;
         int nPrbPerUe = calculateOptimalNumberOfPrbPerUe(mcs, nPrb_, ueBufferSize);
-        qDebug() << "Scheduler::roundRobin::nPRB per UE -->" << nPrbPerUe;
         int tbs = getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(mcs, nPrbPerUe, nLayers_);
-        qDebug() << "Scheduler::roundRobin::tbs -->" << tbs;
+
+        // Create TBS object with packets inside
+        // "Distribute" the resources for UE
 
         qDebug() <<"    "<<"UE Id --->"<< timeUE->getEquipmentId();
         qDebug() <<"    "<<"UE SINR|CQI|MSC|TBS --->"<< ueSINR << cqi << mcs << tbs;
         qDebug() <<"    "<<"UE Buffer Size --->"<< timeUE->getBufferSize();
         qDebug() <<"    "<<"UE allocated PRBs --->"<< nPrbPerUe;
         qDebug() <<"    "<<"mark"<< "1";
-        getCell()->getMacEntity()->getAMCEntity()->showParameters();
+        //getCell()->getMacEntity()->getAMCEntity()->showParameters();
     }
 }
 

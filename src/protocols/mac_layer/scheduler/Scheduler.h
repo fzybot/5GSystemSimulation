@@ -4,6 +4,7 @@
 class UserEquipment;
 class Cell;
 class gNodeB;
+class TransportBlock;
 
 class Scheduler
 {
@@ -15,11 +16,12 @@ public:
     };
 
 protected:
-    SchedulingAlgorithm     algorithm_;
-    Cell                    *cell_;
-    QVector<UserEquipment*> *firstQueue_;
-    QVector<UserEquipment*> *timeQueue_;
-    QVector<UserEquipment*> *freqQueue_;
+    SchedulingAlgorithm         algorithm_;
+    Cell                        *cell_;
+    QVector<UserEquipment *>    *firstQueue_;
+    QVector<UserEquipment *>    *timeQueue_;
+    QVector<UserEquipment *>    *freqQueue_;
+    QVector<TransportBlock *>   transportBlockContainer_;
 
 private:
     int nLayers_ = 1;

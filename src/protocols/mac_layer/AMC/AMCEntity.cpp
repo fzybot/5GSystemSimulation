@@ -48,7 +48,7 @@ int AMCEntity::GetMCSFromCQI (int cqi)
 
 int AMCEntity::getTBSizeFromMCS(int mcs, int nPRB, int nLayers)
 {
-    double R = TargetCodeRateTable1PDSCH[mcs];
+    double R = (double)TargetCodeRateTable1PDSCH[mcs] / 1024;
     int Qm = ModulationOrderTable1PDSCH[mcs];
     int tbs;
     int nScRb = 12;
@@ -56,7 +56,6 @@ int AMCEntity::getTBSizeFromMCS(int mcs, int nPRB, int nLayers)
     int nDmrsRb = 0;    // TODO: add method to automatically calculate the value based on DCI format
     int nOhRb = 0;      // Some overheads. TODO: may be need some calculation
 
-    R = R / 1024;
     int nRePrime = nScRb * (nSymbSlot - nDmrsRb - nOhRb);
     int nRe = qMin(156, nRePrime) * nPRB;
 
@@ -68,36 +67,39 @@ int AMCEntity::getTBSizeFromMCS(int mcs, int nPRB, int nLayers)
         // Finding the closest value from TBS table
         int index = findClosestTbs3824(nInfoPrime);
         tbs = TBSforNinfo[index];
+        //qDebug() <<"    "<<"AMCEntity::getTBSizeFromMCS::tbs --> " << tbs;
     } else {
         int n = log2(nInfo - 24) - 5;
         int nInfoPrime = pow(2, n) * round((nInfo - 24) / pow(2, n));
         if ( R  <= 0.25) {
-            int c = (nInfoPrime + 24) / 3816;
+            float c = (float)(nInfoPrime + 24) / 3816;
             tbs = 8 * c* ( (nInfoPrime + 24) / (8 * c) ) - 24;
         } else {
             if(nInfoPrime >= 8424) {
-                int c = (nInfoPrime + 24) / 8424;
-                tbs = 8 * c* ( (nInfoPrime + 24) / (8 * c) ) - 24;
+                float c = (float)(nInfoPrime + 24) / 8424;
+                tbs = 8 * c * ( (nInfoPrime + 24) / (8 * c) ) - 24;
             } else {
                 tbs = 8 * ( (nInfoPrime + 24) / 8 ) - 24;
             }
         }
     }
+    //qDebug() <<"    "<<"AMCEntity::getTBSizeFromMCS::before return tbs --> " << tbs;
     return tbs;
 }
 
 int AMCEntity::findClosestTbs3824(int nInfo)
 {
-    qDebug() <<"    "<<"AMCEntity::findClosestTbs3824";
+    //qDebug() <<"    "<<"AMCEntity::findClosestTbs3824";
     int index;
     int min = 10000000;
     for (int i = 0; i < 93; i++) {
-        qDebug() <<"    "<<"AMCEntity::findClosestTbs3824::i --> " << i;
+        //qDebug() <<"    "<<"AMCEntity::findClosestTbs3824::i --> " << i;
         if (abs(nInfo - TBSforNinfo[i]) <= min ){
             min = abs(nInfo - TBSforNinfo[i]);
             index = i;
         }
     }
+    //qDebug() <<"    "<<"AMCEntity::findClosestTbs3824::index --> " << index;
     return index;
 }
 
