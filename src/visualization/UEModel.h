@@ -3,6 +3,7 @@
 
 #include <QAbstractListModel>
 #include <QDebug>
+#include <QTimer>
 
 struct Data {
     Data() {}
@@ -54,9 +55,12 @@ public:
     bool addData(Data);
     bool removeDataByName(QString);
 
+public slots:
+    void testUpdateModel();
 
 private:
     QVector <Data> m_data;
+    QTimer m_timer;
 };
 
 #endif // UEMODEL_H

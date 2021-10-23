@@ -45,7 +45,7 @@ MapQuickItem {
         Transition {
             from: "idle"
             to: "moved"
-            NumberAnimation { properties: "lat,lon"; duration: 1000 }
+            NumberAnimation { properties: "lat,lon"; duration: 100 }
         }
      ]
 
