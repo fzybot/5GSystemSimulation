@@ -45,6 +45,16 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
+    // Add data:
+    bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
+
+    // Remove data:
+    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
+
+    bool addData(Data);
+    bool removeDataByName(QString);
+
+
 private:
     QVector <Data> m_data;
 };

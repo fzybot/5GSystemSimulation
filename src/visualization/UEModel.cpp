@@ -85,3 +85,38 @@ Qt::ItemFlags UEModel::flags(const QModelIndex &index) const
     return Qt::ItemIsEditable; // FIXME: Implement me!
 }
 
+bool UEModel::insertRows(int row, int count, const QModelIndex &parent)
+{
+    beginInsertRows(parent, row, row + count - 1);
+    // FIXME: Implement me!
+    for (int index = row; index < row + count; ++index){
+        m_data.insert(index, Data("new", 55.012902, 82.950326, 55.012902, 82.950326));
+    }
+    endInsertRows();
+    return true;
+}
+
+bool UEModel::removeRows(int row, int count, const QModelIndex &parent)
+{
+    beginRemoveRows(parent, row, row + count - 1);
+    // FIXME: Implement me!
+    int index = row;
+    for (int k = row; k < row + count; ++k){
+        m_data.removeAt(index);
+    }
+    endRemoveRows();
+    return true;
+}
+
+bool UEModel::addData(Data data)
+{
+    m_data << data;
+    return true;
+}
+
+bool UEModel::removeDataByName(QString)
+{
+
+    return true;
+}
+
