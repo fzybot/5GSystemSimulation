@@ -27,8 +27,8 @@ MapQuickWidget::MapQuickWidget(QWidget* parent) :
     ueModel->setData(ueModel->index(0),55.023902, UEModel::MoveToLatRole);
     ueModel->setData(ueModel->index(0),82.960326, UEModel::MoveToLonRole);
 
-    ueModel->insertRows(ueModel->rowCount(), 10);
-    ueModel->removeRows(0, 4);
+    ueModel->insertRows(ueModel->rowCount(), 100);
+    //ueModel->removeRows(0, 4);
 
     setResizeMode(QQuickWidget::SizeRootObjectToView);
 

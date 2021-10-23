@@ -8,7 +8,7 @@ UEModel::UEModel(QObject *parent)
            << Data("user2", 55.013902, 82.951326, 55.023902, 82.961326);
 
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(testUpdateModel()));
-    m_timer.start(120);
+    m_timer.start(1200);
 }
 
 int UEModel::rowCount(const QModelIndex &parent) const
@@ -126,7 +126,7 @@ bool UEModel::removeDataByName(QString)
 void UEModel::testUpdateModel()
 {
     srand(time(NULL));
-    qDebug()<<"move...";
+    //qDebug()<<"move...";
     int row = 0;
     for (Data ue : m_data){
         setData(index(row), ((float)rand()/(float)RAND_MAX)*2 + 54, UEModel::MoveToLatRole);
