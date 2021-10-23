@@ -92,8 +92,10 @@ bool UEModel::insertRows(int row, int count, const QModelIndex &parent)
 {
     beginInsertRows(parent, row, row + count - 1);
     // FIXME: Implement me!
+    int k=1;
     for (int index = row; index < row + count; ++index){
-        m_data.insert(index, Data("new", 55.012902, 82.950326, 55.012902, 82.950326));
+        m_data.insert(index, Data("new" + QString::number(k), 55.012902, 82.950326, 55.012902, 82.950326));
+        k++;
     }
     endInsertRows();
     return true;
