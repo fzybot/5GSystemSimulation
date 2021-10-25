@@ -24,12 +24,6 @@ MapQuickWidget::MapQuickWidget(QWidget* parent) :
     this->engine()->rootContext()->setContextProperty("_ueModel", ueModel);
     setSource(QUrl("qrc://src/qml/map.qml"));
 
-    ueModel->setData(ueModel->index(0),55.023902, UEModel::MoveToLatRole);
-    ueModel->setData(ueModel->index(0),82.960326, UEModel::MoveToLonRole);
-
-    ueModel->insertRows(ueModel->rowCount(), 100);
-    //ueModel->removeRows(0, 4);
-
     setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     //getAddress("55°00'46.3N", "82°57'01.5E");
