@@ -9,9 +9,9 @@ class TransportBlock
 
 private:
     Packet          packet_;
-    int             size_;
+    int             size_ = 0;
     QVector<bool>   tbsData_;
-
+    QVector<Packet> packetContainer_;
 
     bool HARQ = false;
 
@@ -21,4 +21,10 @@ public:
 
     void setPacket(Packet &packet);
     Packet &getPacket();
+
+    void appendPacket(Packet Packet);
+    QVector<Packet> &getPacketContainer();
+
+    void addSize(int size);
+    int getSize();
 };

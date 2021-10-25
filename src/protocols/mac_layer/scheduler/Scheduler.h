@@ -22,6 +22,7 @@ protected:
     QVector<UserEquipment *>    *timeQueue_;
     QVector<UserEquipment *>    *freqQueue_;
     QVector<TransportBlock *>   transportBlockContainer_;
+    TransportBlock              *localTbs_;
 
 private:
     int nLayers_ = 1;
@@ -53,6 +54,7 @@ public:
     void updateAvailableNumPRB(int nPRB);
     int getAvailableNumPRB();
     int calculateOptimalNumberOfPrbPerUe(int mcs, int maxPrb, int ueBuffer);
+    void unitePacketsToTbs(UserEquipment *user);
 
     // TODO: finish these methods
     void checkMeasGap(QVector<UserEquipment*> *userEquipmentContainer);
