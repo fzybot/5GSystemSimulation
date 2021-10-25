@@ -24,8 +24,8 @@ Cell::Cell()
     getMacEntity()->configMacEntity();
     
     // Scheduler
-    createScheduler(Scheduler::SchedulingAlgorithm::ROUND_ROBIN);
-    scheduler_->setCell(this);
+//    createScheduler(Scheduler::SchedulingAlgorithm::ROUND_ROBIN);
+//    scheduler_->setCell(this);
 }
 
 void Cell::attachUE(UserEquipment *ue)
@@ -77,6 +77,7 @@ void Cell::createMacEntity()
 {
     macEntity_ = new CellMacEntity();
     macEntity_->setDevice(this);
+    macEntity_->createScheduler(Scheduler::SchedulingAlgorithm::ROUND_ROBIN);
 }
 
 void Cell::setMacEntity(CellMacEntity *cellMac)
@@ -87,20 +88,4 @@ void Cell::setMacEntity(CellMacEntity *cellMac)
 CellMacEntity *Cell::getMacEntity()
 {
     return macEntity_;
-}
-
-void Cell::createScheduler(Scheduler::SchedulingAlgorithm algo)
-{
-    scheduler_ = new Scheduler();
-    scheduler_->setAlgorithm(algo);
-}
-
-void Cell::setScheduler(Scheduler *scheduler)
-{
-    scheduler_ = scheduler;
-}
-
-Scheduler *Cell::getScheduler()
-{
-    return scheduler_;
 }

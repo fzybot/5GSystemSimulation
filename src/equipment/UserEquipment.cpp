@@ -39,6 +39,13 @@ UserEquipment::UserEquipment(int id,
     int randQoSProfile = QRandomGenerator::global()->bounded(1, 9);
     createBearer(RadioBearer::RadioBearerType::DRB, bearerId, randQoSProfile);
 
+    // Random SINR
+    int localSINR = QRandomGenerator::global()->bounded(-7, 19);
+    setSINR(localSINR);
+
+    // Generate Traffic per each bearer
+    //generatePacketsPerBearer();
+
     // Positioning
     Mobility *m;
     if (model == Mobility::Model::CONSTANT_POSITION)
@@ -53,6 +60,7 @@ UserEquipment::UserEquipment(int id,
     CartesianCoordinates *position = new CartesianCoordinates(posX, posY, posZ);
     m->setPosition(position);
     setMobilityModel(m);
+    delete position;
 }
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
@@ -77,22 +85,6 @@ gNodeB *UserEquipment::getTargetGNodeB()
     return targetGNodeB_;
 }
 
-void UserEquipment::setBufferSize(int size)
-{
-    bufferSize_ = size;
-    currentBufferSize_ = size;
-}
-
-void UserEquipment::decreaseBuffer(int decSize)
-{
-    currentBufferSize_ = currentBufferSize_ - decSize;
-}
-
-int UserEquipment::getBufferSize()
-{
-    return currentBufferSize_;
-}
-
 void UserEquipment::setBSR(bool bsr)
 {
     BSR_ = bsr;
@@ -111,4 +103,66 @@ void UserEquipment::setMeasurementGap(bool gap)
 bool UserEquipment::getMeasurementGap()
 {
     return measurementGAP_;
+}
+
+void UserEquipment::setDRX(bool drx)
+{
+    DRX_ = drx;
+}
+
+bool UserEquipment::getDRX()
+{
+    return DRX_;
+}
+
+void UserEquipment::setSINR(double sinr)
+{
+    sinr_ = sinr;
+}
+
+double UserEquipment::getSINR()
+{
+    return sinr_;
+}
+
+void UserEquipment::addToBuffer(int size)
+{
+    bufferSize_ += size;
+}
+
+void UserEquipment::decreaseBuffer(int decSize)
+{
+    bufferSize_ -= decSize;
+}
+
+int UserEquipment::getBufferSize()
+{
+    return bufferSize_;
+}
+
+void UserEquipment::generatePacketsPerBearer()
+{
+    for(auto bearer: *getBearerContainer()) {
+        this->generatePackets(1, localSystem120TimeSlot_, bearer);
+    }
+}
+
+
+void UserEquipment::generatePackets(int number, int currentSlot, RadioBearer *bearer)
+{
+    if (bearer->getQoSProfile() != nullptr) {
+        for (int i = 0; i < number; i++) {
+            int size = QRandomGenerator::global()->bounded( bearer->getQoSProfile()->getDataBurstVolumeRange().first, 
+                                                            bearer->getQoSProfile()->getDataBurstVolumeRange().second);
+            //qDebug() << "UserEquipment::generatePackets::Packt size ------>>>>> " << size;
+            Packet  *pack = new Packet(size, currentSlot, i, bearer);
+            packetsInBuffer_.push_back(pack);
+            addToBuffer(size);
+        }
+    }
+}
+
+QVector<Packet*> &UserEquipment::getPacketsContainer()
+{
+    return packetsInBuffer_;
 }

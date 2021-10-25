@@ -1,8 +1,8 @@
 #pragma once
 
 #include "src/protocols/mac_layer/MacEntity.h"
+#include "src/protocols/mac_layer/scheduler/Scheduler.h"
 
-class Scheduler;
 
 class CellMacEntity : public MacEntity
 {
@@ -12,6 +12,7 @@ private:
 public:
     CellMacEntity();
 
-    void createScheduler();
+    void createScheduler(Scheduler::SchedulingAlgorithm algo);
     Scheduler *getScheduler();
+    void schedule(Cell *cell);
 };

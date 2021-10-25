@@ -1,16 +1,17 @@
 #include "Packet.h"
+#include "src/protocols/bearers/RadioBearer.h"
 
 Packet::Packet()
 {
-    
+    bearer_ = new RadioBearer();
 }
 
-Packet::Packet(QVector<bool> data, double timeStamp, int id) :
-    data_(data),
-    id_(id),
-    timeStamp_(timeStamp),
-    size_(data.size())
+Packet::Packet(QVector<bool> data, double timeStamp, int id)
 {
+    data_ = data;
+    id_ = id;
+    timeStamp_ = timeStamp;
+    size_ = data.size();
     /*
     m_RTPHeader = nullptr;
     m_UDPHeader = nullptr;
@@ -20,6 +21,22 @@ Packet::Packet(QVector<bool> data, double timeStamp, int id) :
     m_RLCHeader = nullptr;
     m_MACHeader = nullptr;
     */
+}
+
+Packet::Packet(int size, double timeStamp, int id)
+{
+    size_ = size;
+    timeStamp_ = timeStamp;
+    id_ = id;
+}
+
+Packet::Packet(int size, int slot, int id, RadioBearer *bearer)
+{
+    size_ = size;
+    timeSlotGenerated_ = slot;
+    timeSlotToTransmit_ = slot;
+    id_ = id;
+    setBearer(bearer);
 }
 
 Packet::~Packet()
@@ -57,4 +74,24 @@ void Packet::setSize(int size)
 int Packet::getSize()
 {
     return size_;
+}
+
+void Packet::setSlotToTransmit(int slot)
+{
+    timeSlotToTransmit_ = slot;
+}
+
+int Packet::getSlotToTransmit()
+{
+    return timeSlotToTransmit_;
+}
+
+void Packet::setBearer(RadioBearer *bearer)
+{
+    bearer_ = bearer;
+}
+
+RadioBearer *Packet::getBearer()
+{
+    return bearer_;
 }

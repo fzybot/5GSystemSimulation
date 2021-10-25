@@ -2,21 +2,24 @@
 
 #include "src/equipment/Equipment.h"
 #include "src/protocols/mac_layer/AMC/AMCEntity.h"
+#include "src/protocols/mac_layer/TransportBlock.h"
+#include "src/protocols/Packet.h"
+#include "src/equipment/Cell.h"
 
 #include "src/debug.h"
 
 MacEntity::MacEntity()
 {
     debug("Mac Entity: MAC Entity is created");
-    dataBuffer_ = new QVector<int>;
 }
 
-
-void MacEntity::setDevice(Equipment *e){
+void MacEntity::setDevice(Cell *e)
+{
     device_ = e;
 }
 
-Equipment* MacEntity::getDevice(){
+Cell *MacEntity::getDevice()
+{
     return device_;
 }
 
@@ -43,4 +46,28 @@ void MacEntity::delAMCEntity()
 void MacEntity::configMacEntity()
 {
     createAMCEntity();
+}
+
+int calculateTransportBlockSize(int packetSize)
+{
+    // TS 38.214 (g70): Physical Layer Procedures for Data. 5.1.3.2: Transport block size determination 
+    // in this case only for PDSCH channel TBS is calculated.
+    int transportBlockSize;
+    int resourceElementsPerSlot; // for PDSCH channel
+
+    return transportBlockSize;
+}
+
+void MacEntity::packetsToTransportBlockContainer(QVector<Packet> &packetContainer)
+{
+    for (auto pack : packetContainer) {
+        getDevice()->getUserEquipmentContainer();
+        TransportBlock tbs(pack);
+        transportBlockContainer_.push_back(tbs);
+    }
+}
+
+QVector<TransportBlock> &MacEntity::getTransportBlockContainer()
+{
+    return transportBlockContainer_;
 }

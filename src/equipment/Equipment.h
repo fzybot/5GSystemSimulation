@@ -28,17 +28,15 @@ public:
     };
 
 protected:
-    int id_;
+    int     id_;
+    int     localSystem120TimeSlot_;
+    double  lastTime_;
 
-    int localSystem120TimeSlot_;
-    double lastTime_;
+    Equipment::EquipmentState   state_;
+    Equipment::EquipmentType    type_;
 
-    Equipment::EquipmentState state_;
-    Equipment::EquipmentType type_;
-
-    Mobility *mobility_;
-
-    QVector<RadioBearer*> *bearerContainer_;
+    Mobility                *mobility_;
+    QVector<RadioBearer*>   *bearerContainer_;
 
     // TODO: Add physical layer
     // TODO: Add protocol stack
@@ -50,6 +48,18 @@ protected:
     float noiseFigure_;
     float additionalGain_ = 0;
     float additionalLoss_ = 0;
+
+    // COUNTERS
+    // Throughput
+    int cDataTransmitted_ = 0;           // in [bytes]
+    int cDataTransmittedOverWindow_ = 0; // in [bytes]
+    int cWindowSize_;                // in [ms]
+
+    // Delays
+    int cSuccPacketTransmitted_ = 0;
+    int cNumberOfPacketRetr_ = 0;
+    int cAveragePacketDelay_;
+    // Losses
 
 public:
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
@@ -74,13 +84,20 @@ public:
 
     void setLinkBudgetParameters();
 
-    void sync120TimeSlot(int *timeSlot);
+    void sync120TimeSlot(int &timeSlot);
     int getLocalSystem120TimeSlot();
 
-    // ----- [ PHYSICAL METHODS ] ------------------------------------------------------------------------------------------
+// ----- [ PHYSICAL METHODS ] ------------------------------------------------------------------------------------------
     void calculateThermalNoise();
 
-// ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
+// ----- [ COUNTERS ] --------------------------------------------------------------------------------------------------
+    void setCountWindowSize(int windSize);
+    void addCountDataTransmitted(int bytes);
+    void calcCountDataTransmittedOverWindow();
+
+    void addCountSuccPacketTransmitted();
+
+    // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
     void print();
 
 };

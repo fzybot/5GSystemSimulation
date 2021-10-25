@@ -19,7 +19,7 @@ private:
     int minRxLevel;
 
     QVector<UserEquipment*> *userEquipmentContainer_;
-    QVector<Cell*> *cellContainer_;
+    QVector<Cell*>          *cellContainer_;
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------

@@ -11,16 +11,14 @@ class Signal;
 class Physical
 {
 protected:
-    RadioChannel *dlChannel_;
-    RadioChannel *ulChannel_;
+    int                 numerologyIndex_ = 0;
+    RadioChannel        *dlChannel_;
+    RadioChannel        *ulChannel_;
     QVector<Bandwidth*> *bandwidthContainer_;
-    double carrierFreq_;
-
-    Signal *txSignal_;
+    double              carrierFreq_;
+    Signal              *txSignal_;
 
     float thermalNoise_;
-
-    int maxNumberScheuledUE_ = 10;
 
 public:
     Physical();

@@ -104,14 +104,36 @@ void Equipment::setLinkBudgetParameters()
     }
 }
 
-void Equipment::sync120TimeSlot(int *timeSlot)
+void Equipment::sync120TimeSlot(int &timeSlot)
 {
-    localSystem120TimeSlot_ = *timeSlot;
+    localSystem120TimeSlot_ = timeSlot;
 }
 
 int Equipment::getLocalSystem120TimeSlot()
 {
     return localSystem120TimeSlot_;
+}
+
+// ----- [ COUNTERS ] --------------------------------------------------------------------------------------------------
+
+void Equipment::setCountWindowSize(int windSize)
+{
+    cWindowSize_ = windSize;
+}
+
+void Equipment::addCountDataTransmitted(int bytes)
+{
+    cDataTransmitted_ += bytes;
+}
+
+void Equipment::calcCountDataTransmittedOverWindow()
+{
+
+}
+
+void Equipment::addCountSuccPacketTransmitted()
+{
+    cSuccPacketTransmitted_++;
 }
 
 // ----- [ PHYSICAL METHODS ] ------------------------------------------------------------------------------------------

@@ -21,9 +21,10 @@ SOURCES += \
     main.cpp \
     src/core/NetworkManager.cpp \
     src/core/Simulator.cpp \
-    src/equipment/QoS/QoSProfile.cpp \
+    src/protocols/bearers/QoS/QoSProfile.cpp \
     src/equipment/mobility/ConstantPosition.cpp \
     src/protocols/Protocol.cpp \
+    src/protocols/bearers/ServiceTrafficProfile.cpp \
     src/protocols/bearers/Bearer.cpp \
     src/protocols/bearers/RadioBearer.cpp \
     src/protocols/mac_layer/AMC/AMCEntity.cpp \
@@ -31,8 +32,6 @@ SOURCES += \
     src/protocols/mac_layer/TransportBlock.cpp \
     src/protocols/mac_layer/UeMacEntity.cpp \
     src/visualization/ChartGroupWidget.cpp \
-    src/visualization/MapToCpp.cpp \
-    src/visualization/UEModel.cpp \
     src/visualization/data/DataSource.cpp \
     src/visualization/menu/mainWindow.cpp \
     src/core/CartesianCoordinates.cpp \
@@ -73,9 +72,10 @@ HEADERS += \
     src/core/NetworkManager.h \
     src/core/Simulator.h \
     src/debug.h \
-    src/equipment/QoS/QoSProfile.h \
+    src/protocols/bearers/QoS/QoSProfile.h \
     src/equipment/mobility/ConstantPosition.h \
     src/protocols/Protocol.h \
+    src/protocols/bearers/ServiceTrafficProfile.h \
     src/protocols/bearers/Bearer.h \
     src/protocols/bearers/RadioBearer.h \
     src/protocols/mac_layer/AMC/miesmEffSINR.h \
@@ -88,8 +88,6 @@ HEADERS += \
     src/scenarios/simple.h \
     src/scenarios/testModel.h \
     src/visualization/ChartGroupWidget.h \
-    src/visualization/MapToCpp.h \
-    src/visualization/UEModel.h \
     src/visualization/data/DataSource.h \
     src/visualization/menu/mainWindow.h \
     src/commonParameters.h \

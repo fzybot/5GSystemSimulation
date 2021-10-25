@@ -3,6 +3,9 @@
 #include "src/equipment/gNodeB.h"
 #include "src/equipment/UserEquipment.h"
 #include "src/protocols/mac_layer/scheduler/Scheduler.h"
+#include "src/protocols/mac_layer/CellMacEntity.h"
+#include "src/protocols/phy/Physical.h"
+#include "src/protocols/phy/Channel/Bandwidth.h"
 
 #include "src/debug.h"
 
@@ -94,11 +97,11 @@ void NetworkManager::createMultipleUserEquipments(  int number, int lowX, int hi
                                                     int borderZ, Cell *cell, gNodeB *targetGNodeB )
 {
     for (int i = 1; i <= number; i++) {
-        int id = i + 10000;
+        ueIdLocal_ += 1;
         int posX = QRandomGenerator::global()->bounded(lowX, highX);
         int posY = QRandomGenerator::global()->bounded(lowY, highY);
         int posZ = QRandomGenerator::global()->bounded(1, borderZ);
-        UserEquipment *ue = new UserEquipment(  id,
+        UserEquipment *ue = new UserEquipment(  ueIdLocal_,
                                                 posX, posY, posZ, cell, targetGNodeB,
                                                 Mobility::Model::CONSTANT_POSITION);
         getUserEquipmentContainer()->push_back(ue);
@@ -166,6 +169,18 @@ gNodeB* NetworkManager::getGNodeBByCellID (int idCell)
     return nullptr;
 }
 
+void NetworkManager::setSINRCalcMethod(NetworkManager::SINRCalcMethod method)
+{
+    methodSINR_ = method;
+}
+
+NetworkManager::SINRCalcMethod NetworkManager::getSINRCalcMethod()
+{
+    return methodSINR_;
+}
+
+// ----- [ EQUIPMENT GENERATORS ] --------------------------------------------------------------------------------------
+
 UserEquipment* NetworkManager::getUserEquipmentByID (int idUE)
 {
     for (auto userEquipment : *getUserEquipmentContainer()) {
@@ -187,47 +202,77 @@ double NetworkManager::calcOnePointSINR()
 
 void NetworkManager::setWorkingTime(int time)
 {
-    workit120TimeSlot_ =  new int(time);
-    current120TimeSlot_ = new int(time);
+    workit120TimeSlot_ =  time;
+    current120TimeSlot_ = 1;
 }
 
-int NetworkManager::getCurrentTime()
+int &NetworkManager::getCurrentTime()
 {
-    return *current120TimeSlot_;
+    return current120TimeSlot_;
 }
 
-void NetworkManager::decreaseCurrentTime()
+int &NetworkManager::getWorkingTime()
 {
-    *current120TimeSlot_ = *current120TimeSlot_ - 1;
+    return workit120TimeSlot_;
+}
+
+void NetworkManager::increaseCurrentTime()
+{
+    current120TimeSlot_ = current120TimeSlot_ + 1;
 }
 // ----- [ SIMULATION ] ------------------------------------------------------------------------------------------------
 
 void NetworkManager::runNetwork()
 {
-    while(getCurrentTime() != 0) {
+    while(getCurrentTime() != getWorkingTime()) {
         qDebug() << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
         qDebug() << "Current 120 Time Slot ->" << getCurrentTime();
+        // Calculate SINR for each Equipment
+        calculateSINRPerEquipment(methodSINR_);
         scheduleGNodeB();
-        decreaseCurrentTime();
+        increaseCurrentTime();
     }
 }
 
+// TODO: Here we could make parallel calculations!!! Threads, etc.
 void NetworkManager::scheduleGNodeB()
 {
     for ( auto gNb: *getGNodeBContainer() ) {
         gNb->sync120TimeSlot(current120TimeSlot_);
         qDebug() << "gNodeB local 120 Time Slot --> " << gNb->getLocalSystem120TimeSlot();
-        scheduleCells( gNb->getCellContainer() );
+        scheduleCells(gNb->getCellContainer());
     }
 }
 
+// TODO: Here we could make parallel calculations!!! Threads, etc.
 void NetworkManager::scheduleCells(QVector<Cell*> *cellContainer)
 {
     for (auto cell: *cellContainer) {
-        cell->getScheduler()->doSchedule(cell->getUserEquipmentContainer());
         if (checkHandOver()) {
             makeHandOver();
         }
+        cell->sync120TimeSlot(current120TimeSlot_);
+        generateTrafficPerUE(cell->getUserEquipmentContainer());
+
+        // TODO: somehow fix the loop
+//        for (auto ue : *cell->getUserEquipmentContainer()) {
+//            cell->getMacEntity()->packetsToTransportBlockContainer(ue->getPacketsContainer());
+//        }
+        // TODO: need some fix in order to schedule multiple bandwidth with differens SCS
+        int scs = cell->getPhyEntity()->getBandwidthContainer()[0][0]->getSCS();
+        if ( cell->getLocalSystem120TimeSlot() % (120 / scs) == 0 ) {
+            qDebug() << cell->getLocalSystem120TimeSlot() % (120 / scs);
+            qDebug() << "NetworkManager::scheduleCells:: cell SCS --> " << scs;
+            qDebug() << "NetworkManager::scheduleCells:: cell time slot --> " << cell->getLocalSystem120TimeSlot();
+            cell->getMacEntity()->schedule(cell);
+        }
+    }
+}
+
+void NetworkManager::generateTrafficPerUE(QVector<UserEquipment*> *ueContainer)
+{
+    for (auto ue: *ueContainer) {
+        ue->generatePacketsPerBearer();
     }
 }
 
@@ -240,6 +285,47 @@ void NetworkManager::makeHandOver()
 {
     qDebug() << "Hand Over in progress...";
 }
+
+void NetworkManager::calculateSINRPerEquipment(NetworkManager::SINRCalcMethod method)
+{
+    switch (method)
+    {
+    case NetworkManager::SINRCalcMethod::STUPID:
+        calculateSINRPerEquipment_stupid();
+        break;
+    case NetworkManager::SINRCalcMethod::SIGNAL:
+        calculateSINRPerEquipment_signals();
+        break;
+    case NetworkManager::SINRCalcMethod::SIGNAL_DOPPLER:
+        calculateSINRPerEquipment_signal_doppler();
+        break;
+    default:
+        break;
+    } 
+}
+
+void NetworkManager::calculateSINRPerEquipment_stupid()
+{
+    float sinr;
+    float pathLosses; // in [dBm]
+
+    for ( auto ue : *getUserEquipmentContainer() ) {
+        for ( auto cell: *getCellContainer() ) {
+            
+        }
+    }
+}
+
+void NetworkManager::calculateSINRPerEquipment_signals()
+{
+    float sinr;
+}
+
+void NetworkManager::calculateSINRPerEquipment_signal_doppler()
+{
+    float sinr;
+}
+
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
 
 // void NetworkManager::print()

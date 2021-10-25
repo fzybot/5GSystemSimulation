@@ -12,14 +12,27 @@ class Mobility;
 
 class NetworkManager
 {
+public:
+    enum class SINRCalcMethod
+    {
+        STUPID,
+        SIGNAL,
+        SIGNAL_DOPPLER
+    };
 private:
-    QVector<Cell*> *cellContainer_;
-    QVector<gNodeB*> *gNodeBContainer_;
+    int cellIdLocal_;
+    int gNbIdLocal_;
+    int ueIdLocal_ = 10000;
+
+    QVector<Cell *>         *cellContainer_;
+    QVector<gNodeB*>        *gNodeBContainer_;
     QVector<UserEquipment*> *userEquipmentContainer_;
 
+    SINRCalcMethod methodSINR_;
+
     // Each time value (granularity) is equal to 1 slot for 120 [kHz] SCS.
-    int *workit120TimeSlot_;
-    int *current120TimeSlot_;
+    int workit120TimeSlot_;
+    int current120TimeSlot_;
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
@@ -40,8 +53,12 @@ public:
 
     // Interworking
     void setWorkingTime(int time); // minimum time unit, 1 slot
-    int getCurrentTime();
-    void decreaseCurrentTime();
+    int &getCurrentTime();
+    int &getWorkingTime();
+    void increaseCurrentTime();
+
+    void setSINRCalcMethod(NetworkManager::SINRCalcMethod method);
+    NetworkManager::SINRCalcMethod getSINRCalcMethod();
 
 // ----- [ EQUIPMENT GENERATORS ] --------------------------------------------------------------------------------------
     Cell* createCell (int idCell);
@@ -72,9 +89,15 @@ public:
 
     bool checkHandOver();
     void makeHandOver();
-    double calcOnePointSINR();
 
-    // ----- [ SIMULATION ] ------------------------------------------------------------------------------------------------
+    // 'Equipment' is equal to 'Cell' & 'UserEquipment'
+    double calcOnePointSINR();
+    void calculateSINRPerEquipment(NetworkManager::SINRCalcMethod method);
+    void calculateSINRPerEquipment_stupid();
+    void calculateSINRPerEquipment_signals();
+    void calculateSINRPerEquipment_signal_doppler();
+
+// ----- [ SIMULATION ] ------------------------------------------------------------------------------------------------
 
     void runNetwork();
 
@@ -82,7 +105,9 @@ public:
 
     void scheduleCells(QVector<Cell*> *cellContainer);
 
-    // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
+    void generateTrafficPerUE(QVector<UserEquipment*> *ueContainer);
+
+// ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
 
     void print();
 };
