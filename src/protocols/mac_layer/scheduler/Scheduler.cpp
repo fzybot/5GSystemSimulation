@@ -91,6 +91,7 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
         qDebug() <<"    "<<"UE allocated PRBs --->"<< nPrbPerUe;
         qDebug() <<"    "<<"mark"<< "1";
         //getCell()->getMacEntity()->getAMCEntity()->showParameters();
+        
     }
 }
 
