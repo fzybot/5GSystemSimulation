@@ -82,7 +82,6 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
         int nPrbPerUe = calculateOptimalNumberOfPrbPerUe(mcs, nPrb_, ueBufferSize);
         int tbs = getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(mcs, nPrbPerUe, nLayers_);
 
-        localTbs_ = new TransportBlock();
 
         // Create TBS object with packets inside
         // "Distribute" the resources for UE
@@ -130,7 +129,10 @@ int Scheduler::calculateOptimalNumberOfPrbPerUe(int mcs, int maxPrb, int ueBuffe
 
 void Scheduler::unitePacketsToTbs(UserEquipment *user)
 {
-
+    localTbs_ = new TransportBlock();
+    // for (auto packet : user->getPacketsContainer()) {
+    //     localTbs_->appendPacket(packet);
+    // }
 }
 
 void Scheduler::setCell(Cell *cell)
