@@ -9,6 +9,7 @@
 
 #include <QMap>
 #include <QString>
+#include <QPair>
 
 /*
  * The 5G NR operating bands list according to TS 38.104 Table 5.2-1\2.
@@ -131,6 +132,10 @@ private:
     int     subcarrierSpacing_;
     int     numPRB_;
 
+    // first - number of OFDM Symbols
+    // second - number of RBs (1 RB = 12 REs)
+    QPair<int, int> sizeCORESET_;
+
     int ulOffsetBw_;
     int dlOffsetBw_;
 
@@ -150,6 +155,8 @@ public:
     double getBandwidth();
     int getSCS();
     int getNumberOfPRB();
+    void setCoresetSize(int nOFDM, int nPRBs);
+    QPair<int, int> &getCoresetSize();
 
     void print();
 };

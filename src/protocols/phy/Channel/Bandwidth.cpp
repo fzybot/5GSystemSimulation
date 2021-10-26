@@ -1,6 +1,7 @@
 #include "Bandwidth.h"
 
 #include <QDebug>
+#include <QPair>
 
 
 
@@ -76,6 +77,17 @@ int Bandwidth::getSCS()
 int Bandwidth::getNumberOfPRB()
 {
     return numPRB_;
+}
+
+void Bandwidth::setCoresetSize(int nOFDM, int nPRBs)
+{
+    sizeCORESET_.first = nOFDM;
+    sizeCORESET_.second = nPRBs;
+}
+
+QPair<int, int> &Bandwidth::getCoresetSize()
+{
+    return sizeCORESET_;
 }
 
 void Bandwidth::print()

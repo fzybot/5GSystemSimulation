@@ -123,9 +123,16 @@ void Equipment::addCountDataTransmitted(int bits)
     cDataTransmittedContainer_.push_back(bits);
 }
 
-void Equipment::calcCountDataTransmittedOverWindow()
+int Equipment::calcCountDataTransmittedOverWindow(int windowSize)
 {
-
+    int throughput = 0;
+    int length = cDataTransmittedContainer_.length();
+    if(length < windowSize)
+        length = 0;
+    for (int i = length - 1; i >= length - windowSize; i--) {
+        throughput += cDataTransmittedContainer_[i];
+    }
+    return throughput;
 }
 
 void Equipment::addCountSuccPacketTransmitted()

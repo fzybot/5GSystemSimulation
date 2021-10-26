@@ -31,9 +31,12 @@ Scheduler::SchedulingAlgorithm Scheduler::getAlgorithm()
 void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
 {
     qDebug() << "Current Cell Id------>" << cell_->getEquipmentId();
-    int nPrb;
-    nPrb = cell_->getPhyEntity()->getBandwidthContainer()[0][0]->getNumberOfPRB();
+    int nPrb = cell_->getPhyEntity()->getBandwidthContainer()[0][0]->getNumberOfPRB();
+    QPair<int, int> coreset = cell_->getPhyEntity()->getBandwidthContainer()[0][0]->getCoresetSize();
+    int coresetSize = coreset.first * coreset.second * 12; // 12 subcarriers in 1 RB
     updateAvailableNumPRB(nPrb);
+    updateAvailableNumCoresetRe(coresetSize);
+    qDebug() << "Scheduler::doSchedule::Number of RE CORESET --->" << coresetSize;
     // qDebug() << "Number of PRBs --->" << getNumPRB();
     // qDebug() << "Number of TBS: "<< cell_->getMacEntity()->getTransportBlockContainer().length();
 
@@ -52,8 +55,6 @@ void Scheduler::timeDomainScheduling(QVector<UserEquipment*> *userEquipmentConta
             timeQueue_->push_back(ue);
         }
     }
-    // qDebug() <<"    "<<"Number of UE-->" << userEquipmentContainer->length();
-    // qDebug() <<"    "<< "Number of UE Scheduled in time-->" << timeQueue_->length();
 }
 
 void Scheduler::frequencyDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer)
@@ -75,24 +76,29 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
     qDebug() << "Scheduler::roundRobin::Starting frequency diomain scheduling (ROUND ROBIN)-->";
     qDebug() << "Scheduler::roundRobin::userEquipmentContainer length -->" << userEquipmentContainer->length();
     for (auto timeUE: *userEquipmentContainer) {
-        int ueSINR = timeUE->getSINR();
-        int ueBufferSize = timeUE->getBufferSize();
-        int cqi = getCell()->getMacEntity()->getAMCEntity()->GetCQIFromSinr (ueSINR);
-        int mcs = getCell()->getMacEntity()->getAMCEntity()->GetMCSFromCQI(cqi);
-        int nPrbPerUe = calculateOptimalNumberOfPrbPerUe(mcs, nPrb_, ueBufferSize);
-        int tbs = getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(mcs, nPrbPerUe, nLayers_);
+        if(nRemainingPrb_ > 0 && nRemainingCoresetRe_ > 0) {
+            int ueSINR = timeUE->getSINR();
+            int ueBufferSize = timeUE->getBufferSize();
+            int cqi = getCell()->getMacEntity()->getAMCEntity()->GetCQIFromSinr (ueSINR);
+            int mcs = getCell()->getMacEntity()->getAMCEntity()->GetMCSFromCQI(cqi);
+            int nPrbPerUe = calculateOptimalNumberOfPrbPerUe(mcs, nRemainingPrb_, ueBufferSize);
+            int tbs = getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(mcs, nPrbPerUe, nLayers_);
 
+            // Create TBS object with packets inside
+            fillTbWithPackets(timeUE, tbs);
+            qDebug() << "Scheduler::roundRobin::Calc TBS -->" << tbs;
+            qDebug() << "Scheduler::roundRobin::local TBS -->" << localTbs_.getSize();
+            // "Distribute" the resources for UE
 
-        // Create TBS object with packets inside
-        // "Distribute" the resources for UE
-
-        qDebug() <<"    "<<"UE Id --->"<< timeUE->getEquipmentId();
-        qDebug() <<"    "<<"UE SINR|CQI|MSC|TBS --->"<< ueSINR << cqi << mcs << tbs;
-        qDebug() <<"    "<<"UE Buffer Size --->"<< timeUE->getBufferSize();
-        qDebug() <<"    "<<"UE allocated PRBs --->"<< nPrbPerUe;
-        qDebug() <<"    "<<"mark"<< "1";
-        //getCell()->getMacEntity()->getAMCEntity()->showParameters();
-        
+            qDebug() <<"    "<<"UE Id --->"<< timeUE->getEquipmentId();
+            qDebug() <<"    "<<"UE SINR|CQI|MSC|TBS --->"<< ueSINR << cqi << mcs << tbs;
+            qDebug() <<"    "<<"UE Buffer Size --->"<< timeUE->getBufferSize();
+            qDebug() <<"    "<<"UE allocated PRBs --->"<< nPrbPerUe;
+            qDebug() <<"    "<<"mark"<< "1";
+            //getCell()->getMacEntity()->getAMCEntity()->showParameters();
+        } else {
+            break;
+        }
     }
 }
 
@@ -107,9 +113,20 @@ void Scheduler::updateAvailableNumPRB(int nPRB)
     nRemainingPrb_ = nPRB;
 }
 
-int Scheduler::getAvailableNumPRB()
+int Scheduler::getRemainingNumPRB()
 {
     return nRemainingPrb_;
+}
+
+void Scheduler::updateAvailableNumCoresetRe(int coresetRe)
+{
+    nCoresetRe_ = coresetRe;
+    nRemainingCoresetRe_ = coresetRe;
+}
+
+int Scheduler::getRemainingNumCoresetRe()
+{
+    return nRemainingCoresetRe_;
 }
 
 int Scheduler::calculateOptimalNumberOfPrbPerUe(int mcs, int maxPrb, int ueBuffer)
@@ -127,12 +144,19 @@ int Scheduler::calculateOptimalNumberOfPrbPerUe(int mcs, int maxPrb, int ueBuffe
     return maxPossiblePrb;
 }
 
-void Scheduler::unitePacketsToTbs(UserEquipment *user)
+void Scheduler::fillTbWithPackets(UserEquipment *user, int tbsSize)
 {
-    localTbs_ = new TransportBlock();
-    // for (auto packet : user->getPacketsContainer()) {
-    //     localTbs_->appendPacket(packet);
-    // }
+    for (auto packet : user->getPacketsContainer()) {
+        if(nRemainingPrb_ > 0 && nRemainingCoresetRe_ > 0) {
+            if( (localTbs_.getSize() + packet->getSize() ) <= tbsSize){
+                localTbs_.appendPacket(*packet);
+            } else {
+                break; // TBS is fulfilled 
+            }
+        } else {
+            break; // PRB or CORESET are fulfilled
+        }
+    }
 }
 
 void Scheduler::setCell(Cell *cell)

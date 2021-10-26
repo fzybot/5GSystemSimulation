@@ -92,7 +92,7 @@ public:
 
 // ----- [ COUNTERS ] --------------------------------------------------------------------------------------------------
     void addCountDataTransmitted(int bits);
-    void calcCountDataTransmittedOverWindow();
+    int calcCountDataTransmittedOverWindow(int windowSize);
 
     void addCountSuccPacketTransmitted();
 

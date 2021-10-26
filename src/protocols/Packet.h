@@ -10,7 +10,7 @@ class Packet
 {
 protected:
     double  timeStamp_;
-    int     size_;
+    int     size_ = 0;
     int     id_;
     int     timeSlotGenerated_;
     int     timeSlotToTransmit_;

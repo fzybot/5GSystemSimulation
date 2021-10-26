@@ -40,6 +40,6 @@ void Physical::configBandwidth()
 {
     //QString fr, QString band, int scs, double ulBw, double dlBw, int ulOffset, int dlOffset, bool tddTrue = true
     Bandwidth *bw = new Bandwidth("FR1", "n3", NUMEROLOGY[numerologyIndex_], 10, 50, 0, 0, true);
+    bw->setCoresetSize(3, bw->getNumberOfPRB() - 40);
     addBandwidth(bw);
-    
 }

@@ -1,10 +1,12 @@
 #pragma once
+
+#include "src/protocols/mac_layer/TransportBlock.h"
+
 #include <QVector>
 
 class UserEquipment;
 class Cell;
 class gNodeB;
-class TransportBlock;
 
 class Scheduler
 {
@@ -21,13 +23,15 @@ protected:
     QVector<UserEquipment *>    *firstQueue_;
     QVector<UserEquipment *>    *timeQueue_;
     QVector<UserEquipment *>    *freqQueue_;
-    QVector<TransportBlock *>   transportBlockContainer_;
-    TransportBlock              *localTbs_;
+    QVector<TransportBlock>     transportBlockContainer_;
+    TransportBlock              localTbs_;
 
 private:
     int nLayers_ = 1;
     int nPrb_ = 0;
     int nRemainingPrb_ = 0;
+    int nCoresetRe_ = 0;
+    int nRemainingCoresetRe_ = 0;
     int nMaxScheuledUe_ = 5;
     int currentScheduledUe = 0;
     int nMinPrbPerUe_ = 1;
@@ -52,9 +56,11 @@ public:
 
     // Support methods
     void updateAvailableNumPRB(int nPRB);
-    int getAvailableNumPRB();
+    int getRemainingNumPRB();
+    void updateAvailableNumCoresetRe(int coresetRe);
+    int getRemainingNumCoresetRe();
     int calculateOptimalNumberOfPrbPerUe(int mcs, int maxPrb, int ueBuffer);
-    void unitePacketsToTbs(UserEquipment *user);
+    void fillTbWithPackets(UserEquipment *user, int tbsSize);
 
     // TODO: finish these methods
     void checkMeasGap(QVector<UserEquipment*> *userEquipmentContainer);

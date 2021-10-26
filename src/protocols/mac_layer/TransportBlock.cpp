@@ -24,6 +24,7 @@ Packet &TransportBlock::getPacket()
 void TransportBlock::appendPacket(Packet Packet)
 {
     packetContainer_.push_back(Packet);
+    addSize(Packet.getSize());
 }
 
 QVector<Packet> &TransportBlock::getPacketContainer()
