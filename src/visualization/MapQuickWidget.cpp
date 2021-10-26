@@ -1,7 +1,9 @@
 #include "MapQuickWidget.h"
-
+#include "UEModel.h"
 #include <QDebug>
 #include <QQmlComponent>
+#include <QQmlEngine>
+#include <QQmlContext>
 
 
 
@@ -11,7 +13,11 @@ MapQuickWidget::MapQuickWidget(QWidget* parent) :
 {
     connect(manager, &QNetworkAccessManager::finished, this, &MapQuickWidget::findAddress);
 
+    UEModel* ueModel = new UEModel;
+
+    this->engine()->rootContext()->setContextProperty("_ueModel", ueModel);
     setSource(QUrl("qrc://src/qml/map.qml"));
+
     setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     getAddress("55°00'46.3N", "82°57'01.5E");
