@@ -7,10 +7,10 @@ import QtPositioning 5.6
 MapQuickItem {
     id: item
     property string name;
-    property var lat
-    property var lon
-    property var moveToLat : lat
-    property var moveToLon : lon
+    property real lat
+    property real lon
+    property real moveToLat : lat
+    property real moveToLon : lon
     anchorPoint.x: image.width/2
     anchorPoint.y: image.height/2
     coordinate: QtPositioning.coordinate(lat,lon)
@@ -50,7 +50,7 @@ MapQuickItem {
      ]
 
     Timer {
-        interval: 1000; running: true; repeat: true
+        interval: 10; running: true; repeat: true
         onTriggered:
         {
             if(item.state==="idle"){
