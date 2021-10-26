@@ -51,9 +51,9 @@ protected:
 
     // COUNTERS
     // Throughput
-    int cDataTransmitted_ = 0;           // in [bytes]
-    int cDataTransmittedOverWindow_ = 0; // in [bytes]
-    int cWindowSize_;                // in [ms]
+    int cDataTransmitted_ = 0;           // in [bits]
+    int cDataTransmittedOverWindow_ = 0; // in [bits]
+    QVector<int> cDataTransmittedContainer_;
 
     // Delays
     int cSuccPacketTransmitted_ = 0;
@@ -91,13 +91,12 @@ public:
     void calculateThermalNoise();
 
 // ----- [ COUNTERS ] --------------------------------------------------------------------------------------------------
-    void setCountWindowSize(int windSize);
-    void addCountDataTransmitted(int bytes);
+    void addCountDataTransmitted(int bits);
     void calcCountDataTransmittedOverWindow();
 
     void addCountSuccPacketTransmitted();
 
-    // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
+// ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
     void print();
 
 };

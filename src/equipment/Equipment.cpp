@@ -116,14 +116,11 @@ int Equipment::getLocalSystem120TimeSlot()
 
 // ----- [ COUNTERS ] --------------------------------------------------------------------------------------------------
 
-void Equipment::setCountWindowSize(int windSize)
-{
-    cWindowSize_ = windSize;
-}
 
-void Equipment::addCountDataTransmitted(int bytes)
+void Equipment::addCountDataTransmitted(int bits)
 {
-    cDataTransmitted_ += bytes;
+    cDataTransmitted_ += bits;
+    cDataTransmittedContainer_.push_back(bits);
 }
 
 void Equipment::calcCountDataTransmittedOverWindow()
