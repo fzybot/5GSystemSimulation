@@ -24,7 +24,7 @@ protected:
     QVector<UserEquipment *>    *timeQueue_;
     QVector<UserEquipment *>    *freqQueue_;
     QVector<TransportBlock>     transportBlockContainer_;
-    TransportBlock              localTbs_;
+
 
 private:
     int nLayers_ = 1;
@@ -35,6 +35,8 @@ private:
     int nMaxScheuledUe_ = 5;
     int currentScheduledUe = 0;
     int nMinPrbPerUe_ = 1;
+
+    TransportBlock  localTbs_;
 
 public:
     Scheduler();
@@ -60,7 +62,8 @@ public:
     void updateAvailableNumCoresetRe(int coresetRe);
     int getRemainingNumCoresetRe();
     int calculateOptimalNumberOfPrbPerUe(int mcs, int maxPrb, int ueBuffer);
-    void fillTbWithPackets(UserEquipment *user, int tbsSize);
+    void fillTbWithPackets(UserEquipment *user, int tbsSize, double codeRate);
+    int calcAggLevel(double sinr);
 
     // TODO: finish these methods
     void checkMeasGap(QVector<UserEquipment*> *userEquipmentContainer);

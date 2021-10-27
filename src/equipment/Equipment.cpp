@@ -114,6 +114,17 @@ int Equipment::getLocalSystem120TimeSlot()
     return localSystem120TimeSlot_;
 }
 
+
+void Equipment::syncOwnTimeSlot(int timeSlot)
+{
+    localOwnTimeSlot_ = timeSlot;
+}
+
+int Equipment::getLocalOwnTimeSlot()
+{
+    return localOwnTimeSlot_;
+}
+
 // ----- [ COUNTERS ] --------------------------------------------------------------------------------------------------
 
 

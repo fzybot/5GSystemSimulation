@@ -18,7 +18,7 @@ AMCEntity::~AMCEntity()
 
 }
 
-int AMCEntity::GetCQIFromSinr (double sinr)
+int AMCEntity::getCQIFromSinr (double sinr)
 {
     int cqi = 1; // == CQIIndex[0]
     while (SINRForCQIIndex[cqi] <= sinr && cqi <= 14) {
@@ -27,7 +27,7 @@ int AMCEntity::GetCQIFromSinr (double sinr)
     return cqi;
 }
 
-int AMCEntity::GetMCSFromCQI (int cqi)
+int AMCEntity::getMCSFromCQI (int cqi)
 {
     switch (MCSIndexTableNumber_)
     {
@@ -46,7 +46,26 @@ int AMCEntity::GetMCSFromCQI (int cqi)
     }
 }
 
-int AMCEntity::getTBSizeFromMCS(int mcs, int nPRB, int nLayers)
+double AMCEntity::getCodeRateFromMcs(int mcs)
+{
+    switch (MCSIndexTableNumber_)
+    {
+    case 1:
+        return (double)TargetCodeRateTable1PDSCH[mcs] / 1024;
+        break;
+    case 2:
+        return (double)TargetCodeRateTable2PDSCH[mcs] / 1024;
+        break;
+    case 3:
+        return (double)TargetCodeRateTable3PDSCH[mcs] / 1024;
+        break;
+    default:
+        return (double)TargetCodeRateTable2PDSCH[mcs] / 1024;
+        break;
+    }
+}
+
+int AMCEntity::getTBSizeFromMCS(int mcs, int nPRB, int nLayers, int oH)
 {
     double R = (double)TargetCodeRateTable1PDSCH[mcs] / 1024;
     int Qm = ModulationOrderTable1PDSCH[mcs];
@@ -54,10 +73,11 @@ int AMCEntity::getTBSizeFromMCS(int mcs, int nPRB, int nLayers)
     int nScRb = 12;
     int nSymbSlot = 14; // Depends on SLIV (max 14 or 12)
     int nDmrsRb = 0;    // TODO: add method to automatically calculate the value based on DCI format
-    int nOhRb = 0;      // Some overheads. TODO: may be need some calculation
+    int nOhRb = 0;     // Some overheads. TODO: may be need some calculation
+    int otherOh = oH;
 
     int nRePrime = nScRb * (nSymbSlot - nDmrsRb - nOhRb);
-    int nRe = qMin(156, nRePrime) * nPRB;
+    int nRe = qMin(156, nRePrime) * nPRB - otherOh;
 
     int nInfo = nRe * R * Qm * nLayers;
 
@@ -87,6 +107,7 @@ int AMCEntity::getTBSizeFromMCS(int mcs, int nPRB, int nLayers)
     return tbs;
 }
 
+// TODO: more accurate calculation in case of Bit Array for data
 int AMCEntity::findClosestTbs3824(int nInfo)
 {
     //qDebug() <<"    "<<"AMCEntity::findClosestTbs3824";
@@ -161,8 +182,8 @@ int AMCEntity::GetMCSFromSinrVector(const QVector<double> &sinr)
     int mcs = 0;
     for (int modulationOrder=2; modulationOrder<7; modulationOrder+=2) {
         double estimated_effsinr = GetMiesmEffectiveSinr(sinr, modulationOrder);
-        int estimated_cqi = GetCQIFromSinr(estimated_effsinr);
-        int estimated_mcs = GetMCSFromCQI(estimated_cqi);
+        int estimated_cqi = getCQIFromSinr(estimated_effsinr);
+        int estimated_mcs = getMCSFromCQI(estimated_cqi);
         int estimated_modulation_order = GetModulationOrderFromMCS(estimated_mcs);
         if(estimated_modulation_order == modulationOrder) {
             mcs = estimated_mcs;
@@ -175,7 +196,7 @@ QVector<int> AMCEntity::CreateCqiFeedbacks (QVector<double> sinr)
 {
     QVector<int> cqi;
     for (auto sinr_ : sinr) {
-        int cqi_ = GetCQIFromSinr (sinr_);
+        int cqi_ = getCQIFromSinr (sinr_);
         cqi.push_back (cqi_);
     }
     return cqi;

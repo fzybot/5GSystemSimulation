@@ -30,6 +30,7 @@ public:
 protected:
     int     id_;
     int     localSystem120TimeSlot_;
+    int     localOwnTimeSlot_ = 0;
     double  lastTime_;
 
     Equipment::EquipmentState   state_;
@@ -86,8 +87,10 @@ public:
 
     void sync120TimeSlot(int &timeSlot);
     int getLocalSystem120TimeSlot();
+    void syncOwnTimeSlot(int timeSlot);
+    int getLocalOwnTimeSlot();
 
-// ----- [ PHYSICAL METHODS ] ------------------------------------------------------------------------------------------
+    // ----- [ PHYSICAL METHODS ] ------------------------------------------------------------------------------------------
     void calculateThermalNoise();
 
 // ----- [ COUNTERS ] --------------------------------------------------------------------------------------------------

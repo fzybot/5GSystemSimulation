@@ -86,6 +86,16 @@ int Packet::getSlotToTransmit()
     return timeSlotToTransmit_;
 }
 
+void Packet::setSlotTransmitted(int transmittedSlot)
+{
+    timeSlotTransmitted_ = transmittedSlot;
+}
+
+int Packet::getSlotTransmitted()
+{
+    return timeSlotTransmitted_;
+}
+
 void Packet::setBearer(RadioBearer *bearer)
 {
     bearer_ = bearer;

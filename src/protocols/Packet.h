@@ -43,6 +43,9 @@ public:
     void setSlotToTransmit(int slot);
     int getSlotToTransmit();
 
+    void setSlotTransmitted(int transmittedSlot);
+    int getSlotTransmitted();
+
     void setData(QVector<bool> data);
     QVector<bool> getData();
 

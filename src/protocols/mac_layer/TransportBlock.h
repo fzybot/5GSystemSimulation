@@ -1,4 +1,5 @@
 #pragma once
+
 #include "src/protocols/Packet.h"
 
 #include <QVector>
@@ -11,7 +12,7 @@ private:
     Packet          packet_;
     int             size_ = 0;
     QVector<bool>   tbsData_;
-    QVector<Packet> packetContainer_;
+    QVector<Packet*> packetContainer_;
 
     bool HARQ = false;
 
@@ -22,9 +23,10 @@ public:
     void setPacket(Packet &packet);
     Packet &getPacket();
 
-    void appendPacket(Packet Packet);
-    QVector<Packet> &getPacketContainer();
+    void appendPacket(Packet *packet);
+    QVector<Packet*> &getPacketContainer();
 
+    void setSize(int size);
     void addSize(int size);
     int getSize();
 };

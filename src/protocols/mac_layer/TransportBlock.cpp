@@ -21,15 +21,20 @@ Packet &TransportBlock::getPacket()
     return packet_;
 }
 
-void TransportBlock::appendPacket(Packet Packet)
+void TransportBlock::appendPacket(Packet *packet)
 {
-    packetContainer_.push_back(Packet);
-    addSize(Packet.getSize());
+    packetContainer_.push_back(packet);
+    addSize(packet->getSize());
 }
 
-QVector<Packet> &TransportBlock::getPacketContainer()
+QVector<Packet*> &TransportBlock::getPacketContainer()
 {
     return packetContainer_;
+}
+
+void TransportBlock::setSize(int size)
+{
+    size_ = size;
 }
 
 void TransportBlock::addSize(int size)

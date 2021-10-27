@@ -6,15 +6,16 @@ class AMCEntity
 {
 private:
 //     double* SINRForCQIIndex;
-    int MCSIndexTableNumber_ = 1;
+    int MCSIndexTableNumber_ = 2;
 
 public:
     AMCEntity();
     virtual ~AMCEntity();
 
-    int GetCQIFromSinr (double sinr);
-    int GetMCSFromCQI (int cqi);
-    int getTBSizeFromMCS(int mcs, int nPRB, int nLayers);
+    int getCQIFromSinr (double sinr);
+    int getMCSFromCQI (int cqi);
+    int getTBSizeFromMCS(int mcs, int nPRB, int nLayers, int oH);
+    double getCodeRateFromMcs(int mcs);
     int findClosestTbs3824(int nInfo);
 
     void showParameters();
@@ -27,6 +28,7 @@ public:
     double GetSinrFromCQI (int cqi);
     int GetModulationOrderFromMCS(int mcs);
     int GetMCSFromSinrVector(const QVector<double> &sinr);
+    
 
     QVector<int> CreateCqiFeedbacks (QVector<double> sinr);
 

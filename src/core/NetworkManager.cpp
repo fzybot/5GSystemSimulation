@@ -203,7 +203,7 @@ double NetworkManager::calcOnePointSINR()
 void NetworkManager::setWorkingTime(int time)
 {
     workit120TimeSlot_ =  time;
-    current120TimeSlot_ = 1;
+    current120TimeSlot_ = 0;
 }
 
 int &NetworkManager::getCurrentTime()
@@ -260,10 +260,11 @@ void NetworkManager::scheduleCells(QVector<Cell*> *cellContainer)
 //        }
         // TODO: need some fix in order to schedule multiple bandwidth with differens SCS
         int scs = cell->getPhyEntity()->getBandwidthContainer()[0][0]->getSCS();
-        if ( cell->getLocalSystem120TimeSlot() % (120 / scs) == 0 ) {
-            qDebug() << cell->getLocalSystem120TimeSlot() % (120 / scs);
+        if ( cell->getLocalSystem120TimeSlot() % (int)(120 / scs) == 0 ) {
+            qDebug() << cell->getLocalSystem120TimeSlot() % (int)(120 / scs);
             qDebug() << "NetworkManager::scheduleCells:: cell SCS --> " << scs;
-            qDebug() << "NetworkManager::scheduleCells:: cell time slot --> " << cell->getLocalSystem120TimeSlot();
+            qDebug() << "NetworkManager::scheduleCells:: cell time slot --> " << (int)cell->getLocalSystem120TimeSlot() / (int)(120/scs);
+            cell->syncOwnTimeSlot((int) current120TimeSlot_ / (int)(120/scs));
             cell->getMacEntity()->schedule(cell);
         }
     }
