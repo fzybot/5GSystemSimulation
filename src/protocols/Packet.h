@@ -10,6 +10,7 @@ class Packet
 {
 protected:
     double  timeStamp_;
+    int     headerSize_ = 20; // bytes
     int     size_ = 0;
     int     id_;
     int     timeSlotGenerated_;
@@ -28,17 +29,20 @@ public:
 
     ~Packet();
 
+    void setHeaderSize(int s);
+    int getHeaderSize();
     void addHeaderSize(int s);
     void setPacketSize(int size);
 
     void setTimeStamp(double time);
-    double getTimeStemp();
+    double getTimeStamp();
 
     void setId(int pId);
     int getId();
 
     void setSize(int size); // bytes
     int getSize();
+    int getSizeBits();
 
     void setSlotToTransmit(int slot);
     int getSlotToTransmit();

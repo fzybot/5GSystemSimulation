@@ -57,9 +57,19 @@ void Packet::setTimeStamp(double time)
     timeStamp_ = time;
 }
 
-double Packet::getTimeStemp()
+double Packet::getTimeStamp()
 {
     return timeStamp_;
+}
+
+void Packet::setHeaderSize(int s)
+{
+    headerSize_ = s;
+}
+
+int Packet::getHeaderSize()
+{
+    return headerSize_;
 }
 
 void Packet::addHeaderSize(int s)
@@ -71,9 +81,15 @@ void Packet::setSize(int size)
 {
     size_ = size;
 }
+
 int Packet::getSize()
 {
-    return size_;
+    return size_ + headerSize_;
+}
+
+int Packet::getSizeBits()
+{
+    return getSize() * 8;
 }
 
 void Packet::setSlotToTransmit(int slot)

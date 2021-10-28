@@ -65,6 +65,8 @@ public:
     void fillTbWithPackets(UserEquipment *user, int tbsSize, double codeRate);
     int calcAggLevel(double sinr);
 
+    void packetSegmentation(Packet *packet, int neededSize);
+
     // TODO: finish these methods
     void checkMeasGap(QVector<UserEquipment*> *userEquipmentContainer);
     void checkDRX(QVector<UserEquipment*> *userEquipmentContainer);
