@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Window 2.14
 import QtLocation 5.6
 import QtPositioning 5.6
+import QtGraphicalEffects 1.15
 
 Item {
     visible: true
@@ -28,10 +29,41 @@ Item {
             }
         }
 
+            MapPolygon {
+                id:polygon
+                     color: '#55000000'
+                     path: [
+                         { latitude: 55.009088, longitude: 82.933401 },
+                         { latitude: 55.009088, longitude: 82.960240 },
+                         { latitude: 55.018151, longitude: 82.960240 },
+                         { latitude: 55.018151, longitude: 82.933401 }
+                     ]
+                     visible: false
+            }
 
+            Image {
+                id: image
+                source: ""
+                visible: false
+            }
+
+            OpacityMask
+            {
+                source: image
+                maskSource: polygon
+                anchors.fill: polygon
+            }
+            //update image every sec
+            Timer{
+                interval: 1000; running: true; repeat: true;
+                onTriggered: {
+                    image.source=""
+                    image.source=PixelMap
+                }
+
+            }
 
         }
-
 
     PositionSource {
         id: src
