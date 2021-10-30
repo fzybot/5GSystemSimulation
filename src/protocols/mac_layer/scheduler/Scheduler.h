@@ -20,11 +20,12 @@ public:
 protected:
     SchedulingAlgorithm         algorithm_;
     Cell                        *cell_;
-    QVector<UserEquipment *>    *firstQueue_;
-    QVector<UserEquipment *>    *timeQueue_;
-    QVector<UserEquipment *>    *freqQueue_;
-    QVector<TransportBlock>     transportBlockContainer_;
+    QVector<UserEquipment *>    *firstQueue_;   // ? don't know why yet
+    QVector<UserEquipment *>    *timeQueue_;    // Time domain  candidates
+    QVector<UserEquipment *>    *freqQueue_;    // Frequency domain candidates
 
+    QVector<Packet *>       packetContainer_;           // Packet container to schedule
+    QVector<TransportBlock> transportBlockContainer_;   // Transport Block container to PHY layer
 
 private:
     int nLayers_ = 1;
