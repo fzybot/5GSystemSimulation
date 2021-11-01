@@ -126,10 +126,15 @@ void UEModel::testUpdateModel()
     srand(time(NULL));
     //qDebug()<<"move...";
     int row = 0;
-    insertRows(rowCount(), 1);
+    float randLat = 0, randLon = 0;
+    if(rowCount()==0) insertRows(rowCount(), 1);
     for (Data ue : m_data){
-        setData(index(row), ((float)rand()/(float)RAND_MAX)*0.009063 + 55.009088, UEModel::MoveToLatRole);
-        setData(index(row), ((float)rand()/(float)RAND_MAX)*0.026839 + 82.933401, UEModel::MoveToLonRole);
+        randLat = ((float)rand()/(float)RAND_MAX)*0.009063 + 55.009088;
+        randLon = ((float)rand()/(float)RAND_MAX)*0.026839 + 82.933401;
+        setData(index(row), randLat, UEModel::MoveToLatRole);
+        setData(index(row), randLon, UEModel::MoveToLonRole);
+        setData(index(row), randLat, UEModel::LatRole);
+        setData(index(row), randLon, UEModel::LonRole);
         row++;
     }
 
