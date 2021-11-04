@@ -13,7 +13,7 @@
 #include <QtWidgets>
 #include <QQuickView>
 
-#include <armadillo>
+//#include <armadillo>
 
 #include "src/visualization/menu/mainWindow.h"
 #include "src/scenarios/tests.h"
