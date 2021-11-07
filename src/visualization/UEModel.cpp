@@ -127,7 +127,7 @@ void UEModel::testUpdateModel()
     //qDebug()<<"move...";
     int row = 0;
     float randLat = 0, randLon = 0;
-    /*if(rowCount()==0)*/ insertRows(rowCount(), 1);
+    if(rowCount()<900) insertRows(rowCount(), 900);
     for (Data ue : m_data){
         Mobility* mobility = new Mobility();
         mobility->setModel(Mobility::Model::RANDOM_WALK);
@@ -139,7 +139,7 @@ void UEModel::testUpdateModel()
         mobility->updatePosition(0.001);
         randLat = mobility->getPosition()->getCoordinateX();
         randLon = mobility->getPosition()->getCoordinateY();
-        qDebug() << "position updated x(lat) = ;" << randLat << "y(lon) = " << randLon;
+        //qDebug() << "position updated x(lat) = ;" << randLat << "y(lon) = " << randLon;
         //randLat = ((float)rand()/(float)RAND_MAX)*0.009063 + 55.009088;
         //randLon = ((float)rand()/(float)RAND_MAX)*0.026839 + 82.933401;
         setData(index(row), randLat, UEModel::MoveToLatRole);

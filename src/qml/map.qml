@@ -32,6 +32,7 @@ Item {
             MapPolygon {
                 id:polygon
                      color: '#55000000'
+                     border.color: '#55000000'
                      path: [
                          { latitude: 55.009088, longitude: 82.933401 },
                          { latitude: 55.009088, longitude: 82.960240 },
