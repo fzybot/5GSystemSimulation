@@ -6,7 +6,10 @@
 
 Mobility::Mobility()
 {
-
+    setSpeed(0);
+    interval_ = 0.;
+    lastTimeDirectionChange_ = 0.;
+    positionLastUpdate_ = 0;
 }
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
@@ -51,6 +54,36 @@ CartesianCoordinates* Mobility::getPosition(void) const
     return currentPosition_;
 }
 
+void Mobility::setSpeed(int speed)
+{
+    speed_ = speed;
+}
+
+int Mobility::getSpeed()
+{
+    return speed_;
+}
+
+void Mobility::setAngle(double angle)
+{
+    angle_ = angle;
+}
+
+double Mobility::getAngle()
+{
+    return angle_;
+}
+
+void Mobility::setPositionLastUpdate(double time)
+{
+    positionLastUpdate_ = time;
+}
+
+double Mobility::getPositionLastUpdate() const
+{
+    return positionLastUpdate_;
+}
+
 void Mobility::deletePosition()
 {
     delete currentPosition_;
@@ -77,7 +110,7 @@ void Mobility::updatePosition(double time)
         modelManhattan(time);
         break;
     case Model::LINEAR_MOVEMENT:
-        modelManhattan(time);
+        modelLinearMovement(time);
         break;
     }
 }
@@ -89,6 +122,23 @@ void Mobility::modelRandomDirection(double time)
 void Mobility::modelRandomWalk(double time)
 {
     // Created by Ramazan 05.09.2021 ramazanaktaev7@gmail.com
+    if(getSpeed()==0){
+        qDebug() << "speed =0 --> position has not been updated!" << endl;
+        return;
+    }
+    double timeInterval = time - getPositionLastUpdate();
+
+    double shift = timeInterval * (getSpeed()*(1000.0/3600.0));
+
+    double shift_y = shift * sin(getAngle());
+    double shift_x = shift * cos(getAngle());
+
+    ///
+    CartesianCoordinates *newPosition = new CartesianCoordinates(getPosition()->getCoordinateX() + shift_x,
+                                                                 getPosition()->getCoordinateY() + shift_y,
+                                                                 getPosition()->getCoordinateZ());
+    setPosition(newPosition);
+    setPositionLastUpdate(time);
 }
 void Mobility::modelRandomWaypoint(double time)
 {

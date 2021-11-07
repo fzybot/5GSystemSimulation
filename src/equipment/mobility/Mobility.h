@@ -2,6 +2,7 @@
 
 #include <QVector>
 #include "src/core/CartesianCoordinates.h"
+#include <QtMath>
 
 class Equipment;
 
@@ -28,6 +29,9 @@ protected:
 
     int speed_; // Km/h
     double angle_; // in radian
+    double interval_;
+    double lastTimeDirectionChange_;
+    double positionLastUpdate_;
 
 public:
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
@@ -49,6 +53,9 @@ public:
     void setAngle(double angle);
     double getAngle();
 
+    void setPositionLastUpdate(double time);
+    double getPositionLastUpdate(void) const;
+
     void deletePosition();
 
 // ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
@@ -62,6 +69,5 @@ public:
 
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
     // void print();
-
 };
 
