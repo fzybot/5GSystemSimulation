@@ -4,7 +4,7 @@
 #include <QQmlComponent>
 #include <QQmlEngine>
 #include <QQmlContext>
-
+#include <QCoreApplication>
 
 
 MapQuickWidget::MapQuickWidget(QWidget* parent) :
@@ -16,6 +16,8 @@ MapQuickWidget::MapQuickWidget(QWidget* parent) :
     UEModel* ueModel = new UEModel;
 
     this->engine()->rootContext()->setContextProperty("_ueModel", ueModel);
+    this->engine()->rootContext()->setContextProperty("PixelMap", QString("file://").append(QString(QCoreApplication::applicationDirPath()).append("/pixelMap.bmp")));
+
     setSource(QUrl("qrc://src/qml/map.qml"));
 
     setResizeMode(QQuickWidget::SizeRootObjectToView);

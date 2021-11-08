@@ -4,6 +4,8 @@
 #include <QAbstractListModel>
 #include <QDebug>
 #include <QTimer>
+#include "src/equipment/mobility/Mobility.h"
+#include "src/core/CartesianCoordinates.h"
 
 struct Data {
     Data() {}

@@ -20,7 +20,7 @@ Heatmap::Heatmap(QWidget* parent, int analysisRadius, int smoothingDegree, int t
 #pragma region TemporaryCode // No real data yet
     analysisRadius_ *= 100.0;
 #pragma endregion TemporaryCode
-    generate();
+    //generate();
 }
 
 
