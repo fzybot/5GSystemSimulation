@@ -127,13 +127,26 @@ void UEModel::testUpdateModel()
     //qDebug()<<"move...";
     int row = 0;
     float randLat = 0, randLon = 0;
-    if(rowCount()<900) insertRows(rowCount(), 900);
+    //if(rowCount()<900) insertRows(rowCount(), 900);
+    if(rowCount() == 0){
+        for (int i = 0; i < 900; ++i){
+            randLat = ((float)rand()/(float)RAND_MAX)*0.009063 + 55.009088;
+            randLon = ((float)rand()/(float)RAND_MAX)*0.026839 + 82.933401;
+            insertRows(rowCount(),1);
+            setData(index(rowCount()-1), randLat, LatRole);
+            setData(index(rowCount()-1), randLon, LonRole);
+            setData(index(rowCount()-1), randLat, MoveToLatRole);
+            setData(index(rowCount()-1), randLon, MoveToLonRole);
+        }
+    }
+
     for (Data ue : m_data){
+        do{
         Mobility* mobility = new Mobility();
         mobility->setModel(Mobility::Model::RANDOM_WALK);
         mobility->setAngle(((float)rand()/(float)RAND_MAX)*2*M_PI + 0);
         //mobility->setAngle(1);
-        mobility->setSpeed(1);
+        mobility->setSpeed(rand()%10);
         CartesianCoordinates* coord = new CartesianCoordinates(ue.moveToLat, ue.moveToLon, 0);
         mobility->setPosition(coord);
         mobility->updatePosition(0.001);
@@ -146,6 +159,12 @@ void UEModel::testUpdateModel()
         setData(index(row), randLon, UEModel::MoveToLonRole);
         //setData(index(row), randLat, UEModel::LatRole);
         //setData(index(row), randLon, UEModel::LonRole);
+        }while(!(randLat < 55.018151 && randLat > 55.009088 &&
+               randLon < 82.960240 && randLon > 82.933401));
+        //{ latitude: 55.009088, longitude: 82.933401 },
+        //{ latitude: 55.009088, longitude: 82.960240 },
+        //{ latitude: 55.018151, longitude: 82.960240 },
+        // latitude: 55.018151, longitude: 82.933401 }
         row++;
     }
 
