@@ -21,11 +21,6 @@ SOURCES += \
     main.cpp \
     src/core/NetworkManager.cpp \
     src/core/Simulator.cpp \
-    src/equipment/mobility/LinearMovement.cpp \
-    src/equipment/mobility/Manhattan.cpp \
-    src/equipment/mobility/RandomDirection.cpp \
-    src/equipment/mobility/RandomWalk.cpp \
-    src/equipment/mobility/RandomWaypoint.cpp \
     src/protocols/bearers/QoS/QoSProfile.cpp \
     src/equipment/mobility/ConstantPosition.cpp \
     src/protocols/Protocol.cpp \
@@ -78,11 +73,6 @@ HEADERS += \
     src/core/NetworkManager.h \
     src/core/Simulator.h \
     src/debug.h \
-    src/equipment/mobility/LinearMovement.h \
-    src/equipment/mobility/Manhattan.h \
-    src/equipment/mobility/RandomDirection.h \
-    src/equipment/mobility/RandomWalk.h \
-    src/equipment/mobility/RandomWaypoint.h \
     src/protocols/bearers/QoS/QoSProfile.h \
     src/equipment/mobility/ConstantPosition.h \
     src/protocols/Protocol.h \
