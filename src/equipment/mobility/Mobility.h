@@ -3,6 +3,7 @@
 #include <QVector>
 #include "src/core/CartesianCoordinates.h"
 #include <QtMath>
+#include <time.h>
 
 class Equipment;
 
@@ -16,7 +17,8 @@ public:
       RANDOM_WALK,
       RANDOM_WAYPOINT,
       MANHATTAN,
-      LINEAR_MOVEMENT
+      LINEAR_MOVEMENT,
+      GAUSS_MARKOV
     };
 
 protected:
@@ -32,6 +34,12 @@ protected:
     double interval_;
     double lastTimeDirectionChange_;
     double positionLastUpdate_;
+    int changeCount_;
+    double averageSpeed_;
+    double sumSpeed_;
+    double averageAngle_;
+    double sumAngle_;
+    double alpha_;
 
 public:
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
@@ -56,6 +64,9 @@ public:
     void setPositionLastUpdate(double time);
     double getPositionLastUpdate(void) const;
 
+    void setAlpha(double alpha);
+    double getAlpha();
+
     void deletePosition();
 
 // ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
@@ -66,6 +77,7 @@ public:
     void modelRandomWaypoint(double time);
     void modelManhattan(double time);
     void modelLinearMovement(double time);
+    void modelGaussMarkov(double time);
 
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
     // void print();

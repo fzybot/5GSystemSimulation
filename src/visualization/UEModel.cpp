@@ -91,6 +91,9 @@ bool UEModel::insertRows(int row, int count, const QModelIndex &parent)
     int k=1;
     for (int index = row; index < row + count; ++index){
         m_data.insert(index, Data("new" + QString::number(k), 55.012902, 82.950326, 55.012902, 82.950326));
+        Mobility mobility;
+        mobility.setModel(Mobility::Model::CONSTANT_POSITION);
+        m_mobility.insert(index, mobility);
         k++;
     }
     endInsertRows();
@@ -104,6 +107,7 @@ bool UEModel::removeRows(int row, int count, const QModelIndex &parent)
     int index = row;
     for (int k = row; k < row + count; ++k){
         m_data.removeAt(index);
+        m_mobility.removeAt(index);
     }
     endRemoveRows();
     return true;
@@ -127,9 +131,9 @@ void UEModel::testUpdateModel()
     //qDebug()<<"move...";
     int row = 0;
     float randLat = 0, randLon = 0;
-    //if(rowCount()<900) insertRows(rowCount(), 900);
+    //if(rowCount() == 0) insertRows(rowCount(), 1);
     if(rowCount() == 0){
-        for (int i = 0; i < 900; ++i){
+        for (int i = 0; i < 100; ++i){
             randLat = ((float)rand()/(float)RAND_MAX)*0.009063 + 55.009088;
             randLon = ((float)rand()/(float)RAND_MAX)*0.026839 + 82.933401;
             insertRows(rowCount(),1);
@@ -137,21 +141,23 @@ void UEModel::testUpdateModel()
             setData(index(rowCount()-1), randLon, LonRole);
             setData(index(rowCount()-1), randLat, MoveToLatRole);
             setData(index(rowCount()-1), randLon, MoveToLonRole);
+            m_mobility[i].setAngle(((float)rand()/(float)RAND_MAX)*2*M_PI + 0);
+            m_mobility[i].setSpeed(rand()%10);
         }
     }
 
     for (Data ue : m_data){
         do{
-        Mobility* mobility = new Mobility();
-        mobility->setModel(Mobility::Model::RANDOM_WALK);
-        mobility->setAngle(((float)rand()/(float)RAND_MAX)*2*M_PI + 0);
-        //mobility->setAngle(1);
-        mobility->setSpeed(rand()%10);
+        //Mobility* mobility = new Mobility();
+        m_mobility[row].setModel(Mobility::Model::GAUSS_MARKOV);
+        m_mobility[row].setAlpha(0.5);
+        //m_mobility[row].setAngle(((float)rand()/(float)RAND_MAX)*2*M_PI + 0);
+        //m_mobility[row].setSpeed(rand()%10);
         CartesianCoordinates* coord = new CartesianCoordinates(ue.moveToLat, ue.moveToLon, 0);
-        mobility->setPosition(coord);
-        mobility->updatePosition(0.001);
-        randLat = mobility->getPosition()->getCoordinateX();
-        randLon = mobility->getPosition()->getCoordinateY();
+        m_mobility[row].setPosition(coord);
+        m_mobility[row].updatePosition(m_mobility[row].getPositionLastUpdate() + 0.001);
+        randLat = m_mobility[row].getPosition()->getCoordinateX();
+        randLon = m_mobility[row].getPosition()->getCoordinateY();
         //qDebug() << "position updated x(lat) = ;" << randLat << "y(lon) = " << randLon;
         //randLat = ((float)rand()/(float)RAND_MAX)*0.009063 + 55.009088;
         //randLon = ((float)rand()/(float)RAND_MAX)*0.026839 + 82.933401;

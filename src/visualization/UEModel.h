@@ -62,6 +62,7 @@ public slots:
 
 private:
     QVector <Data> m_data;
+    QVector <Mobility> m_mobility;
     QTimer m_timer;
 };
 

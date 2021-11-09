@@ -6,10 +6,16 @@
 
 Mobility::Mobility()
 {
-    setSpeed(0);
+    setSpeed(1);
+    setAngle(1);
     interval_ = 0.;
     lastTimeDirectionChange_ = 0.;
     positionLastUpdate_ = 0;
+    sumAngle_ = 0.;
+    sumSpeed_ = 0.;
+    changeCount_ = 0;
+    averageSpeed_ = 0.;
+    averageAngle_ = 0.;
 }
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
@@ -84,6 +90,16 @@ double Mobility::getPositionLastUpdate() const
     return positionLastUpdate_;
 }
 
+void Mobility::setAlpha(double alpha)
+{
+    alpha_ = alpha;
+}
+
+double Mobility::getAlpha()
+{
+    return alpha_;
+}
+
 void Mobility::deletePosition()
 {
     delete currentPosition_;
@@ -111,6 +127,9 @@ void Mobility::updatePosition(double time)
         break;
     case Model::LINEAR_MOVEMENT:
         modelLinearMovement(time);
+        break;
+    case Model::GAUSS_MARKOV:
+        modelGaussMarkov(time);
         break;
     }
 }
@@ -151,6 +170,44 @@ void Mobility::modelManhattan(double time)
 void Mobility::modelLinearMovement(double time)
 {
     // Created by Ramazan 05.09.2021 ramazanaktaev7@gmail.com
+}
+
+void Mobility::modelGaussMarkov(double times)
+{
+    srand(time(NULL));
+
+    double timeInterval = times - getPositionLastUpdate();
+
+    double shift = timeInterval * (getSpeed()*(1000.0/3600.0));
+
+    double shift_y = shift * sin(getAngle());
+    double shift_x = shift * cos(getAngle());
+
+
+
+    CartesianCoordinates *newPosition = new CartesianCoordinates(getPosition()->getCoordinateX() + shift_x,
+                                                                 getPosition()->getCoordinateY() + shift_y,
+                                                                 getPosition()->getCoordinateZ());
+
+    setPosition(newPosition);
+    setPositionLastUpdate(times);
+
+    double newSpeed = alpha_*getSpeed() + (1 - alpha_)*averageSpeed_ +
+            sqrt((1 - alpha_*alpha_)*(rand()%10));
+
+    double newAngle = alpha_*getAngle() + (1 - alpha_)*averageAngle_ +
+            sqrt((1 - alpha_*alpha_)*(rand()%10));
+
+    setSpeed(newSpeed);
+    setAngle(newAngle);
+
+    changeCount_++;
+
+    sumSpeed_+=getSpeed();
+    sumAngle_+=getAngle();
+    averageSpeed_ = (float)sumSpeed_ / (float)changeCount_;
+    averageAngle_ = (float)sumAngle_ / (float)changeCount_;
+
 }
 
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
