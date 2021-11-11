@@ -80,6 +80,8 @@ public:
     void setMaxSpeed(int);
     void setMinSpeed(int);
 
+    void forceStayInArea(CartesianCoordinates *position);
+
     void deletePosition();
 
 // ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------

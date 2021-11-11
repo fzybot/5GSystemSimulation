@@ -142,11 +142,13 @@ void UEModel::testUpdateModel()
             setData(index(rowCount()-1), randLat, MoveToLatRole);
             setData(index(rowCount()-1), randLon, MoveToLonRole);
             m_mobility[i].setAngle(((float)rand()/(float)RAND_MAX)*2*M_PI + 0);
-            m_mobility[i].setSpeed(rand()%10);
-            m_mobility[i].setModel(Mobility::Model::GAUSS_MARKOV);
+            m_mobility[i].setSpeed(rand()%10 + 1);
+            m_mobility[i].setModel(Mobility::Model::RANDOM_DIRECTION);
             m_mobility[i].setAlpha(0.75);
             m_mobility[i].setBorders(55.018151, 55.009088, 82.933401, 82.960240);
-            m_mobility[i].setBorderZone(0.001000);
+            m_mobility[i].setBorderZone(0.000100);
+            m_mobility[i].setMinSpeed(1);
+            m_mobility[i].setMaxSpeed(10);
         }
     }
 

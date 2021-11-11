@@ -159,6 +159,14 @@ void Mobility::setMinSpeed(int min)
     speedMin_ = min;
 }
 
+void Mobility::forceStayInArea(CartesianCoordinates *position)
+{
+    if(position->getCoordinateX() > rightBorder_) position->setCoordinateX(rightBorder_);
+    if(position->getCoordinateX() < leftBorder_) position->setCoordinateX(leftBorder_);
+    if(position->getCoordinateY() > topBorder_) position->setCoordinateY(topBorder_);
+    if(position->getCoordinateY() < bottomBorder_) position->setCoordinateY(bottomBorder_);
+}
+
 void Mobility::deletePosition()
 {
     delete currentPosition_;
@@ -196,6 +204,57 @@ void Mobility::updatePosition(double time)
 void Mobility::modelRandomDirection(double time)
 {
     // Created by Ramazan 05.09.2021 ramazanaktaev7@gmail.com
+
+    if(isInZone(getPosition())){
+
+        switch (isInZone(getPosition())) {
+        case 1:
+            setAngle(((float)rand()/(float)RAND_MAX)*M_PI/2);
+            break;
+        case 2:
+            setAngle(((float)rand()/(float)RAND_MAX)*M_PI - M_PI/2);
+            break;
+        case 3:
+            setAngle(((float)rand()/(float)RAND_MAX)*M_PI/2 - M_PI/2);
+            break;
+        case 4:
+            setAngle(((float)rand()/(float)RAND_MAX)*(-M_PI));
+            break;
+        case 5:
+            setAngle(((float)rand()/(float)RAND_MAX)*M_PI/2 + M_PI);
+            break;
+        case 6:
+            setAngle(((float)rand()/(float)RAND_MAX)*M_PI + M_PI/2);
+            break;
+        case 7:
+            setAngle(((float)rand()/(float)RAND_MAX)*M_PI/2 + M_PI/2);
+            break;
+        case 8:
+            setAngle(((float)rand()/(float)RAND_MAX)*M_PI);
+            break;
+        }
+
+
+        setSpeed(rand()%speedMax_ + speedMin_);
+    }
+
+        double timeInterval = time - getPositionLastUpdate();
+
+        double shift = timeInterval * (getSpeed()*(1000.0/3600.0));
+
+        double shift_y = shift * sin(getAngle());
+        double shift_x = shift * cos(getAngle());
+
+        CartesianCoordinates *newPosition = new CartesianCoordinates(getPosition()->getCoordinateX() + shift_x,
+                                                                     getPosition()->getCoordinateY() + shift_y,
+                                                                     getPosition()->getCoordinateZ());
+        forceStayInArea(newPosition);
+        setPosition(newPosition);
+        delete newPosition;
+        setPositionLastUpdate(time);
+
+
+
 }
 void Mobility::modelRandomWalk(double time)
 {
@@ -249,6 +308,7 @@ void Mobility::modelRandomWalk(double time)
     CartesianCoordinates *newPosition = new CartesianCoordinates(getPosition()->getCoordinateX() + shift_x,
                                                                  getPosition()->getCoordinateY() + shift_y,
                                                                  getPosition()->getCoordinateZ());
+    forceStayInArea(newPosition);
     setPosition(newPosition);
     delete newPosition;
     setPositionLastUpdate(time);
@@ -309,6 +369,7 @@ void Mobility::modelGaussMarkov(double times)
     CartesianCoordinates *newPosition = new CartesianCoordinates((getPosition()->getCoordinateX() + shift_x),
                                             getPosition()->getCoordinateY() + shift_y,
                                             getPosition()->getCoordinateZ());
+    forceStayInArea(newPosition);
     setPosition(newPosition);
     delete newPosition;
     setPositionLastUpdate(times);
@@ -328,8 +389,8 @@ void Mobility::modelGaussMarkov(double times)
     sumAngle_+=getAngle();
     averageSpeed_ = (float)sumSpeed_ / (float)changeCount_;
     averageAngle_ = (float)sumAngle_ / (float)changeCount_;
-    qDebug() <<"Speed = " <<getSpeed()<< "Angle = " <<getAngle()<< "changeCount = " <<changeCount_<< "sumSpeed = " << sumSpeed_
-            << "averageSpeed = " <<averageSpeed_<< "sumAngle = " <<sumAngle_<< "averageAngle = " << averageAngle_ ;
+//    qDebug() <<"Speed = " <<getSpeed()<< "Angle = " <<getAngle()<< "changeCount = " <<changeCount_<< "sumSpeed = " << sumSpeed_
+//            << "averageSpeed = " <<averageSpeed_<< "sumAngle = " <<sumAngle_<< "averageAngle = " << averageAngle_ ;
 
 }
 
