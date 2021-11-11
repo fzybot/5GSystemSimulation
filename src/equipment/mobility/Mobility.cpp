@@ -149,6 +149,16 @@ int Mobility::isInZone(CartesianCoordinates *position)
 
 }
 
+void Mobility::setMaxSpeed(int max)
+{
+    speedMax_ = max;
+}
+
+void Mobility::setMinSpeed(int min)
+{
+    speedMin_ = min;
+}
+
 void Mobility::deletePosition()
 {
     delete currentPosition_;
@@ -192,7 +202,7 @@ void Mobility::modelRandomWalk(double time)
     // Created by Ramazan 05.09.2021 ramazanaktaev7@gmail.com
 
     setAngle(((float)rand()/(float)RAND_MAX)*2*M_PI + 0);
-    setSpeed(rand()%10);
+    setSpeed(rand()%speedMax_ + speedMin_);
 
     if(getSpeed()==0){
         qDebug() << "speed =0 --> position has not been updated!" << endl;

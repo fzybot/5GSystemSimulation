@@ -43,6 +43,7 @@ protected:
 
     double topBorder_,bottomBorder_,leftBorder_,rightBorder_;
     double borderZone_;
+    int speedMin_, speedMax_;
 
 public:
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
@@ -75,6 +76,9 @@ public:
     void setBorderZone(double zone);
 
     int isInZone(CartesianCoordinates *position);
+
+    void setMaxSpeed(int);
+    void setMinSpeed(int);
 
     void deletePosition();
 
