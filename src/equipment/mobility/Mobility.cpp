@@ -190,13 +190,47 @@ void Mobility::modelRandomDirection(double time)
 void Mobility::modelRandomWalk(double time)
 {
     // Created by Ramazan 05.09.2021 ramazanaktaev7@gmail.com
+
+    setAngle(((float)rand()/(float)RAND_MAX)*2*M_PI + 0);
+    setSpeed(rand()%10);
+
     if(getSpeed()==0){
         qDebug() << "speed =0 --> position has not been updated!" << endl;
         return;
     }
+
     double timeInterval = time - getPositionLastUpdate();
 
     double shift = timeInterval * (getSpeed()*(1000.0/3600.0));
+
+    if(isInZone(getPosition())!=0){
+        switch (isInZone(getPosition())) {
+        case 1:
+            setAngle(M_PI/4);
+            break;
+        case 2:
+            setAngle(0);
+            break;
+        case 3:
+            setAngle(-M_PI/4);
+            break;
+        case 4:
+            setAngle(-M_PI/2);
+            break;
+        case 5:
+            setAngle(5*M_PI/4);
+            break;
+        case 6:
+            setAngle(M_PI);
+            break;
+        case 7:
+            setAngle(3*M_PI/4);
+            break;
+        case 8:
+            setAngle(M_PI/2);
+            break;
+        }
+    }
 
     double shift_y = shift * sin(getAngle());
     double shift_x = shift * cos(getAngle());
