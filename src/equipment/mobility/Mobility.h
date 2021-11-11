@@ -41,6 +41,9 @@ protected:
     double sumAngle_;
     double alpha_;
 
+    double topBorder_,bottomBorder_,leftBorder_,rightBorder_;
+    double borderZone_;
+
 public:
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
     Mobility();
@@ -66,6 +69,12 @@ public:
 
     void setAlpha(double alpha);
     double getAlpha();
+
+    void setBorders(double top, double bottom, double left, double right);
+
+    void setBorderZone(double zone);
+
+    int isInZone(CartesianCoordinates *position);
 
     void deletePosition();
 

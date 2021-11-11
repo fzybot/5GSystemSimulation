@@ -100,6 +100,55 @@ double Mobility::getAlpha()
     return alpha_;
 }
 
+void Mobility::setBorders(double top, double bottom, double left, double right)
+{
+    topBorder_ = top;
+    bottomBorder_ = bottom;
+    leftBorder_ = left;
+    rightBorder_ = right;
+}
+
+void Mobility::setBorderZone(double zone)
+{
+    borderZone_ = zone;
+}
+
+int Mobility::isInZone(CartesianCoordinates *position)
+{
+    if(position->getCoordinateY() < bottomBorder_ + borderZone_ &&
+            position->getCoordinateX() < leftBorder_ + borderZone_){
+        return 1;
+    }
+    if(position->getCoordinateY() > topBorder_ - borderZone_ &&
+            position->getCoordinateX() < leftBorder_ + borderZone_){
+        return 3;
+    }
+    if(position->getCoordinateY() > topBorder_ - borderZone_ &&
+            position->getCoordinateX() > rightBorder_ - borderZone_){
+        return 5;
+    }
+    if(position->getCoordinateY() < bottomBorder_ + borderZone_ &&
+            position->getCoordinateX() < leftBorder_ + borderZone_){
+        return 7;
+    }
+
+    if(position->getCoordinateX() < leftBorder_ + borderZone_){
+        return 2;
+    }
+    if(position->getCoordinateY() > topBorder_ - borderZone_){
+        return 4;
+    }
+    if(position->getCoordinateX() > rightBorder_ - borderZone_){
+        return 6;
+    }
+    if(position->getCoordinateY() < bottomBorder_ + borderZone_){
+        return 8;
+    }
+
+    return 0;
+
+}
+
 void Mobility::deletePosition()
 {
     delete currentPosition_;
@@ -157,6 +206,7 @@ void Mobility::modelRandomWalk(double time)
                                                                  getPosition()->getCoordinateY() + shift_y,
                                                                  getPosition()->getCoordinateZ());
     setPosition(newPosition);
+    delete newPosition;
     setPositionLastUpdate(time);
 }
 void Mobility::modelRandomWaypoint(double time)
@@ -180,16 +230,43 @@ void Mobility::modelGaussMarkov(double times)
 
     double shift = timeInterval * (getSpeed()*(1000.0/3600.0));
 
+    if(isInZone(getPosition())!=0){
+        switch (isInZone(getPosition())) {
+        case 1:
+            setAngle(M_PI/4);
+            break;
+        case 2:
+            setAngle(0);
+            break;
+        case 3:
+            setAngle(-M_PI/4);
+            break;
+        case 4:
+            setAngle(-M_PI/2);
+            break;
+        case 5:
+            setAngle(5*M_PI/4);
+            break;
+        case 6:
+            setAngle(M_PI);
+            break;
+        case 7:
+            setAngle(3*M_PI/4);
+            break;
+        case 8:
+            setAngle(M_PI/2);
+            break;
+        }
+    }
+
     double shift_y = shift * sin(getAngle());
     double shift_x = shift * cos(getAngle());
 
-
-
-    CartesianCoordinates *newPosition = new CartesianCoordinates(getPosition()->getCoordinateX() + shift_x,
-                                                                 getPosition()->getCoordinateY() + shift_y,
-                                                                 getPosition()->getCoordinateZ());
-
+    CartesianCoordinates *newPosition = new CartesianCoordinates((getPosition()->getCoordinateX() + shift_x),
+                                            getPosition()->getCoordinateY() + shift_y,
+                                            getPosition()->getCoordinateZ());
     setPosition(newPosition);
+    delete newPosition;
     setPositionLastUpdate(times);
 
     double newSpeed = alpha_*getSpeed() + (1 - alpha_)*averageSpeed_ +
@@ -207,6 +284,8 @@ void Mobility::modelGaussMarkov(double times)
     sumAngle_+=getAngle();
     averageSpeed_ = (float)sumSpeed_ / (float)changeCount_;
     averageAngle_ = (float)sumAngle_ / (float)changeCount_;
+    qDebug() <<"Speed = " <<getSpeed()<< "Angle = " <<getAngle()<< "changeCount = " <<changeCount_<< "sumSpeed = " << sumSpeed_
+            << "averageSpeed = " <<averageSpeed_<< "sumAngle = " <<sumAngle_<< "averageAngle = " << averageAngle_ ;
 
 }
 
