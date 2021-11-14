@@ -39,13 +39,13 @@ public:
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
     void setEquipment(Equipment *equipment);
-    Equipment* getEquipment(void) const;
+    Equipment* getEquipment() const;
 
     void setModel(Model model);
-    Mobility::Model getModel(void) const;
+    Mobility::Model getModel() const;
 
     void setPosition(CartesianCoordinates *position);
-    CartesianCoordinates* getPosition(void) const;
+    CartesianCoordinates* getPosition() const;
 
     void setSpeed(int speed);
     int getSpeed();
@@ -54,7 +54,7 @@ public:
     double getAngle();
 
     void setPositionLastUpdate(double time);
-    double getPositionLastUpdate(void) const;
+    double getPositionLastUpdate() const;
 
     void deletePosition();
 

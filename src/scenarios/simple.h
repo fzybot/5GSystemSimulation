@@ -20,10 +20,10 @@ static void Simple ()
 
     // Create Cell
     int idCell = 0;
-    int posX = 100;
-    int posY = 100;
+    int posX = 500;
+    int posY = 500;
     int posZ = 50;
-    Cell *cell = networkManager->createCell(idCell);
+    Cell *cell = networkManager->createCell(idCell, posX, posY, posZ);
 
     // int idCell_01 = 1;
     // int posX_01 = 200;
@@ -46,8 +46,8 @@ static void Simple ()
     // UserEquipment *ue = networkManager->createUserEquipment(idUE, posX_ue, posY_ue, posZ_ue, cell, gNb);
     // channel->addDevice(ue);
 
-    int nUe = 2;
-    networkManager->createMultipleUserEquipments(nUe, 0, 200, 0, 1000, 100, cell, gNb);
+    int nUe = 100;
+    networkManager->createMultipleUserEquipments(nUe, 0, 1000, 0, 1000, 10, cell, gNb);
     //networkManager->createMultipleUserEquipments(nUe, 0, 200, 0, 1000, 100, cell_01, gNb);
     debug("Simple: User Equipments entity are created");
 

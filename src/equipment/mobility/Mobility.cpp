@@ -19,7 +19,7 @@ void Mobility::setEquipment(Equipment *equipment)
     equipment_ = equipment;
 }
 
-Equipment* Mobility::getEquipment(void) const
+Equipment* Mobility::getEquipment() const
 {
     return equipment_;
 }
@@ -29,7 +29,7 @@ void Mobility::setModel(Model model)
     model_ = model;
 }
 
-Mobility::Model Mobility::getModel(void) const
+Mobility::Model Mobility::getModel() const
 {
     return model_;
 }
@@ -49,7 +49,7 @@ void Mobility::setPosition(CartesianCoordinates *position)
     debug("Mobility: currentPosition_:", currentPosition_);
 }
 
-CartesianCoordinates* Mobility::getPosition(void) const
+CartesianCoordinates* Mobility::getPosition() const
 {
     return currentPosition_;
 }
@@ -123,7 +123,7 @@ void Mobility::modelRandomWalk(double time)
 {
     // Created by Ramazan 05.09.2021 ramazanaktaev7@gmail.com
     if(getSpeed()==0){
-        qDebug() << "speed =0 --> position has not been updated!" << endl;
+        //qDebug() << "speed =0 --> position has not been updated!" << endl;
         return;
     }
     double timeInterval = time - getPositionLastUpdate();

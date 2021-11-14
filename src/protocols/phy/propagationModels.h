@@ -55,14 +55,14 @@ double RMa_NLOS(double distance2Dout, double distance2Din, double heightBS, doub
     int centerFrequency, double h, double W, double shadowFading);
 
 double UMa_LOS(double distance2Dout, double distance2Din, double heightBS, double heightUT,
-    int centerFrequency, double h, double W, double shadowFading);
+    double centerFrequency, double h, double W, double shadowFading);
 
 double UMa_NLOS(double distance2Dout, double distance2Din, double heightBS, double heightUT,
     int centerFrequency, double h, double W, double shadowFading);
 
 //Note: UMi_LOS and UMi_NLOS models' range of values: 1.5 [m] <= heightUT <= 22.5 [m]
 double UMi_LOS(double distance2Dout, double distance2Din, double heightBS, double heightUT,
-    int centerFrequency, double h, double W, double shadowFading);
+    double centerFrequency, double h, double W, double shadowFading);
 
 double UMi_NLOS(double distance2Dout, double distance2Din, double heightBS, double heightUT,
     int centerFrequency, double h, double W, double shadowFading);

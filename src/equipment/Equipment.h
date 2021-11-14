@@ -84,6 +84,7 @@ public:
     QVector<RadioBearer*> *getBearerContainer();
 
     void setLinkBudgetParameters();
+    float getEirp();
 
     void sync120TimeSlot(int &timeSlot);
     int getLocalSystem120TimeSlot();

@@ -48,7 +48,7 @@ double RMa_NLOS(double distance2Dout, double distance2Din, double heightBS, doub
 
 //TODO: check
 double UMa_LOS(double distance2Dout, double distance2Din, double heightBS, double heightUT,
-    int centerFrequency, double h, double W, double shadowFading)
+    double centerFrequency, double h, double W, double shadowFading)
 {
 
     double d_3D = distance3D(distance2Dout, distance2Din, heightBS, heightUT);
@@ -82,7 +82,7 @@ double UMa_NLOS(double distance2Dout, double distance2Din, double heightBS, doub
 
 //TODO: check
 double UMi_LOS(double distance2Dout, double distance2Din, double heightBS, double heightUT,
-    int centerFrequency, double h, double W, double shadowFading)
+    double centerFrequency, double h, double W, double shadowFading)
 {
     double d_3D = distance3D(distance2Dout, distance2Din, heightBS, heightUT);
     double heightE = 1; // see Note 1 (page 29) TS38.901
