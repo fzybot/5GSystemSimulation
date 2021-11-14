@@ -7,9 +7,9 @@
 #include "src/equipment/mobility/Mobility.h"
 #include "src/core/CartesianCoordinates.h"
 
-struct Data {
-    Data() {}
-    Data( const QString& name, double lat, double lon, double moveToLat, double moveToLon)
+struct mapObjectData {
+    mapObjectData() {}
+    mapObjectData( const QString& name, double lat, double lon, double moveToLat, double moveToLon)
         : name(name), lat(lat), lon(lon) , moveToLat(moveToLat), moveToLon(moveToLon){}
     QString name;
     double lat;
@@ -54,14 +54,16 @@ public:
     // Remove data:
     bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 
-    bool addData(Data);
+    bool addData(mapObjectData);
     bool removeDataByName(QString);
 
 public slots:
     void testUpdateModel();
+    void startSim();
+    void stopSim();
 
 private:
-    QVector <Data> m_data;
+    QVector <mapObjectData> m_data;
     QVector <Mobility> m_mobility;
     QTimer m_timer;
 };

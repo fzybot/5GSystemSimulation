@@ -4,7 +4,7 @@ UEModel::UEModel(QObject *parent)
     : QAbstractListModel(parent)
 {
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(testUpdateModel()));
-    m_timer.start(1200);
+    m_timer.stop();
 }
 
 int UEModel::rowCount(const QModelIndex &parent) const
@@ -25,7 +25,7 @@ QVariant UEModel::data(const QModelIndex &index, int role) const
 
     // FIXME: Implement me!
 
-    const Data &data = m_data.at(index.row());
+    const mapObjectData &data = m_data.at(index.row());
     if ( role == NameRole )
         return data.name;
     else if ( role == LatRole )
@@ -57,7 +57,7 @@ QHash<int, QByteArray> UEModel::roleNames() const
 bool UEModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (data(index, role) != value) {
-        Data& data = m_data[ index.row() ];
+        mapObjectData& data = m_data[ index.row() ];
 
         if ( role == NameRole )
             data.name = value.toString();
@@ -90,7 +90,7 @@ bool UEModel::insertRows(int row, int count, const QModelIndex &parent)
     // FIXME: Implement me!
     int k=1;
     for (int index = row; index < row + count; ++index){
-        m_data.insert(index, Data("new" + QString::number(k), 55.012902, 82.950326, 55.012902, 82.950326));
+        m_data.insert(index, mapObjectData("new" + QString::number(k), 55.012902, 82.950326, 55.012902, 82.950326));
         Mobility mobility;
         mobility.setModel(Mobility::Model::CONSTANT_POSITION);
         m_mobility.insert(index, mobility);
@@ -113,7 +113,7 @@ bool UEModel::removeRows(int row, int count, const QModelIndex &parent)
     return true;
 }
 
-bool UEModel::addData(Data data)
+bool UEModel::addData(mapObjectData data)
 {
     m_data << data;
     return true;
@@ -153,7 +153,7 @@ void UEModel::testUpdateModel()
         }
     }
 
-    for (Data ue : m_data){
+    for (mapObjectData ue : m_data){
             CartesianCoordinates* coord = new CartesianCoordinates(ue.moveToLon, ue.moveToLat, 0);
             m_mobility[row].setPosition(coord);
             m_mobility[row].updatePosition(m_mobility[row].getPositionLastUpdate() + 0.0001);
@@ -164,4 +164,14 @@ void UEModel::testUpdateModel()
         row++;
     }
 
+}
+
+void UEModel::startSim()
+{
+    m_timer.start(1200);
+}
+
+void UEModel::stopSim()
+{
+    m_timer.stop();
 }

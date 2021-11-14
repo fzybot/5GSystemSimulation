@@ -2,7 +2,7 @@
 
 #include <QPainter>
 #include <QGridLayout>
-
+#include <QPushButton>
 
 
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
@@ -15,14 +15,46 @@ Map::Map(QWidget *parent) :
     heatmap_->resize(1600, 1200);
 }
 
+void Map::startSim()
+{
+    mapQuickWidget_->startSim();
+}
+
+void Map::stopSim()
+{
+    mapQuickWidget_->stopSim();
+}
+
 
 
 // ----- [ PROTECTED METHODS ] -----------------------------------------------------------------------------------------
 
 void Map::paintEvent(QPaintEvent*)
 {
-    QGridLayout *layout = new QGridLayout(this);
+    QGridLayout *layout = new QGridLayout();
     layout->addWidget(mapQuickWidget_, 0, 0);
+
+    mapQuickWidget_->getPosition();
+
+    QPushButton *startButton = new QPushButton("START");
+    QPushButton *stopButton = new QPushButton("STOP");
+    const QSize buttonSize = QSize(50, 20);
+    startButton->setFixedSize(buttonSize);
+    stopButton->setFixedSize(buttonSize);
+
+    QHBoxLayout *buttonLayout = new QHBoxLayout();
+
+    buttonLayout->addWidget(startButton);
+    buttonLayout->addWidget(stopButton);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    buttonLayout->setAlignment(Qt::AlignTop);
+
+    mainLayout->addLayout(layout);
+    mainLayout->addLayout(buttonLayout);
+
+    connect(startButton, &QPushButton::pressed, this, &Map::startSim);
+    connect(stopButton, &QPushButton::pressed, this, &Map::stopSim);
 
     mapQuickWidget_->getPosition();
 }

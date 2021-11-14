@@ -1,5 +1,4 @@
 #include "MapQuickWidget.h"
-#include "UEModel.h"
 #include <QDebug>
 #include <QQmlComponent>
 #include <QQmlEngine>
@@ -13,9 +12,9 @@ MapQuickWidget::MapQuickWidget(QWidget* parent) :
 {
     connect(manager, &QNetworkAccessManager::finished, this, &MapQuickWidget::findAddress);
 
-    UEModel* ueModel = new UEModel;
+    ueModel_ = new UEModel;
 
-    this->engine()->rootContext()->setContextProperty("_ueModel", ueModel);
+    this->engine()->rootContext()->setContextProperty("_ueModel", ueModel_);
     this->engine()->rootContext()->setContextProperty("PixelMap", QString("file://").append(QString(QCoreApplication::applicationDirPath()).append("/pixelMap.bmp")));
 
     setSource(QUrl("qrc://src/qml/map.qml"));
@@ -61,4 +60,14 @@ void MapQuickWidget::getPosition()
 {
 
 
+}
+
+void MapQuickWidget::startSim()
+{
+    ueModel_->startSim();
+}
+
+void MapQuickWidget::stopSim()
+{
+    ueModel_->stopSim();
 }
