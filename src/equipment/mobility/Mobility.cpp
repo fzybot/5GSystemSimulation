@@ -388,12 +388,12 @@ void Mobility::modelRandomWaypoint(double time)
 
     setPositionLastUpdate(time);
 
-    qDebug() << "Position = " <<getPosition()->getCoordinateX()<<" "
-             <<getPosition()->getCoordinateY()
-            << "Move to Position = " << moveToPosition_->getCoordinateX()<<" "
-            <<moveToPosition_->getCoordinateY()<<" "
-           <<"angle = " << getAngle()<<" "
-          <<"speed = " << getSpeed();
+//    qDebug() << "Position = " <<getPosition()->getCoordinateX()<<" "
+//             <<getPosition()->getCoordinateY()
+//            << "Move to Position = " << moveToPosition_->getCoordinateX()<<" "
+//            <<moveToPosition_->getCoordinateY()<<" "
+//           <<"angle = " << getAngle()<<" "
+//          <<"speed = " << getSpeed();
 
 
 }

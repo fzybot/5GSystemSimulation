@@ -133,7 +133,7 @@ void UEModel::testUpdateModel()
     double randLat = 0, randLon = 0;
     //if(rowCount() == 0) insertRows(rowCount(), 1);
     if(rowCount() == 0){
-        for (int i = 0; i < 900; ++i){
+        for (int i = 0; i < 100; ++i){
             randLat = ((float)rand()/(float)RAND_MAX)*0.009063 + 55.009088;
             randLon = ((float)rand()/(float)RAND_MAX)*0.026839 + 82.933401;
             insertRows(rowCount(),1);
@@ -149,16 +149,18 @@ void UEModel::testUpdateModel()
             m_mobility[i].setBorderZone(0.000100);
             m_mobility[i].setMinSpeed(1);
             m_mobility[i].setMaxSpeed(10);
-            m_mobility[i].setPauseTime(0.0003);
+            m_mobility[i].setPauseTime(0.00003);
         }
     }
 
     for (mapObjectData ue : m_data){
             CartesianCoordinates* coord = new CartesianCoordinates(ue.moveToLon, ue.moveToLat, 0);
             m_mobility[row].setPosition(coord);
-            m_mobility[row].updatePosition(m_mobility[row].getPositionLastUpdate() + 0.0001);
+            m_mobility[row].updatePosition(m_mobility[row].getPositionLastUpdate() + 0.00001);
             randLon = m_mobility[row].getPosition()->getCoordinateX();
             randLat = m_mobility[row].getPosition()->getCoordinateY();
+            setData(index(row), randLat, UEModel::LatRole);
+            setData(index(row), randLon, UEModel::LonRole);
             setData(index(row), randLat, UEModel::MoveToLatRole);
             setData(index(row), randLon, UEModel::MoveToLonRole);
         row++;
@@ -168,7 +170,7 @@ void UEModel::testUpdateModel()
 
 void UEModel::startSim()
 {
-    m_timer.start(1200);
+    m_timer.start(34);
 }
 
 void UEModel::stopSim()
