@@ -44,6 +44,9 @@ protected:
     double topBorder_,bottomBorder_,leftBorder_,rightBorder_;
     double borderZone_;
     int speedMin_, speedMax_;
+    CartesianCoordinates *moveToPosition_;
+    double pauseTime_;
+    double tempPauseTime_;
 
 public:
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
@@ -61,26 +64,20 @@ public:
 
     void setSpeed(int speed);
     int getSpeed();
-
     void setAngle(double angle);
     double getAngle();
-
     void setPositionLastUpdate(double time);
     double getPositionLastUpdate(void) const;
-
     void setAlpha(double alpha);
     double getAlpha();
-
     void setBorders(double top, double bottom, double left, double right);
-
     void setBorderZone(double zone);
-
     int isInZone(CartesianCoordinates *position);
-
     void setMaxSpeed(int);
     void setMinSpeed(int);
-
     void forceStayInArea(CartesianCoordinates *position);
+    void setMovePosition(double lon, double lat);
+    void setPauseTime(double pauseTime);
 
     void deletePosition();
 

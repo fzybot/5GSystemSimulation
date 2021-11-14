@@ -16,6 +16,7 @@ Mobility::Mobility()
     changeCount_ = 0;
     averageSpeed_ = 0.;
     averageAngle_ = 0.;
+    moveToPosition_ = nullptr;
 }
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
@@ -167,6 +168,17 @@ void Mobility::forceStayInArea(CartesianCoordinates *position)
     if(position->getCoordinateY() < bottomBorder_) position->setCoordinateY(bottomBorder_);
 }
 
+void Mobility::setMovePosition(double lon, double lat)
+{
+    if(moveToPosition_ != nullptr) delete moveToPosition_;
+    moveToPosition_ = new CartesianCoordinates(lon, lat, 0);
+}
+
+void Mobility::setPauseTime(double pauseTime)
+{
+    tempPauseTime_ = pauseTime_ = pauseTime;
+}
+
 void Mobility::deletePosition()
 {
     delete currentPosition_;
@@ -316,6 +328,74 @@ void Mobility::modelRandomWalk(double time)
 void Mobility::modelRandomWaypoint(double time)
 {
     // Created by Ramazan 05.09.2021 ramazanaktaev7@gmail.com
+    double dLat, dLon;
+
+    if(getPositionLastUpdate() == 0){
+        setMovePosition(getPosition()->getCoordinateX(),
+                        getPosition()->getCoordinateY());
+          tempPauseTime_ = pauseTime_;
+    }
+
+    if(fabs(getPosition()->getCoordinateX() - moveToPosition_->getCoordinateX())<0.001 &&
+            fabs(getPosition()->getCoordinateY() - moveToPosition_->getCoordinateY())<0.001){
+        if(tempPauseTime_ > 0){
+            tempPauseTime_ -= time - getPositionLastUpdate();
+        }
+        if(tempPauseTime_ <= 0){
+            setMovePosition(((float)rand()/(float)RAND_MAX) * (rightBorder_ - leftBorder_) + leftBorder_,
+                            ((float)rand()/(float)RAND_MAX) * (topBorder_ - bottomBorder_) + bottomBorder_);
+
+            dLat = (moveToPosition_->getCoordinateY() - getPosition()->getCoordinateY());
+            dLon = (moveToPosition_->getCoordinateX() - getPosition()->getCoordinateX());
+
+            if(dLon > 0){
+                if(dLat < 0){
+                    setAngle(atan(dLat/dLon));
+                }
+                else if(dLat > 0){
+                    setAngle(atan(dLat/dLon));
+                }
+            }
+            else if(dLon < 0){
+                if(dLat > 0){
+                    setAngle(atan(dLat/dLon) + M_PI);
+                }
+                else if(dLat < 0){
+                    setAngle(atan(dLat/dLon) + M_PI);
+                }
+            }
+
+
+            setSpeed(rand()%speedMax_ + speedMin_);
+            tempPauseTime_ = pauseTime_;
+        }
+    }else{
+
+        double timeInterval = time - getPositionLastUpdate();
+
+        double shift = timeInterval * (getSpeed()*(1000.0/3600.0));
+        double shift_y = shift * sin(getAngle());
+        double shift_x = shift * cos(getAngle());
+
+        ///
+        CartesianCoordinates *newPosition = new CartesianCoordinates(getPosition()->getCoordinateX() + shift_x,
+                                                                     getPosition()->getCoordinateY() + shift_y,
+                                                                     getPosition()->getCoordinateZ());
+        forceStayInArea(newPosition);
+        setPosition(newPosition);
+        delete newPosition;
+    }
+
+    setPositionLastUpdate(time);
+
+    qDebug() << "Position = " <<getPosition()->getCoordinateX()<<" "
+             <<getPosition()->getCoordinateY()
+            << "Move to Position = " << moveToPosition_->getCoordinateX()<<" "
+            <<moveToPosition_->getCoordinateY()<<" "
+           <<"angle = " << getAngle()<<" "
+          <<"speed = " << getSpeed();
+
+
 }
 void Mobility::modelManhattan(double time)
 {
@@ -328,7 +408,7 @@ void Mobility::modelLinearMovement(double time)
 
 void Mobility::modelGaussMarkov(double times)
 {
-    srand(time(NULL));
+    srand(time(nullptr));
 
     double timeInterval = times - getPositionLastUpdate();
 
@@ -389,9 +469,6 @@ void Mobility::modelGaussMarkov(double times)
     sumAngle_+=getAngle();
     averageSpeed_ = (float)sumSpeed_ / (float)changeCount_;
     averageAngle_ = (float)sumAngle_ / (float)changeCount_;
-//    qDebug() <<"Speed = " <<getSpeed()<< "Angle = " <<getAngle()<< "changeCount = " <<changeCount_<< "sumSpeed = " << sumSpeed_
-//            << "averageSpeed = " <<averageSpeed_<< "sumAngle = " <<sumAngle_<< "averageAngle = " << averageAngle_ ;
-
 }
 
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
