@@ -313,7 +313,7 @@ void NetworkManager::initialAttach()
     double distance = 0.1;
 
     double pathLos = 0.1;
-    double mapl;
+    double rssi;
     double rsrp;
     double bandwidth;
 
@@ -333,7 +333,7 @@ void NetworkManager::initialAttach()
             heightUe = ue->getMobilityModel()->getPosition()->getCoordinateZ();
             distance = ue->getMobilityModel()->getPosition()->calculateDistance3D(cell->getMobilityModel()->getPosition());
             pathLos = UMi_LOS(distance, 1, heightBs, heightUe, centerFrequency/1000, 0, 0, 0);
-            mapl = cell->getEirp() - pathLos;
+            rssi = cell->getEirp() - pathLos;
             rsrp = 0;
             qDebug() << "NetworkManager::initialAttach() UE ID-->" << ue->getEquipmentId();
             qDebug() << "NetworkManager::initialAttach() Height UE-->" << heightUe;

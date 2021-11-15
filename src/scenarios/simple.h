@@ -46,7 +46,7 @@ static void Simple ()
     // UserEquipment *ue = networkManager->createUserEquipment(idUE, posX_ue, posY_ue, posZ_ue, cell, gNb);
     // channel->addDevice(ue);
 
-    int nUe = 100;
+    int nUe = 2;
     networkManager->createMultipleUserEquipments(nUe, 0, 1000, 0, 1000, 10, cell, gNb);
     //networkManager->createMultipleUserEquipments(nUe, 0, 200, 0, 1000, 100, cell_01, gNb);
     debug("Simple: User Equipments entity are created");

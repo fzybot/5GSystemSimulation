@@ -14,7 +14,7 @@ class UserEquipment : public Equipment
 
 protected:
     gNodeB              *targetGNodeB_;
-    Cell                *currentCell_;
+    Cell                *targetCell_;
     QVector<Packet*>     packetsInBuffer_;
     
     // TODO: for this part of code it is needed to do a lot of classes for all simplified objects
@@ -23,6 +23,12 @@ protected:
     bool        measurementGAP_ = false;
     bool        DRX_ = false;
     int         bufferSize_ = 0;
+
+    // Measurements for target Cell
+    double targetCellRsrp;
+    double targetCellRsrq;
+    double targetCellRssi;
+
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
@@ -33,8 +39,8 @@ public:
                   Mobility::Model model);
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
-    void setCurrentCell(Cell *cell);
-    Cell *getCurrentCell();
+    void setTargetCell(Cell *cell);
+    Cell *getTargetCell();
 
     void setTargetGNodeB(gNodeB *gNb);
     gNodeB *getTargetGNodeB();

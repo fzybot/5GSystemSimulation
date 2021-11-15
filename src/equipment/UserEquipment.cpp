@@ -13,7 +13,7 @@
 UserEquipment::UserEquipment()
 {
     targetGNodeB_ = nullptr;
-    currentCell_ = nullptr;
+    targetCell_ = nullptr;
 }
 
 UserEquipment::UserEquipment(int id, 
@@ -23,7 +23,7 @@ UserEquipment::UserEquipment(int id,
 {
     setEquipmentId(id);
     setEquipmentType(Equipment::EquipmentType::TYPE_UE);
-    setCurrentCell(cell);
+    setTargetCell(cell);
     setTargetGNodeB(targetGNodeB);
 
     setLinkBudgetParameters();
@@ -65,14 +65,14 @@ UserEquipment::UserEquipment(int id,
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
 
-void UserEquipment::setCurrentCell(Cell *cell)
+void UserEquipment::setTargetCell(Cell *cell)
 {
-    currentCell_ = cell;
+    targetCell_ = cell;
 }
 
-Cell *UserEquipment::getCurrentCell()
+Cell *UserEquipment::getTargetCell()
 {
-    return currentCell_;
+    return targetCell_;
 }
 
 void UserEquipment::setTargetGNodeB(gNodeB *gNb)
