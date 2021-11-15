@@ -408,8 +408,6 @@ void Mobility::modelLinearMovement(double time)
 
 void Mobility::modelGaussMarkov(double times)
 {
-    srand(time(nullptr));
-
     double timeInterval = times - getPositionLastUpdate();
 
     double shift = timeInterval * (getSpeed()*(1000.0/3600.0));
