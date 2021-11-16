@@ -4,6 +4,7 @@
 #include "src/equipment/mobility/ConstantPosition.h"
 #include "src/equipment/gNodeB.h"
 #include "src/equipment/Cell.h"
+#include "src/protocols/phy/Physical.h"
 
 #include <QRandomGenerator>
 
@@ -13,7 +14,7 @@
 UserEquipment::UserEquipment()
 {
     targetGNodeB_ = nullptr;
-    currentCell_ = nullptr;
+    targetCell_ = nullptr;
 }
 
 UserEquipment::UserEquipment(int id, 
@@ -23,8 +24,12 @@ UserEquipment::UserEquipment(int id,
 {
     setEquipmentId(id);
     setEquipmentType(Equipment::EquipmentType::TYPE_UE);
-    setCurrentCell(cell);
+    setTargetCell(cell);
     setTargetGNodeB(targetGNodeB);
+
+    // Physical
+    createPhyEntity();
+    getPhyEntity()->defaultPhyConfig();
 
     setLinkBudgetParameters();
 
@@ -65,14 +70,14 @@ UserEquipment::UserEquipment(int id,
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
 
-void UserEquipment::setCurrentCell(Cell *cell)
+void UserEquipment::setTargetCell(Cell *cell)
 {
-    currentCell_ = cell;
+    targetCell_ = cell;
 }
 
-Cell *UserEquipment::getCurrentCell()
+Cell *UserEquipment::getTargetCell()
 {
-    return currentCell_;
+    return targetCell_;
 }
 
 void UserEquipment::setTargetGNodeB(gNodeB *gNb)
@@ -83,6 +88,16 @@ void UserEquipment::setTargetGNodeB(gNodeB *gNb)
 gNodeB *UserEquipment::getTargetGNodeB()
 {
     return targetGNodeB_;
+}
+
+void UserEquipment::setSlotToCamp(int slot)
+{
+    slotToCampOnCell_ = slot;
+}
+
+int UserEquipment::getSlotToCamp()
+{
+    return slotToCampOnCell_;
 }
 
 void UserEquipment::setBSR(bool bsr)

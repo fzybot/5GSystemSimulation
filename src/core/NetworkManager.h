@@ -62,6 +62,7 @@ public:
 
 // ----- [ EQUIPMENT GENERATORS ] --------------------------------------------------------------------------------------
     Cell* createCell (int idCell);
+    Cell* createCell (int idCell, double posX, double posY, double posZ);
     Cell* createCell (int idCell, gNodeB *targetGNb);
 
     gNodeB* createGNodeB (int id, Cell *cell, double posX, double posY, double posZ);
@@ -75,6 +76,7 @@ public:
                                    Cell *cell, gNodeB *targetGNodeB);
 
     void attachUEtoCell(Cell *cell, UserEquipment *ue);
+    void deleteUeFromOtherCells(Cell *targetCell, UserEquipment *targetUe);
     void attachGNodeBtoCell(Cell *cell, gNodeB *gNb);
 
     // TODO: all other methods:
@@ -90,6 +92,8 @@ public:
     bool checkHandOver();
     void makeHandOver();
 
+    float calculatePathLosses(Cell *cell, UserEquipment *user);
+    float calculatePathLosses(UserEquipment *user1, UserEquipment *user2);
     // 'Equipment' is equal to 'Cell' & 'UserEquipment'
     double calcOnePointSINR();
     void calculateSINRPerEquipment(NetworkManager::SINRCalcMethod method);
@@ -100,6 +104,8 @@ public:
 // ----- [ SIMULATION ] ------------------------------------------------------------------------------------------------
 
     void runNetwork();
+
+    void assingUes(int slot);
 
     void scheduleGNodeB();
 

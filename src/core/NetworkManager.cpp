@@ -6,6 +6,7 @@
 #include "src/protocols/mac_layer/CellMacEntity.h"
 #include "src/protocols/phy/Physical.h"
 #include "src/protocols/phy/Channel/Bandwidth.h"
+#include "src/equipment/mobility/ConstantPosition.h"
 
 #include "src/debug.h"
 
@@ -47,6 +48,26 @@ Cell* NetworkManager::createCell (int idCell)
     Cell *cell = new Cell();
     cell->setEquipmentId(idCell);
     cell->setEquipmentType(Equipment::EquipmentType::TYPE_CELL);
+    cell->setLinkBudgetParameters();
+    getCellContainer()->push_back(cell);
+
+    return cell;
+}
+
+Cell* NetworkManager::createCell (int idCell, double posX, double posY, double posZ)
+{
+    debug("NetworkManager: starting to create a cell.");
+    Cell *cell = new Cell();
+    cell->setEquipmentId(idCell);
+    cell->setEquipmentType(Equipment::EquipmentType::TYPE_CELL);
+    cell->setLinkBudgetParameters();
+    CartesianCoordinates *position = new CartesianCoordinates(posX, posY, posZ);
+    Mobility *m = new ConstantPosition();
+    m->setPosition(position);
+    cell->setMobilityModel(m);
+    // Becouse in Mobility class a new object is created
+    delete position;
+
     getCellContainer()->push_back(cell);
 
     return cell;
@@ -57,6 +78,7 @@ Cell* NetworkManager::createCell (int idCell, gNodeB *targetGNb)
     Cell *cell = new Cell();
     cell->setEquipmentId(idCell);
     cell->setEquipmentType(Equipment::EquipmentType::TYPE_CELL);
+    cell->setLinkBudgetParameters();
     cell->setTargetGNodeB(targetGNb);
     targetGNb->addCell(cell);
     getCellContainer()->push_back(cell);
@@ -89,7 +111,7 @@ UserEquipment* NetworkManager::createUserEquipment (int id,
                                           posX, posY, posZ, cell, targetGNodeB,
                                           Mobility::Model::CONSTANT_POSITION);
     getUserEquipmentContainer()->push_back(ue);
-    attachUEtoCell(cell, ue);
+    //attachUEtoCell(cell, ue);
     return ue;
 }
 
@@ -100,18 +122,37 @@ void NetworkManager::createMultipleUserEquipments(  int number, int lowX, int hi
         ueIdLocal_ += 1;
         int posX = QRandomGenerator::global()->bounded(lowX, highX);
         int posY = QRandomGenerator::global()->bounded(lowY, highY);
-        int posZ = QRandomGenerator::global()->bounded(1, borderZ);
-        UserEquipment *ue = new UserEquipment(  ueIdLocal_,
-                                                posX, posY, posZ, cell, targetGNodeB,
-                                                Mobility::Model::CONSTANT_POSITION);
+        int posZ = 2;
+        UserEquipment *ue = new UserEquipment(ueIdLocal_,
+                                              posX, posY, posZ, nullptr, targetGNodeB,
+                                              Mobility::Model::CONSTANT_POSITION);
         getUserEquipmentContainer()->push_back(ue);
-        attachUEtoCell(cell, ue);
+        //attachUEtoCell(cell, ue);
     }
 }
 
 void NetworkManager::attachUEtoCell(Cell *cell, UserEquipment *ue)
 {
-    getCellByID(cell->getEquipmentId())->attachUE(ue);
+    cell->attachUE(ue);
+    deleteUeFromOtherCells(cell, ue);
+}
+
+void NetworkManager::deleteUeFromOtherCells(Cell *targetCell, UserEquipment *targetUe)
+{
+    for(auto cell: *getCellContainer()) {
+        if ( cell != targetCell) {
+            int neededIndex = 0;
+            int localIdex = 0;
+            for (auto ue: *cell->getUserEquipmentContainer()){
+                if (ue == targetUe) {
+                    neededIndex = localIdex;
+                    break;
+                }
+                localIdex++;
+            }
+            cell->getUserEquipmentContainer()->remove(neededIndex);
+        }
+    }
 }
 
 void NetworkManager::attachGNodeBtoCell(Cell *cell, gNodeB *gNb)
@@ -229,6 +270,7 @@ void NetworkManager::runNetwork()
         qDebug() << "Current 120 Time Slot ->" << getCurrentTime();
         // Calculate SINR for each Equipment
         calculateSINRPerEquipment(methodSINR_);
+        assingUes(getCurrentTime());
         scheduleGNodeB();
         increaseCurrentTime();
     }
@@ -248,9 +290,7 @@ void NetworkManager::scheduleGNodeB()
 void NetworkManager::scheduleCells(QVector<Cell*> *cellContainer)
 {
     for (auto cell: *cellContainer) {
-        if (checkHandOver()) {
-            makeHandOver();
-        }
+
         cell->sync120TimeSlot(current120TimeSlot_);
         generateTrafficPerUE(cell->getUserEquipmentContainer());
 
@@ -285,6 +325,60 @@ bool NetworkManager::checkHandOver()
 void NetworkManager::makeHandOver()
 {
     qDebug() << "Hand Over in progress...";
+
+}
+
+void NetworkManager::assingUes(int slot)
+{
+    double distance;
+    double pathLos;
+    double rssi;
+    double rsrp;
+
+    qDebug() << "NetworkManager::initialAttach()";
+    for (auto ue: *getUserEquipmentContainer()) {
+        int localIndex = 0;
+        int neededIndex = -1;
+        double max = -1000;
+        if (ue->getSlotToCamp() == slot){
+            for (auto cell : *getCellContainer()) {
+                distance = ue->calculateDistanceToCell(cell);
+                pathLos = ue->calculatePathLosToCell(cell, distance);
+                rssi = ue->calculateRssiFromCell(cell, pathLos);
+                rsrp = ue->calculateRsrpFromRssi(rssi);
+                if ( (rsrp > max) && (rsrp >= -120) ) {
+                    max = rsrp;
+                    neededIndex = localIndex;
+                }
+                localIndex++;
+
+                qDebug() << "NetworkManager::initialAttach() UE ID-->" << ue->getEquipmentId();
+                qDebug() << "NetworkManager::initialAttach() Disnance to cell-->" << distance;
+                qDebug() << "NetworkManager::initialAttach() Path Losses to cell-->" << pathLos;
+                qDebug() << "NetworkManager::initialAttach() Cell EIRP-->" << cell->getEirp();
+                qDebug() << "NetworkManager::initialAttach() RSSI-->" << rssi;
+                qDebug() << "NetworkManager::initialAttach() RSRP-->" << rsrp;
+            }
+            if (neededIndex != -1) {
+                ue->setTargetCell(getCellContainer()[0][neededIndex]);
+                attachUEtoCell(ue->getTargetCell(), ue);
+            }
+        }
+    }
+}
+
+float NetworkManager::calculatePathLosses(Cell *cell, UserEquipment *user)
+{
+    float pathLosses = 0;
+
+    return pathLosses;
+}
+
+float NetworkManager::calculatePathLosses(UserEquipment *user1, UserEquipment *user2)
+{
+    float pathLosses = 0;
+    
+    return pathLosses;
 }
 
 void NetworkManager::calculateSINRPerEquipment(NetworkManager::SINRCalcMethod method)
