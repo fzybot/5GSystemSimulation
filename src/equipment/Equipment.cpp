@@ -89,13 +89,15 @@ QVector<RadioBearer*> *Equipment::getBearerContainer()
 
 void Equipment::setLinkBudgetParameters()
 {
+    qDebug() << "Equipment::setLinkBudgetParameters()";
     if (type_ == EquipmentType::TYPE_CELL) {
-        TxPower_ = 40;
+        TxPower_ = 43;
         bodyLoss_ = 0;
         noiseFigure_ = 3;
         additionalGain_ = 18;
         additionalLoss_ = 3;
         EIRP_ = TxPower_ - bodyLoss_ - additionalLoss_ + additionalGain_;
+        qDebug() << "Equipment::setLinkBudgetParameters()::EIRP --> " << EIRP_;
     }
     else if (type_ == EquipmentType::TYPE_UE)
     {
@@ -111,6 +113,11 @@ void Equipment::setLinkBudgetParameters()
 float Equipment::getEirp()
 {
     return EIRP_;
+}
+
+float Equipment::getNoiseFigure()
+{
+    return noiseFigure_;
 }
 
 void Equipment::sync120TimeSlot(int &timeSlot)

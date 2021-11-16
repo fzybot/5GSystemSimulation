@@ -49,6 +49,7 @@ Cell* NetworkManager::createCell (int idCell)
     Cell *cell = new Cell();
     cell->setEquipmentId(idCell);
     cell->setEquipmentType(Equipment::EquipmentType::TYPE_CELL);
+    cell->setLinkBudgetParameters();
     getCellContainer()->push_back(cell);
 
     return cell;
@@ -60,7 +61,7 @@ Cell* NetworkManager::createCell (int idCell, double posX, double posY, double p
     Cell *cell = new Cell();
     cell->setEquipmentId(idCell);
     cell->setEquipmentType(Equipment::EquipmentType::TYPE_CELL);
-
+    cell->setLinkBudgetParameters();
     CartesianCoordinates *position = new CartesianCoordinates(posX, posY, posZ);
     Mobility *m = new ConstantPosition();
     m->setPosition(position);
@@ -78,6 +79,7 @@ Cell* NetworkManager::createCell (int idCell, gNodeB *targetGNb)
     Cell *cell = new Cell();
     cell->setEquipmentId(idCell);
     cell->setEquipmentType(Equipment::EquipmentType::TYPE_CELL);
+    cell->setLinkBudgetParameters();
     cell->setTargetGNodeB(targetGNb);
     targetGNb->addCell(cell);
     getCellContainer()->push_back(cell);
@@ -110,7 +112,7 @@ UserEquipment* NetworkManager::createUserEquipment (int id,
                                           posX, posY, posZ, cell, targetGNodeB,
                                           Mobility::Model::CONSTANT_POSITION);
     getUserEquipmentContainer()->push_back(ue);
-    attachUEtoCell(cell, ue);
+    //attachUEtoCell(cell, ue);
     return ue;
 }
 
@@ -132,7 +134,26 @@ void NetworkManager::createMultipleUserEquipments(  int number, int lowX, int hi
 
 void NetworkManager::attachUEtoCell(Cell *cell, UserEquipment *ue)
 {
-    getCellByID(cell->getEquipmentId())->attachUE(ue);
+    cell->attachUE(ue);
+    deleteUeFromOtherCells(cell, ue);
+}
+
+void NetworkManager::deleteUeFromOtherCells(Cell *targetCell, UserEquipment *targetUe)
+{
+    for(auto cell: *getCellContainer()) {
+        if ( cell != targetCell) {
+            int neededIndex = 0;
+            int localIdex = 0;
+            for (auto ue: *cell->getUserEquipmentContainer()){
+                if (ue == targetUe) {
+                    neededIndex = localIdex;
+                    break;
+                }
+                localIdex++;
+            }
+            cell->getUserEquipmentContainer()->remove(neededIndex);
+        }
+    }
 }
 
 void NetworkManager::attachGNodeBtoCell(Cell *cell, gNodeB *gNb)
@@ -310,9 +331,8 @@ void NetworkManager::makeHandOver()
 
 void NetworkManager::initialAttach()
 {
-    double distance = 0.1;
-
-    double pathLos = 0.1;
+    double distance;
+    double pathLos;
     double rssi;
     double rsrp;
     double bandwidth;
@@ -320,28 +340,43 @@ void NetworkManager::initialAttach()
     double heightBs;
     double heightUe;
     int centerFrequency;
+    int scs;
 
     qDebug() << "NetworkManager::initialAttach()";
-    for(auto cell: *getCellContainer()) {
-        heightBs = cell->getMobilityModel()->getPosition()->getCoordinateZ();
-        centerFrequency = cell->getPhyEntity()->getBandwidthContainer()[0][0]->getCarrierFreq();
-        bandwidth = cell->getPhyEntity()->getBandwidthContainer()[0][0]->getBandwidth();
-        qDebug() << "NetworkManager::initialAttach() Center Freq-->" << centerFrequency;
-        qDebug() << "NetworkManager::initialAttach() Cell ID-->" << cell->getEquipmentId();
-        qDebug() << "NetworkManager::initialAttach() Height BS-->" << heightBs;
-        for(auto ue: *getUserEquipmentContainer()) {
+    for (auto ue: *getUserEquipmentContainer()) {
+        int localIndex = 0;
+        int neededIndex = -1;
+        double max = -1000;
+        for (auto cell : *getCellContainer()) {
+            heightBs = cell->getMobilityModel()->getPosition()->getCoordinateZ();
+            centerFrequency = cell->getPhyEntity()->getBandwidthContainer()[0][0]->getCarrierFreq();
+            bandwidth = cell->getPhyEntity()->getBandwidthContainer()[0][0]->getBandwidth();
+            scs = cell->getPhyEntity()->getBandwidthContainer()[0][0]->getSCS();
+
             heightUe = ue->getMobilityModel()->getPosition()->getCoordinateZ();
-            distance = ue->getMobilityModel()->getPosition()->calculateDistance3D(cell->getMobilityModel()->getPosition());
+            distance = ue->getMobilityModel()->getPosition()->calculateDistance2D(cell->getMobilityModel()->getPosition());
             pathLos = UMi_LOS(distance, 1, heightBs, heightUe, centerFrequency/1000, 0, 0, 0);
-            rssi = cell->getEirp() - pathLos;
-            rsrp = 0;
+            rssi = cell->getEirp() - pathLos - ue->getNoiseFigure() - 20;
+            rsrp = rssi - 10*log10(bandwidth*1000/scs);
+            if ( (rsrp > max) && (rsrp >= -120) ) {
+                max = rsrp;
+                neededIndex = localIndex;
+            }
+            localIndex++;
+
             qDebug() << "NetworkManager::initialAttach() UE ID-->" << ue->getEquipmentId();
             qDebug() << "NetworkManager::initialAttach() Height UE-->" << heightUe;
             qDebug() << "NetworkManager::initialAttach() Disnance to cell-->" << distance;
             qDebug() << "NetworkManager::initialAttach() Path Losses to cell-->" << pathLos;
+            qDebug() << "NetworkManager::initialAttach() Cell EIRP-->" << cell->getEirp();
+            qDebug() << "NetworkManager::initialAttach() RSSI-->" << rssi;
+            qDebug() << "NetworkManager::initialAttach() RSRP-->" << rsrp;
+        }
+        if (neededIndex != -1) {
+            ue->setTargetCell(getCellContainer()[0][neededIndex]);
+            attachUEtoCell(ue->getTargetCell(), ue);
         }
     }
-
 }
 
 float NetworkManager::calculatePathLosses(Cell *cell, UserEquipment *user)

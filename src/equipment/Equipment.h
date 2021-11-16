@@ -85,6 +85,7 @@ public:
 
     void setLinkBudgetParameters();
     float getEirp();
+    float getNoiseFigure();
 
     void sync120TimeSlot(int &timeSlot);
     int getLocalSystem120TimeSlot();

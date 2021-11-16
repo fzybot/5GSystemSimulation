@@ -33,7 +33,8 @@ public:
     Cell();
 
     void attachUE(UserEquipment *ue);
-    QVector<UserEquipment*> *getUserEquipmentContainer();
+    bool chechUeExistance(UserEquipment *ue);
+    QVector<UserEquipment *> *getUserEquipmentContainer();
 
     void setTargetGNodeB(gNodeB *gNb);
     gNodeB *getTargetGNodeB();

@@ -49,7 +49,6 @@ void CartesianCoordinates::setAngles(double angX, double angY, double angZ)
 
 double CartesianCoordinates::calculateDistance3D(CartesianCoordinates *remoteEquipment)
 {
-    qDebug() << "CartesianCoordinates::calculateDistance3D Hello";
     return sqrt ( qPow ( (getCoordinateX() - remoteEquipment->getCoordinateX()), 2) +
                   qPow ( (getCoordinateY() - remoteEquipment->getCoordinateY()), 2) +
                   qPow ( (getCoordinateZ() - remoteEquipment->getCoordinateZ()), 2) );

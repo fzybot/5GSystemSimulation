@@ -76,6 +76,7 @@ public:
                                    Cell *cell, gNodeB *targetGNodeB);
 
     void attachUEtoCell(Cell *cell, UserEquipment *ue);
+    void deleteUeFromOtherCells(Cell *targetCell, UserEquipment *targetUe);
     void attachGNodeBtoCell(Cell *cell, gNodeB *gNb);
 
     // TODO: all other methods:

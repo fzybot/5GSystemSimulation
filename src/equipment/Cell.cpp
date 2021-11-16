@@ -11,9 +11,6 @@ Cell::Cell()
 {
     userEquipmentContainer_ = new QVector<UserEquipment*>();
 
-    // Link Budget Configuration
-    setLinkBudgetParameters();
-
     // Protocols Configuration
     // Physical
     createPhyEntity();
@@ -28,9 +25,21 @@ Cell::Cell()
 //    scheduler_->setCell(this);
 }
 
+bool Cell::chechUeExistance(UserEquipment *ue)
+{
+    for(auto user: *getUserEquipmentContainer()) {
+        if (ue == user){
+            return true;
+        }
+    }
+    return false;
+}
+
 void Cell::attachUE(UserEquipment *ue)
 {
-    userEquipmentContainer_->push_back(ue);
+    if(!chechUeExistance(ue)){
+        userEquipmentContainer_->push_back(ue);
+    }
 }
 
 QVector<UserEquipment*> *Cell::getUserEquipmentContainer (void)
