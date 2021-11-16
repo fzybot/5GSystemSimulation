@@ -27,5 +27,9 @@ protected:
 
 public:
     explicit Map(QWidget* parent = Q_NULLPTR);
+
+public slots:
+    void startSim();
+    void stopSim();
 };
 

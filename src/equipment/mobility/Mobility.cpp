@@ -6,10 +6,19 @@
 
 Mobility::Mobility()
 {
-    setSpeed(0);
+    //setSpeed(1);
+    //setAngle(1);
     interval_ = 0.;
     lastTimeDirectionChange_ = 0.;
     positionLastUpdate_ = 0;
+    sumAngle_ = 0.;
+    sumSpeed_ = 0.;
+    changeSpeedCount_ = 0;
+    changeAngleCount_ = 0;
+    averageSpeed_ = 1;
+    averageAngle_ = 1;
+    moveToPosition_ = nullptr;
+    gen.seed(std::random_device().operator()()); //init generator by non-deterministic rundom seed
 }
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
@@ -57,6 +66,9 @@ CartesianCoordinates* Mobility::getPosition() const
 void Mobility::setSpeed(int speed)
 {
     speed_ = speed;
+    changeSpeedCount_++;
+    sumSpeed_+=speed;
+    averageSpeed_ = (float)sumSpeed_ / (float)changeSpeedCount_;
 }
 
 int Mobility::getSpeed()
@@ -67,6 +79,9 @@ int Mobility::getSpeed()
 void Mobility::setAngle(double angle)
 {
     angle_ = angle;
+    changeAngleCount_++;
+    sumAngle_+=angle;
+    averageAngle_ = (float)sumAngle_ / (float)changeAngleCount_;
 }
 
 double Mobility::getAngle()
@@ -82,6 +97,94 @@ void Mobility::setPositionLastUpdate(double time)
 double Mobility::getPositionLastUpdate() const
 {
     return positionLastUpdate_;
+}
+
+void Mobility::setAlpha(double alpha)
+{
+    alpha_ = alpha;
+}
+
+double Mobility::getAlpha()
+{
+    return alpha_;
+}
+
+void Mobility::setBorders(double top, double bottom, double left, double right)
+{
+    topBorder_ = top;
+    bottomBorder_ = bottom;
+    leftBorder_ = left;
+    rightBorder_ = right;
+}
+
+void Mobility::setBorderZone(double zone)
+{
+    borderZone_ = zone;
+}
+
+int Mobility::isInZone(CartesianCoordinates *position)
+{
+    if(position->getCoordinateY() < bottomBorder_ + borderZone_ &&
+            position->getCoordinateX() < leftBorder_ + borderZone_){
+        return 1;
+    }
+    if(position->getCoordinateY() > topBorder_ - borderZone_ &&
+            position->getCoordinateX() < leftBorder_ + borderZone_){
+        return 3;
+    }
+    if(position->getCoordinateY() > topBorder_ - borderZone_ &&
+            position->getCoordinateX() > rightBorder_ - borderZone_){
+        return 5;
+    }
+    if(position->getCoordinateY() < bottomBorder_ + borderZone_ &&
+            position->getCoordinateX() < leftBorder_ + borderZone_){
+        return 7;
+    }
+
+    if(position->getCoordinateX() < leftBorder_ + borderZone_){
+        return 2;
+    }
+    if(position->getCoordinateY() > topBorder_ - borderZone_){
+        return 4;
+    }
+    if(position->getCoordinateX() > rightBorder_ - borderZone_){
+        return 6;
+    }
+    if(position->getCoordinateY() < bottomBorder_ + borderZone_){
+        return 8;
+    }
+
+    return 0;
+
+}
+
+void Mobility::setMaxSpeed(int max)
+{
+    speedMax_ = max;
+}
+
+void Mobility::setMinSpeed(int min)
+{
+    speedMin_ = min;
+}
+
+void Mobility::forceStayInArea(CartesianCoordinates *position)
+{
+    if(position->getCoordinateX() > rightBorder_) position->setCoordinateX(rightBorder_);
+    if(position->getCoordinateX() < leftBorder_) position->setCoordinateX(leftBorder_);
+    if(position->getCoordinateY() > topBorder_) position->setCoordinateY(topBorder_);
+    if(position->getCoordinateY() < bottomBorder_) position->setCoordinateY(bottomBorder_);
+}
+
+void Mobility::setMovePosition(double lon, double lat)
+{
+    if(moveToPosition_ != nullptr) delete moveToPosition_;
+    moveToPosition_ = new CartesianCoordinates(lon, lat, 0);
+}
+
+void Mobility::setPauseTime(double pauseTime)
+{
+    tempPauseTime_ = pauseTime_ = pauseTime;
 }
 
 void Mobility::deletePosition()
@@ -112,23 +215,111 @@ void Mobility::updatePosition(double time)
     case Model::LINEAR_MOVEMENT:
         modelLinearMovement(time);
         break;
+    case Model::GAUSS_MARKOV:
+        modelGaussMarkov(time);
+        break;
     }
 }
 
 void Mobility::modelRandomDirection(double time)
 {
     // Created by Ramazan 05.09.2021 ramazanaktaev7@gmail.com
+
+    if(isInZone(getPosition())){
+
+        switch (isInZone(getPosition())) {
+        case 1:
+            setAngle(((float)rand()/(float)RAND_MAX)*M_PI/2);
+            break;
+        case 2:
+            setAngle(((float)rand()/(float)RAND_MAX)*M_PI - M_PI/2);
+            break;
+        case 3:
+            setAngle(((float)rand()/(float)RAND_MAX)*M_PI/2 - M_PI/2);
+            break;
+        case 4:
+            setAngle(((float)rand()/(float)RAND_MAX)*(-M_PI));
+            break;
+        case 5:
+            setAngle(((float)rand()/(float)RAND_MAX)*M_PI/2 + M_PI);
+            break;
+        case 6:
+            setAngle(((float)rand()/(float)RAND_MAX)*M_PI + M_PI/2);
+            break;
+        case 7:
+            setAngle(((float)rand()/(float)RAND_MAX)*M_PI/2 + M_PI/2);
+            break;
+        case 8:
+            setAngle(((float)rand()/(float)RAND_MAX)*M_PI);
+            break;
+        }
+
+
+        setSpeed(rand()%speedMax_ + speedMin_);
+    }
+
+        double timeInterval = time - getPositionLastUpdate();
+
+        double shift = timeInterval * (getSpeed()*(1000.0/3600.0));
+
+        double shift_y = shift * sin(getAngle());
+        double shift_x = shift * cos(getAngle());
+
+        CartesianCoordinates *newPosition = new CartesianCoordinates(getPosition()->getCoordinateX() + shift_x,
+                                                                     getPosition()->getCoordinateY() + shift_y,
+                                                                     getPosition()->getCoordinateZ());
+        forceStayInArea(newPosition);
+        setPosition(newPosition);
+        delete newPosition;
+        setPositionLastUpdate(time);
+
+
+
 }
 void Mobility::modelRandomWalk(double time)
 {
     // Created by Ramazan 05.09.2021 ramazanaktaev7@gmail.com
+
+    setAngle(((float)rand()/(float)RAND_MAX)*2*M_PI + 0);
+    setSpeed(rand()%speedMax_ + speedMin_);
+
     if(getSpeed()==0){
         //qDebug() << "speed =0 --> position has not been updated!" << endl;
         return;
     }
+
     double timeInterval = time - getPositionLastUpdate();
 
     double shift = timeInterval * (getSpeed()*(1000.0/3600.0));
+
+    if(isInZone(getPosition())!=0){
+        switch (isInZone(getPosition())) {
+        case 1:
+            setAngle(M_PI/4);
+            break;
+        case 2:
+            setAngle(0);
+            break;
+        case 3:
+            setAngle(-M_PI/4);
+            break;
+        case 4:
+            setAngle(-M_PI/2);
+            break;
+        case 5:
+            setAngle(5*M_PI/4);
+            break;
+        case 6:
+            setAngle(M_PI);
+            break;
+        case 7:
+            setAngle(3*M_PI/4);
+            break;
+        case 8:
+            setAngle(M_PI/2);
+            break;
+        }
+    }
 
     double shift_y = shift * sin(getAngle());
     double shift_x = shift * cos(getAngle());
@@ -137,12 +328,82 @@ void Mobility::modelRandomWalk(double time)
     CartesianCoordinates *newPosition = new CartesianCoordinates(getPosition()->getCoordinateX() + shift_x,
                                                                  getPosition()->getCoordinateY() + shift_y,
                                                                  getPosition()->getCoordinateZ());
+    forceStayInArea(newPosition);
     setPosition(newPosition);
+    delete newPosition;
     setPositionLastUpdate(time);
 }
 void Mobility::modelRandomWaypoint(double time)
 {
     // Created by Ramazan 05.09.2021 ramazanaktaev7@gmail.com
+    double dLat, dLon;
+
+    if(getPositionLastUpdate() == 0){
+        setMovePosition(getPosition()->getCoordinateX(),
+                        getPosition()->getCoordinateY());
+          tempPauseTime_ = pauseTime_;
+    }
+
+    if(fabs(getPosition()->getCoordinateX() - moveToPosition_->getCoordinateX())<0.001 &&
+            fabs(getPosition()->getCoordinateY() - moveToPosition_->getCoordinateY())<0.001){
+        if(tempPauseTime_ > 0){
+            tempPauseTime_ -= time - getPositionLastUpdate();
+        }
+        if(tempPauseTime_ <= 0){
+            setMovePosition(((float)rand()/(float)RAND_MAX) * (rightBorder_ - leftBorder_) + leftBorder_,
+                            ((float)rand()/(float)RAND_MAX) * (topBorder_ - bottomBorder_) + bottomBorder_);
+
+            dLat = (moveToPosition_->getCoordinateY() - getPosition()->getCoordinateY());
+            dLon = (moveToPosition_->getCoordinateX() - getPosition()->getCoordinateX());
+
+            if(dLon > 0){
+                if(dLat < 0){
+                    setAngle(atan(dLat/dLon));
+                }
+                else if(dLat > 0){
+                    setAngle(atan(dLat/dLon));
+                }
+            }
+            else if(dLon < 0){
+                if(dLat > 0){
+                    setAngle(atan(dLat/dLon) + M_PI);
+                }
+                else if(dLat < 0){
+                    setAngle(atan(dLat/dLon) + M_PI);
+                }
+            }
+
+
+            setSpeed(rand()%speedMax_ + speedMin_);
+            tempPauseTime_ = pauseTime_;
+        }
+    }else{
+
+        double timeInterval = time - getPositionLastUpdate();
+
+        double shift = timeInterval * (getSpeed()*(1000.0/3600.0));
+        double shift_y = shift * sin(getAngle());
+        double shift_x = shift * cos(getAngle());
+
+        ///
+        CartesianCoordinates *newPosition = new CartesianCoordinates(getPosition()->getCoordinateX() + shift_x,
+                                                                     getPosition()->getCoordinateY() + shift_y,
+                                                                     getPosition()->getCoordinateZ());
+        forceStayInArea(newPosition);
+        setPosition(newPosition);
+        delete newPosition;
+    }
+
+    setPositionLastUpdate(time);
+
+//    qDebug() << "Position = " <<getPosition()->getCoordinateX()<<" "
+//             <<getPosition()->getCoordinateY()
+//            << "Move to Position = " << moveToPosition_->getCoordinateX()<<" "
+//            <<moveToPosition_->getCoordinateY()<<" "
+//           <<"angle = " << getAngle()<<" "
+//          <<"speed = " << getSpeed();
+
+
 }
 void Mobility::modelManhattan(double time)
 {
@@ -151,6 +412,66 @@ void Mobility::modelManhattan(double time)
 void Mobility::modelLinearMovement(double time)
 {
     // Created by Ramazan 05.09.2021 ramazanaktaev7@gmail.com
+}
+
+void Mobility::modelGaussMarkov(double times)
+{
+    double timeInterval = times - getPositionLastUpdate();
+
+    double shift = timeInterval * (getSpeed()*(1000.0/3600.0));
+
+    std::normal_distribution<> speedGauss(0, averageSpeed_);
+    std::normal_distribution<> angleGauss(0, 2*M_PI);
+
+    double newSpeed = alpha_*getSpeed() + (1 - alpha_)*averageSpeed_ +
+            sqrt(1 - alpha_*alpha_) * speedGauss(gen);
+
+    setSpeed(newSpeed);
+
+    if(isInZone(getPosition())!=0){
+        switch (isInZone(getPosition())) {
+        case 1:
+            setAngle(M_PI/4);
+            break;
+        case 2:
+            setAngle(0);
+            break;
+        case 3:
+            setAngle(-M_PI/4);
+            break;
+        case 4:
+            setAngle(-M_PI/2);
+            break;
+        case 5:
+            setAngle(5*M_PI/4);
+            break;
+        case 6:
+            setAngle(M_PI);
+            break;
+        case 7:
+            setAngle(3*M_PI/4);
+            break;
+        case 8:
+            setAngle(M_PI/2);
+            break;
+        }
+    }
+    else{
+        double newAngle = alpha_*getAngle() + (1 - alpha_)*averageAngle_ +
+                sqrt(1 - alpha_*alpha_) * angleGauss(gen);
+        setAngle(newAngle);
+    }
+
+    double shift_y = shift * sin(getAngle());
+    double shift_x = shift * cos(getAngle());
+
+    CartesianCoordinates *newPosition = new CartesianCoordinates((getPosition()->getCoordinateX() + shift_x),
+                                            getPosition()->getCoordinateY() + shift_y,
+                                            getPosition()->getCoordinateZ());
+    forceStayInArea(newPosition);
+    setPosition(newPosition);
+    delete newPosition;
+    setPositionLastUpdate(times);
 }
 
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
