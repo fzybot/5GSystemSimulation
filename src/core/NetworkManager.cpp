@@ -6,7 +6,6 @@
 #include "src/protocols/mac_layer/CellMacEntity.h"
 #include "src/protocols/phy/Physical.h"
 #include "src/protocols/phy/Channel/Bandwidth.h"
-#include "src/protocols/phy/propagationModels.h"
 #include "src/equipment/mobility/ConstantPosition.h"
 
 #include "src/debug.h"
@@ -271,7 +270,7 @@ void NetworkManager::runNetwork()
         qDebug() << "Current 120 Time Slot ->" << getCurrentTime();
         // Calculate SINR for each Equipment
         calculateSINRPerEquipment(methodSINR_);
-        initialAttach();
+        assingUes(getCurrentTime());
         scheduleGNodeB();
         increaseCurrentTime();
     }
@@ -329,52 +328,41 @@ void NetworkManager::makeHandOver()
 
 }
 
-void NetworkManager::initialAttach()
+void NetworkManager::assingUes(int slot)
 {
     double distance;
     double pathLos;
     double rssi;
     double rsrp;
-    double bandwidth;
-
-    double heightBs;
-    double heightUe;
-    int centerFrequency;
-    int scs;
 
     qDebug() << "NetworkManager::initialAttach()";
     for (auto ue: *getUserEquipmentContainer()) {
         int localIndex = 0;
         int neededIndex = -1;
         double max = -1000;
-        for (auto cell : *getCellContainer()) {
-            heightBs = cell->getMobilityModel()->getPosition()->getCoordinateZ();
-            centerFrequency = cell->getPhyEntity()->getBandwidthContainer()[0][0]->getCarrierFreq();
-            bandwidth = cell->getPhyEntity()->getBandwidthContainer()[0][0]->getBandwidth();
-            scs = cell->getPhyEntity()->getBandwidthContainer()[0][0]->getSCS();
+        if (ue->getSlotToCamp() == slot){
+            for (auto cell : *getCellContainer()) {
+                distance = ue->calculateDistanceToCell(cell);
+                pathLos = ue->calculatePathLosToCell(cell, distance);
+                rssi = ue->calculateRssiFromCell(cell, pathLos);
+                rsrp = ue->calculateRsrpFromRssi(rssi);
+                if ( (rsrp > max) && (rsrp >= -120) ) {
+                    max = rsrp;
+                    neededIndex = localIndex;
+                }
+                localIndex++;
 
-            heightUe = ue->getMobilityModel()->getPosition()->getCoordinateZ();
-            distance = ue->getMobilityModel()->getPosition()->calculateDistance2D(cell->getMobilityModel()->getPosition());
-            pathLos = UMi_LOS(distance, 1, heightBs, heightUe, centerFrequency/1000, 0, 0, 0);
-            rssi = cell->getEirp() - pathLos - ue->getNoiseFigure() - 20;
-            rsrp = rssi - 10*log10(bandwidth*1000/scs);
-            if ( (rsrp > max) && (rsrp >= -120) ) {
-                max = rsrp;
-                neededIndex = localIndex;
+                qDebug() << "NetworkManager::initialAttach() UE ID-->" << ue->getEquipmentId();
+                qDebug() << "NetworkManager::initialAttach() Disnance to cell-->" << distance;
+                qDebug() << "NetworkManager::initialAttach() Path Losses to cell-->" << pathLos;
+                qDebug() << "NetworkManager::initialAttach() Cell EIRP-->" << cell->getEirp();
+                qDebug() << "NetworkManager::initialAttach() RSSI-->" << rssi;
+                qDebug() << "NetworkManager::initialAttach() RSRP-->" << rsrp;
             }
-            localIndex++;
-
-            qDebug() << "NetworkManager::initialAttach() UE ID-->" << ue->getEquipmentId();
-            qDebug() << "NetworkManager::initialAttach() Height UE-->" << heightUe;
-            qDebug() << "NetworkManager::initialAttach() Disnance to cell-->" << distance;
-            qDebug() << "NetworkManager::initialAttach() Path Losses to cell-->" << pathLos;
-            qDebug() << "NetworkManager::initialAttach() Cell EIRP-->" << cell->getEirp();
-            qDebug() << "NetworkManager::initialAttach() RSSI-->" << rssi;
-            qDebug() << "NetworkManager::initialAttach() RSRP-->" << rsrp;
-        }
-        if (neededIndex != -1) {
-            ue->setTargetCell(getCellContainer()[0][neededIndex]);
-            attachUEtoCell(ue->getTargetCell(), ue);
+            if (neededIndex != -1) {
+                ue->setTargetCell(getCellContainer()[0][neededIndex]);
+                attachUEtoCell(ue->getTargetCell(), ue);
+            }
         }
     }
 }

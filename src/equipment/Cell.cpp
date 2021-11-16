@@ -66,22 +66,6 @@ Antenna *Cell::getAntenna()
     return antenna_;
 }
 
-
-void Cell::createPhyEntity()
-{
-    phyEntity_ = new Physical();
-}
-
-void Cell::setPhyEntity(Physical *phy)
-{
-    phyEntity_ = phy;
-}
-
-Physical *Cell::getPhyEntity()
-{
-    return phyEntity_;
-}
-
 void Cell::createMacEntity()
 {
     macEntity_ = new CellMacEntity();

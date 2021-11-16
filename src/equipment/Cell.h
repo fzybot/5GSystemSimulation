@@ -25,7 +25,6 @@ protected:
     PdcpEntity      *pdcp;
     RlcEntity       *rlc;
     CellMacEntity   *macEntity_;
-    Physical        *phyEntity_;
 
     QPair<int, int> coresetRange_;
 
@@ -41,10 +40,6 @@ public:
 
     void setAntenna(Antenna *ant);
     Antenna *getAntenna();
-
-    void createPhyEntity();
-    void setPhyEntity(Physical *phy);
-    Physical *getPhyEntity();
 
     void createMacEntity();
     void setMacEntity(CellMacEntity *mac);

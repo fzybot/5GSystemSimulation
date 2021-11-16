@@ -16,7 +16,9 @@ protected:
     gNodeB              *targetGNodeB_;
     Cell                *targetCell_;
     QVector<Packet*>     packetsInBuffer_;
-    
+
+    int slotToCampOnCell_ = 0;
+
     // TODO: for this part of code it is needed to do a lot of classes for all simplified objects
     double      sinr_;
     bool        BSR_ = true;
@@ -53,6 +55,9 @@ public:
     QVector<Packet*> &getPacketsContainer();
 
     void generatePacketsPerBearer();
+
+    void setSlotToCamp(int slot);
+    int getSlotToCamp();
 
     void setBSR(bool bsr);
     bool getBSR();

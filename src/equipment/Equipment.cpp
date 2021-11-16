@@ -9,6 +9,11 @@
 
 #include "src/debug.h"
 #include "src/protocols/bearers/RadioBearer.h"
+#include "src/protocols/phy/propagationModels.h"
+#include "src/equipment/Cell.h"
+#include "src/equipment/UserEquipment.h"
+#include "src/protocols/phy/Physical.h"
+#include "src/protocols/phy/Channel/Bandwidth.h"
 
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
 
@@ -33,6 +38,11 @@ void Equipment::setEquipmentId(int id)
     debug("Equipment: id = ", id_);
 }
 
+int Equipment::getEquipmentId()
+{
+    return id_;
+}
+
 void Equipment::setEquipmentState(EquipmentState state)
 {
     state_ = state;
@@ -48,14 +58,19 @@ void Equipment::setEquipmentType(EquipmentType type)
     type_ = type;
 }
 
-int Equipment::getEquipmentId()
-{
-    return id_;
-}
-
 Equipment::EquipmentType Equipment::getEquipmentType() const
 {
     return type_;
+}
+
+void Equipment::setPropagationModel(PropagationModel model)
+{
+    propagationModel_ = model;
+}
+
+Equipment::PropagationModel &Equipment::getPropagationModel()
+{
+    return propagationModel_;
 }
 
 void Equipment::setMobilityModel(Mobility* model)
@@ -85,6 +100,21 @@ void Equipment::createBearer(RadioBearer::RadioBearerType type, int id, int QoSP
 QVector<RadioBearer*> *Equipment::getBearerContainer()
 {
     return bearerContainer_;
+}
+
+void Equipment::createPhyEntity()
+{
+    phyEntity_ = new Physical();
+}
+
+void Equipment::setPhyEntity(Physical *phy)
+{
+    phyEntity_ = phy;
+}
+
+Physical *Equipment::getPhyEntity()
+{
+    return phyEntity_;
 }
 
 void Equipment::setLinkBudgetParameters()
@@ -118,6 +148,54 @@ float Equipment::getEirp()
 float Equipment::getNoiseFigure()
 {
     return noiseFigure_;
+}
+
+double Equipment::calculateDistanceToCell(Cell *targetCell)
+{
+    return getMobilityModel()->getPosition()->calculateDistance2D(targetCell->getMobilityModel()->getPosition());
+}
+
+double Equipment::calculateDistanceToUserEquipment(UserEquipment *targetUser)
+{
+    return getMobilityModel()->getPosition()->calculateDistance2D(targetUser->getMobilityModel()->getPosition());
+}
+
+double Equipment::calculatePathLosToCell(Cell *targetCell, double distance)
+{
+    double bandwidth = getPhyEntity()->getBandwidthContainer()[0][0]->getBandwidth();
+    double heightBs = targetCell->getMobilityModel()->getPosition()->getCoordinateZ();
+    double heightUe = getMobilityModel()->getPosition()->getCoordinateZ();
+    int centerFrequency = targetCell->getPhyEntity()->getBandwidthContainer()[0][0]->getCarrierFreq();
+
+    return UMi_LOS(distance, 1, heightBs, heightUe, centerFrequency/1000, 0, 0, 0);
+}
+
+double Equipment::calculatePathLosToUserEquipment(UserEquipment *targetUser, double distance)
+{
+    double heightUe = getMobilityModel()->getPosition()->getCoordinateZ();
+    double heightUeTarget = targetUser->getMobilityModel()->getPosition()->getCoordinateZ();
+    double centerFrequency = getPhyEntity()->getBandwidthContainer()[0][0]->getCarrierFreq();
+    double bandwidth = getPhyEntity()->getBandwidthContainer()[0][0]->getBandwidth();
+
+    return UMi_LOS(distance, 1, heightUeTarget, heightUe, centerFrequency/1000, 0, 0, 0);
+}
+
+double Equipment::calculateRssiFromUserEquipment(UserEquipment *targetUser, double pathLos)
+{
+    return targetUser->getEirp() - pathLos - getNoiseFigure() - 20;
+}
+
+double Equipment::calculateRssiFromCell(Cell *targetCell, double pathLos)
+{
+    return targetCell->getEirp() - pathLos - getNoiseFigure() - 20;
+}
+
+double Equipment::calculateRsrpFromRssi(double rssi)
+{
+    double bandwidth = getPhyEntity()->getBandwidthContainer()[0][0]->getBandwidth();
+    int scs = getPhyEntity()->getBandwidthContainer()[0][0]->getSCS();
+    double rsrp = rssi - 10*log10(bandwidth*1000/scs);
+    return rsrp;
 }
 
 void Equipment::sync120TimeSlot(int &timeSlot)

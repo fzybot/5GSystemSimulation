@@ -10,6 +10,10 @@
 #include "src/core/CartesianCoordinates.h"
 #include "src/protocols/bearers/RadioBearer.h"
 
+class Cell;
+class UserEquipment;
+class Physical;
+
 class Equipment
 {
 public:
@@ -27,6 +31,14 @@ public:
       TYPE_UE
     };
 
+    enum class PropagationModel
+    {
+        UMi_LOS,
+        UMi_NLOS,
+        UMa_LOS,
+        UMaNLOS
+    };
+
 protected:
     int     id_;
     int     localSystem120TimeSlot_;
@@ -35,9 +47,12 @@ protected:
 
     Equipment::EquipmentState   state_;
     Equipment::EquipmentType    type_;
+    Equipment::PropagationModel propagationModel_;
 
     Mobility                *mobility_;
     QVector<RadioBearer*>   *bearerContainer_;
+
+    Physical        *phyEntity_;
 
     // TODO: Add physical layer
     // TODO: Add protocol stack
@@ -76,6 +91,9 @@ public:
     void setEquipmentState(EquipmentState state);
     EquipmentState getEquipmentState() const;
 
+    void setPropagationModel(PropagationModel model);
+    PropagationModel &getPropagationModel();
+
     void setMobilityModel(Mobility *model);
     Mobility* getMobilityModel(void);
 
@@ -83,9 +101,21 @@ public:
     void createBearer(RadioBearer::RadioBearerType type, int id, int QoSProfile);
     QVector<RadioBearer*> *getBearerContainer();
 
+    void createPhyEntity();
+    void setPhyEntity(Physical *phy);
+    Physical *getPhyEntity();
+
     void setLinkBudgetParameters();
     float getEirp();
     float getNoiseFigure();
+
+    double calculateDistanceToCell(Cell *targetCell);
+    double calculateDistanceToUserEquipment(UserEquipment *targetUser);
+    double calculatePathLosToCell(Cell *targetCell, double distance);
+    double calculatePathLosToUserEquipment(UserEquipment *targetUser, double distance);
+    double calculateRssiFromUserEquipment(UserEquipment *targetUser, double pathLos);
+    double calculateRssiFromCell(Cell *targetCell, double pathLos);
+    double calculateRsrpFromRssi(double rssi);
 
     void sync120TimeSlot(int &timeSlot);
     int getLocalSystem120TimeSlot();

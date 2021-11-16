@@ -105,7 +105,7 @@ public:
 
     void runNetwork();
 
-    void initialAttach();
+    void assingUes(int slot);
 
     void scheduleGNodeB();
 
