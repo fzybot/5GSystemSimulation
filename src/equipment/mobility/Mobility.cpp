@@ -6,8 +6,8 @@
 
 Mobility::Mobility()
 {
-    setSpeed(1);
-    setAngle(1);
+    //setSpeed(1);
+    //setAngle(1);
     interval_ = 0.;
     lastTimeDirectionChange_ = 0.;
     positionLastUpdate_ = 0;
@@ -424,7 +424,7 @@ void Mobility::modelGaussMarkov(double times)
     std::normal_distribution<> angleGauss(0, 2*M_PI);
 
     double newSpeed = alpha_*getSpeed() + (1 - alpha_)*averageSpeed_ +
-            sqrt((1 - alpha_*alpha_)*(fabs(speedGauss(gen))));
+            sqrt(1 - alpha_*alpha_) * speedGauss(gen);
 
     setSpeed(newSpeed);
 
@@ -458,7 +458,7 @@ void Mobility::modelGaussMarkov(double times)
     }
     else{
         double newAngle = alpha_*getAngle() + (1 - alpha_)*averageAngle_ +
-                sqrt((1 - alpha_*alpha_)*(fabs(angleGauss(gen))));
+                sqrt(1 - alpha_*alpha_) * angleGauss(gen);
         setAngle(newAngle);
     }
 
