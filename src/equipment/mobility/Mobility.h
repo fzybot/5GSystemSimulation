@@ -4,6 +4,7 @@
 #include "src/core/CartesianCoordinates.h"
 #include <QtMath>
 #include <time.h>
+#include <random>
 
 class Equipment;
 
@@ -34,7 +35,8 @@ protected:
     double interval_;
     double lastTimeDirectionChange_;
     double positionLastUpdate_;
-    int changeCount_;
+    int changeSpeedCount_;
+    int changeAngleCount_;
     double averageSpeed_;
     double sumSpeed_;
     double averageAngle_;
@@ -47,6 +49,8 @@ protected:
     CartesianCoordinates *moveToPosition_;
     double pauseTime_;
     double tempPauseTime_;
+
+    std::mt19937 gen; //generator
 
 public:
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------

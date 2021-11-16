@@ -133,7 +133,7 @@ void UEModel::testUpdateModel()
     double randLat = 0, randLon = 0;
     //if(rowCount() == 0) insertRows(rowCount(), 1);
     if(rowCount() == 0){
-        for (int i = 0; i < 100; ++i){
+        for (int i = 0; i < 300; ++i){
             randLat = ((float)rand()/(float)RAND_MAX)*0.009063 + 55.009088;
             randLon = ((float)rand()/(float)RAND_MAX)*0.026839 + 82.933401;
             insertRows(rowCount(),1);
@@ -143,7 +143,7 @@ void UEModel::testUpdateModel()
             setData(index(rowCount()-1), randLon, MoveToLonRole);
             m_mobility[i].setAngle(((float)rand()/(float)RAND_MAX)*2*M_PI + 0);
             m_mobility[i].setSpeed(rand()%10 + 1);
-            m_mobility[i].setModel(Mobility::Model::RANDOM_WAYPOINT);
+            m_mobility[i].setModel(Mobility::Model::GAUSS_MARKOV);
             m_mobility[i].setAlpha(0.75);
             m_mobility[i].setBorders(55.018151, 55.009088, 82.933401, 82.960240);
             m_mobility[i].setBorderZone(0.000100);

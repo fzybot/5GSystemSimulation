@@ -13,10 +13,12 @@ Mobility::Mobility()
     positionLastUpdate_ = 0;
     sumAngle_ = 0.;
     sumSpeed_ = 0.;
-    changeCount_ = 0;
-    averageSpeed_ = 0.;
-    averageAngle_ = 0.;
+    changeSpeedCount_ = 0;
+    changeAngleCount_ = 0;
+    averageSpeed_ = 1;
+    averageAngle_ = 1;
     moveToPosition_ = nullptr;
+    gen.seed(std::random_device().operator()()); //init generator by non-deterministic rundom seed
 }
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
@@ -64,6 +66,9 @@ CartesianCoordinates* Mobility::getPosition(void) const
 void Mobility::setSpeed(int speed)
 {
     speed_ = speed;
+    changeSpeedCount_++;
+    sumSpeed_+=speed;
+    averageSpeed_ = (float)sumSpeed_ / (float)changeSpeedCount_;
 }
 
 int Mobility::getSpeed()
@@ -74,6 +79,9 @@ int Mobility::getSpeed()
 void Mobility::setAngle(double angle)
 {
     angle_ = angle;
+    changeAngleCount_++;
+    sumAngle_+=angle;
+    averageAngle_ = (float)sumAngle_ / (float)changeAngleCount_;
 }
 
 double Mobility::getAngle()
@@ -412,6 +420,14 @@ void Mobility::modelGaussMarkov(double times)
 
     double shift = timeInterval * (getSpeed()*(1000.0/3600.0));
 
+    std::normal_distribution<> speedGauss(0, averageSpeed_);
+    std::normal_distribution<> angleGauss(0, 2*M_PI);
+
+    double newSpeed = alpha_*getSpeed() + (1 - alpha_)*averageSpeed_ +
+            sqrt((1 - alpha_*alpha_)*(fabs(speedGauss(gen))));
+
+    setSpeed(newSpeed);
+
     if(isInZone(getPosition())!=0){
         switch (isInZone(getPosition())) {
         case 1:
@@ -440,6 +456,11 @@ void Mobility::modelGaussMarkov(double times)
             break;
         }
     }
+    else{
+        double newAngle = alpha_*getAngle() + (1 - alpha_)*averageAngle_ +
+                sqrt((1 - alpha_*alpha_)*(fabs(angleGauss(gen))));
+        setAngle(newAngle);
+    }
 
     double shift_y = shift * sin(getAngle());
     double shift_x = shift * cos(getAngle());
@@ -451,22 +472,6 @@ void Mobility::modelGaussMarkov(double times)
     setPosition(newPosition);
     delete newPosition;
     setPositionLastUpdate(times);
-
-    double newSpeed = alpha_*getSpeed() + (1 - alpha_)*averageSpeed_ +
-            sqrt((1 - alpha_*alpha_)*(rand()%10));
-
-    double newAngle = alpha_*getAngle() + (1 - alpha_)*averageAngle_ +
-            sqrt((1 - alpha_*alpha_)*(rand()%10));
-
-    setSpeed(newSpeed);
-    setAngle(newAngle);
-
-    changeCount_++;
-
-    sumSpeed_+=getSpeed();
-    sumAngle_+=getAngle();
-    averageSpeed_ = (float)sumSpeed_ / (float)changeCount_;
-    averageAngle_ = (float)sumAngle_ / (float)changeCount_;
 }
 
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
