@@ -25,7 +25,7 @@ Bandwidth::Bandwidth(QString fr, QString band, int scs, double ulBw,
     subcarrierSpacing_ = scs;
     ulOffsetBw_ = ulOffset;
     dlOffsetBw_ = dlOffset;
-    numPRB_ = PRBs_for_BW[fr][scs][dlBw];
+    setNumberOfPRB(PRBs_for_BW[fr][scs][dlBw]);
     ulSubChannels_.clear();
     dlSubChannels_.clear();
 
@@ -74,6 +74,12 @@ int Bandwidth::getSCS()
     return subcarrierSpacing_;
 }
 
+void Bandwidth::setNumberOfPRB(int number)
+{
+    numPRB_ = number;
+    calculateSizeRbg();
+}
+
 int Bandwidth::getNumberOfPRB()
 {
     return numPRB_;
@@ -88,6 +94,22 @@ void Bandwidth::setCoresetSize(int nOFDM, int nPRBs)
 QPair<int, int> &Bandwidth::getCoresetSize()
 {
     return sizeCORESET_;
+}
+
+// <  38.214 - Table 5.1.2.2.1-1: Nominal RBG size P, Table 6.1.2.2.1-1: Nominal RBG size P >
+void Bandwidth::calculateSizeRbg()
+{
+    int nPrb = getNumberOfPRB();
+
+    if (nPrb >= 1 && nPrb <= 36) {
+        sizeRbg_ = 2;
+    } else if (nPrb >= 37 && nPrb <= 72) {
+        sizeRbg_ = 4;
+    } else if (nPrb >= 73 && nPrb <= 144) {
+        sizeRbg_ = 8;
+    } else if (nPrb >= 145 && nPrb <= 275) {
+        sizeRbg_ = 16;
+    }  
 }
 
 void Bandwidth::print()

@@ -128,16 +128,20 @@ private:
     double  carrierFreq_;
     double  ulBandwidth_;
     double  dlBandwidth_;
+    int ulOffsetBw_;
+    int dlOffsetBw_;
     double  bandwidth_;
     int     subcarrierSpacing_;
     int     numPRB_;
 
+    int     sizeRbg_;
+
     // first - number of OFDM Symbols
     // second - number of RBs (1 RB = 12 REs)
     QPair<int, int> sizeCORESET_;
+    QVector< QVector<int> > vectorPrb_;
 
-    int ulOffsetBw_;
-    int dlOffsetBw_;
+
 
     QVector<double> dlSubChannels_;
     QVector<double> ulSubChannels_;
@@ -154,9 +158,14 @@ public:
     double getDlBandwidth();
     double getBandwidth();
     int getSCS();
+
+    void setNumberOfPRB(int number);
     int getNumberOfPRB();
+
     void setCoresetSize(int nOFDM, int nPRBs);
     QPair<int, int> &getCoresetSize();
+
+    void calculateSizeRbg();
 
     void print();
 };

@@ -352,12 +352,12 @@ void NetworkManager::assingUes(int slot)
                 }
                 localIndex++;
 
-                qDebug() << "NetworkManager::initialAttach() UE ID-->" << ue->getEquipmentId();
-                qDebug() << "NetworkManager::initialAttach() Disnance to cell-->" << distance;
-                qDebug() << "NetworkManager::initialAttach() Path Losses to cell-->" << pathLos;
-                qDebug() << "NetworkManager::initialAttach() Cell EIRP-->" << cell->getEirp();
-                qDebug() << "NetworkManager::initialAttach() RSSI-->" << rssi;
-                qDebug() << "NetworkManager::initialAttach() RSRP-->" << rsrp;
+                // qDebug() << "NetworkManager::initialAttach() UE ID-->" << ue->getEquipmentId();
+                // qDebug() << "NetworkManager::initialAttach() Disnance to cell-->" << distance;
+                // qDebug() << "NetworkManager::initialAttach() Path Losses to cell-->" << pathLos;
+                // qDebug() << "NetworkManager::initialAttach() Cell EIRP-->" << cell->getEirp();
+                // qDebug() << "NetworkManager::initialAttach() RSSI-->" << rssi;
+                // qDebug() << "NetworkManager::initialAttach() RSRP-->" << rsrp;
             }
             if (neededIndex != -1) {
                 ue->setTargetCell(getCellContainer()[0][neededIndex]);
