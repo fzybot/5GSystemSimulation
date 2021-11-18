@@ -76,6 +76,7 @@ public:
                                    Cell *cell, gNodeB *targetGNodeB);
 
     void attachUEtoCell(Cell *cell, UserEquipment *ue);
+    void detachUeFromCell(Cell *cell, UserEquipment *ue, int reason);
     void deleteUeFromOtherCells(Cell *targetCell, UserEquipment *targetUe);
     void attachGNodeBtoCell(Cell *cell, gNodeB *gNb);
 
@@ -105,7 +106,8 @@ public:
 
     void runNetwork();
 
-    void assingUes(int slot);
+    void initialCellSelection(int slot);
+    void pathLosDetach();
 
     void scheduleGNodeB();
 

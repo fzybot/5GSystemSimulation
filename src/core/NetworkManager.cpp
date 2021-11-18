@@ -137,6 +137,54 @@ void NetworkManager::attachUEtoCell(Cell *cell, UserEquipment *ue)
     deleteUeFromOtherCells(cell, ue);
 }
 
+void NetworkManager::detachUeFromCell(Cell *cell, UserEquipment *targetUe, int reason)
+{
+    int neededIndex = 0;
+    int localIdex = 0;
+    for(auto ue: *cell->getUserEquipmentContainer()) {
+        if (targetUe == ue) {
+            neededIndex = localIdex;
+            qDebug() << "NetworkManager::detachUeFromCell()::UE ID-->" << targetUe->getEquipmentId();
+            break;
+        }
+        localIdex++;
+    }
+    cell->getUserEquipmentContainer()->remove(neededIndex);
+
+    switch (reason)
+    {
+    case 1:
+        qDebug() << "NetworkManager::detachUeFromCell()::detached due to 'Path Los'";
+        break;
+    case 2:
+        qDebug() << "NetworkManager::detachUeFromCell()::detached due to 'HandOver'";
+        break;
+    default:
+        break;
+    }
+}
+
+void NetworkManager::pathLosDetach()
+{
+    double distance;
+    double pathLos;
+    double rssi;
+    double rsrp;
+
+    for(auto cell : *getCellContainer()){
+        for (auto ue: *getUserEquipmentContainer()){
+            distance = ue->calculateDistanceToCell(cell);
+            pathLos = ue->calculatePathLosToCell(cell, distance);
+            rssi = ue->calculateRssiFromCell(cell, pathLos);
+            rsrp = ue->calculateRsrpFromRssi(rssi);
+            if (rsrp < -120){
+                detachUeFromCell(cell, ue, 1); // Reason 1 - due to path loss
+                ue->setSlotToCamp(getCurrentTime() + 100); // 100 time for cell reselection/handover)
+            }
+        }
+    }
+}
+
 void NetworkManager::deleteUeFromOtherCells(Cell *targetCell, UserEquipment *targetUe)
 {
     for(auto cell: *getCellContainer()) {
@@ -270,7 +318,8 @@ void NetworkManager::runNetwork()
         qDebug() << "Current 120 Time Slot ->" << getCurrentTime();
         // Calculate SINR for each Equipment
         calculateSINRPerEquipment(methodSINR_);
-        assingUes(getCurrentTime());
+        initialCellSelection(getCurrentTime());
+        pathLosDetach();
         scheduleGNodeB();
         increaseCurrentTime();
     }
@@ -328,7 +377,7 @@ void NetworkManager::makeHandOver()
 
 }
 
-void NetworkManager::assingUes(int slot)
+void NetworkManager::initialCellSelection(int slot)
 {
     double distance;
     double pathLos;
@@ -351,7 +400,7 @@ void NetworkManager::assingUes(int slot)
                     neededIndex = localIndex;
                 }
                 localIndex++;
-
+                // Debugging
                 // qDebug() << "NetworkManager::initialAttach() UE ID-->" << ue->getEquipmentId();
                 // qDebug() << "NetworkManager::initialAttach() Disnance to cell-->" << distance;
                 // qDebug() << "NetworkManager::initialAttach() Path Losses to cell-->" << pathLos;
