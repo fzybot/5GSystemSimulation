@@ -139,7 +139,9 @@ private:
     // first - number of OFDM Symbols
     // second - number of RBs (1 RB = 12 REs)
     QPair<int, int> sizeCORESET_;
-    QVector< QVector<int> > vectorPrb_;
+    
+    // Each element should looks like: [PRB Index, RSRP own, Interference Neighbour] 
+    QVector<QVector<int>> vectorPrb_;
 
 
 
@@ -161,6 +163,9 @@ public:
 
     void setNumberOfPRB(int number);
     int getNumberOfPRB();
+
+    void fillRsrpPerPrb(QVector<int> &signalPower);
+    void fillInterferencePerPrb(QVector<int> &interference);
 
     void setCoresetSize(int nOFDM, int nPRBs);
     QPair<int, int> &getCoresetSize();
