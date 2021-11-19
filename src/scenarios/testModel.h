@@ -60,7 +60,9 @@ void testModel()
         }
     }
 
-    CartesianCoordinates* BaseStation = new CartesianCoordinates(860, 230, 15); //851, 209, 15 - SibSUTIS //860, 230, 15 - near SibSUTIS
+    CartesianCoordinates* BaseStation = new CartesianCoordinates(851, 230, 15); //851, 209, 15 - SibSUTIS //860, 230, 15 - near SibSUTIS
+    //test - 600, 347, 15
+    //test2 - 284, 85
 
     int centerFrequency = 24;
     double h = getAvgBuildingHeight(); //[m]
@@ -146,13 +148,20 @@ int isLOSDDA(vector <CartesianCoordinates> slice)
     double storeysToHeight = 2.7;
     int length = slice.size();
 
-    int L = qMax(fabs(slice.size()), fabs(slice.back().getCoordinateZ() - slice.front().getCoordinateZ()));
+    int L = qMax(fabs(slice.size()), fabs(slice.back().getCoordinateZ() +
+                                          storeysHeights[(int)(slice.back().getCoordinateY()) * lonc + (int)(slice.back().getCoordinateX())][4]
+            - (slice.front().getCoordinateZ() +
+               storeysHeights[(int)(slice.front().getCoordinateY()) * lonc + (int)(slice.front().getCoordinateX())][4])));
     L++;
     double stepX = ((double)(slice.size()))/L;
-    double stepY = ((double)(slice.back().getCoordinateZ() - slice.front().getCoordinateZ()))/L;
+    double stepY = ((double)((slice.back().getCoordinateZ() +
+                              storeysHeights[(int)(slice.back().getCoordinateY()) * lonc + (int)(slice.back().getCoordinateX())][4])
+            - (slice.front().getCoordinateZ() +
+               storeysHeights[(int)(slice.front().getCoordinateY()) * lonc + (int)(slice.front().getCoordinateX())][4])))/L;
 
     double startX = 0;
-    double startY = slice.front().getCoordinateZ();
+    double startY = slice.front().getCoordinateZ() + storeysHeights[(int)(slice.front().getCoordinateY()) * lonc
+            + (int)(slice.front().getCoordinateX())][4];
 
     int kIn = 0;
 
@@ -164,7 +173,9 @@ int isLOSDDA(vector <CartesianCoordinates> slice)
         if(prevI < i){
             prevI = i;
             if(i >= length) break;
-            if(storeysHeights[(int)(slice[i].getCoordinateY()) * lonc + (int)(slice[i].getCoordinateX())][2] * storeysToHeight  >= j){
+            if(storeysHeights[(int)(slice[i].getCoordinateY()) * lonc + (int)(slice[i].getCoordinateX())][2] * storeysToHeight +
+                    storeysHeights[(int)(slice[i].getCoordinateY()) * lonc + (int)(slice[i].getCoordinateX())][4]
+                    >= j){
                 kIn++;
             }
         }
