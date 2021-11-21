@@ -29,4 +29,6 @@ public:
     void setSize(int size);
     void addSize(int size);
     int getSize();
+
+    void clear();
 };

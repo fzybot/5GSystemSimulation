@@ -44,6 +44,7 @@ public:
 private:
 // ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
     DataTable generateRandomData(int listCount, int valueMax, int valueCount) const;
+    DataTable generateRandomData(int listCount) const;
 
 // ----- [ VISUAL SETTINGS ] -------------------------------------------------------------------------------------------
     void populateThemeBox();

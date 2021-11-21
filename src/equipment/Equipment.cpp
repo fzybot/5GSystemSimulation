@@ -228,6 +228,39 @@ void Equipment::addCountDataTransmitted(int bits)
     cDataTransmittedContainer_.push_back(bits);
 }
 
+QVector<int> &Equipment::getDataTransmitted()
+{
+    return cDataTransmittedContainer_;
+}
+
+void Equipment::addCountTbTransmitted(int bits)
+{
+    cTbTransmittedContainer_.push_back(bits);
+}
+
+QVector<int> &Equipment::getTbTransmitted()
+{
+    return cTbTransmittedContainer_;
+}
+
+QVector<QVector<int>> &Equipment::getAllData()
+{
+    cAllDataContainer_.push_back(cDataTransmittedContainer_);
+    cAllDataContainer_.push_back(cTbTransmittedContainer_);
+    
+    return cAllDataContainer_;
+}
+
+void Equipment::addCountPrbUtilized(int prb)
+{
+    cPrbUtilizedContainer_.push_back(prb);
+}
+
+QVector<int> &Equipment::getPrbUtilized()
+{
+    return cPrbUtilizedContainer_;
+}
+
 int Equipment::calcCountDataTransmittedOverWindow(int windowSize)
 {
     int throughput = 0;

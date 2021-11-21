@@ -64,6 +64,7 @@ public:
     int getRemainingNumCoresetRe();
     int calculateOptimalNumberOfPrbPerUe(int mcs, int maxPrb, int ueBuffer);
     void fillTbWithPackets(UserEquipment *user, int tbsSize, double codeRate);
+    void packetsToTbs();
     int calcAggLevel(double sinr);
 
     void packetSegmentation(Packet *packet, int neededSize);

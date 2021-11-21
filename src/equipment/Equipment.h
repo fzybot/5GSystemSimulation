@@ -69,7 +69,11 @@ protected:
     // Throughput
     int cDataTransmitted_ = 0;           // in [bits]
     int cDataTransmittedOverWindow_ = 0; // in [bits]
-    QVector<int> cDataTransmittedContainer_;
+    QVector<int> cDataTransmittedContainer_; // per Slot
+    QVector<int> cTbTransmittedContainer_; // per Slot
+    QVector<int> cPrbUtilizedContainer_; // per Slot
+
+    QVector<QVector<int>> cAllDataContainer_;
 
     // Delays
     int cSuccPacketTransmitted_ = 0;
@@ -127,7 +131,16 @@ public:
 
 // ----- [ COUNTERS ] --------------------------------------------------------------------------------------------------
     void addCountDataTransmitted(int bits);
+    QVector<int> &getDataTransmitted();
     int calcCountDataTransmittedOverWindow(int windowSize);
+
+    void addCountTbTransmitted(int bits);
+    QVector<int> &getTbTransmitted();
+
+    QVector<QVector<int>> &getAllData();
+
+    void addCountPrbUtilized(int prb);
+    QVector<int> &getPrbUtilized();
 
     void addCountSuccPacketTransmitted();
 

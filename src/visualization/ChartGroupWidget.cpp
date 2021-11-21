@@ -29,15 +29,18 @@
 #include <QtCharts/QChart>
 #include <QDebug>
 
+#include "src/scenarios/simple.h"
+
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
 
 ChartGroupWidget::ChartGroupWidget(QWidget *parent) :
     QWidget(parent),
-    listCount_(3),
+    listCount_(2),
     valueMax_(10),
     valueCount_(7),
     dataSource_(),
-    dataTable_(generateRandomData(listCount_, valueMax_, valueCount_))
+    //dataTable_(generateRandomData(1, 2, 4))
+    dataTable_(generateRandomData(listCount_))
 {
     QGridLayout *grid = new QGridLayout(this);
     grid->setSpacing(2);
@@ -56,11 +59,15 @@ ChartGroupWidget::ChartGroupWidget(QWidget *parent) :
     charts_ << chartView;
     grid->addWidget(chartView, 1, 1);
 
-    chartView = new QChartView(createPieChart());
-    // Funny things happen if the pie slice labels do not fit the screen, so we ignore size policy
-    chartView->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    grid->addWidget(chartView, 1, 0);
+    chartView = new QChartView(createAreaChart());
     charts_ << chartView;
+    grid->addWidget(chartView, 1, 0);
+
+    // chartView = new QChartView(createPieChart());
+    // // Funny things happen if the pie slice labels do not fit the screen, so we ignore size policy
+    // chartView->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    // grid->addWidget(chartView, 1, 0);
+    // charts_ << chartView;
 
     chartView = new QChartView(createLineChart());
     grid->addWidget(chartView, 0, 1);
@@ -94,9 +101,29 @@ DataTable ChartGroupWidget::generateRandomData(int listCount, int valueMax, int 
         DataList dataList;
         qreal yValue(0);
         for (int j(0); j < valueCount; j++) {
-            yValue = yValue + QRandomGenerator::global()->bounded(valueMax / (qreal) valueCount);
-            QPointF value((j + QRandomGenerator::global()->generateDouble()) * ((qreal) valueMax_ /
-                                                                                (qreal) valueCount), yValue);
+            yValue = 1;
+            QPointF value(j, yValue);
+            QString label = "Slice " + QString::number(i) + ":" + QString::number(j);
+            dataList << Data(value, label);
+        }
+        dataTable << dataList;
+    }
+
+    return dataTable;
+}
+
+DataTable ChartGroupWidget::generateRandomData(int listCount) const
+{
+    DataTable dataTable;
+    QVector<QVector<int>> data = Simple();
+
+    // generate random data
+    for (int i(0); i < listCount; i++) {
+        DataList dataList;
+        qreal yValue(0);
+        for (int j(0); j < data.length(); j++) {
+            yValue = data[i][j];
+            QPointF value(j, yValue);
             QString label = "Slice " + QString::number(i) + ":" + QString::number(j);
             dataList << Data(value, label);
         }
@@ -158,7 +185,7 @@ QChart *ChartGroupWidget::createSignalChart()
     chart->addAxis(axisX, Qt::AlignBottom);
     chart->addAxis(axisY, Qt::AlignLeft);
 
-    const int seriesCount = 10;
+    const int seriesCount = 1;
     const int pointCount = 1000;
     chart->setTitle("Signal in time");
 
@@ -195,11 +222,11 @@ QChart *ChartGroupWidget::createSignalChart()
         axisX->setRange(0, 20.0);
 
     if (axisY->type() == QAbstractAxis::AxisTypeLogValue)
-        axisY->setRange(0.1, 10.0);
+        axisY->setRange(-10.0, 10.0);
     else
-        axisY->setRange(0, 10.0);
+        axisY->setRange(-10.0, 10.0);
 
-    dataSource_.generateData(seriesCount, 10, pointCount);
+    dataSource_.generateData(seriesCount, 1, pointCount);
 
     QLabel *fpsLabel = new QLabel(this);
     QLabel *countLabel = new QLabel(this);
@@ -309,8 +336,8 @@ QChart *ChartGroupWidget::createLineChart() const
 
     //![3]
     chart->createDefaultAxes();
-    chart->axes(Qt::Horizontal).first()->setRange(0, valueMax_);
-    chart->axes(Qt::Vertical).first()->setRange(0, valueCount_);
+    chart->axes(Qt::Horizontal).first()->setRange(0, 5);
+    chart->axes(Qt::Vertical).first()->setRange(0, 15000);
     //![3]
     //![4]
     // Add space to label to add space between labels and axis

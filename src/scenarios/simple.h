@@ -12,11 +12,11 @@
 
 #include "src/debug.h"
 
-static void Simple ()
+static QVector<QVector<int>> &Simple ()
 {
     NetworkManager *networkManager = new NetworkManager();
     RadioChannel *channel = new RadioChannel();
-    networkManager->setWorkingTime(17);
+    networkManager->setWorkingTime(1300);
 
     // Create Cell
     int idCell = 0;
@@ -92,7 +92,11 @@ static void Simple ()
     Simulator *simulator = new Simulator();
     simulator->setTime(1);
     simulator->run();
-}
 
+    for (auto prb: cell->getPrbUtilized()){
+        qDebug() <<"PRB UTILIZED --> "<< prb;
+    }
+    return cell->getAllData();
+}
 
 //git push test

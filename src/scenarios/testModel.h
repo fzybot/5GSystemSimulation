@@ -31,7 +31,7 @@ void calculateHeatmap3Dalt(double ***data, int X, int Y, int centerFrequency, do
 void calculateHeatmap3Drotate(double ***data, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS,
                         double heightUT, double shadowFading);
 
-void calculateHeatmap3DDDA(double ***data, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS,
+void calculateHeatmap3DDDA(double ***data, int X, int Y, double centerFrequency, double h, double W, CartesianCoordinates* BS,
                         double heightUT, double shadowFading);
 
 void calculateHeatmap3DBresenham(double ***data, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS,
@@ -60,11 +60,11 @@ void testModel()
         }
     }
 
-    CartesianCoordinates* BaseStation = new CartesianCoordinates(851, 230, 15); //851, 209, 15 - SibSUTIS //860, 230, 15 - near SibSUTIS
+    CartesianCoordinates* BaseStation = new CartesianCoordinates(851, 230, 60); //851, 209, 15 - SibSUTIS //860, 230, 15 - near SibSUTIS
     //test - 600, 347, 15
     //test2 - 284, 85
 
-    int centerFrequency = 24;
+    double centerFrequency = 2.4;
     double h = getAvgBuildingHeight(); //[m]
     qDebug()<<"avgH = " << h;
     double W = 46;  //[m]
@@ -602,13 +602,13 @@ void calculateHeatmap3DTest(double ***data, int ***data2, int X, int Y, int cent
     }
 }
 
-void calculateHeatmap3DDDA(double ***data, int X, int Y, int centerFrequency, double h, double W, CartesianCoordinates* BS,
+void calculateHeatmap3DDDA(double ***data, int X, int Y, double centerFrequency, double h, double W, CartesianCoordinates* BS,
                         double heightUT, double shadowFading)
 {
     int x=X, y=Y;
 
     double BSPower = 43; //[dBm]
-    double AGain = 18;   //[dBm]
+    double AGain = 10;   //[dBm]
 
     //---[SETTINGS]---//
     double fi_start = 0;
@@ -650,25 +650,28 @@ void calculateHeatmap3DDDA(double ***data, int X, int Y, int centerFrequency, do
                         + (int)(BS->getCoordinateX())][4];
                 double groundUT = storeysHeights[(int)(slice.back().getCoordinateY()) * lonc
                         + (int)(slice.back().getCoordinateX())][4];
+                double groundDelta = groundBS - groundUT;
 
                 if(kIn == 0)
                 {
-                        pathloss = UMa_LOS(startPoint->calculateDistance2D(point), 0, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                        pathloss = UMa_LOS(startPoint->calculateDistance2D(point), 0, BS->getCoordinateZ() + groundDelta, heightUT, centerFrequency, h,  W, shadowFading);
                         if(pathloss == -1){
                             (*data)[i][j] = 20000;
                         }
                         else{
-                        (*data)[i][j]= BSPower + AGain - pathloss;
+                        double rsrp = BSPower + AGain - pathloss - 10*log10(50*1000/15);
+                        (*data)[i][j]= rsrp;
                         }
                 }
                 else
                 {
-                    pathloss = UMa_NLOS(startPoint->calculateDistance2D(point) - kIn*pixelToMeter, kIn*pixelToMeter, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
+                    pathloss = UMa_NLOS(startPoint->calculateDistance2D(point) - kIn*pixelToMeter, kIn*pixelToMeter, BS->getCoordinateZ() + groundDelta, heightUT, centerFrequency, h,  W, shadowFading);
                     if(pathloss == -1){
                         (*data)[i][j] = 20000;
                     }
                     else{
-                    (*data)[i][j]= BSPower + AGain - pathloss;
+                    double rsrp = BSPower + AGain - pathloss - 10*log10(50*1000/15);
+                    (*data)[i][j]= rsrp;
                     }
 
                 }

@@ -158,7 +158,7 @@ int UserEquipment::getBufferSize()
 void UserEquipment::generatePacketsPerBearer()
 {
     for(auto bearer: *getBearerContainer()) {
-        this->generatePackets(10, localSystem120TimeSlot_, bearer);
+        this->generatePackets(5, localSystem120TimeSlot_, bearer);
     }
 }
 

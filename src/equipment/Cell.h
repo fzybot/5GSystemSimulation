@@ -28,6 +28,8 @@ protected:
 
     QPair<int, int> coresetRange_;
 
+    
+
 public:
     Cell();
 

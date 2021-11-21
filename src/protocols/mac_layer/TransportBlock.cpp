@@ -46,3 +46,9 @@ int TransportBlock::getSize()
 {
     return size_;
 }
+
+void TransportBlock::clear()
+{
+    packetContainer_.clear();
+    size_ = 0;
+}
