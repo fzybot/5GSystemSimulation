@@ -84,7 +84,8 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
         int cqi = getCell()->getMacEntity()->getAMCEntity()->getCQIFromSinr (ueSINR);
         int mcs = getCell()->getMacEntity()->getAMCEntity()->getMCSFromCQI(cqi);
         double codeRate = getCell()->getMacEntity()->getAMCEntity()->getCodeRateFromMcs(mcs);
-        int nPrbPerUe = calculateOptimalNumberOfPrbPerUe(mcs, nRemainingPrb_, ueBufferSize); // TODO: think about nRemainingPrb_
+        int maxNPrbPerUe = 30;
+        int nPrbPerUe = 30; // calculateOptimalNumberOfPrbPerUe(mcs, nRemainingPrb_, ueBufferSize); // TODO: think about nRemainingPrb_
         int tbs = getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(mcs, nPrbPerUe, nLayers_, nCoresetRe_);
         int nReCce = calcAggLevel(ueSINR) * 6 * 12; // 1 [CCE] = 6 [REG]; 1 [RE]G = 12 [subcarrires] x 1 [OFDM symbol]
 
@@ -157,6 +158,8 @@ void Scheduler::fillTbWithPackets(UserEquipment *user, int tbsSize, double codeR
 {
     int size = 0;
     localTbs_.clear();
+    int index = 0;
+    QVector<int> deletePackets;
     for (auto packet : user->getPacketsContainer())
     {
         if(nRemainingPrb_ > 0 && nRemainingCoresetRe_ > 0) {
@@ -167,6 +170,7 @@ void Scheduler::fillTbWithPackets(UserEquipment *user, int tbsSize, double codeR
             {
                 localTbs_.appendPacket(packet);
                 packet->setSlotTransmitted(getCell()->getLocalOwnTimeSlot());
+                deletePackets.append(index);
                 size += packet->getSize();
                 //qDebug() << "    "<< "Scheduler::fillTbWithPackets:: packet transmitted slot --> " << packet->getSlotTransmitted();
             }
@@ -175,9 +179,17 @@ void Scheduler::fillTbWithPackets(UserEquipment *user, int tbsSize, double codeR
                 break; // TBS is fulfilled
             }
         }
+        index++;
     }
-    // Before that fill with zeros
-    getCell()->addCountTbTransmitted(tbsSize);
+
+    // for (int i = 0; i < deletePackets.size(); i++){
+    //     for (int j = 0; j < user->getPacketsContainer().size(); j++){
+    //         qDebug() << "DELETE --> " << user->getPacketsContainer().size();
+    //         user->getPacketsContainer().remove(deletePackets[i]);
+    //     }
+    // }
+        // Before that fill with zeros
+        getCell()->addCountTbTransmitted(tbsSize);
     getCell()->addCountDataTransmitted(size);
     localTbs_.setSize(tbsSize);
 }
