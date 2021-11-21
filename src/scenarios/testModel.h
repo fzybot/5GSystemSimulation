@@ -646,6 +646,11 @@ void calculateHeatmap3DDDA(double ***data, int X, int Y, int centerFrequency, do
 
                 if((*data)[i][j]!=0) continue;
                 kIn = isLOSDDA(slice);
+                double groundBS = storeysHeights[(int)(BS->getCoordinateY()) * lonc
+                        + (int)(BS->getCoordinateX())][4];
+                double groundUT = storeysHeights[(int)(slice.back().getCoordinateY()) * lonc
+                        + (int)(slice.back().getCoordinateX())][4];
+
                 if(kIn == 0)
                 {
                         pathloss = UMa_LOS(startPoint->calculateDistance2D(point), 0, BS->getCoordinateZ(), heightUT, centerFrequency, h,  W, shadowFading);
