@@ -79,17 +79,17 @@ void Packet::addHeaderSize(int s)
 
 void Packet::setSize(int size)
 {
-    size_ = size;
+    size_ = size * 8;
 }
 
 int Packet::getSize()
 {
-    return size_ + headerSize_;
+    return size_ + (headerSize_ * 8);
 }
 
 int Packet::getSizeBits()
 {
-    return getSize() * 8;
+    return getSize();
 }
 
 void Packet::setSlotToTransmit(int slot)

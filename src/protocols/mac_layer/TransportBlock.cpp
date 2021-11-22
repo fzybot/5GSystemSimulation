@@ -21,10 +21,11 @@ Packet &TransportBlock::getPacket()
     return packet_;
 }
 
-void TransportBlock::appendPacket(Packet *packet)
+void TransportBlock::appendPacket(Packet *packet, int size)
 {
     packetContainer_.push_back(packet);
-    addSize(packet->getSize());
+    addSize(size);
+    addSizeWoCodeRate(packet->getSize());
 }
 
 QVector<Packet*> &TransportBlock::getPacketContainer()
@@ -34,15 +35,30 @@ QVector<Packet*> &TransportBlock::getPacketContainer()
 
 void TransportBlock::setSize(int size)
 {
-    size_ = size;
+    sizeCodeRate_ = size;
 }
 
 void TransportBlock::addSize(int size)
 {
-    size_ += size;
+    sizeCodeRate_ += size;
 }
 
 int TransportBlock::getSize()
+{
+    return sizeCodeRate_;
+}
+
+void TransportBlock::setSizeWoCodeRate(int size)
+{
+    size_ = size;
+}
+
+void TransportBlock::addSizeWoCodeRate(int size)
+{
+    size_ += size;
+}
+
+int TransportBlock::getSizeWoCodeRate()
 {
     return size_;
 }
@@ -50,5 +66,6 @@ int TransportBlock::getSize()
 void TransportBlock::clear()
 {
     packetContainer_.clear();
-    size_ = 0;
+    setSize(0);
+    setSizeWoCodeRate(0);
 }

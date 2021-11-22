@@ -45,7 +45,7 @@ UserEquipment::UserEquipment(int id,
     createBearer(RadioBearer::RadioBearerType::DRB, bearerId, randQoSProfile);
 
     // Random SINR
-    int localSINR = QRandomGenerator::global()->bounded(-7, 19);
+    int localSINR = QRandomGenerator::global()->bounded(0, 19);
     setSINR(localSINR);
 
     // Generate Traffic per each bearer
@@ -158,7 +158,7 @@ int UserEquipment::getBufferSize()
 void UserEquipment::generatePacketsPerBearer()
 {
     for(auto bearer: *getBearerContainer()) {
-        this->generatePackets(100, localSystem120TimeSlot_, bearer);
+        this->generatePackets(2, localSystem120TimeSlot_, bearer);
     }
 }
 

@@ -76,6 +76,8 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
     qDebug() << "Scheduler::roundRobin::Starting frequency diomain scheduling (ROUND ROBIN)-->";
     qDebug() << "Scheduler::roundRobin::userEquipmentContainer length -->" << userEquipmentContainer->length();
     int utilizedPrb = 0;
+    int size = 0;
+    int codeRateSize = 0;
     for (auto timeUE : *userEquipmentContainer)
     {
 
@@ -85,13 +87,15 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
         int mcs = getCell()->getMacEntity()->getAMCEntity()->getMCSFromCQI(cqi);
         double codeRate = getCell()->getMacEntity()->getAMCEntity()->getCodeRateFromMcs(mcs);
         int maxNPrbPerUe = 30;
-        int nPrbPerUe = 30; // calculateOptimalNumberOfPrbPerUe(mcs, nRemainingPrb_, ueBufferSize); // TODO: think about nRemainingPrb_
+        int nPrbPerUe =  calculateOptimalNumberOfPrbPerUe(mcs, nRemainingPrb_, ueBufferSize); // TODO: think about nRemainingPrb_
         int tbs = getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(mcs, nPrbPerUe, nLayers_, nCoresetRe_);
         int nReCce = calcAggLevel(ueSINR) * 6 * 12; // 1 [CCE] = 6 [REG]; 1 [RE]G = 12 [subcarrires] x 1 [OFDM symbol]
 
         if( (nRemainingPrb_ -  nPrbPerUe) > 0 && (nRemainingCoresetRe_ - nReCce) > 0 ) {
             // Create TBS object with packets inside
             fillTbWithPackets(timeUE, tbs, codeRate);
+            size += localTbs_.getSizeWoCodeRate();
+            codeRateSize += localTbs_.getSize();
             // "Distribute" the resources for UE
             qDebug() <<"    "<< "Scheduler::roundRobin::Remaining PRBs before distribution -->" << nRemainingPrb_;
             nRemainingPrb_ -= nPrbPerUe;
@@ -99,7 +103,7 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
             nRemainingCoresetRe_ -= nReCce;
 
             qDebug() <<"    "<< "Scheduler::roundRobin::UE Id --->"<< timeUE->getEquipmentId();
-            qDebug() <<"    "<< "Scheduler::roundRobin::UE SINR|CQI|MSC|TBS --->"<< ueSINR << cqi << mcs << tbs;
+            qDebug() <<"    "<< "Scheduler::roundRobin::UE SINR|CQI|MSC|TBS|CodeRate --->"<< ueSINR << cqi << mcs << tbs << codeRate;
             qDebug() <<"    "<< "Scheduler::roundRobin::UE Buffer Size --->"<< timeUE->getBufferSize();
             qDebug() <<"    "<< "Scheduler::roundRobin::UE allocated PRBs --->"<< nPrbPerUe;
             qDebug() <<"    "<< "Scheduler::roundRobin::Remaining PRBs -->" << nRemainingPrb_;
@@ -107,8 +111,11 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
             //getCell()->getMacEntity()->getAMCEntity()->showParameters();
         }
     }
+
     qDebug() <<"    "<< "Scheduler::roundRobin::addCountPrbUtilized -->" << utilizedPrb;
     getCell()->addCountPrbUtilized(utilizedPrb);
+    getCell()->addCountTbTransmitted(codeRateSize);
+    getCell()->addCountDataTransmitted(size);
 }
 
 void Scheduler::propotionalFair(QVector<UserEquipment*> *userEquipmentContainer)
@@ -156,23 +163,22 @@ int Scheduler::calculateOptimalNumberOfPrbPerUe(int mcs, int maxPrb, int ueBuffe
 // TODO: more accurate calculation in case of Bit Array for data
 void Scheduler::fillTbWithPackets(UserEquipment *user, int tbsSize, double codeRate)
 {
-    int size = 0;
     localTbs_.clear();
     int index = 0;
+    int lTbs = 0;
     QVector<int> deletePackets;
     for (auto packet : user->getPacketsContainer())
     {
         if(nRemainingPrb_ > 0 && nRemainingCoresetRe_ > 0) {
-            int lTbs = localTbs_.getSize() + ( (int)packet->getSize()/codeRate );
-            //qDebug() <<"    "<< "Scheduler::fillTbWithPackets:: tbs container --> " << lTbs;
+            lTbs = localTbs_.getSize() + (int)(packet->getSize()/codeRate) ;
+            qDebug() <<"    "<< "Scheduler::fillTbWithPackets:: tbs container --> " << tbsSize << lTbs << localTbs_.getSize() << (int)(packet->getSize()/codeRate);
             // TODO: if lTbs < tbsSize !!! make an exeption
             if (lTbs <= tbsSize)
             {
-                localTbs_.appendPacket(packet);
+                localTbs_.appendPacket(packet, (int)(packet->getSize()/codeRate));
                 packet->setSlotTransmitted(getCell()->getLocalOwnTimeSlot());
                 deletePackets.append(index);
-                size += packet->getSize();
-                //qDebug() << "    "<< "Scheduler::fillTbWithPackets:: packet transmitted slot --> " << packet->getSlotTransmitted();
+                // qDebug() << "    "<< "Scheduler::fillTbWithPackets:: packet transmitted slot --> " << packet->getSlotTransmitted();
             }
             else
             {
@@ -189,9 +195,7 @@ void Scheduler::fillTbWithPackets(UserEquipment *user, int tbsSize, double codeR
     //     }
     // }
         // Before that fill with zeros
-        getCell()->addCountTbTransmitted(tbsSize);
-    getCell()->addCountDataTransmitted(size);
-    localTbs_.setSize(tbsSize);
+    //localTbs_.setSize(tbsSize);
 }
 
 // TODO: need more accurate calculation

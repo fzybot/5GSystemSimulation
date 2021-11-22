@@ -55,13 +55,13 @@ ChartGroupWidget::ChartGroupWidget(QWidget *parent) :
     grid->addWidget(chartView, 0, 0);
     charts_ << chartView;
 
-    chartView = new QChartView(createAreaChart());
-    charts_ << chartView;
-    grid->addWidget(chartView, 1, 1);
+    // chartView = new QChartView(createAreaChart());
+    // charts_ << chartView;
+    // grid->addWidget(chartView, 1, 1);
 
-    chartView = new QChartView(createAreaChart());
-    charts_ << chartView;
-    grid->addWidget(chartView, 1, 0);
+    // chartView = new QChartView(createAreaChart());
+    // charts_ << chartView;
+    // grid->addWidget(chartView, 1, 0);
 
     // chartView = new QChartView(createPieChart());
     // // Funny things happen if the pie slice labels do not fit the screen, so we ignore size policy
@@ -101,7 +101,7 @@ DataTable ChartGroupWidget::generateRandomData(int listCount, int valueMax, int 
         DataList dataList;
         qreal yValue(0);
         for (int j(0); j < valueCount; j++) {
-            yValue = 1;
+            yValue = 10;
             QPointF value(j, yValue);
             QString label = "Slice " + QString::number(i) + ":" + QString::number(j);
             dataList << Data(value, label);
@@ -116,13 +116,15 @@ DataTable ChartGroupWidget::generateRandomData(int listCount) const
 {
     DataTable dataTable;
     QVector<QVector<int>> data = Simple();
+    qDebug() << "ChartGroupWidget::generateRandomData --> " << data[0].size();
 
     // generate random data
     for (int i(0); i < listCount; i++) {
         DataList dataList;
         qreal yValue(0);
-        for (int j(0); j < data.length(); j++) {
+        for (int j(0); j < data[i].length(); j++) {
             yValue = data[i][j];
+            qDebug() << "ChartGroupWidget::generateRandomData:: yValue --> " << data[i][j];
             QPointF value(j, yValue);
             QString label = "Slice " + QString::number(i) + ":" + QString::number(j);
             dataList << Data(value, label);
@@ -318,11 +320,11 @@ QChart *ChartGroupWidget::createLineChart() const
 {
     //![1]
     QChart *chart = new QChart();
-    chart->setTitle("Line chart");
+    chart->setTitle("Cell Throughput / Slot");
     //![1]
 
     //![2]
-    QString name("Series ");
+    QString name("Data ");
     int nameIndex = 0;
     for (const DataList &list : dataTable_) {
         QLineSeries *series = new QLineSeries(chart);
@@ -332,19 +334,15 @@ QChart *ChartGroupWidget::createLineChart() const
         nameIndex++;
         chart->addSeries(series);
     }
-    //![2]
 
-    //![3]
     chart->createDefaultAxes();
-    chart->axes(Qt::Horizontal).first()->setRange(0, 5);
-    chart->axes(Qt::Vertical).first()->setRange(0, 15000);
-    //![3]
-    //![4]
+    // chart->axes(Qt::Horizontal).first()->setRange(0, 20);
+    // chart->axes(Qt::Vertical).first()->setRange(0, 15000);
+
     // Add space to label to add space between labels and axis
     QValueAxis *axisY = qobject_cast<QValueAxis*>(chart->axes(Qt::Vertical).first());
     Q_ASSERT(axisY);
     axisY->setLabelFormat("%.1f  ");
-    //![4]
 
     return chart;
 }

@@ -22,6 +22,11 @@
 #include <QStyle>
 #include <QStyledItemDelegate>
 
+
+class QComboBox;
+class QStringListModel;
+class QDataWidgetMapper;
+
 const int kInitialWidth = 750;
 const int kInitialHeight = 450;
 const int kMaxMinimumWidth = 250;
@@ -51,6 +56,7 @@ public:
 private:
     QTabWidget *tabWidget;
     QDialogButtonBox *buttonBox;
+    
 };
 
 
@@ -58,6 +64,13 @@ private:
 class GeneralTab : public QWidget
 {
     Q_OBJECT
+
+private:
+    QStringListModel *numerologyModel;
+    QLabel *numerologyLabel;
+    QComboBox *numerologyComboBox;
+
+    QDataWidgetMapper *mapper;
 
 public:
     explicit GeneralTab(QWidget *parent = nullptr);

@@ -342,7 +342,6 @@ void NetworkManager::scheduleCells(QVector<Cell*> *cellContainer)
 
         cell->sync120TimeSlot(current120TimeSlot_);
         generateTrafficPerUE(cell->getUserEquipmentContainer());
-
         // TODO: somehow fix the loop
 //        for (auto ue : *cell->getUserEquipmentContainer()) {
 //            cell->getMacEntity()->packetsToTransportBlockContainer(ue->getPacketsContainer());
