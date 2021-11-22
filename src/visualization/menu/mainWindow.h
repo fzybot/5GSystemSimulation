@@ -8,6 +8,7 @@
 
 #include "src/visualization/Map.h"
 #include "src/visualization/menu/TabMenu.h"
+#include "src/visualization/menu/SettingsDialog.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -38,12 +39,16 @@ private:
 
     TabMenu* tabMenu_;
 
+    SettingsDialog *settingsDialog_;
+
 private slots:
     void newFile();
     void open();
     bool save();
     bool saveAs();
     void about();
+    void settings();
+    void settingsLinkBudget();
     void documentWasModified();
 
 public:

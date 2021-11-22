@@ -13,6 +13,7 @@
 
 #include "src/equipment/Walker.h"
 #include "src/visualization/ChartGroupWidget.h"
+#include "src/visualization/menu/SettingsDialog.h"
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent)
@@ -167,9 +168,23 @@ void MainWindow::about()
                "write modern GUI applications using Qt, with a menu bar, "
                "toolbars, and a status bar."));
 }
-//! [14]
 
-//! [15]
+void MainWindow::settings()
+{
+    //SettingsDialog tabdialog(this);
+    const QRect screenGeometry = screen()->geometry();
+    settingsDialog_ = new SettingsDialog(this);
+    settingsDialog_->setWindowTitle(tr("Settings"));
+    settingsDialog_->setAttribute(Qt::WA_DeleteOnClose);
+    settingsDialog_->resize(screenGeometry.width() / 4, screenGeometry.height() / 4);
+    settingsDialog_->show();
+}
+
+void MainWindow::settingsLinkBudget()
+{
+
+}
+
 void MainWindow::documentWasModified()
 //! [15] //! [16]
 {
@@ -262,11 +277,19 @@ void MainWindow::createActions()
 
 #endif // !QT_NO_CLIPBOARD
 
+// Settings
+    QMenu *settingsMenu = menuBar()->addMenu(tr("&Settings"));
+    QAction *settingsAct = settingsMenu->addAction(tr("&Config. simulation"), this, &MainWindow::settings);
+    settingsAct->setStatusTip(tr("Show the application's About box"));
+
+    // Settings link budget
+    // QAction *settingsLinkBudgetAct = settingsMenu->addAction(tr("&Config. link budget"), this, &MainWindow::settingsLinkBudget);
+    // settingsLinkBudgetAct->setStatusTip(tr("Show the application's About box"));
+
+// Help
     QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
     QAction *aboutAct = helpMenu->addAction(tr("&About"), this, &MainWindow::about);
     aboutAct->setStatusTip(tr("Show the application's About box"));
-
-//! [22]
 
     QAction *aboutQtAct = helpMenu->addAction(tr("About &Qt"), qApp, &QApplication::aboutQt);
     aboutQtAct->setStatusTip(tr("Show the Qt library's About box"));

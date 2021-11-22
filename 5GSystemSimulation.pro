@@ -35,6 +35,7 @@ SOURCES += \
     src/visualization/ChartGroupWidget.cpp \
     src/visualization/UEModel.cpp \
     src/visualization/data/DataSource.cpp \
+    src/visualization/menu/SettingsDialog.cpp \
     src/visualization/menu/mainWindow.cpp \
     src/core/CartesianCoordinates.cpp \
     src/equipment/Cell.cpp \
@@ -93,6 +94,7 @@ HEADERS += \
     src/visualization/ChartGroupWidget.h \
     src/visualization/UEModel.h \
     src/visualization/data/DataSource.h \
+    src/visualization/menu/SettingsDialog.h \
     src/visualization/menu/mainWindow.h \
     src/commonParameters.h \
     src/core/CartesianCoordinates.h \
