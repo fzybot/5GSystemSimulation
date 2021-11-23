@@ -342,7 +342,7 @@ QChart *ChartGroupWidget::createLineChart() const
     // Add space to label to add space between labels and axis
     QValueAxis *axisY = qobject_cast<QValueAxis*>(chart->axes(Qt::Vertical).first());
     Q_ASSERT(axisY);
-    axisY->setLabelFormat("%.1f  ");
+    axisY->setLabelFormat("%d  ");
 
     return chart;
 }

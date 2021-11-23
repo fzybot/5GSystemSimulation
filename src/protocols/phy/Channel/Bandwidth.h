@@ -21,7 +21,13 @@ const static QMap <QString ,  float> NR_OPERATING_BAND_UL_LOW =
     {"n1", 1920},
     {"n3", 1710},
     {"n7", 2500},
-    {"n257", 26500},
+    {"n8", 880},
+    {"n20", 832},
+    {"n25", 1850},
+    {"n30", 2305},
+    {"n41", 2496},
+    {"n79", 4400},
+    {"n257", 29500},
 
 };
 const static QMap <QString ,  float> NR_OPERATING_BAND_UL_HIGH =
@@ -29,6 +35,12 @@ const static QMap <QString ,  float> NR_OPERATING_BAND_UL_HIGH =
     {"n1", 1980},
     {"n3", 1785},
     {"n7", 2570},
+    {"n8", 915},
+    {"n20", 862},
+    {"n25", 1915},
+    {"n30", 2315},
+    {"n41", 2690},
+    {"n79", 5000},
     {"n257", 29500},
 
 };
@@ -37,6 +49,12 @@ const static QMap <QString ,  float> NR_OPERATING_BAND_DL_LOW =
     {"n1", 2110},
     {"n3", 1805},
     {"n7", 2620},
+    {"n8", 925},
+    {"n20", 791},
+    {"n25", 1930},
+    {"n30", 2350},
+    {"n41", 2496},
+    {"n79", 4400},
     {"n257", 26500},
 
 };
@@ -45,6 +63,12 @@ const static QMap <QString ,  float> NR_OPERATING_BAND_DL_HIGH =
     {"n1", 2170},
     {"n3", 1880},
     {"n7", 2690},
+    {"n8", 960},
+    {"n20", 821},
+    {"n25", 1995},
+    {"n30", 2360},
+    {"n41", 2690},
+    {"n79", 5000},
     {"n257", 29500},
 
 };

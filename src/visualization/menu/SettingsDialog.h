@@ -26,6 +26,9 @@
 class QComboBox;
 class QStringListModel;
 class QDataWidgetMapper;
+class QGroupBox;
+class QVBoxLayout;
+class QRadioButton;
 
 const int kInitialWidth = 750;
 const int kInitialHeight = 450;
@@ -66,11 +69,47 @@ class GeneralTab : public QWidget
     Q_OBJECT
 
 private:
+
+    QVBoxLayout *globalVBox;
+
+    QGroupBox *cellViewGroupBox;
+    QGroupBox *ueViewGroupBox;
+
+    QDataWidgetMapper *mapper;
+
+    QLabel *numberOfCellLabel;
+    QLineEdit *numberOfCellLineEdit;
+
+    QLabel *numberOfUeLabel;
+    QLineEdit *numberOfUeLineEdit;
+
     QStringListModel *numerologyModel;
     QLabel *numerologyLabel;
     QComboBox *numerologyComboBox;
 
-    QDataWidgetMapper *mapper;
+    QStringListModel *bandModel;
+    QLabel *bandLabel;
+    QComboBox *bandComboBox;
+
+    QStringListModel *bandwidthModel;
+    QLabel *bandwidthLabel;
+    QComboBox *bandwidthComboBox;
+
+    QStringListModel *channelModelModel;
+    QLabel *channelModelLabel;
+    QComboBox *channelModelComboBox;
+
+    QLabel *dopplerLabel;
+    QRadioButton *dopplerRadioButton;
+
+    QStringListModel *mobilityModelModel;
+    QLabel *mobilityModelLabel;
+    QComboBox *mobilityModelComboBox;
+
+    QStringListModel *distributionModel;
+    QLabel *distributionLabel;
+    QComboBox *distributionComboBox;
+
 
 public:
     explicit GeneralTab(QWidget *parent = nullptr);
@@ -81,6 +120,47 @@ public:
 class LinkBudgetTab : public QWidget
 {
     Q_OBJECT
+
+private:
+
+    QVBoxLayout *globalVBox;
+
+    QGroupBox *cellViewGroupBox;
+    QGroupBox *ueViewGroupBox;
+
+    QDataWidgetMapper *mapper;
+
+    QLabel *cellTxPowerLabel;
+    QLineEdit *cellTxPowerLineEdit;
+
+    QLabel *cellFeederLosLabel;
+    QLineEdit *cellFeederLosLineEdit;
+
+    QLabel *antennaGainLabel;
+    QLineEdit *antennaGainLineEdit;
+
+    QLabel *noiseFigureLabel;
+    QLineEdit *noiseFigureLineEdit;
+
+    QStringListModel *antennaConfigModel;
+    QLabel *antennaConfigLabel;
+    QComboBox *antennaConfigComboBox;
+
+    QStringListModel *propagationModelModel;
+    QLabel *propagationModelLabel;
+    QComboBox *propagationModelComboBox;
+
+    QLabel *ueTxPowerLabel;
+    QLineEdit *ueTxPowerLineEdit;
+
+    QLabel *ueFeederLosLabel;
+    QLineEdit *ueFeederLosLineEdit;
+
+    QLabel *ueAntennaGainLabel;
+    QLineEdit *ueAntennaGainLineEdit;
+
+    QLabel *ueNoiseFigureLabel;
+    QLineEdit *ueNoiseFigureLineEdit;
 
 public:
     explicit LinkBudgetTab(QWidget *parent = nullptr);

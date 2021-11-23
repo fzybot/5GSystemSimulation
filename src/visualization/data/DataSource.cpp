@@ -87,8 +87,10 @@ void DataSource::generateData(int seriesCount, int rowCount, int colCount)
                 qreal x(0);
                 qreal y(0);
                 // data with sin + random component
-                y = height + (yMultiplier * qSin(M_PI / 50 * j)
-                              + (yMultiplier * QRandomGenerator::global()->generateDouble()));
+                y = height +    (yMultiplier* QRandomGenerator::global()->generateDouble() * 
+                                    qSin(M_PI / 50 * j * QRandomGenerator::global()->generateDouble())
+                                    + (yMultiplier * QRandomGenerator::global()->generateDouble())
+                                );
                 // 0.000001 added to make values logaxis compatible
                 x = 0.000001 + 20.0 * (qreal(j) / qreal(colCount)) + (xAdjustment * qreal(i));
                 points.append(QPointF(x, y));

@@ -53,8 +53,8 @@ static QVector<QVector<int>> &Simple ()
     UserEquipment *ue2 = networkManager->createUserEquipment(idUE2, posX_ue2, posY_ue2, posZ_ue2, cell, gNb);
     channel->addDevice(ue2);
 
-    int nUe = 100;
-    //networkManager->createMultipleUserEquipments(nUe, 0, 1000, 0, 1000, 10, cell, gNb);
+    int nUe = 10;
+    networkManager->createMultipleUserEquipments(nUe, 0, 1000, 0, 1000, 10, cell, gNb);
     debug("Simple: User Equipments entity are created");
 
     networkManager->setSINRCalcMethod(NetworkManager::SINRCalcMethod::STUPID);
