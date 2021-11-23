@@ -31,7 +31,7 @@ GeneralTab::GeneralTab(QWidget *parent)
     QGroupBox *cellViewGroupBox = new QGroupBox(QStringLiteral("Cell settings"));
 
     numberOfCellLabel = new QLabel(tr("Number Of Cell:"));
-    numberOfCellLineEdit = new QLineEdit();
+    numberOfCellLineEdit = new QLineEdit("1");
 
     QStringList numerologyIndex;
     numerologyIndex << tr("15 [kHz]") << tr("30 [kHz]") << tr("60 [kHz]") << tr("120 [kHz]");
@@ -103,7 +103,7 @@ GeneralTab::GeneralTab(QWidget *parent)
     QGroupBox *ueViewGroupBox = new QGroupBox(QStringLiteral("User Equipment settings"));
 
     numberOfUeLabel = new QLabel(tr("Number Of UEs:"));
-    numberOfUeLineEdit = new QLineEdit();
+    numberOfUeLineEdit = new QLineEdit("12");
 
     QStringList mobilityModelIndex;
     mobilityModelIndex << tr("Mixed") << tr("Random Walk") << tr("Random Waypoint") << tr("Gauss-Markov");
