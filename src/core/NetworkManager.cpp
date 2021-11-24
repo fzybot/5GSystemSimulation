@@ -341,11 +341,7 @@ void NetworkManager::scheduleCells(QVector<Cell*> *cellContainer)
     for (auto cell: *cellContainer) {
 
         cell->sync120TimeSlot(current120TimeSlot_);
-        generateTrafficPerUE(cell->getUserEquipmentContainer());
         // TODO: somehow fix the loop
-//        for (auto ue : *cell->getUserEquipmentContainer()) {
-//            cell->getMacEntity()->packetsToTransportBlockContainer(ue->getPacketsContainer());
-//        }
         // TODO: need some fix in order to schedule multiple bandwidth with differens SCS
         int scs = cell->getPhyEntity()->getBandwidthContainer()[0][0]->getSCS();
         if ( cell->getLocalSystem120TimeSlot() % (int)(120 / scs) == 0 ) {
@@ -353,15 +349,17 @@ void NetworkManager::scheduleCells(QVector<Cell*> *cellContainer)
             qDebug() << "NetworkManager::scheduleCells:: cell SCS --> " << scs;
             qDebug() << "NetworkManager::scheduleCells:: cell time slot --> " << (int)cell->getLocalSystem120TimeSlot() / (int)(120/scs);
             cell->syncOwnTimeSlot((int) current120TimeSlot_ / (int)(120/scs));
+            generateTrafficPerUE(cell->getUserEquipmentContainer(), (int) current120TimeSlot_ / (int)(120/scs));
             cell->getMacEntity()->schedule(cell);
         }
     }
 }
 
-void NetworkManager::generateTrafficPerUE(QVector<UserEquipment*> *ueContainer)
+void NetworkManager::generateTrafficPerUE(QVector<UserEquipment*> *ueContainer, int slot)
 {
     for (auto ue: *ueContainer) {
-        ue->generatePacketsPerBearer();
+        ue->sync120TimeSlot(current120TimeSlot_);
+        ue->generatePacketsPerBearer(slot);
     }
 }
 

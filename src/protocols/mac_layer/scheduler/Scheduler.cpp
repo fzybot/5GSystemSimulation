@@ -166,8 +166,9 @@ void Scheduler::fillTbWithPackets(UserEquipment *user, int tbsSize, double codeR
     localTbs_.clear();
     int index = 0;
     int lTbs = 0;
-    QVector<int> deletePackets;
-    for (auto packet : user->getPacketsContainer())
+    QVector<Packet*> deletePackets;
+    deletePackets.clear();
+    for (auto packet : user->getPacketsContainerCurrentSlot(getCell()->getLocalOwnTimeSlot()))
     {
         if(nRemainingPrb_ > 0 && nRemainingCoresetRe_ > 0) {
             lTbs = localTbs_.getSize() + (int)(packet->getSize()/codeRate) ;
@@ -177,7 +178,7 @@ void Scheduler::fillTbWithPackets(UserEquipment *user, int tbsSize, double codeR
             {
                 localTbs_.appendPacket(packet, (int)(packet->getSize()/codeRate));
                 packet->setSlotTransmitted(getCell()->getLocalOwnTimeSlot());
-                deletePackets.append(index);
+                deletePackets.append(packet);
                 // qDebug() << "    "<< "Scheduler::fillTbWithPackets:: packet transmitted slot --> " << packet->getSlotTransmitted();
             }
             else
@@ -187,6 +188,9 @@ void Scheduler::fillTbWithPackets(UserEquipment *user, int tbsSize, double codeR
         }
         index++;
     }
+    user->showPacketsInBuffer();
+    user->deletePackets(deletePackets);
+    user->updatePacketTransmitSlot(getCell()->getLocalOwnTimeSlot() + 5); // 5 - like HARQ
 
     // for (int i = 0; i < deletePackets.size(); i++){
     //     for (int j = 0; j < user->getPacketsContainer().size(); j++){

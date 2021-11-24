@@ -155,10 +155,10 @@ int UserEquipment::getBufferSize()
     return bufferSize_;
 }
 
-void UserEquipment::generatePacketsPerBearer()
+void UserEquipment::generatePacketsPerBearer(int slot)
 {
     for(auto bearer: *getBearerContainer()) {
-        this->generatePackets(2, localSystem120TimeSlot_, bearer);
+        this->generatePackets(2, slot, bearer);
     }
 }
 
@@ -171,6 +171,8 @@ void UserEquipment::generatePackets(int number, int currentSlot, RadioBearer *be
                                                             bearer->getQoSProfile()->getDataBurstVolumeRange().second);
             //qDebug() << "UserEquipment::generatePackets::Packt size ------>>>>> " << size;
             Packet  *pack = new Packet(size, currentSlot, i, bearer);
+            pack->setId(gPacketId_);
+            gPacketId_++;
             packetsInBuffer_.push_back(pack);
             addToBuffer(size);
         }
@@ -180,4 +182,55 @@ void UserEquipment::generatePackets(int number, int currentSlot, RadioBearer *be
 QVector<Packet*> &UserEquipment::getPacketsContainer()
 {
     return packetsInBuffer_;
+}
+
+QVector<Packet*> &UserEquipment::getPacketsContainerCurrentSlot(int slot)
+{
+    packetsPerCurrentSlot_.clear();
+    for (auto packet : getPacketsContainer())
+    {
+        if(packet->getSlotToTransmit() == slot){
+            packetsPerCurrentSlot_.append(packet);
+        }
+    }
+    return packetsPerCurrentSlot_;
+}
+
+void UserEquipment::deletePackets(QVector<Packet*> &packetsToDelete)
+{
+    //getPacketsContainer().removeAll(packetsToDelete);
+     if (getPacketsContainer().size() != 0) {
+         for (int i = 0; i < packetsToDelete.size(); i++) {
+             deletePacket(packetsToDelete[i]);
+         }
+     } else {
+         qDebug() << "UserEquipment::deletePackets::There are no packets to delete";
+     }
+}
+
+void UserEquipment::deletePacket(Packet *packetToDelete)
+{
+    for (int i = 0; i < getPacketsContainer().size(); i++){
+        if (getPacketsContainer()[i] == packetToDelete){
+            qDebug() << "UserEquipment::deletePacket:: packet deleted-->" << getPacketsContainer()[i]->getId();
+            decreaseBuffer(packetToDelete->getSize());
+            getPacketsContainer().remove(i);
+            delete packetToDelete;
+            break;
+        }
+    }
+}
+
+void UserEquipment::updatePacketTransmitSlot(int slot)
+{
+    for(auto packet: getPacketsContainer()){
+        packet->setSlotToTransmit(slot);
+    }
+}
+
+void UserEquipment::showPacketsInBuffer()
+{
+    for(auto packet: getPacketsContainer()){
+        qDebug() << "UserEquipment::showPacketsInBuffer:: Packet" << packet->getId();
+    }
 }

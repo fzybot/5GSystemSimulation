@@ -16,7 +16,7 @@ static QVector<QVector<int>> &Simple ()
 {
     NetworkManager *networkManager = new NetworkManager();
     RadioChannel *channel = new RadioChannel();
-    networkManager->setWorkingTime(130);
+    networkManager->setWorkingTime(17);
 
     // Create Cell
     int idCell = 0;
@@ -46,15 +46,15 @@ static QVector<QVector<int>> &Simple ()
     UserEquipment *ue = networkManager->createUserEquipment(idUE, posX_ue, posY_ue, posZ_ue, cell, gNb);
     channel->addDevice(ue);
 
-    int idUE2 = 3;
-    int posX_ue2 = 0;
-    int posY_ue2 = 500;
-    double posZ_ue2 = 1.5;
-    UserEquipment *ue2 = networkManager->createUserEquipment(idUE2, posX_ue2, posY_ue2, posZ_ue2, cell, gNb);
-    channel->addDevice(ue2);
+    // int idUE2 = 3;
+    // int posX_ue2 = 0;
+    // int posY_ue2 = 500;
+    // double posZ_ue2 = 1.5;
+    // UserEquipment *ue2 = networkManager->createUserEquipment(idUE2, posX_ue2, posY_ue2, posZ_ue2, cell, gNb);
+    // channel->addDevice(ue2);
 
     int nUe = 10;
-    networkManager->createMultipleUserEquipments(nUe, 0, 1000, 0, 1000, 10, cell, gNb);
+    //networkManager->createMultipleUserEquipments(nUe, 0, 1000, 0, 1000, 10, cell, gNb);
     debug("Simple: User Equipments entity are created");
 
     networkManager->setSINRCalcMethod(NetworkManager::SINRCalcMethod::STUPID);

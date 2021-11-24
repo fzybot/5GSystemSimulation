@@ -15,7 +15,10 @@ class UserEquipment : public Equipment
 protected:
     gNodeB              *targetGNodeB_;
     Cell                *targetCell_;
-    QVector<Packet*>     packetsInBuffer_;
+    QVector<Packet*>    packetsInBuffer_;
+    QVector<Packet*>    packetsPerCurrentSlot_;
+    QVector<Packet*>    packetsHarq_;
+    int                 gPacketId_ = 1000;
 
     int slotToCampOnCell_ = 0;
 
@@ -53,8 +56,12 @@ public:
 
     void generatePackets(int number, int currentSlot, RadioBearer *bearer);
     QVector<Packet*> &getPacketsContainer();
-
-    void generatePacketsPerBearer();
+    QVector<Packet*> &getPacketsContainerCurrentSlot(int slot);
+    void generatePacketsPerBearer(int slot);
+    void deletePackets(QVector<Packet*> &packetsToDelete);
+    void deletePacket(Packet *packetToDelete);
+    void showPacketsInBuffer();
+    void updatePacketTransmitSlot(int slot);
 
     void setSlotToCamp(int slot);
     int getSlotToCamp();

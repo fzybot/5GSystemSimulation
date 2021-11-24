@@ -41,7 +41,7 @@ public:
 
 protected:
     int     id_;
-    int     localSystem120TimeSlot_;
+    int     localSystem120TimeSlot_ = 0;
     int     localOwnTimeSlot_ = 0;
     double  lastTime_;
 

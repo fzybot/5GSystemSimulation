@@ -113,7 +113,7 @@ public:
 
     void scheduleCells(QVector<Cell*> *cellContainer);
 
-    void generateTrafficPerUE(QVector<UserEquipment*> *ueContainer);
+    void generateTrafficPerUE(QVector<UserEquipment*> *ueContainer, int slot);
 
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
 

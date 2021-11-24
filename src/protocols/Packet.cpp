@@ -52,6 +52,16 @@ Packet::~Packet()
     */
 }
 
+void Packet::setId(int pId)
+{
+    id_ = pId;
+}
+
+int Packet::getId()
+{
+    return id_;
+}
+
 void Packet::setTimeStamp(double time)
 {
     timeStamp_ = time;
@@ -85,11 +95,6 @@ void Packet::setSize(int size)
 int Packet::getSize()
 {
     return size_ + (headerSize_ * 8);
-}
-
-int Packet::getSizeBits()
-{
-    return getSize();
 }
 
 void Packet::setSlotToTransmit(int slot)
