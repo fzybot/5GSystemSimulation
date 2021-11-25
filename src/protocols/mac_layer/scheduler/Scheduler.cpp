@@ -108,7 +108,7 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
             qDebug() <<"    "<< "Scheduler::roundRobin::UE allocated PRBs --->"<< nPrbPerUe;
             qDebug() <<"    "<< "Scheduler::roundRobin::Remaining PRBs -->" << nRemainingPrb_;
             qDebug() <<"    "<< "Scheduler::roundRobin::Remaining CCE REs -->" << nRemainingCoresetRe_;
-            //getCell()->getMacEntity()->getAMCEntity()->showParameters();
+            getCell()->getMacEntity()->getAMCEntity()->showParameters();
         }
     }
 
@@ -179,7 +179,7 @@ void Scheduler::fillTbWithPackets(UserEquipment *user, int tbsSize, double codeR
                 localTbs_.appendPacket(packet, (int)(packet->getSize()/codeRate));
                 packet->setSlotTransmitted(getCell()->getLocalOwnTimeSlot());
                 deletePackets.append(packet);
-                // qDebug() << "    "<< "Scheduler::fillTbWithPackets:: packet transmitted slot --> " << packet->getSlotTransmitted();
+                qDebug() << "    "<< "Scheduler::fillTbWithPackets:: packet transmitted slot --> " << packet->getSlotTransmitted();
             }
             else
             {
