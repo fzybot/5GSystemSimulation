@@ -6,6 +6,7 @@
 #include <QStyleOption>
 #include <QtMath>
 #include <QDebug>
+#include <QPair>
 
 #include "src/debug.h"
 #include "src/protocols/bearers/RadioBearer.h"
@@ -222,28 +223,34 @@ int Equipment::getLocalOwnTimeSlot()
 // ----- [ COUNTERS ] --------------------------------------------------------------------------------------------------
 
 
-void Equipment::addCountDataTransmitted(int bits)
+void Equipment::addCountDataTransmitted(int slot, int bits)
 {
+    QPair<int, int> local_;
+    local_.first = slot;
+    local_.second = bits;
     cDataTransmitted_ += bits;
-    cDataTransmittedContainer_.push_back(bits);
+    cDataTransmittedContainer_.push_back(local_);
 }
 
-QVector<int> &Equipment::getDataTransmitted()
+QVector<QPair<int, int>> &Equipment::getDataTransmitted()
 {
     return cDataTransmittedContainer_;
 }
 
-void Equipment::addCountTbTransmitted(int bits)
+void Equipment::addCountTbTransmitted(int slot, int bits)
 {
-    cTbTransmittedContainer_.push_back(bits);
+    QPair<int, int> local_;
+    local_.first = slot;
+    local_.second = bits;
+    cTbTransmittedContainer_.push_back(local_);
 }
 
-QVector<int> &Equipment::getTbTransmitted()
+QVector<QPair<int, int>> &Equipment::getTbTransmitted()
 {
     return cTbTransmittedContainer_;
 }
 
-QVector<QVector<int>> &Equipment::getAllData()
+QVector<QVector<QPair<int, int>>> &Equipment::getAllData()
 {
     cAllDataContainer_.push_back(cDataTransmittedContainer_);
     cAllDataContainer_.push_back(cTbTransmittedContainer_);
@@ -251,12 +258,15 @@ QVector<QVector<int>> &Equipment::getAllData()
     return cAllDataContainer_;
 }
 
-void Equipment::addCountPrbUtilized(int prb)
+void Equipment::addCountPrbUtilized(int slot, int prb)
 {
-    cPrbUtilizedContainer_.push_back(prb);
+    QPair<int, int> local_;
+    local_.first = slot;
+    local_.second = prb;
+    cPrbUtilizedContainer_.push_back(local_);
 }
 
-QVector<int> &Equipment::getPrbUtilized()
+QVector<QPair<int, int>> &Equipment::getPrbUtilized()
 {
     return cPrbUtilizedContainer_;
 }
@@ -268,7 +278,7 @@ int Equipment::calcCountDataTransmittedOverWindow(int windowSize)
     if(length < windowSize)
         length = 0;
     for (int i = length - 1; i >= length - windowSize; i--) {
-        throughput += cDataTransmittedContainer_[i];
+        throughput += cDataTransmittedContainer_[i].first;
     }
     return throughput;
 }

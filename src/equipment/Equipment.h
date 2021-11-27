@@ -16,6 +16,7 @@ class Physical;
 
 class Equipment
 {
+
 public:
     enum class EquipmentState
     {
@@ -65,15 +66,19 @@ protected:
     float additionalGain_ = 0;
     float additionalLoss_ = 0;
 
+    // Bandwidth info
+    // Should be info about (signal power | noise | interference | SINR).
+    QVector<QVector<double>> iSubcarrierPowerUsage_; 
+
     // COUNTERS
     // Throughput
     int cDataTransmitted_ = 0;           // in [bits]
     int cDataTransmittedOverWindow_ = 0; // in [bits]
-    QVector<int> cDataTransmittedContainer_; // per Slot
-    QVector<int> cTbTransmittedContainer_; // per Slot
-    QVector<int> cPrbUtilizedContainer_; // per Slot
+    QVector<QPair<int, int>> cDataTransmittedContainer_; // per Slot
+    QVector<QPair<int, int>> cTbTransmittedContainer_; // per Slot
+    QVector<QPair<int, int>> cPrbUtilizedContainer_; // per Slot
 
-    QVector<QVector<int>> cAllDataContainer_;
+    QVector<QVector<QPair<int, int>>> cAllDataContainer_;
 
     // Delays
     int cSuccPacketTransmitted_ = 0;
@@ -129,18 +134,18 @@ public:
     // ----- [ PHYSICAL METHODS ] ------------------------------------------------------------------------------------------
     void calculateThermalNoise();
 
-// ----- [ COUNTERS ] --------------------------------------------------------------------------------------------------
-    void addCountDataTransmitted(int bits);
-    QVector<int> &getDataTransmitted();
+    // ----- [ COUNTERS ] --------------------------------------------------------------------------------------------------
+    void addCountDataTransmitted(int slot, int bits);
+    QVector<QPair<int, int>> &getDataTransmitted();
     int calcCountDataTransmittedOverWindow(int windowSize);
 
-    void addCountTbTransmitted(int bits);
-    QVector<int> &getTbTransmitted();
+    void addCountTbTransmitted(int slot, int bits);
+    QVector<QPair<int, int>> &getTbTransmitted();
 
-    QVector<QVector<int>> &getAllData();
+    QVector<QVector<QPair<int, int>>> &getAllData();
 
-    void addCountPrbUtilized(int prb);
-    QVector<int> &getPrbUtilized();
+    void addCountPrbUtilized(int slot, int prb);
+    QVector<QPair<int, int>> &getPrbUtilized();
 
     void addCountSuccPacketTransmitted();
 

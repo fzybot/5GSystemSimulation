@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QString>
+#include <QQueue>
 
 #include "src/equipment/UserEquipment.h"
 #include "src/equipment/gNodeB.h"
@@ -12,7 +13,7 @@
 
 #include "src/debug.h"
 
-static QVector<QVector<int>> &Simple ()
+static QVector<QVector<QPair<int, int>>> &Simple ()
 {
     NetworkManager *networkManager = new NetworkManager();
     RadioChannel *channel = new RadioChannel();
@@ -96,6 +97,13 @@ static QVector<QVector<int>> &Simple ()
     for (auto prb: cell->getPrbUtilized()){
         qDebug() <<"PRB UTILIZED --> "<< prb;
     }
+
+    QQueue<int> queue;
+    queue.enqueue(1);
+    queue.enqueue(2);
+    queue.enqueue(3);
+    qDebug() << queue.dequeue() << queue.dequeue()<< queue[0];
+
     return cell->getAllData();
 }
 

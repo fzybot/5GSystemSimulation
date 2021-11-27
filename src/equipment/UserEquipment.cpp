@@ -186,14 +186,14 @@ QVector<Packet*> &UserEquipment::getPacketsContainer()
 
 QVector<Packet*> &UserEquipment::getPacketsContainerCurrentSlot(int slot)
 {
-    packetsPerCurrentSlot_.clear();
+    packetsCurrentSlot_.clear();
     for (auto packet : getPacketsContainer())
     {
         if(packet->getSlotToTransmit() == slot){
-            packetsPerCurrentSlot_.append(packet);
+            packetsCurrentSlot_.append(packet);
         }
     }
-    return packetsPerCurrentSlot_;
+    return packetsCurrentSlot_;
 }
 
 void UserEquipment::deletePackets(QVector<Packet*> &packetsToDelete)

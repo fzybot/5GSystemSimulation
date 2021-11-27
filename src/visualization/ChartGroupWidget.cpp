@@ -38,10 +38,16 @@ ChartGroupWidget::ChartGroupWidget(QWidget *parent) :
     listCount_(2),
     valueMax_(10),
     valueCount_(7),
-    dataSource_(),
+    dataSource_()
     //dataTable_(generateRandomData(1, 2, 4))
-    dataTable_(generateRandomData(listCount_))
+    //dataTable_(generateRandomData(listCount_))
 {
+
+    QVector<QVector<QPair<int, int>>> data = Simple();
+    QVector<QVector<QPair<int, int>>> dataThroughput;
+    QVector<QVector<QPair<int, int>>> dataDelay;
+    QVector<QVector<QPair<int, int>>> dataBler;
+
     QGridLayout *grid = new QGridLayout(this);
     grid->setSpacing(2);
 
@@ -69,8 +75,12 @@ ChartGroupWidget::ChartGroupWidget(QWidget *parent) :
     // grid->addWidget(chartView, 1, 0);
     // charts_ << chartView;
 
-    chartView = new QChartView(createLineChart());
+    chartView = new QChartView(createLineChart(data));
     grid->addWidget(chartView, 0, 1);
+    charts_ << chartView;
+
+    chartView = new QChartView(createLineChart(data));
+    grid->addWidget(chartView, 1, 1);
     charts_ << chartView;
 
     // chartView = new QChartView(createBarChart(valueCount_));
@@ -90,88 +100,36 @@ ChartGroupWidget::ChartGroupWidget(QWidget *parent) :
     setLayout(grid);
 }
 
-// ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
-
-DataTable ChartGroupWidget::generateRandomData(int listCount, int valueMax, int valueCount) const
-{
-    DataTable dataTable;
-
-    // generate random data
-    for (int i(0); i < listCount; i++) {
-        DataList dataList;
-        qreal yValue(0);
-        for (int j(0); j < valueCount; j++) {
-            yValue = 10;
-            QPointF value(j, yValue);
-            QString label = "Slice " + QString::number(i) + ":" + QString::number(j);
-            dataList << Data(value, label);
-        }
-        dataTable << dataList;
-    }
-
-    return dataTable;
-}
-
-DataTable ChartGroupWidget::generateRandomData(int listCount) const
-{
-    DataTable dataTable;
-    QVector<QVector<int>> data = Simple();
-    qDebug() << "ChartGroupWidget::generateRandomData --> " << data[0].size();
-
-    // generate random data
-    for (int i(0); i < listCount; i++) {
-        DataList dataList;
-        qreal yValue(0);
-        for (int j(0); j < data[i].length(); j++) {
-            yValue = data[i][j];
-            qDebug() << "ChartGroupWidget::generateRandomData:: yValue --> " << data[i][j];
-            QPointF value(j, yValue);
-            QString label = "Slice " + QString::number(i) + ":" + QString::number(j);
-            dataList << Data(value, label);
-        }
-        dataTable << dataList;
-    }
-
-    return dataTable;
-}
-
-// ----- [ VISUAL SETTINGS ] -------------------------------------------------------------------------------------------
-
-// TODO: Finish the settings part
-
-// void ChartsWidget::populateThemeBox()
-// {
-//     // add items to theme combobox
-//     m_ui->themeComboBox->addItem("Light", QChart::ChartThemeLight);
-//     m_ui->themeComboBox->addItem("Blue Cerulean", QChart::ChartThemeBlueCerulean);
-//     m_ui->themeComboBox->addItem("Dark", QChart::ChartThemeDark);
-//     m_ui->themeComboBox->addItem("Brown Sand", QChart::ChartThemeBrownSand);
-//     m_ui->themeComboBox->addItem("Blue NCS", QChart::ChartThemeBlueNcs);
-//     m_ui->themeComboBox->addItem("High Contrast", QChart::ChartThemeHighContrast);
-//     m_ui->themeComboBox->addItem("Blue Icy", QChart::ChartThemeBlueIcy);
-//     m_ui->themeComboBox->addItem("Qt", QChart::ChartThemeQt);
-// }
-
-// void ChartsWidget::populateAnimationBox()
-// {
-//     // add items to animation combobox
-//     m_ui->animatedComboBox->addItem("No Animations", QChart::NoAnimation);
-//     m_ui->animatedComboBox->addItem("GridAxis Animations", QChart::GridAxisAnimations);
-//     m_ui->animatedComboBox->addItem("Series Animations", QChart::SeriesAnimations);
-//     m_ui->animatedComboBox->addItem("All Animations", QChart::AllAnimations);
-// }
-
-// void ChartsWidget::populateLegendBox()
-// {
-//     // add items to legend combobox
-//     m_ui->legendComboBox->addItem("No Legend ", 0);
-//     m_ui->legendComboBox->addItem("Legend Top", Qt::AlignTop);
-//     m_ui->legendComboBox->addItem("Legend Bottom", Qt::AlignBottom);
-//     m_ui->legendComboBox->addItem("Legend Left", Qt::AlignLeft);
-//     m_ui->legendComboBox->addItem("Legend Right", Qt::AlignRight);
-// }
-
 // ----- [ CREATE CHARTS ] ----------------------------------------------------------------------------------------------
+
+QChart *ChartGroupWidget::createLineChart(QVector<QVector<QPair<int, int>>> data) const
+{
+    //![1]
+    QChart *chart = new QChart();
+    chart->setTitle("Cell Throughput / Slot");
+
+    QString name("Data ");
+    int nameIndex = 0;
+    for (auto list : data) {
+        QLineSeries *series = new QLineSeries(chart);
+        for (auto element : list)
+            series->append(element.first, element.second);
+        series->setName(name + QString::number(nameIndex));
+        nameIndex++;
+        chart->addSeries(series);
+    }
+
+    chart->createDefaultAxes();
+    // chart->axes(Qt::Horizontal).first()->setRange(0, 20);
+    // chart->axes(Qt::Vertical).first()->setRange(0, 15000);
+
+    // Add space to label to add space between labels and axis
+    QValueAxis *axisY = qobject_cast<QValueAxis*>(chart->axes(Qt::Vertical).first());
+    Q_ASSERT(axisY);
+    axisY->setLabelFormat("%d  ");
+
+    return chart;
+}
 
 // Production Charts
 QChart *ChartGroupWidget::createSignalChart()
@@ -316,37 +274,6 @@ QChart *ChartGroupWidget::createBarChart(int valueCount) const
     return chart;
 }
 
-QChart *ChartGroupWidget::createLineChart() const
-{
-    //![1]
-    QChart *chart = new QChart();
-    chart->setTitle("Cell Throughput / Slot");
-    //![1]
-
-    //![2]
-    QString name("Data ");
-    int nameIndex = 0;
-    for (const DataList &list : dataTable_) {
-        QLineSeries *series = new QLineSeries(chart);
-        for (const Data &data : list)
-            series->append(data.first);
-        series->setName(name + QString::number(nameIndex));
-        nameIndex++;
-        chart->addSeries(series);
-    }
-
-    chart->createDefaultAxes();
-    // chart->axes(Qt::Horizontal).first()->setRange(0, 20);
-    // chart->axes(Qt::Vertical).first()->setRange(0, 15000);
-
-    // Add space to label to add space between labels and axis
-    QValueAxis *axisY = qobject_cast<QValueAxis*>(chart->axes(Qt::Vertical).first());
-    Q_ASSERT(axisY);
-    axisY->setLabelFormat("%d  ");
-
-    return chart;
-}
-
 QChart *ChartGroupWidget::createPieChart() const
 {
     QChart *chart = new QChart();
@@ -419,3 +346,84 @@ QChart *ChartGroupWidget::createScatterChart() const
     axisY->setLabelFormat("%.1f  ");
     return chart;
 }
+
+// ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
+
+DataTable ChartGroupWidget::generateRandomData(int listCount, int valueMax, int valueCount) const
+{
+    DataTable dataTable;
+
+    // generate random data
+    for (int i(0); i < listCount; i++) {
+        DataList dataList;
+        qreal yValue(0);
+        for (int j(0); j < valueCount; j++) {
+            yValue = 10;
+            QPointF value(j, yValue);
+            QString label = "Slice " + QString::number(i) + ":" + QString::number(j);
+            dataList << Data(value, label);
+        }
+        dataTable << dataList;
+    }
+
+    return dataTable;
+}
+
+//DataTable ChartGroupWidget::generateRandomData(int listCount) const
+//{
+//    DataTable dataTable;
+//    QVector<QVector<int>> data = Simple();
+//    qDebug() << "ChartGroupWidget::generateRandomData --> " << data[0].size();
+
+//    // generate random data
+//    for (int i(0); i < listCount; i++) {
+//        DataList dataList;
+//        qreal yValue(0);
+//        for (int j(0); j < data[i].length(); j++) {
+//            yValue = data[i][j];
+//            qDebug() << "ChartGroupWidget::generateRandomData:: yValue --> " << data[i][j];
+//            QPointF value(j, yValue);
+//            QString label = "Slice " + QString::number(i) + ":" + QString::number(j);
+//            dataList << Data(value, label);
+//        }
+//        dataTable << dataList;
+//    }
+
+//    return dataTable;
+//}
+
+// ----- [ VISUAL SETTINGS ] -------------------------------------------------------------------------------------------
+
+// TODO: Finish the settings part
+
+// void ChartsWidget::populateThemeBox()
+// {
+//     // add items to theme combobox
+//     m_ui->themeComboBox->addItem("Light", QChart::ChartThemeLight);
+//     m_ui->themeComboBox->addItem("Blue Cerulean", QChart::ChartThemeBlueCerulean);
+//     m_ui->themeComboBox->addItem("Dark", QChart::ChartThemeDark);
+//     m_ui->themeComboBox->addItem("Brown Sand", QChart::ChartThemeBrownSand);
+//     m_ui->themeComboBox->addItem("Blue NCS", QChart::ChartThemeBlueNcs);
+//     m_ui->themeComboBox->addItem("High Contrast", QChart::ChartThemeHighContrast);
+//     m_ui->themeComboBox->addItem("Blue Icy", QChart::ChartThemeBlueIcy);
+//     m_ui->themeComboBox->addItem("Qt", QChart::ChartThemeQt);
+// }
+
+// void ChartsWidget::populateAnimationBox()
+// {
+//     // add items to animation combobox
+//     m_ui->animatedComboBox->addItem("No Animations", QChart::NoAnimation);
+//     m_ui->animatedComboBox->addItem("GridAxis Animations", QChart::GridAxisAnimations);
+//     m_ui->animatedComboBox->addItem("Series Animations", QChart::SeriesAnimations);
+//     m_ui->animatedComboBox->addItem("All Animations", QChart::AllAnimations);
+// }
+
+// void ChartsWidget::populateLegendBox()
+// {
+//     // add items to legend combobox
+//     m_ui->legendComboBox->addItem("No Legend ", 0);
+//     m_ui->legendComboBox->addItem("Legend Top", Qt::AlignTop);
+//     m_ui->legendComboBox->addItem("Legend Bottom", Qt::AlignBottom);
+//     m_ui->legendComboBox->addItem("Legend Left", Qt::AlignLeft);
+//     m_ui->legendComboBox->addItem("Legend Right", Qt::AlignRight);
+// }

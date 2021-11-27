@@ -111,11 +111,11 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
             getCell()->getMacEntity()->getAMCEntity()->showParameters();
         }
     }
-
+    int slot = getCell()->getLocalOwnTimeSlot();
     qDebug() <<"    "<< "Scheduler::roundRobin::addCountPrbUtilized -->" << utilizedPrb;
-    getCell()->addCountPrbUtilized(utilizedPrb);
-    getCell()->addCountTbTransmitted(codeRateSize);
-    getCell()->addCountDataTransmitted(size);
+    getCell()->addCountPrbUtilized(slot, utilizedPrb);
+    getCell()->addCountTbTransmitted(slot, codeRateSize);
+    getCell()->addCountDataTransmitted(slot, size);
 }
 
 void Scheduler::propotionalFair(QVector<UserEquipment*> *userEquipmentContainer)

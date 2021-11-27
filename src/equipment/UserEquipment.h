@@ -16,7 +16,8 @@ protected:
     gNodeB              *targetGNodeB_;
     Cell                *targetCell_;
     QVector<Packet*>    packetsInBuffer_;
-    QVector<Packet*>    packetsPerCurrentSlot_;
+    QVector<Packet*>    packetsCurrentSlot_;
+    QQueue<Packet*>     packetsQueueCurrentSlot_;
     QVector<Packet*>    packetsHarq_;
     int                 gPacketId_ = 1000;
 

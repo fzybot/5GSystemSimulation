@@ -60,7 +60,7 @@ private:
     QChart *createAreaChart() const;
     QChart *createBarChart(int valueCount) const;
     QChart *createPieChart() const;
-    QChart *createLineChart() const;
+    QChart *createLineChart(QVector<QVector<QPair<int, int>>> data) const;
     QChart *createSplineChart() const;
     QChart *createScatterChart() const;
 };

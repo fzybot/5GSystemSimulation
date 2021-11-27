@@ -33,7 +33,8 @@ public:
 
     void addBandwidth(Bandwidth *b);
     QVector<Bandwidth*> *getBandwidthContainer();
-    void configBandwidth();
+    void configNewBandwidth(QString fr, QString band, int scs, double ulBw,
+                     double dlBw, int ulOffset, int dlOffset, bool tddTrue);
 };
 
 #endif // PHYSICAL_H
