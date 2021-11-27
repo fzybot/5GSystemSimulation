@@ -111,7 +111,7 @@ UserEquipment* NetworkManager::createUserEquipment (int id,
                                           posX, posY, posZ, cell, targetGNodeB,
                                           Mobility::Model::CONSTANT_POSITION);
     getUserEquipmentContainer()->push_back(ue);
-    //attachUEtoCell(cell, ue);
+
     return ue;
 }
 
@@ -127,62 +127,15 @@ void NetworkManager::createMultipleUserEquipments(  int number, int lowX, int hi
                                               posX, posY, posZ, nullptr, targetGNodeB,
                                               Mobility::Model::CONSTANT_POSITION);
         getUserEquipmentContainer()->push_back(ue);
-        //attachUEtoCell(cell, ue);
     }
 }
 
 void NetworkManager::attachUEtoCell(Cell *cell, UserEquipment *ue)
 {
+    qDebug() << "NetworkManager::attachUEtoCell::UE ID-->" << ue->getEquipmentId();
     cell->attachUE(ue);
+    ue->setPhyEntity(cell->getPhyEntity());
     deleteUeFromOtherCells(cell, ue);
-}
-
-void NetworkManager::detachUeFromCell(Cell *cell, UserEquipment *targetUe, int reason)
-{
-    int neededIndex = 0;
-    int localIdex = 0;
-    for(auto ue: *cell->getUserEquipmentContainer()) {
-        if (targetUe == ue) {
-            neededIndex = localIdex;
-            qDebug() << "NetworkManager::detachUeFromCell()::UE ID-->" << targetUe->getEquipmentId();
-            break;
-        }
-        localIdex++;
-    }
-    cell->getUserEquipmentContainer()->remove(neededIndex);
-
-    switch (reason)
-    {
-    case 1:
-        qDebug() << "NetworkManager::detachUeFromCell()::detached due to 'Path Los'";
-        break;
-    case 2:
-        qDebug() << "NetworkManager::detachUeFromCell()::detached due to 'HandOver'";
-        break;
-    default:
-        break;
-    }
-}
-
-void NetworkManager::pathLosDetach()
-{
-    double distance;
-    double pathLos;
-    double rssi;
-    double rsrp;
-
-    for(auto cell : *getCellContainer()){
-        for (auto ue: *getUserEquipmentContainer()){
-            distance = ue->calculateDistanceToCell(cell);
-            pathLos = ue->calculatePathLosToCell(cell, distance);
-            rssi = ue->calculateRssiFromCell(cell, pathLos);
-            rsrp = ue->calculateRsrpFromRssi(rssi);
-            if (rsrp < -120){
-                detachUeFromCell(cell, ue, 1); // Reason 1 - due to path loss
-                ue->setSlotToCamp(getCurrentTime() + 100); // 100 time for cell reselection/handover)
-            }
-        }
-    }
 }
 
 void NetworkManager::deleteUeFromOtherCells(Cell *targetCell, UserEquipment *targetUe)
@@ -318,8 +271,6 @@ void NetworkManager::runNetwork()
         qDebug() << "Current 120 Time Slot ->" << getCurrentTime();
         // Calculate SINR for each Equipment
         calculateSINRPerEquipment(methodSINR_);
-        initialCellSelection(getCurrentTime());
-        pathLosDetach();
         scheduleGNodeB();
         increaseCurrentTime();
     }
@@ -339,7 +290,6 @@ void NetworkManager::scheduleGNodeB()
 void NetworkManager::scheduleCells(QVector<Cell*> *cellContainer)
 {
     for (auto cell: *cellContainer) {
-
         cell->sync120TimeSlot(current120TimeSlot_);
         // TODO: somehow fix the loop
         // TODO: need some fix in order to schedule multiple bandwidth with differens SCS
@@ -349,6 +299,8 @@ void NetworkManager::scheduleCells(QVector<Cell*> *cellContainer)
             qDebug() << "NetworkManager::scheduleCells:: cell SCS --> " << scs;
             qDebug() << "NetworkManager::scheduleCells:: cell time slot --> " << (int)cell->getLocalSystem120TimeSlot() / (int)(120/scs);
             cell->syncOwnTimeSlot((int) current120TimeSlot_ / (int)(120/scs));
+            cell->pathLosDetach();
+            initialCellSelection(cell->getLocalOwnTimeSlot());
             generateTrafficPerUE(cell->getUserEquipmentContainer(), (int) current120TimeSlot_ / (int)(120/scs));
             cell->getMacEntity()->schedule(cell);
         }
@@ -384,30 +336,34 @@ void NetworkManager::initialCellSelection(int slot)
     qDebug() << "NetworkManager::initialAttach()";
     for (auto ue: *getUserEquipmentContainer()) {
         int localIndex = 0;
-        int neededIndex = -1;
+        int neededIndex = 0;
+        int check = -1;
         double max = -1000;
         if (ue->getSlotToCamp() == slot){
             for (auto cell : *getCellContainer()) {
-                distance = ue->calculateDistanceToCell(cell);
-                pathLos = ue->calculatePathLosToCell(cell, distance);
+                distance = cell->calculateDistanceToUserEquipment(ue);
+                pathLos = cell->calculatePathLosToUserEquipment(ue, distance);
                 rssi = ue->calculateRssiFromCell(cell, pathLos);
-                rsrp = ue->calculateRsrpFromRssi(rssi);
+                rsrp = ue->calculateRsrpFromRssi(cell->getPhyEntity()->getBandwidthContainer()[0][0],rssi);
                 if ( (rsrp > max) && (rsrp >= -120) ) {
                     max = rsrp;
                     neededIndex = localIndex;
+                    check++;
                 }
                 localIndex++;
-                // Debugging
-                // qDebug() << "NetworkManager::initialAttach() UE ID-->" << ue->getEquipmentId();
-                // qDebug() << "NetworkManager::initialAttach() Disnance to cell-->" << distance;
-                // qDebug() << "NetworkManager::initialAttach() Path Losses to cell-->" << pathLos;
-                // qDebug() << "NetworkManager::initialAttach() Cell EIRP-->" << cell->getEirp();
-                // qDebug() << "NetworkManager::initialAttach() RSSI-->" << rssi;
-                // qDebug() << "NetworkManager::initialAttach() RSRP-->" << rsrp;
+                //Debugging
+                // qDebug() << "NetworkManager::initialAttach()::UE ID-->" << ue->getEquipmentId();
+                // qDebug() << "NetworkManager::initialAttach()::Disnance to cell-->" << distance;
+                // qDebug() << "NetworkManager::initialAttach()::Path Losses to cell-->" << pathLos;
+                // qDebug() << "NetworkManager::initialAttach()::Cell EIRP-->" << cell->getEirp();
+                // qDebug() << "NetworkManager::initialAttach()::RSSI-->" << rssi;
+                // qDebug() << "NetworkManager::initialAttach()::RSRP-->" << rsrp;
             }
-            if (neededIndex != -1) {
+            if(check != -1){
                 ue->setTargetCell(getCellContainer()[0][neededIndex]);
                 attachUEtoCell(ue->getTargetCell(), ue);
+            } else {
+                qDebug() << "NetworkManager::initialCellSelection::There are no suitable cell!";
             }
         }
     }

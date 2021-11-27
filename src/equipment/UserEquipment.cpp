@@ -28,9 +28,6 @@ UserEquipment::UserEquipment(int id,
     setTargetGNodeB(targetGNodeB);
 
     // Physical
-    createPhyEntity();
-    getPhyEntity()->defaultPhyConfig();
-
     setLinkBudgetParameters();
 
     // Bearer config

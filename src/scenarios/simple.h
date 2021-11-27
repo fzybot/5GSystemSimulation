@@ -10,6 +10,7 @@
 #include "src/core/Simulator.h"
 #include "src/protocols/phy/Channel/RadioChannel.h"
 #include "src/protocols/bearers/RadioBearer.h"
+#include "src/protocols/phy/Physical.h"
 
 #include "src/debug.h"
 
@@ -25,6 +26,7 @@ static QVector<QVector<QPair<int, int>>> &Simple ()
     int posY = 500;
     int posZ = 50;
     Cell *cell = networkManager->createCell(idCell, posX, posY, posZ);
+    cell->getPhyEntity()->configNewBandwidth("FR1", "n3", NUMEROLOGY[0], 10, 50, 0, 0, true);
 
     // int idCell_01 = 1;
     // int posX_01 = 200;
@@ -54,9 +56,9 @@ static QVector<QVector<QPair<int, int>>> &Simple ()
     // UserEquipment *ue2 = networkManager->createUserEquipment(idUE2, posX_ue2, posY_ue2, posZ_ue2, cell, gNb);
     // channel->addDevice(ue2);
 
-    int nUe = 10;
-    //networkManager->createMultipleUserEquipments(nUe, 0, 1000, 0, 1000, 10, cell, gNb);
-    debug("Simple: User Equipments entity are created");
+    // int nUe = 10;
+    // networkManager->createMultipleUserEquipments(nUe, 0, 1000, 0, 1000, 10, cell, gNb);
+    // debug("Simple: User Equipments entity are created");
 
     networkManager->setSINRCalcMethod(NetworkManager::SINRCalcMethod::STUPID);
     networkManager->runNetwork();

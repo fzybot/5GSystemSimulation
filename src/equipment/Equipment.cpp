@@ -121,14 +121,15 @@ Physical *Equipment::getPhyEntity()
 void Equipment::setLinkBudgetParameters()
 {
     qDebug() << "Equipment::setLinkBudgetParameters()";
-    if (type_ == EquipmentType::TYPE_CELL) {
+    if (type_ == EquipmentType::TYPE_CELL) 
+    {
         TxPower_ = 43;
         bodyLoss_ = 0;
         noiseFigure_ = 3;
         additionalGain_ = 18;
         additionalLoss_ = 3;
         EIRP_ = TxPower_ - bodyLoss_ - additionalLoss_ + additionalGain_;
-        qDebug() << "Equipment::setLinkBudgetParameters()::EIRP --> " << EIRP_;
+        qDebug() << "   " <<"Equipment::setLinkBudgetParameters()::EIRP --> " << EIRP_;
     }
     else if (type_ == EquipmentType::TYPE_UE)
     {
@@ -138,6 +139,7 @@ void Equipment::setLinkBudgetParameters()
         additionalGain_ = 0;
         additionalLoss_ = 0;
         EIRP_ = TxPower_ - bodyLoss_ - additionalLoss_ + additionalGain_;
+        qDebug() << "   " << "Equipment::setLinkBudgetParameters()::EIRP --> " << EIRP_;
     }
 }
 
@@ -191,10 +193,10 @@ double Equipment::calculateRssiFromCell(Cell *targetCell, double pathLos)
     return targetCell->getEirp() - pathLos - getNoiseFigure() - 20;
 }
 
-double Equipment::calculateRsrpFromRssi(double rssi)
+double Equipment::calculateRsrpFromRssi(Bandwidth *BW, double rssi)
 {
-    double bandwidth = getPhyEntity()->getBandwidthContainer()[0][0]->getBandwidth();
-    int scs = getPhyEntity()->getBandwidthContainer()[0][0]->getSCS();
+    double bandwidth = BW->getBandwidth();
+    int scs = BW->getSCS();
     double rsrp = rssi - 10*log10(bandwidth*1000/scs);
     return rsrp;
 }

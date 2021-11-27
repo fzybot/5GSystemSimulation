@@ -5,6 +5,7 @@
 #include "src/protocols/Packet.h"
 #include "src/protocols/bearers/QoS/QoSProfile.h"
 #include <QVector>
+#include <QQueue>
 
 class gNodeB;
 class Cell;

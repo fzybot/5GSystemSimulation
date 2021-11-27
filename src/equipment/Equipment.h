@@ -9,6 +9,7 @@
 #include "src/equipment/mobility/Mobility.h"
 #include "src/core/CartesianCoordinates.h"
 #include "src/protocols/bearers/RadioBearer.h"
+#include "src/protocols/phy/Channel/Bandwidth.h"
 
 class Cell;
 class UserEquipment;
@@ -59,10 +60,10 @@ protected:
     // TODO: Add protocol stack
 
     // Link budget parameters
-    float TxPower_;
-    float bodyLoss_;
-    float EIRP_;
-    float noiseFigure_;
+    float TxPower_ = 0;
+    float bodyLoss_ = 0;
+    float EIRP_ = 0;
+    float noiseFigure_ = 0;
     float additionalGain_ = 0;
     float additionalLoss_ = 0;
 
@@ -124,7 +125,7 @@ public:
     double calculatePathLosToUserEquipment(UserEquipment *targetUser, double distance);
     double calculateRssiFromUserEquipment(UserEquipment *targetUser, double pathLos);
     double calculateRssiFromCell(Cell *targetCell, double pathLos);
-    double calculateRsrpFromRssi(double rssi);
+    double calculateRsrpFromRssi(Bandwidth *BW, double rssi);
 
     void sync120TimeSlot(int &timeSlot);
     int getLocalSystem120TimeSlot();

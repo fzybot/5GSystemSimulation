@@ -46,4 +46,7 @@ public:
     void createMacEntity();
     void setMacEntity(CellMacEntity *mac);
     CellMacEntity *getMacEntity();
+
+    void pathLosDetach();
+    void detachUeFromCell(int index, int reason);
 };
