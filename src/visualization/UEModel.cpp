@@ -125,6 +125,32 @@ bool UEModel::removeDataByName(QString)
     return true;
 }
 
+Mobility::Model UEModel::getModelBySettings()
+{
+    if(mobilityModelSettings == 0){
+        switch (rand()%3 + 1) {
+            case 1:{
+                return Mobility::Model::RANDOM_WALK;
+            }
+            case 2:{
+                return Mobility::Model::RANDOM_WAYPOINT;
+            }
+            case 3:{
+                return Mobility::Model::GAUSS_MARKOV;
+            }
+        }
+    }
+    if(mobilityModelSettings == 1){
+        return Mobility::Model::RANDOM_WALK;
+    }
+    if(mobilityModelSettings == 2){
+        return Mobility::Model::RANDOM_WAYPOINT;
+    }
+    if(mobilityModelSettings == 3){
+        return Mobility::Model::GAUSS_MARKOV;
+    }
+}
+
 void UEModel::testUpdateModel()
 {
     srand(time(NULL));
@@ -143,7 +169,7 @@ void UEModel::testUpdateModel()
             setData(index(rowCount()-1), randLon, MoveToLonRole);
             m_mobility[i].setAngle(((float)rand()/(float)RAND_MAX)*2*M_PI + 0);
             m_mobility[i].setSpeed(rand()%10 + 1);
-            m_mobility[i].setModel(Mobility::Model::GAUSS_MARKOV);
+            m_mobility[i].setModel(getModelBySettings());
             m_mobility[i].setAlpha(0.75);
             m_mobility[i].setBorders(55.018151, 55.009088, 82.933401, 82.960240);
             m_mobility[i].setBorderZone(0.000100);
@@ -181,7 +207,8 @@ void UEModel::stopSim()
     m_timer.stop();
 }
 
-void UEModel::changeNumberOfUe(int number)
+void UEModel::changeSettings(int* settings)
 {
-    ueNumber_ = number;
+    ueNumber_ = settings[6];
+    mobilityModelSettings = settings[7];
 }

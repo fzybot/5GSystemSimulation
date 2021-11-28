@@ -57,17 +57,20 @@ public:
     bool addData(mapObjectData);
     bool removeDataByName(QString);
 
+    Mobility::Model getModelBySettings();
+
 public slots:
     void testUpdateModel();
     void startSim();
     void stopSim();
-    void changeNumberOfUe(int);
+    void changeSettings(int*);
 
 private:
     QVector <mapObjectData> m_data;
     QVector <Mobility> m_mobility;
     QTimer m_timer;
     int ueNumber_ = 0;
+    int mobilityModelSettings = 0;
 };
 
 #endif // UEMODEL_H

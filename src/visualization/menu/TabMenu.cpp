@@ -27,11 +27,11 @@ TabMenu::TabMenu(QWidget *parent)
     mainLayout->addWidget(tabWidget);
     setLayout(mainLayout);
 
-    connect(this, &TabMenu::changedNumberOfUe, map_, &Map::changeNumberOfUe);
+    connect(this, &TabMenu::changedSettings, map_, &Map::changeSettings);
 }
 
-void TabMenu::changeNumberOfUe(int number)
+void TabMenu::changeSettings(int* number)
 {
     qDebug() << "Tab Menu gets it : " << number;
-    emit changedNumberOfUe(number);
+    emit changedSettings(number);
 }

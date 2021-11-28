@@ -30,8 +30,8 @@ public:
     void stopSim();
 
 public slots:
-    void changeNumberOfUe(int);
+    void changeSettings(int*);
 
 signals:
-    void changedNumberOfUe(int);
+    void changedSettings(int*);
 };

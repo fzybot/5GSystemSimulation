@@ -14,7 +14,7 @@ MapQuickWidget::MapQuickWidget(QWidget* parent) :
 
     ueModel_ = new UEModel;
 
-    connect(this, &MapQuickWidget::changedNumberOfUe, ueModel_, &UEModel::changeNumberOfUe);
+    connect(this, &MapQuickWidget::changedSettings, ueModel_, &UEModel::changeSettings);
 
     this->engine()->rootContext()->setContextProperty("_ueModel", ueModel_);
     this->engine()->rootContext()->setContextProperty("PixelMap", QString("file://").append(QString(QCoreApplication::applicationDirPath()).append("/pixelMap.bmp")));
@@ -74,8 +74,8 @@ void MapQuickWidget::stopSim()
     ueModel_->stopSim();
 }
 
-void MapQuickWidget::changeNumberOfUe(int number)
+void MapQuickWidget::changeSettings(int* number)
 {
     qDebug() << "MapQuick gets it: " << number;
-    emit changedNumberOfUe(number);
+    emit changedSettings(number);
 }

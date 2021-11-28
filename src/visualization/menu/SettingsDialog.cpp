@@ -15,7 +15,7 @@ SettingsDialog::SettingsDialog(QWidget *parent)
     connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
-    connect(this, &SettingsDialog::changedNumberOfUe, (MainWindow*)parent, &MainWindow::changeNuberOfUe);
+    connect(this, &SettingsDialog::changedSettings, (MainWindow*)parent, &MainWindow::changeSettings);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(tabWidget);
@@ -34,10 +34,30 @@ SettingsDialog::~SettingsDialog()
         QObject* lnkBdgt = tabWidget->widget(1);
         GeneralTab *general = qobject_cast<GeneralTab*>(gnrl);
         LinkBudgetTab *linkBudget = qobject_cast<LinkBudgetTab*>(lnkBdgt);
+        MainWindow* prnt = (MainWindow*)parent();
 
+        int numberOfCell = general->numberOfCellLineEdit->text().toInt();
+        int band = general->bandComboBox->currentIndex();
+        int numerology = general->numerologyComboBox->currentIndex();
+        int bandwidth = general->bandwidthComboBox->currentIndex();
+        int channelModel = general->channelModelComboBox->currentIndex();
+        int doppler = general->dopplerRadioButton->isChecked();
         int numberOfUe = general->numberOfUeLineEdit->text().toInt();
+        int mobilityModel = general->mobilityModelComboBox->currentIndex();
+        int ueDistribution = general->distributionComboBox->currentIndex();
+
+        prnt->simulationSettings[0] = numberOfCell;
+        prnt->simulationSettings[1] = band;
+        prnt->simulationSettings[2] = numerology;
+        prnt->simulationSettings[3] = bandwidth;
+        prnt->simulationSettings[4] = channelModel;
+        prnt->simulationSettings[5] = doppler;
+        prnt->simulationSettings[6] = numberOfUe;
+        prnt->simulationSettings[7] = mobilityModel;
+        prnt->simulationSettings[8] = ueDistribution;
+
         qDebug() << "number of UE: " << numberOfUe;
-        emit changedNumberOfUe(numberOfUe);
+        emit changedSettings(prnt->simulationSettings);
     }
 
 }

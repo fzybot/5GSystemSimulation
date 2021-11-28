@@ -52,15 +52,16 @@ private slots:
     void documentWasModified();
 
 public slots:
-    void changeNuberOfUe(int);
+    void changeSettings(int*);
 
 signals:
-    void changedNumberOfUe(int);
+    void changedSettings(int*);
 
 public:
     MainWindow(QWidget* parent = nullptr);
 
     void loadFile(const QString& fileName);
+    int simulationSettings[19];
 //    void insertCustomer(const QString &customer);
 //    void addParagraph(const QString &paragraph);
 //    void runSimulation();

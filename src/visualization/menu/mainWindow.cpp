@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget* parent) :
     //tabMenu_->setFixedSize(500, 500);
     setCentralWidget(tabMenu_);
 
-    connect(this, &MainWindow::changedNumberOfUe, tabMenu_, &TabMenu::changeNumberOfUe);
+    connect(this, &MainWindow::changedSettings, tabMenu_, &TabMenu::changeSettings);
 
     createActions();
     createStatusBar();
@@ -193,10 +193,10 @@ void MainWindow::documentWasModified()
     setWindowModified(textEdit->document()->isModified());
 }
 
-void MainWindow::changeNuberOfUe(int number)
+void MainWindow::changeSettings(int* number)
 {
     qDebug() << "MainWindow gets it : " << number;
-    emit changedNumberOfUe(number);
+    emit changedSettings(number);
 
 }
 //! [16]
