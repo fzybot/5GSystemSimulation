@@ -132,8 +132,8 @@ void UEModel::testUpdateModel()
     int row = 0;
     double randLat = 0, randLon = 0;
     //if(rowCount() == 0) insertRows(rowCount(), 1);
-    if(rowCount() == 0){
-        for (int i = 0; i < 300; ++i){
+    if(rowCount() < ueNumber_){
+        for (int i = rowCount(); i < ueNumber_; ++i){
             randLat = ((float)rand()/(float)RAND_MAX)*0.009063 + 55.009088;
             randLon = ((float)rand()/(float)RAND_MAX)*0.026839 + 82.933401;
             insertRows(rowCount(),1);
@@ -151,6 +151,9 @@ void UEModel::testUpdateModel()
             m_mobility[i].setMaxSpeed(10);
             m_mobility[i].setPauseTime(0.00003);
         }
+    }
+    if(rowCount() > ueNumber_){
+        removeRows(ueNumber_, rowCount()-ueNumber_);
     }
 
     for (mapObjectData ue : m_data){
@@ -176,4 +179,9 @@ void UEModel::startSim()
 void UEModel::stopSim()
 {
     m_timer.stop();
+}
+
+void UEModel::changeNumberOfUe(int number)
+{
+    ueNumber_ = number;
 }

@@ -51,6 +51,12 @@ private slots:
     void settingsLinkBudget();
     void documentWasModified();
 
+public slots:
+    void changeNuberOfUe(int);
+
+signals:
+    void changedNumberOfUe(int);
+
 public:
     MainWindow(QWidget* parent = nullptr);
 

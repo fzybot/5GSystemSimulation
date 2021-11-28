@@ -26,4 +26,12 @@ TabMenu::TabMenu(QWidget *parent)
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(tabWidget);
     setLayout(mainLayout);
+
+    connect(this, &TabMenu::changedNumberOfUe, map_, &Map::changeNumberOfUe);
+}
+
+void TabMenu::changeNumberOfUe(int number)
+{
+    qDebug() << "Tab Menu gets it : " << number;
+    emit changedNumberOfUe(number);
 }

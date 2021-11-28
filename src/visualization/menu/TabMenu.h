@@ -20,7 +20,11 @@ private:
 public:
     explicit TabMenu(QWidget *parent = nullptr);
 
+public slots:
+    void changeNumberOfUe(int);
+
 signals:
+    void changedNumberOfUe(int);
 
 };
 

@@ -28,4 +28,10 @@ public:
 
     void startSim();
     void stopSim();
+
+public slots:
+    void changeNumberOfUe(int);
+
+signals:
+    void changedNumberOfUe(int);
 };

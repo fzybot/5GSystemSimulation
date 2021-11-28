@@ -1,6 +1,7 @@
 #include <QtWidgets>
 #include <QComboBox>
 #include "SettingsDialog.h"
+#include "src/visualization/menu/mainWindow.h"
 
 SettingsDialog::SettingsDialog(QWidget *parent)
     :QDialog(parent)
@@ -14,12 +15,31 @@ SettingsDialog::SettingsDialog(QWidget *parent)
     connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
+    connect(this, &SettingsDialog::changedNumberOfUe, (MainWindow*)parent, &MainWindow::changeNuberOfUe);
+
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(tabWidget);
     mainLayout->addWidget(buttonBox);
     setLayout(mainLayout);
 
     setWindowTitle(tr("Tab Dialog"));
+}
+
+SettingsDialog::~SettingsDialog()
+{
+    int result = this->result();
+    qDebug() << "settings accepted " << result;
+    if(result){
+        QObject* gnrl = tabWidget->widget(0);
+        QObject* lnkBdgt = tabWidget->widget(1);
+        GeneralTab *general = qobject_cast<GeneralTab*>(gnrl);
+        LinkBudgetTab *linkBudget = qobject_cast<LinkBudgetTab*>(lnkBdgt);
+
+        int numberOfUe = general->numberOfUeLineEdit->text().toInt();
+        qDebug() << "number of UE: " << numberOfUe;
+        emit changedNumberOfUe(numberOfUe);
+    }
+
 }
 
 GeneralTab::GeneralTab(QWidget *parent)
@@ -134,7 +154,6 @@ GeneralTab::GeneralTab(QWidget *parent)
 
     setLayout(globalVBox);
 }
-
 
 LinkBudgetTab::LinkBudgetTab(QWidget *parent)
     : QWidget(parent)

@@ -55,11 +55,15 @@ class SettingsDialog : public QDialog
 //     bool m_finished = false;
 public:
     explicit SettingsDialog(QWidget *parent = nullptr);
+    ~SettingsDialog();
 
 private:
     QTabWidget *tabWidget;
     QDialogButtonBox *buttonBox;
-    
+
+signals:
+    void changedNumberOfUe(int);
+
 };
 
 
@@ -81,7 +85,6 @@ private:
     QLineEdit *numberOfCellLineEdit;
 
     QLabel *numberOfUeLabel;
-    QLineEdit *numberOfUeLineEdit;
 
     QStringListModel *numerologyModel;
     QLabel *numerologyLabel;
@@ -113,6 +116,7 @@ private:
 
 public:
     explicit GeneralTab(QWidget *parent = nullptr);
+    QLineEdit *numberOfUeLineEdit;
 };
 
 

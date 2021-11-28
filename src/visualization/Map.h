@@ -31,5 +31,9 @@ public:
 public slots:
     void startSim();
     void stopSim();
+    void changeNumberOfUe(int);
+
+signals:
+    void changedNumberOfUe(int);
 };
 

@@ -61,11 +61,13 @@ public slots:
     void testUpdateModel();
     void startSim();
     void stopSim();
+    void changeNumberOfUe(int);
 
 private:
     QVector <mapObjectData> m_data;
     QVector <Mobility> m_mobility;
     QTimer m_timer;
+    int ueNumber_ = 0;
 };
 
 #endif // UEMODEL_H
