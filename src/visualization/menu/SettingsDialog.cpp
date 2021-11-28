@@ -56,6 +56,29 @@ SettingsDialog::~SettingsDialog()
         prnt->simulationSettings[7] = mobilityModel;
         prnt->simulationSettings[8] = ueDistribution;
 
+        int cellTxPower = linkBudget->cellTxPowerLineEdit->text().toInt();
+        int cellFeederLos = linkBudget->cellFeederLosLineEdit->text().toInt();
+        int antennaConfig = linkBudget->antennaConfigComboBox->currentIndex();
+        int cellAntennaGain = linkBudget->antennaGainLineEdit->text().toInt();
+        int cellNoiseFigure = linkBudget->noiseFigureLineEdit->text().toInt();
+        int propagationModel = linkBudget->propagationModelComboBox->currentIndex();
+        int ueTxPower = linkBudget->ueTxPowerLineEdit->text().toInt();
+        int ueFeederLos = linkBudget->ueFeederLosLineEdit->text().toInt();
+        int ueAntennaGain = linkBudget->ueAntennaGainLineEdit->text().toInt();
+        int ueNoiseFigure = linkBudget->ueNoiseFigureLineEdit->text().toInt();
+
+        prnt->simulationSettings[9] = cellTxPower;
+        prnt->simulationSettings[10] = cellFeederLos;
+        prnt->simulationSettings[11] = antennaConfig;
+        prnt->simulationSettings[12] = cellAntennaGain;
+        prnt->simulationSettings[13] = cellNoiseFigure;
+        prnt->simulationSettings[14] = propagationModel;
+        prnt->simulationSettings[15] = ueTxPower;
+        prnt->simulationSettings[16] = ueFeederLos;
+        prnt->simulationSettings[17] = ueAntennaGain;
+        prnt->simulationSettings[18] = ueNoiseFigure;
+
+
         qDebug() << "number of UE: " << numberOfUe;
         emit changedSettings(prnt->simulationSettings);
     }
