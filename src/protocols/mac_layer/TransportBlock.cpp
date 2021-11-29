@@ -45,7 +45,7 @@ void TransportBlock::addSize(int size)
 
 int TransportBlock::getSize()
 {
-    return sizeCodeRate_;
+    return sizeCodeRate_; // 200 - overheads
 }
 
 void TransportBlock::setSizeWoCodeRate(int size)
@@ -68,4 +68,14 @@ void TransportBlock::clear()
     packetContainer_.clear();
     setSize(0);
     setSizeWoCodeRate(0);
+}
+
+void TransportBlock::setNumberOfPrb(int number)
+{
+    nPrb_ = number;
+}
+
+int TransportBlock::getNumberOfPrb()
+{
+    return nPrb_;
 }

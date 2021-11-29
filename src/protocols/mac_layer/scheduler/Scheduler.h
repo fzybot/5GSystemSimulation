@@ -3,6 +3,7 @@
 #include "src/protocols/mac_layer/TransportBlock.h"
 
 #include <QVector>
+#include <QQueue>
 
 class UserEquipment;
 class Cell;
@@ -20,15 +21,16 @@ public:
 protected:
     SchedulingAlgorithm         algorithm_;
     Cell                        *cell_;
-    QVector<UserEquipment *>    *firstQueue_;   // ? don't know why yet
-    QVector<UserEquipment *>    *timeQueue_;    // Time domain  candidates
-    QVector<UserEquipment *>    *freqQueue_;    // Frequency domain candidates
+    QVector<UserEquipment*>    *firstQueue_;   // ? don't know why yet
+    QVector<UserEquipment*>    *timeQueue_;    // Time domain  candidates
+    QVector<UserEquipment*>    *freqQueue_;    // Frequency domain candidates
 
-    QVector<Packet *>       packetContainer_;           // Packet container to schedule
+    QVector<Packet*>        packetContainer_;           // Packet container to schedule
     QVector<TransportBlock> transportBlockContainer_;   // Transport Block container to PHY layer
+    //TransportBlock          localTbs_;
 
 private:
-    int nLayers_ = 1;
+    int nLayers_ = 2;
     int nPrb_ = 0;
     int nRemainingPrb_ = 0;
     int nCoresetRe_ = 0;
@@ -36,8 +38,6 @@ private:
     int nMaxScheuledUe_ = 5;
     int currentScheduledUe = 0;
     int nMinPrbPerUe_ = 1;
-
-    TransportBlock  localTbs_;
 
 public:
     Scheduler();
@@ -57,15 +57,20 @@ public:
     void roundRobin(QVector<UserEquipment*> *userEquipmentContainer);
     void propotionalFair(QVector<UserEquipment*> *userEquipmentContainer);
 
+    void transmitTbThroughPhysical();
+
     // Support methods
     void updateAvailableNumPRB(int nPRB);
     int getRemainingNumPRB();
     void updateAvailableNumCoresetRe(int coresetRe);
     int getRemainingNumCoresetRe();
     int calculateOptimalNumberOfPrbPerUe(int mcs, int maxPrb, int ueBuffer);
-    void fillTbWithPackets(UserEquipment *user, int tbsSize, double codeRate);
+    void fillTbWithPackets(RadioBearer *bearer, int tbsSize, double codeRate, int nPrb);
     void packetsToTbs();
     int calcAggLevel(double sinr);
+
+    QVector<TransportBlock> &getTransportBlockContainer();
+    void showTransportBlockContainer();
 
     void packetSegmentation(Packet *packet, int neededSize);
 
@@ -75,5 +80,6 @@ public:
     void checkTransmitSlot(QVector<UserEquipment *> *userEquipmentContainer);
 
     void addToQueue(int id);
-    
+
+    void count(TransportBlock &tb);
 };

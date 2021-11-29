@@ -1,8 +1,14 @@
 #pragma once
-#include "src/protocols/bearers/Bearer.h"
+
+
 #include "src/protocols/bearers/QoS/QoSProfile.h"
-#include "src/protocols/Packet.h"
 #include "src/protocols/bearers/ServiceTrafficProfile.h"
+#include "src/protocols/Packet.h"
+
+#include <QVector>
+#include <QQueue>
+
+class Packet;
 
 class RadioBearer
 {
@@ -24,6 +30,13 @@ private:
 
     ServiceTrafficProfile   trafficProfile_;
 
+    QVector<Packet*>    packetsInBuffer_;
+    QVector<Packet*>    packetsCurrentSlot_;
+    QQueue<Packet*>     packetsQueueCurrentSlot_;
+
+    int                 gPacketId_ = 1000;
+    int                 bufferSize_ = 0;
+
     // COUNTERS 
     int counterDataTransmitted_;
     int counterSlotTransmitted_;
@@ -43,6 +56,18 @@ public:
 
     void setTrafficProfile(ServiceTrafficProfile::Profile profile);
     ServiceTrafficProfile &getTrafficProfile();
+
+    void generatePackets(int number, int currentSlot);
+    QVector<Packet*> &getPacketsContainer();
+    QVector<Packet*> &getPacketsContainerCurrentSlot(int slot);
+    void deletePackets(QVector<Packet*> &packetsToDelete);
+    void deletePacket(Packet *packetToDelete);
+    void showPacketsInBuffer();
+    void updatePacketTransmitSlot(int slot);
+
+    void addToBuffer(int size);
+    void decreaseBuffer(int decSize);
+    int getBufferSize();
 
     int &getCounterDataTransmitted();
     int &getCounterSlotTransmitted();

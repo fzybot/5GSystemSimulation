@@ -16,11 +16,7 @@ class UserEquipment : public Equipment
 protected:
     gNodeB              *targetGNodeB_;
     Cell                *targetCell_;
-    QVector<Packet*>    packetsInBuffer_;
-    QVector<Packet*>    packetsCurrentSlot_;
-    QQueue<Packet*>     packetsQueueCurrentSlot_;
-    QVector<Packet*>    packetsHarq_;
-    int                 gPacketId_ = 1000;
+
 
     int slotToCampOnCell_ = 0;
 
@@ -29,7 +25,6 @@ protected:
     bool        BSR_ = true;
     bool        measurementGAP_ = false;
     bool        DRX_ = false;
-    int         bufferSize_ = 0;
 
     // Measurements for target Cell
     double targetCellRsrp;
@@ -52,18 +47,8 @@ public:
     void setTargetGNodeB(gNodeB *gNb);
     gNodeB *getTargetGNodeB();
 
-    void addToBuffer(int size);
-    void decreaseBuffer(int decSize);
-    int getBufferSize();
-
-    void generatePackets(int number, int currentSlot, RadioBearer *bearer);
-    QVector<Packet*> &getPacketsContainer();
-    QVector<Packet*> &getPacketsContainerCurrentSlot(int slot);
     void generatePacketsPerBearer(int slot);
-    void deletePackets(QVector<Packet*> &packetsToDelete);
-    void deletePacket(Packet *packetToDelete);
-    void showPacketsInBuffer();
-    void updatePacketTransmitSlot(int slot);
+    int getBufferSize();
 
     void setSlotToCamp(int slot);
     int getSlotToCamp();
