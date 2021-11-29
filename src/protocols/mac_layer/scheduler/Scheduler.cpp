@@ -35,15 +35,18 @@ void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
     int nPrb = cell_->getPhyEntity()->getBandwidthContainer()[0][0]->getNumberOfPRB();
     QPair<int, int> coreset = cell_->getPhyEntity()->getBandwidthContainer()[0][0]->getCoresetSize();
     int coresetSize = coreset.first * coreset.second * 12; // 12 subcarriers in 1 RB
+    int slot = getCell()->getLocalOwnTimeSlot();
     updateAvailableNumPRB(nPrb);
     updateAvailableNumCoresetRe(coresetSize);
-    qDebug() << "Scheduler::doSchedule::Number of RE CORESET --->" << coresetSize;
+    // qDebug() << "Scheduler::doSchedule::Number of RE CORESET --->" << coresetSize;
     // qDebug() << "Number of PRBs --->" << getNumPRB();
     // qDebug() << "Number of TBS: "<< cell_->getMacEntity()->getTransportBlockContainer().length();
 
     timeDomainScheduling(userEquipmentContainer);
     if (timeQueue_->length() > 0){
-        frequencyDomainScheduling(timeQueue_);
+        frequencyDomainScheduling(timeQueue_, nPrb, coresetSize);
+        transmitTbThroughPhysical(slot);
+        timeQueue_[0][0]->showDataTransmitted();
     }
 }
 
@@ -58,42 +61,40 @@ void Scheduler::timeDomainScheduling(QVector<UserEquipment*> *userEquipmentConta
     }
 }
 
-void Scheduler::frequencyDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer)
+void Scheduler::frequencyDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer, int nPrb, int coresetSize)
 {
     switch (algorithm_)
     {
     case Scheduler::SchedulingAlgorithm::ROUND_ROBIN:
-        roundRobin(userEquipmentContainer);
+        roundRobin(userEquipmentContainer, nPrb, coresetSize);
         break;
 
     case Scheduler::SchedulingAlgorithm::PROPOTIONAL_FAIR:
-        propotionalFair(userEquipmentContainer);
+        propotionalFair(userEquipmentContainer, nPrb, coresetSize);
         break;
     }
 }
 
-void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
+void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer, int nPrb, int coresetSize)
 {
     qDebug() << "Scheduler::roundRobin::Starting frequency diomain scheduling (ROUND ROBIN)-->";
     qDebug() << "Scheduler::roundRobin::userEquipmentContainer length -->" << userEquipmentContainer->length();
     int utilizedPrb = 0;
     int size = 0;
     int codeRateSize = 0;
-    getTransportBlockContainer().clear();
     for (auto timeUE : *userEquipmentContainer)
     {
-
         double ueSINR = timeUE->getSINR();
         int ueBufferSize = timeUE->getBufferSize();
         int cqi = getCell()->getMacEntity()->getAMCEntity()->getCQIFromSinr (ueSINR);
         int mcs = getCell()->getMacEntity()->getAMCEntity()->getMCSFromCQI(cqi);
         double codeRate = getCell()->getMacEntity()->getAMCEntity()->getCodeRateFromMcs(mcs);
         int maxNPrbPerUe = 30;
-        int nPrbPerUe =  calculateOptimalNumberOfPrbPerUe(mcs, nRemainingPrb_, ueBufferSize); // TODO: think about nRemainingPrb_
+        int nPrbPerUe =  calculateOptimalNumberOfPrbPerUe(mcs, nPrb, ueBufferSize); // TODO: think about nRemainingPrb_
         int tbs = getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(mcs, nPrbPerUe, nLayers_, nCoresetRe_);
         int nReCce = calcAggLevel(ueSINR) * 6 * 12; // 1 [CCE] = 6 [REG]; 1 [RE]G = 12 [subcarrires] x 1 [OFDM symbol]
 
-        if( (nRemainingPrb_ -  nPrbPerUe) > 0 && (nRemainingCoresetRe_ - nReCce) > 0 ) {
+        if( (nPrb -  nPrbPerUe) > 0 && (coresetSize - nReCce) > 0 ) {
             // Create TBS object with packets inside
             for (auto bearer : *timeUE->getBearerContainer()){
                 fillTbWithPackets(bearer, tbs, codeRate, nPrbPerUe);
@@ -103,9 +104,9 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
             //codeRateSize += localTbs_.getSize();
             // "Distribute" the resources for UE
             // qDebug() <<"    "<< "Scheduler::roundRobin::Remaining PRBs before distribution -->" << nRemainingPrb_;
-            nRemainingPrb_ -= nPrbPerUe;
+            nPrb -= nPrbPerUe;
             utilizedPrb += nPrbPerUe;
-            nRemainingCoresetRe_ -= nReCce;
+            coresetSize -= nReCce;
 
             // qDebug() <<"    "<< "Scheduler::roundRobin::UE Id --->"<< timeUE->getEquipmentId();
             // qDebug() <<"    "<< "Scheduler::roundRobin::UE SINR|CQI|MSC|TBS|CodeRate --->"<< ueSINR << cqi << mcs << tbs << codeRate;
@@ -117,29 +118,41 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer)
         }
         //localTbs_.clear();
     }
-    transmitTbThroughPhysical();
     int slot = getCell()->getLocalOwnTimeSlot();
     // qDebug() <<"    "<< "Scheduler::roundRobin::addCountPrbUtilized -->" << utilizedPrb;
 }
 
-void Scheduler::propotionalFair(QVector<UserEquipment*> *userEquipmentContainer)
+void Scheduler::propotionalFair(QVector<UserEquipment*> *userEquipmentContainer, int nPrb, int coresetSize)
 {
 
 }
 
-void Scheduler::transmitTbThroughPhysical()
+void Scheduler::transmitTbThroughPhysical(int slot)
 {
-    showTransportBlockContainer();
-    for(auto tb : getTransportBlockContainer()){
-        int transmissionProbability = QRandomGenerator::global()->bounded(1, 100);
-        if (transmissionProbability <= 10) {
-            
+    //showTransportBlockContainer();
+    int localIndex = 0;
+    int neededIndex = 0;
+    QVector<TransportBlock> errorContainer;
+    QVector<TransportBlock> succContainer;
+    for(auto value : getTransportBlockContainer()){
+        TransportBlock transmitted = transportBlockContainer_.dequeue();
+        if(transmitted.getSlotToTransmit() == slot){
+            int transmissionProbability = QRandomGenerator::global()->bounded(1, 100);
+            if (transmissionProbability > 10) {
+                transmitted.setSlotTransmitted(slot);
+                succContainer.append(transmitted);
+            } else {
+                transmitted.setHarqStatus(true);
+                transmitted.setSlotToTransmit(slot+4);
+                errorContainer.append(transmitted);
+            }
         } else {
-            
+            errorContainer.append(transmitted);
         }
-//        getCell()->addCountPrbUtilized(slot, utilizedPrb);
-//        getCell()->addCountTbTransmitted(slot, codeRateSize);
-//        getCell()->addCountDataTransmitted(slot, size);
+    }
+    countCell(succContainer, slot);
+    for(auto tb : errorContainer){
+        addToTbsContainer(tb);
     }
 }
 
@@ -185,21 +198,21 @@ void Scheduler::fillTbWithPackets(RadioBearer *bearer, int tbsSize, double codeR
 {
     int index = 0;
     int lTbs = 0;
-    QVector<Packet*> deletePackets;
-    deletePackets.clear();
+    QVector<Packet*> packetsToDelete;
+    packetsToDelete.clear();
     TransportBlock localTbs_;
+    localTbs_.setUserEquipment(bearer->getUserEquipment());
     for (auto packet : bearer->getPacketsContainerCurrentSlot(getCell()->getLocalOwnTimeSlot()))
     {
         if(nRemainingPrb_ > 0 && nRemainingCoresetRe_ > 0) {
             lTbs = localTbs_.getSize() + (int)(packet->getSize() / codeRate);
-            qDebug() <<"    "<< "Scheduler::fillTbWithPackets:: tbs container --> " << tbsSize << lTbs << localTbs_.getSize() << (int)(packet->getSize()/codeRate);
+            //qDebug() <<"    "<< "Scheduler::fillTbWithPackets:: tbs container --> " << tbsSize << lTbs << localTbs_.getSize() << (int)(packet->getSize()/codeRate);
             // TODO: if lTbs < tbsSize !!! make an exeption
             if (lTbs <= tbsSize)
             {
                 localTbs_.appendPacket(packet, (int)(packet->getSize()/codeRate));
-                packet->setSlotTransmitted(getCell()->getLocalOwnTimeSlot());
-                deletePackets.append(packet);
-                qDebug() << "    "<< "Scheduler::fillTbWithPackets:: packet transmitted slot --> " << packet->getSlotTransmitted();
+                packetsToDelete.append(packet);
+                qDebug() << "    "<< "Scheduler::fillTbWithPackets:: TBS --> " << lTbs;
             }
             else
             {
@@ -208,20 +221,19 @@ void Scheduler::fillTbWithPackets(RadioBearer *bearer, int tbsSize, double codeR
         }
         index++;
     }
-    localTbs_.setNumberOfPrb(nPrbPerUe);
-    getTransportBlockContainer().append(localTbs_);
-//    user->showPacketsInBuffer();
-//    user->deletePackets(deletePackets);
-//    user->updatePacketTransmitSlot(getCell()->getLocalOwnTimeSlot() + 1); // 5 - like HARQ
+    if (localTbs_.getSize() != 0){
+        int slot = getCell()->getLocalOwnTimeSlot();
+        localTbs_.setNumberOfPrb(nPrbPerUe);
+        localTbs_.setSlotToTransmit(slot);
+        localTbs_.setSlotInitialized(slot);
+        addToTbsContainer(localTbs_);
+        bearer->deletePackets(packetsToDelete);
+    }
+}
 
-    // for (int i = 0; i < deletePackets.size(); i++){
-    //     for (int j = 0; j < user->getPacketsContainer().size(); j++){
-    //         qDebug() << "DELETE --> " << user->getPacketsContainer().size();
-    //         user->getPacketsContainer().remove(deletePackets[i]);
-    //     }
-    // }
-        // Before that fill with zeros
-    //localTbs_.setSize(tbsSize);
+void Scheduler::addToTbsContainer(TransportBlock tb)
+{
+    getTransportBlockContainer().enqueue(tb);
 }
 
 // TODO: need more accurate calculation
@@ -242,7 +254,7 @@ int Scheduler::calcAggLevel(double sinr)
     return aggLevel;
 }
 
-QVector<TransportBlock> &Scheduler::getTransportBlockContainer()
+QQueue<TransportBlock> &Scheduler::getTransportBlockContainer()
 {
     return transportBlockContainer_;
 }
@@ -257,9 +269,35 @@ Cell *Scheduler::getCell()
     return cell_;
 }
 
+void Scheduler::countCell(QVector<TransportBlock> tbContainer, int slot)
+{
+
+    int utilizedPrb = 0;
+    int codeRateSize = 0;
+    int pureData = 0;
+
+    for (auto tb : tbContainer)
+    {
+        utilizedPrb += tb.getNumberOfPrb();
+        codeRateSize += tb.getSize();
+        pureData += tb.getSizeWoCodeRate();
+        countUe(tb, slot);
+    }
+    getCell()->addCountPrbUtilized(slot, utilizedPrb);
+    getCell()->addCountTbTransmitted(slot, codeRateSize);
+    getCell()->addCountDataTransmitted(slot, pureData);
+}
+
+void Scheduler::countUe(TransportBlock tb, int slot)
+{
+
+    tb.getUserEquipment()->addCountDataTransmitted(slot, tb.getSizeWoCodeRate());
+}
+
 void Scheduler::showTransportBlockContainer()
 {
     for(auto tb : getTransportBlockContainer()){
-        qDebug() << "    "<< "Scheduler::showTransportBlockContainer:: tb-->" << tb.getSize();
+        qDebug() << "    "<< "Scheduler::showTransportBlockContainer:: tb-->" << tb.getSize() << tb.getSlotToTransmit();
     }
 }
+

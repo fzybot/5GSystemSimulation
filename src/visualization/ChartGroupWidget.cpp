@@ -45,8 +45,13 @@ ChartGroupWidget::ChartGroupWidget(QWidget *parent) :
 
     QVector<QVector<QPair<int, int>>> data = Simple();
     QVector<QVector<QPair<int, int>>> dataThroughput;
+    QVector<QVector<QPair<int, int>>> prbUtilized;
     QVector<QVector<QPair<int, int>>> dataDelay;
     QVector<QVector<QPair<int, int>>> dataBler;
+
+    dataThroughput.push_back(data[0]);
+    dataThroughput.push_back(data[1]);
+    prbUtilized.push_back(data[2]);
 
     QGridLayout *grid = new QGridLayout(this);
     grid->setSpacing(2);
@@ -75,11 +80,11 @@ ChartGroupWidget::ChartGroupWidget(QWidget *parent) :
     // grid->addWidget(chartView, 1, 0);
     // charts_ << chartView;
 
-    chartView = new QChartView(createLineChart(data));
+    chartView = new QChartView(createLineChart(dataThroughput, "Cell Throughput (TBS/Pure)"));
     grid->addWidget(chartView, 0, 1);
     charts_ << chartView;
 
-    chartView = new QChartView(createLineChart(data));
+    chartView = new QChartView(createLineChart(prbUtilized, "PRB Utilized"));
     grid->addWidget(chartView, 1, 1);
     charts_ << chartView;
 
@@ -102,11 +107,11 @@ ChartGroupWidget::ChartGroupWidget(QWidget *parent) :
 
 // ----- [ CREATE CHARTS ] ----------------------------------------------------------------------------------------------
 
-QChart *ChartGroupWidget::createLineChart(QVector<QVector<QPair<int, int>>> data) const
+QChart *ChartGroupWidget::createLineChart(QVector<QVector<QPair<int, int>>> data, QString str) const
 {
     //![1]
     QChart *chart = new QChart();
-    chart->setTitle("Cell Throughput / Slot");
+    chart->setTitle(str);
 
     QString name("Data ");
     int nameIndex = 0;
@@ -121,7 +126,7 @@ QChart *ChartGroupWidget::createLineChart(QVector<QVector<QPair<int, int>>> data
 
     chart->createDefaultAxes();
     // chart->axes(Qt::Horizontal).first()->setRange(0, 20);
-    // chart->axes(Qt::Vertical).first()->setRange(0, 15000);
+    chart->axes(Qt::Vertical).first()->setRange(0, data[0][0].second * 3);
 
     // Add space to label to add space between labels and axis
     QValueAxis *axisY = qobject_cast<QValueAxis*>(chart->axes(Qt::Vertical).first());

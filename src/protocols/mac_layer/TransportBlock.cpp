@@ -11,6 +11,16 @@ TransportBlock::TransportBlock(Packet &packet)
     setPacket(packet);
 }
 
+void TransportBlock::setUserEquipment(UserEquipment *user)
+{
+    user_ = user;
+}
+
+UserEquipment *TransportBlock::getUserEquipment()
+{
+    return user_;
+}
+
 void TransportBlock::setPacket(Packet &packet)
 {
     packet_ = packet;
@@ -78,4 +88,44 @@ void TransportBlock::setNumberOfPrb(int number)
 int TransportBlock::getNumberOfPrb()
 {
     return nPrb_;
+}
+
+void TransportBlock::setSlotToTransmit(int slot)
+{
+    slotToTransmit_ = slot;
+}
+
+int TransportBlock::getSlotToTransmit()
+{
+    return slotToTransmit_;
+}
+
+void TransportBlock::setSlotInitialized(int slot)
+{
+    slotInitialized_ = slot;
+}
+
+int TransportBlock::getSlotInitialized()
+{
+    return slotInitialized_;
+}
+
+void TransportBlock::setSlotTransmitted(int slot)
+{
+    slotTransmitted_ = slot;
+}
+
+int TransportBlock::getSlotTransmitted()
+{
+    return slotTransmitted_;
+}
+
+void TransportBlock::setHarqStatus(bool status)
+{
+    HARQ_ = status;
+}
+
+bool TransportBlock::getHarqStatus()
+{
+    return HARQ_;
 }

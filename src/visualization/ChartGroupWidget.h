@@ -5,6 +5,7 @@
 #include <QtCharts/QChartGlobal>
 #include <QtCharts/QChartView>
 #include <QtCharts/QChart>
+#include <QString>
 
 #include "src/visualization/data/DataSource.h"
 
@@ -60,7 +61,7 @@ private:
     QChart *createAreaChart() const;
     QChart *createBarChart(int valueCount) const;
     QChart *createPieChart() const;
-    QChart *createLineChart(QVector<QVector<QPair<int, int>>> data) const;
+    QChart *createLineChart(QVector<QVector<QPair<int, int>>> data, QString str) const;
     QChart *createSplineChart() const;
     QChart *createScatterChart() const;
 };

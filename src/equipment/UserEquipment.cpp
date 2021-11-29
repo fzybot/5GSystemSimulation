@@ -36,10 +36,15 @@ UserEquipment::UserEquipment(int id,
     bearerContainer_ = new QVector<RadioBearer *>();
     createDefaultBearer(bearerId);
 
+
     // Additional Data Bearer
     bearerId++;
     int randQoSProfile = QRandomGenerator::global()->bounded(1, 9);
     createBearer(RadioBearer::RadioBearerType::DRB, bearerId, randQoSProfile);
+
+    for(auto bearer : *getBearerContainer()){
+        bearer->setUserEquipment(this);
+    }
 
     // Random SINR
     int localSINR = QRandomGenerator::global()->bounded(0, 19);

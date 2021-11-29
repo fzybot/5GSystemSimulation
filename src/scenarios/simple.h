@@ -104,7 +104,15 @@ static QVector<QVector<QPair<int, int>>> &Simple ()
     queue.enqueue(1);
     queue.enqueue(2);
     queue.enqueue(3);
-    qDebug() << queue.dequeue() << queue.dequeue()<< queue[0];
+    for(auto q : queue){
+        qDebug() << q;
+        //queue.dequeue();
+        queue.enqueue(2);
+    }
+    qDebug() <<"-->";
+    for(auto q : queue){
+        qDebug() << q;
+    }
 
     return cell->getAllData();
 }

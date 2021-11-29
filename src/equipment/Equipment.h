@@ -139,6 +139,7 @@ public:
     void addCountDataTransmitted(int slot, int bits);
     QVector<QPair<int, int>> &getDataTransmitted();
     int calcCountDataTransmittedOverWindow(int windowSize);
+    void showDataTransmitted();
 
     void addCountTbTransmitted(int slot, int bits);
     QVector<QPair<int, int>> &getTbTransmitted();

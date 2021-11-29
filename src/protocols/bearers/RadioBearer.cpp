@@ -18,6 +18,16 @@ void RadioBearer::createDefaultBearer(int id)
     getQoSProfile()->set5QIValue(8);
 }
 
+void RadioBearer::setUserEquipment(UserEquipment *user)
+{
+    user_ = user;
+}
+
+UserEquipment *RadioBearer::getUserEquipment()
+{
+    return user_;
+}
+
 void RadioBearer::createRadioBearer(RadioBearerType type, int id, int QoSProfile)
 {
     type_ = type;

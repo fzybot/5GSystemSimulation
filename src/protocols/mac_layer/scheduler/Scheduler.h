@@ -26,7 +26,7 @@ protected:
     QVector<UserEquipment*>    *freqQueue_;    // Frequency domain candidates
 
     QVector<Packet*>        packetContainer_;           // Packet container to schedule
-    QVector<TransportBlock> transportBlockContainer_;   // Transport Block container to PHY layer
+    QQueue<TransportBlock> transportBlockContainer_;   // Transport Block container to PHY layer
     //TransportBlock          localTbs_;
 
 private:
@@ -51,13 +51,14 @@ public:
     SchedulingAlgorithm getAlgorithm();
 
     void timeDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer);
-    void frequencyDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer);
+    void frequencyDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer, int nPrb, int coresetSize);
 
     // Scheduling algorithms
-    void roundRobin(QVector<UserEquipment*> *userEquipmentContainer);
-    void propotionalFair(QVector<UserEquipment*> *userEquipmentContainer);
+    void roundRobin(QVector<UserEquipment*> *userEquipmentContainer, int nPrb, int coresetSize);
+    void propotionalFair(QVector<UserEquipment*> *userEquipmentContainer, int nPrb, int coresetSize);
+    void besetCqi(QVector<UserEquipment *> *userEquipmentContainer, int nPrb, int coresetSize);
 
-    void transmitTbThroughPhysical();
+    void transmitTbThroughPhysical(int slot);
 
     // Support methods
     void updateAvailableNumPRB(int nPRB);
@@ -69,8 +70,9 @@ public:
     void packetsToTbs();
     int calcAggLevel(double sinr);
 
-    QVector<TransportBlock> &getTransportBlockContainer();
+    QQueue<TransportBlock> &getTransportBlockContainer();
     void showTransportBlockContainer();
+    void addToTbsContainer(TransportBlock tb);
 
     void packetSegmentation(Packet *packet, int neededSize);
 
@@ -81,5 +83,6 @@ public:
 
     void addToQueue(int id);
 
-    void count(TransportBlock &tb);
+    void countCell(QVector<TransportBlock> tb, int slot);
+    void countUe(TransportBlock tb, int slot);
 };

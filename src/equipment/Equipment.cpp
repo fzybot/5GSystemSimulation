@@ -239,6 +239,11 @@ QVector<QPair<int, int>> &Equipment::getDataTransmitted()
     return cDataTransmittedContainer_;
 }
 
+void Equipment::showDataTransmitted()
+{
+        qDebug() << "Equipment::showDataTransmitted():: BITS" << cDataTransmitted_;
+}
+
 void Equipment::addCountTbTransmitted(int slot, int bits)
 {
     QPair<int, int> local_;
@@ -256,7 +261,8 @@ QVector<QVector<QPair<int, int>>> &Equipment::getAllData()
 {
     cAllDataContainer_.push_back(cDataTransmittedContainer_);
     cAllDataContainer_.push_back(cTbTransmittedContainer_);
-    
+    cAllDataContainer_.push_back(cPrbUtilizedContainer_);
+
     return cAllDataContainer_;
 }
 

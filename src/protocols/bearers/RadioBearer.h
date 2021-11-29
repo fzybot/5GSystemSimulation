@@ -9,6 +9,7 @@
 #include <QQueue>
 
 class Packet;
+class UserEquipment;
 
 class RadioBearer
 {
@@ -27,6 +28,7 @@ private:
     int             id_;
     double          ambr_;
     QoSProfile      *QoS_;
+    UserEquipment   *user_;
 
     ServiceTrafficProfile   trafficProfile_;
 
@@ -47,6 +49,9 @@ public:
 
     void setId(int id);
     int getId();
+
+    void setUserEquipment(UserEquipment *user);
+    UserEquipment *getUserEquipment();
 
     void setQoSProfile(QoSProfile *QoS);
     QoSProfile *getQoSProfile();

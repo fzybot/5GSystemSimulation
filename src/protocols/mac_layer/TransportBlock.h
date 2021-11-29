@@ -4,11 +4,15 @@
 
 #include <QVector>
 
+class UserEquipment;
 
 class TransportBlock
 {
 
 private:
+
+    UserEquipment   *user_;
+
     Packet              packet_;
     int                 size_ = 0; // TODO: check actual overhead value calculation based on packets and their size
     int                 sizeCodeRate_ = 0;
@@ -17,12 +21,17 @@ private:
     QVector<int>        prbIndexes_;
     int                 nPrb_ = 0;
     int                 slotToTransmit_ = 0;
+    int                 slotInitialized_ = 0;
+    int                 slotTransmitted_;
 
-    bool HARQ = false;
+    bool HARQ_ = false;
 
 public:
     TransportBlock();
     TransportBlock(Packet &packet);
+
+    void setUserEquipment(UserEquipment *user);
+    UserEquipment *getUserEquipment();
 
     void setPacket(Packet &packet);
     Packet &getPacket();
@@ -42,6 +51,16 @@ public:
     int getNumberOfPrb();
 
     void setSlotToTransmit(int slot);
+    int getSlotToTransmit();
+
+    void setSlotInitialized(int slot);
+    int getSlotInitialized();
+
+    void setSlotTransmitted(int slot);
+    int getSlotTransmitted();
+
+    void setHarqStatus(bool status);
+    bool getHarqStatus();
 
     void clear();
 };
