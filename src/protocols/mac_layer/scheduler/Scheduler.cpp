@@ -88,6 +88,7 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer, int 
         int ueBufferSize = timeUE->getBufferSize();
         int cqi = getCell()->getMacEntity()->getAMCEntity()->getCQIFromSinr (ueSINR);
         int mcs = getCell()->getMacEntity()->getAMCEntity()->getMCSFromCQI(cqi);
+        int mOrder = getCell()->getMacEntity()->getAMCEntity()->getModulationOrderFromMCS(mcs);
         double codeRate = getCell()->getMacEntity()->getAMCEntity()->getCodeRateFromMcs(mcs);
         int maxNPrbPerUe = 30;
         int nPrbPerUe =  calculateOptimalNumberOfPrbPerUe(mcs, nPrb, ueBufferSize); // TODO: think about nRemainingPrb_
@@ -97,7 +98,7 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer, int 
         if( (nPrb -  nPrbPerUe) > 0 && (coresetSize - nReCce) > 0 ) {
             // Create TBS object with packets inside
             for (auto bearer : *timeUE->getBearerContainer()){
-                fillTbWithPackets(bearer, tbs, codeRate, nPrbPerUe);
+                fillTbWithPackets(bearer, tbs, codeRate, nPrbPerUe, mOrder);
             }
 
             //size += localTbs_.getSizeWoCodeRate();
@@ -134,12 +135,15 @@ void Scheduler::transmitTbThroughPhysical(int slot)
     int neededIndex = 0;
     QVector<TransportBlock> errorContainer;
     QVector<TransportBlock> succContainer;
+    QVector<TransportBlock> currentSlotContainer;
     for(auto value : getTransportBlockContainer()){
         TransportBlock transmitted = transportBlockContainer_.dequeue();
         if(transmitted.getSlotToTransmit() == slot){
+            currentSlotContainer.append(transmitted);
             int transmissionProbability = QRandomGenerator::global()->bounded(1, 100);
             if (transmissionProbability > 10) {
                 transmitted.setSlotTransmitted(slot);
+                //getCell()->getPhyEntity()->
                 succContainer.append(transmitted);
             } else {
                 transmitted.setHarqStatus(true);
@@ -194,7 +198,7 @@ int Scheduler::calculateOptimalNumberOfPrbPerUe(int mcs, int maxPrb, int ueBuffe
 }
 
 // TODO: more accurate calculation in case of Bit Array for data
-void Scheduler::fillTbWithPackets(RadioBearer *bearer, int tbsSize, double codeRate, int nPrbPerUe)
+void Scheduler::fillTbWithPackets(RadioBearer *bearer, int tbsSize, double codeRate, int nPrbPerUe, int mOrder)
 {
     int index = 0;
     int lTbs = 0;
@@ -226,6 +230,7 @@ void Scheduler::fillTbWithPackets(RadioBearer *bearer, int tbsSize, double codeR
         localTbs_.setNumberOfPrb(nPrbPerUe);
         localTbs_.setSlotToTransmit(slot);
         localTbs_.setSlotInitialized(slot);
+        localTbs_.setModulationOrder(mOrder);
         addToTbsContainer(localTbs_);
         bearer->deletePackets(packetsToDelete);
     }

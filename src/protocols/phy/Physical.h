@@ -1,12 +1,15 @@
 #ifndef PHYSICAL_H
 #define PHYSICAL_H
 
+#include "src/protocols/phy/Signal.h"
+
 #include <QVector>
 
 class Bandwidth;
 class RadioChannel;
 class MacEntity;
 class Signal;
+class TransportBlock;
 
 class Physical
 {
@@ -16,7 +19,7 @@ protected:
     RadioChannel        *ulChannel_;
     QVector<Bandwidth*> *bandwidthContainer_;
     double              carrierFreq_;
-    Signal              *txSignal_;
+    Signal              txSignal_;
 
     float thermalNoise_;
 
@@ -35,6 +38,8 @@ public:
     QVector<Bandwidth*> *getBandwidthContainer();
     void configNewBandwidth(QString fr, QString band, int scs, double ulBw,
                      double dlBw, int ulOffset, int dlOffset, bool tddTrue);
+
+    void sendSignal(QVector<TransportBlock> tbContainer);
 };
 
 #endif // PHYSICAL_H

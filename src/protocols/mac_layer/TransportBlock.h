@@ -23,6 +23,7 @@ private:
     int                 slotToTransmit_ = 0;
     int                 slotInitialized_ = 0;
     int                 slotTransmitted_;
+    int                 mOrder_;
 
     bool HARQ_ = false;
 
@@ -61,6 +62,9 @@ public:
 
     void setHarqStatus(bool status);
     bool getHarqStatus();
+
+    void setModulationOrder(int order);
+    int getModulationOrder();
 
     void clear();
 };

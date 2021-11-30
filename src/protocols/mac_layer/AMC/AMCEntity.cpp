@@ -171,9 +171,23 @@ int AMCEntity::GetMCSIndexFromEfficiency(double efficiency)
     return mcs;
 }
 
-int AMCEntity::GetModulationOrderFromMCS(int mcs)
+int AMCEntity::getModulationOrderFromMCS(int mcs)
 {
-    return ModulationSchemeForMCSIndex[mcs];
+    switch (MCSIndexTableNumber_)
+    {
+    case 1:
+        return ModulationOrderTable1PDSCH[mcs - 1];
+        break;
+    case 2:
+        return ModulationOrderTable2PDSCH[mcs - 1];
+        break;
+    case 3:
+        return ModulationOrderTable3PDSCH[mcs - 1];
+        break;
+    default:
+        return 0;
+        break;
+    }
 }
 
 
@@ -184,7 +198,7 @@ int AMCEntity::GetMCSFromSinrVector(const QVector<double> &sinr)
         double estimated_effsinr = GetMiesmEffectiveSinr(sinr, modulationOrder);
         int estimated_cqi = getCQIFromSinr(estimated_effsinr);
         int estimated_mcs = getMCSFromCQI(estimated_cqi);
-        int estimated_modulation_order = GetModulationOrderFromMCS(estimated_mcs);
+        int estimated_modulation_order = getModulationOrderFromMCS(estimated_mcs);
         if(estimated_modulation_order == modulationOrder) {
             mcs = estimated_mcs;
         }

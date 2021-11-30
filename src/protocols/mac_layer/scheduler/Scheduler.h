@@ -66,7 +66,7 @@ public:
     void updateAvailableNumCoresetRe(int coresetRe);
     int getRemainingNumCoresetRe();
     int calculateOptimalNumberOfPrbPerUe(int mcs, int maxPrb, int ueBuffer);
-    void fillTbWithPackets(RadioBearer *bearer, int tbsSize, double codeRate, int nPrb);
+    void fillTbWithPackets(RadioBearer *bearer, int tbsSize, double codeRate, int nPrb, int mOrder);
     void packetsToTbs();
     int calcAggLevel(double sinr);
 

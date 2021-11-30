@@ -7,7 +7,6 @@
 Physical::Physical()
 {
     bandwidthContainer_ = new QVector<Bandwidth*>;
-    txSignal_ = new Signal();
     dlChannel_ = new RadioChannel();
     ulChannel_ = new RadioChannel();
 }
@@ -43,4 +42,9 @@ void Physical::configNewBandwidth( QString fr, QString band, int scs, double ulB
     Bandwidth *bw = new Bandwidth(fr, band, scs, ulBw, dlBw, ulOffset, dlOffset, tddTrue);
     bw->setCoresetSize(2, bw->getNumberOfPRB() - 30);
     addBandwidth(bw);
+}
+
+void Physical::sendSignal(QVector<TransportBlock> tbContainer)
+{
+    //txSignal_.fromTbToSignal();
 }

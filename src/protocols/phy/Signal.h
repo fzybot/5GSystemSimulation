@@ -9,6 +9,7 @@
 #include <QtCore/QElapsedTimer>
 #include <QtCore/QTimer>
 
+class TransportBlock;
 
 class Signal : public QObject
 {
@@ -39,6 +40,8 @@ public:
 
     void printIOValues() const;
     void generateRandomIOValues(int MIMOSize, int dataSize);
+
+    void fromTbToSignal(QVector<TransportBlock> tbContainer);
 
     void getDataFromFile(QString filePath);
 

@@ -43,3 +43,8 @@ Signal* Signal::copy(void)
 
     return txSignal;
 }
+
+void fromTbToSignal(QVector<TransportBlock> tbContainer)
+{
+    
+}

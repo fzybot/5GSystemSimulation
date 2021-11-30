@@ -16,6 +16,7 @@ public:
     int getMCSFromCQI (int cqi);
     int getTBSizeFromMCS(int mcs, int nPRB, int nLayers, int oH);
     double getCodeRateFromMcs(int mcs);
+    int getModulationOrderFromMCS(int mcs);
     int findClosestTbs3824(int nInfo);
 
     void showParameters();
@@ -26,7 +27,6 @@ public:
     int GetCQIFromMCS (int mcs);
     double GetEfficiencyFromCQI(int cqi);
     double GetSinrFromCQI (int cqi);
-    int GetModulationOrderFromMCS(int mcs);
     int GetMCSFromSinrVector(const QVector<double> &sinr);
     
 

@@ -129,3 +129,13 @@ bool TransportBlock::getHarqStatus()
 {
     return HARQ_;
 }
+
+void TransportBlock::setModulationOrder(int order)
+{
+    mOrder_ = order;
+}
+
+int TransportBlock::getModulationOrder()
+{
+    return mOrder_;
+}
