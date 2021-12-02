@@ -128,7 +128,7 @@ void Scheduler::propotionalFair(QVector<UserEquipment*> *userEquipmentContainer,
 
 }
 
-void Scheduler::transmitTbThroughPhysical(int slot)
+QVector<TransportBlock>Scheduler::transmitTbThroughPhysical(int slot)
 {
     //showTransportBlockContainer();
     int localIndex = 0;
@@ -147,7 +147,8 @@ void Scheduler::transmitTbThroughPhysical(int slot)
                 succContainer.append(transmitted);
             } else {
                 transmitted.setHarqStatus(true);
-                transmitted.setSlotToTransmit(slot+4);
+                int rndHarqSlot = QRandomGenerator::global()->bounded(4, 8);
+                transmitted.setSlotToTransmit(slot+rndHarqSlot);
                 errorContainer.append(transmitted);
             }
         } else {
@@ -155,9 +156,9 @@ void Scheduler::transmitTbThroughPhysical(int slot)
         }
     }
     countCell(succContainer, slot);
-    for(auto tb : errorContainer){
-        addToTbsContainer(tb);
-    }
+    errorTransmissionToQueue(errorContainer);
+
+    return succContainer;
 }
 
 void Scheduler::updateAvailableNumPRB(int nPRB)
@@ -257,6 +258,14 @@ int Scheduler::calcAggLevel(double sinr)
         aggLevel = 16;
     }
     return aggLevel;
+}
+
+void Scheduler::errorTransmissionToQueue(QVector<TransportBlock> &errorContainer)
+{   
+    for (auto tb : errorContainer)
+    {
+        addToTbsContainer(tb);
+    }
 }
 
 QQueue<TransportBlock> &Scheduler::getTransportBlockContainer()

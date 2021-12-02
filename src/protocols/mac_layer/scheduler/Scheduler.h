@@ -58,7 +58,7 @@ public:
     void propotionalFair(QVector<UserEquipment*> *userEquipmentContainer, int nPrb, int coresetSize);
     void besetCqi(QVector<UserEquipment *> *userEquipmentContainer, int nPrb, int coresetSize);
 
-    void transmitTbThroughPhysical(int slot);
+    QVector<TransportBlock> transmitTbThroughPhysical(int slot);
 
     // Support methods
     void updateAvailableNumPRB(int nPRB);
@@ -73,6 +73,8 @@ public:
     QQueue<TransportBlock> &getTransportBlockContainer();
     void showTransportBlockContainer();
     void addToTbsContainer(TransportBlock tb);
+
+    void errorTransmissionToQueue(QVector<TransportBlock> &errorContainer);
 
     void packetSegmentation(Packet *packet, int neededSize);
 
