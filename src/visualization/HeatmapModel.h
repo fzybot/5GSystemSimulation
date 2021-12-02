@@ -35,17 +35,17 @@ public:
     void createData();
 
 protected:
-    double centerFrequency = 2.4;
+    double centerFrequency;
     double h;
-    double W = 46;              //[m]
-    double shadowFading = 4;
-    double heightUT = 2;        //[m]
+    double W;                   //[m]
+    double shadowFading;
+    double heightUT;            //[m]
     CartesianCoordinates BaseStation;
     vector<vector<double>> data;
-    double BSPower = 43;
-    double AntennaGain = 12;
-    double pixelToMeter = 1.25;
-    double storeysToHeight = 2.7;
+    double BSPower;
+    double AntennaGain;
+    double pixelToMeter;
+    double storeysToHeight;
 
     double getAvgBuildingHeight();
     bool createImage();

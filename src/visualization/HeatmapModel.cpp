@@ -2,7 +2,16 @@
 
 HeatmapModel::HeatmapModel()
 {
-    h = getAvgBuildingHeight();
+    //default
+    setCenterFrequency(2.4);
+    setAvgBuildingHeight(getAvgBuildingHeight());
+    setAvgStreetWidth(46);
+    setShadowFading(4);
+    setUEHeight(2);
+    setBSPower(43);
+    setAntennaGain(12);
+    setPixelToMeter(1.25);
+    setHeightOfStorey(2.7);
 }
 
 void HeatmapModel::setBaseStation(CartesianCoordinates BS)
