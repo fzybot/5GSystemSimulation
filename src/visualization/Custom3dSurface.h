@@ -6,7 +6,7 @@
 #include <QtDataVisualization/QSurface3DSeries>
 #include <QtWidgets/QSlider>
 #include <QtWidgets>
-//#include <stdarg.h>
+#include "HeatmapModel.h"
 
 class Custom3dSurface : public QObject
 {
@@ -37,6 +37,11 @@ public slots:
     void handleElementSelected(QtDataVisualization::QAbstract3DGraph::ElementType type);
     void handlePositionChange(const QPoint &position);
     void calculateModel();
+    void changeSettings(int*);
+
+signals:
+    void settingsChanged(int*);
+    void calculateModelSignal();
 
 private:
     QtDataVisualization::Q3DSurface *graph_;
@@ -62,4 +67,6 @@ private:
     void fillFromFileCustom(int num);
     void fillFromFile();
     int checkBuildingID(QPoint);
+
+    HeatmapModel* heatmapModel_;
 };

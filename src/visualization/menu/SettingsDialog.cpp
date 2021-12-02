@@ -15,7 +15,7 @@ SettingsDialog::SettingsDialog(QWidget *parent)
     connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
-    connect(this, &SettingsDialog::changedSettings, (MainWindow*)parent, &MainWindow::changeSettings);
+    connect(this, &SettingsDialog::settingsChanged, (MainWindow*)parent, &MainWindow::changeSettings);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(tabWidget);
@@ -78,9 +78,7 @@ SettingsDialog::~SettingsDialog()
         prnt->simulationSettings[17] = ueAntennaGain;
         prnt->simulationSettings[18] = ueNoiseFigure;
 
-
-        qDebug() << "number of UE: " << numberOfUe;
-        emit changedSettings(prnt->simulationSettings);
+        emit settingsChanged(prnt->simulationSettings);
     }
 
 }

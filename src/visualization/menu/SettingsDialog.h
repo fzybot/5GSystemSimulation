@@ -62,7 +62,7 @@ private:
     QDialogButtonBox *buttonBox;
 
 signals:
-    void changedSettings(int*);
+    void settingsChanged(int*);
 
 };
 

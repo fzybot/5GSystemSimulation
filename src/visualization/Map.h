@@ -34,6 +34,6 @@ public slots:
     void changeSettings(int*);
 
 signals:
-    void changedSettings(int*);
+    void settingsChanged(int*);
 };
 

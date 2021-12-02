@@ -55,7 +55,7 @@ public slots:
     void changeSettings(int*);
 
 signals:
-    void changedSettings(int*);
+    void settingsChanged(int*);
 
 public:
     MainWindow(QWidget* parent = nullptr);

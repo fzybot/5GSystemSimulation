@@ -15,7 +15,7 @@
 #include <QtDataVisualization/QCustom3DItem>
 #include <QtDataVisualization/QCustom3DLabel>
 
-#include "src/scenarios/testModel.h"
+//#include "src/scenarios/testModel.h"
 
 const int sampleCountX = lonc;
 const int sampleCountZ = latc;
@@ -34,6 +34,10 @@ Custom3dSurface::Custom3dSurface(QtDataVisualization::Q3DSurface *surface)
     proxy_ = new QtDataVisualization::QSurfaceDataProxy();
     series_ = new QtDataVisualization::QSurface3DSeries(proxy_);
 
+    heatmapModel_ = new HeatmapModel;
+    heatmapModel_->setBaseStation(CartesianCoordinates(851, 230, 60));
+    connect(this, &Custom3dSurface::settingsChanged, heatmapModel_, &HeatmapModel::changeSettings);
+    connect(this, &Custom3dSurface::calculateModelSignal, heatmapModel_, &HeatmapModel::calculateHeatmap);
 
     //highlightSeries_ = new QtDataVisualization::QSurface3DSeries(proxy_);
     setsCount_=2;
@@ -136,13 +140,18 @@ void Custom3dSurface::enableCityPic(bool check)
 
 void Custom3dSurface::calculateModel()
 {
-    testModel();
+    emit calculateModelSignal();
     QImage empty(0,0,QImage::Format_RGB32);
     series_->setTexture(empty);
     QString path = QCoreApplication::applicationDirPath();
     QString texturePath = QString("/pixelMap.bmp");
     path.append(texturePath);
     series_->setTextureFile(path);
+}
+
+void Custom3dSurface::changeSettings(int* settings)
+{
+    emit settingsChanged(settings);
 }
 
 void Custom3dSurface::fillFromFileCustom(int num)

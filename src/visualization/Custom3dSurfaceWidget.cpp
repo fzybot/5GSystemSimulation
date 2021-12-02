@@ -107,6 +107,8 @@ Custom3dSurfaceWidget::Custom3dSurfaceWidget(QWidget *parent)
                         surface_, &Custom3dSurface::toggleRadioButtonItem);
     connect(calculationButton, &QPushButton::pressed,
                 surface_, &Custom3dSurface::calculateModel);
+    connect(this, &Custom3dSurfaceWidget::settingsChanged,
+                surface_, &Custom3dSurface::changeSettings);
 
     setLayout(mainLayout);
 }
@@ -143,5 +145,10 @@ void Custom3dSurfaceWidget::changeGradient()
 
     gradientGroupBox_->setLayout(colorMapVBox);
 
+}
+
+void Custom3dSurfaceWidget::changeSettings(int *settings)
+{
+    emit settingsChanged(settings);
 }
 

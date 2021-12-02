@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget* parent) :
     //tabMenu_->setFixedSize(500, 500);
     setCentralWidget(tabMenu_);
 
-    connect(this, &MainWindow::changedSettings, tabMenu_, &TabMenu::changeSettings);
+    connect(this, &MainWindow::settingsChanged, tabMenu_, &TabMenu::changeSettings);
 
     createActions();
     createStatusBar();
@@ -195,9 +195,7 @@ void MainWindow::documentWasModified()
 
 void MainWindow::changeSettings(int* number)
 {
-    qDebug() << "MainWindow gets it : " << number;
-    emit changedSettings(number);
-
+    emit settingsChanged(number);
 }
 //! [16]
 

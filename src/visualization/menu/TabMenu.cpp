@@ -27,11 +27,11 @@ TabMenu::TabMenu(QWidget *parent)
     mainLayout->addWidget(tabWidget);
     setLayout(mainLayout);
 
-    connect(this, &TabMenu::changedSettings, map_, &Map::changeSettings);
+    connect(this, &TabMenu::settingsChanged, map_, &Map::changeSettings);
+    connect(this, &TabMenu::settingsChanged, surfaceWidget_, &Custom3dSurfaceWidget::changeSettings);
 }
 
 void TabMenu::changeSettings(int* number)
 {
-    qDebug() << "Tab Menu gets it : " << number;
-    emit changedSettings(number);
+    emit settingsChanged(number);
 }
