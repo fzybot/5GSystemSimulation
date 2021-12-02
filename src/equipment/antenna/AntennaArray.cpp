@@ -8,6 +8,15 @@ AntennaArray::AntennaArray()
 
 }
 
+void setAntennaType(AntennaArray::AntennaType type)
+{
+    
+}
+AntennaType getAntennaType()
+{
+
+}
+
 float AntennaArray::calculateElevation(float angle)
 {
     elevation_ = (angle * M_PI) / 180;

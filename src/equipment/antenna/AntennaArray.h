@@ -14,6 +14,8 @@ enum class AntennaType
     };
 
 private:
+
+    AntennaType type_;
     // The number of antennas inside array.
     int nVerical_ = 0;
     int nHorizon_ = 0;
@@ -22,12 +24,17 @@ private:
     float azimuth_;
     QVector<float> elevationGrid_;
     QVector<float> azimuthGrid_;
+    QVector<QVector<float>> Fa_;
+    QVector<QVector<float>> Fa_;
 
 public:
     AntennaArray();
     AntennaArray(int sizeX, int sizeY);
 
     void setSize(int sizeX, int sizeY);
+
+    void setAntennaType(AntennaType type);
+    AntennaType getAntennaType();
 
     float calculateElevation(float angle);   // range [-90:90]
     float calculateAzimuth(float angle);     // range [-180:180]
