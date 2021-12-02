@@ -90,7 +90,11 @@ bool UEModel::insertRows(int row, int count, const QModelIndex &parent)
     // FIXME: Implement me!
     int k=1;
     for (int index = row; index < row + count; ++index){
-        m_data.insert(index, mapObjectData("new" + QString::number(k), 55.012902, 82.950326, 55.012902, 82.950326));
+        m_data.insert(index, mapObjectData("'new" + QString::number(row) +
+                                           "'\nTx Power [dBm]:\t" + QString::number(txPower) +
+                                           "\nFeeder Los [dB]:\t" + QString::number(feederLos) +
+                                           "\nAntenna Gain [dBi]:\t" + QString::number(antennaGain) +
+                                           "\nNoise Figure [db]:\t" + QString::number(noiseFigure), 55.012902, 82.950326, 55.012902, 82.950326));
         Mobility mobility;
         mobility.setModel(Mobility::Model::CONSTANT_POSITION);
         m_mobility.insert(index, mobility);
@@ -211,4 +215,8 @@ void UEModel::changeSettings(int* settings)
 {
     ueNumber_ = settings[6];
     mobilityModelSettings = settings[7];
+    txPower = settings[15];
+    feederLos = settings[16];
+    antennaGain = settings[17];
+    noiseFigure = settings[18];
 }

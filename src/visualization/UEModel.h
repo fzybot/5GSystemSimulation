@@ -71,6 +71,10 @@ private:
     QTimer m_timer;
     int ueNumber_ = 0;
     int mobilityModelSettings = 0;
+    int txPower;
+    int feederLos;
+    int antennaGain;
+    int noiseFigure;
 };
 
 #endif // UEMODEL_H
