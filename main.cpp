@@ -34,13 +34,14 @@ int main(int argc, char *argv[])
     MainWindow mainWin;
     mainWin.resize(1900, 1200);
     mainWin.show();
-    //Simple();
+
+    // Simple();
 
     //##############################################################################
     //                   Testing features (in src/scenarios/tests.h)
     //##############################################################################
 
-    //simpleTest();
+    simpleTest();
 
 //##############################################################################
     return app.exec();

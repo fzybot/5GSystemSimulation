@@ -9,6 +9,7 @@
 #include "src/simulation/Simulation.h"
 #include "src/protocols/phy/Channel/Bandwidth.h"
 #include "src/protocols/phy/Signal.h"
+#include "src/equipment/antenna/AntennaArray.h"
 
 #include <QDebug>
 
@@ -36,13 +37,18 @@ static void simpleTest()
     //**************************************************************
     // Bandwidth class test
     //**************************************************************
-    Bandwidth band("FR1", "n1", 15, 10, 20, 0, 0, false);
-    band.print();
-    qDebug() << PRBs_for_BW["FR2"][60][100];
+    // Bandwidth band("FR1", "n1", 15, 10, 20, 0, 0, false);
+    // band.print();
+    // qDebug() << PRBs_for_BW["FR2"][60][100];
 
 
     //**************************************************************
     // Signal class tests
     //**************************************************************
 
+    AntennaArray ant1;
+    ant1.calculateElevationGrid();
+    ant1.calculateAzimuthGrid();
+    ant1.showAzimuthGrid();
+    ant1.showElevationGrid();
 }

@@ -36,7 +36,7 @@ void AntennaArray::calculateElevationGrid()
 }
 void AntennaArray::calculateAzimuthGrid()
 {
-    for (int i = -180; i <= 190; i++){
+    for (int i = -180; i <= 180; i++){
         azimuthGrid_.append(calculateAzimuth(i));
     }
 }
