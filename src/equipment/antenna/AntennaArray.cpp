@@ -1,34 +1,63 @@
 #include "AntennaArray.h"
 #include "src/equipment/antenna/Antenna.h"
+#include <QtMath>
 
 AntennaArray::AntennaArray()
 {
 
 }
 
-AntennaArray::AntennaArray(int sizeX, int sizeY)
+float AntennaArray::calculateElevation(float angle)
 {
-    setSize(sizeX, sizeY);
-    for (int x = 0; x < sizeX_; x++) {
-        for (int y = 0; y < sizeY_; y++) {
-            Antenna ant(x, y, Antenna::AntennaType::ANTENNA_TYPE_OMNIDIRECTIONAL);
-            addAntenna(ant);
-        }
+    elevation_ = (angle * M_PI) / 180;
+    return elevation_;
+}
+float AntennaArray::calculateAzimuth(float angle)
+{
+    azimuth_ = (angle * M_PI) / 180;
+    return azimuth_;
+}
+
+float AntennaArray::getElevation(float angle)
+{
+    return elevation_;
+}
+float AntennaArray::getAzimuth(float angle)
+{
+    return azimuth_;
+}
+
+void AntennaArray::calculateElevationGrid()
+{
+    for (int i = -90; i <= 90; i++){
+        elevationGrid_.append(calculateElevation(i));
+    }
+}
+void AntennaArray::calculateAzimuthGrid()
+{
+    for (int i = -180; i <= 190; i++){
+        azimuthGrid_.append(calculateAzimuth(i));
     }
 }
 
-void AntennaArray::setSize(int sizeX, int sizeY)
+QVector<float> &AntennaArray::getElevationGrid() const
 {
-    sizeX_ = sizeX;
-    sizeY_ = sizeY;
+    return elevationGrid_;
+}
+QVector<float> &AntennaArray::getAzimuthGrid() const
+{
+    return azimuthGrid_;
 }
 
-void AntennaArray::addAntenna(Antenna ant)
-{
-    antennaArray_.push_back(ant);
-}
 
-QVector<Antenna> &AntennaArray::getAntennaArray()
+
+void AntennaArray::showElevationGrid()
 {
-    return antennaArray_;
+    for(auto i : getElevationGrid())
+        qDebug() << "Elevation Grid: " << i;
+}
+void AntennaArray::showAzimuthGrid()
+{
+    for(auto i : getAzimuthGrid())
+        qDebug() << "Azimuth Grid: " << i;
 }

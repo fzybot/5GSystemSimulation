@@ -5,27 +5,43 @@
 #include <QVector>
 
 
-class Antenna;
-
-
 class AntennaArray
 {
+enum class AntennaType
+    {
+        ANTENNA_TYPE_OMNIDIRECTIONAL,
+        ANTENNA_TYPE_TRI_SECTOR,
+        ANTENNA_TYPE_FOUR_SECTOR,
+        ANTENNA_TYPE_SIX_SECTOR
+    };
+
 private:
     // The number of antennas inside array.
-    int sizeX_;
-    int sizeY_;
+    int nVerical_ = 0;
+    int nHorizon_ = 0;
 
-    QVector<Antenna> antennaArray_;
+    float elevation_;
+    float azimuth_;
+    QVector<float> elevationGrid_;
+    QVector<float> azimuthGrid_;
 
 public:
     AntennaArray();
-    AntennaArray(int sizeX = 1, int sizeY = 1);
+    AntennaArray(int sizeX, int sizeY);
 
     void setSize(int sizeX, int sizeY);
 
-    void addAntenna(Antenna ant);
-    Antenna* getAntennaByID(int ID);
+    float calculateElevation(float angle);   // range [-90:90]
+    float calculateAzimuth(float angle);     // range [-180:180]
+    float getElevation(float angle);
+    float getAzimuth(float angle);
 
-    QVector<Antenna> &getAntennaArray();
+    void calculateElevationGrid();
+    void calculateAzimuthGrid();
+    QVector<float> &getElevationGrid() const;
+    QVector<float> &getAzimuthGrid() const;
+
+    void showElevationGrid();
+    void showAzimuthGrid();
 };
 

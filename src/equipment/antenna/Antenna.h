@@ -5,13 +5,7 @@
 class Antenna
 {  
 public:
-    enum class AntennaType
-    {
-        ANTENNA_TYPE_OMNIDIRECTIONAL,
-        ANTENNA_TYPE_TRI_SECTOR,
-        ANTENNA_TYPE_FOUR_SECTOR,
-        ANTENNA_TYPE_SIX_SECTOR
-    };
+
 
     // TODO: add antenna patterns
     enum class AntennaPattern
