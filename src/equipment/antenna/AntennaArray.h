@@ -1,7 +1,5 @@
 #pragma once
 
-#include "src/equipment/antenna/Antenna.h"
-
 #include <QVector>
 
 
@@ -38,8 +36,8 @@ public:
 
     void calculateElevationGrid();
     void calculateAzimuthGrid();
-    QVector<float> &getElevationGrid() const;
-    QVector<float> &getAzimuthGrid() const;
+    QVector<float> &getElevationGrid();
+    QVector<float> &getAzimuthGrid();
 
     void showElevationGrid();
     void showAzimuthGrid();

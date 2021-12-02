@@ -1,5 +1,6 @@
 #include "AntennaArray.h"
-#include "src/equipment/antenna/Antenna.h"
+
+#include <QDebug>
 #include <QtMath>
 
 AntennaArray::AntennaArray()
@@ -40,11 +41,11 @@ void AntennaArray::calculateAzimuthGrid()
     }
 }
 
-QVector<float> &AntennaArray::getElevationGrid() const
+QVector<float> &AntennaArray::getElevationGrid()
 {
     return elevationGrid_;
 }
-QVector<float> &AntennaArray::getAzimuthGrid() const
+QVector<float> &AntennaArray::getAzimuthGrid()
 {
     return azimuthGrid_;
 }

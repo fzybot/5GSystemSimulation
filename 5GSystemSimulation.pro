@@ -42,7 +42,6 @@ SOURCES += \
     src/equipment/Equipment.cpp \
     src/equipment/UserEquipment.cpp \
     src/equipment/Walker.cpp \
-    src/equipment/antenna/Antenna.cpp \
     src/equipment/antenna/AntennaArray.cpp \
     src/equipment/gNodeB.cpp \
 #    src/qcustomplot/qcustomplot.cpp \
@@ -102,7 +101,6 @@ HEADERS += \
     src/equipment/Equipment.h \
     src/equipment/UserEquipment.h \
     src/equipment/Walker.h \
-    src/equipment/antenna/Antenna.h \
     src/equipment/antenna/AntennaArray.h \
     src/equipment/gNodeB.h \
     src/equipment/mobility/Mobility.h \
