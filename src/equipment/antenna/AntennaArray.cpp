@@ -8,13 +8,13 @@ AntennaArray::AntennaArray()
 
 }
 
-void setAntennaType(AntennaArray::AntennaType type)
+void AntennaArray::setAntennaType(AntennaType type)
 {
-    
+    type_ = type;
 }
-AntennaType getAntennaType()
+AntennaArray::AntennaType AntennaArray::getAntennaType()
 {
-
+    return type_;
 }
 
 float AntennaArray::calculateElevation(float angle)

@@ -15,7 +15,7 @@ enum class AntennaType
 
 private:
 
-    AntennaType type_;
+    AntennaArray::AntennaType type_;
     // The number of antennas inside array.
     int nVerical_ = 0;
     int nHorizon_ = 0;
