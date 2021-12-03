@@ -25,7 +25,7 @@ private:
     QVector<float> elevationGrid_;
     QVector<float> azimuthGrid_;
     QVector<QVector<float>> Fa_;
-    QVector<QVector<float>> Fa_;
+    QVector<QVector<float>> Fb_;
 
 public:
     AntennaArray();
