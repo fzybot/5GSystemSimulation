@@ -25,6 +25,8 @@ MainWindow::MainWindow(QWidget* parent) :
     //tabMenu_->setFixedSize(500, 500);
     setCentralWidget(tabMenu_);
 
+    connect(this, &MainWindow::settingsChanged, tabMenu_, &TabMenu::changeSettings);
+
     createActions();
     createStatusBar();
     createDockWindows();
@@ -189,6 +191,11 @@ void MainWindow::documentWasModified()
 //! [15] //! [16]
 {
     setWindowModified(textEdit->document()->isModified());
+}
+
+void MainWindow::changeSettings(int* number)
+{
+    emit settingsChanged(number);
 }
 //! [16]
 

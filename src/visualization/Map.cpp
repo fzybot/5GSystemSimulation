@@ -13,6 +13,7 @@ Map::Map(QWidget *parent) :
     heatmap_(new Heatmap(mapQuickWidget_))
 {
     heatmap_->resize(1600, 1200);
+    connect(this, &Map::settingsChanged, mapQuickWidget_, &MapQuickWidget::changeSettings);
 }
 
 void Map::startSim()
@@ -23,6 +24,11 @@ void Map::startSim()
 void Map::stopSim()
 {
     mapQuickWidget_->stopSim();
+}
+
+void Map::changeSettings(int* number)
+{
+    emit settingsChanged(number);
 }
 
 

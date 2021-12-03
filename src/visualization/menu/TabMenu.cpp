@@ -26,4 +26,12 @@ TabMenu::TabMenu(QWidget *parent)
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(tabWidget);
     setLayout(mainLayout);
+
+    connect(this, &TabMenu::settingsChanged, map_, &Map::changeSettings);
+    connect(this, &TabMenu::settingsChanged, surfaceWidget_, &Custom3dSurfaceWidget::changeSettings);
+}
+
+void TabMenu::changeSettings(int* number)
+{
+    emit settingsChanged(number);
 }

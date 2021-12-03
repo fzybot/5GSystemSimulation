@@ -28,4 +28,10 @@ public:
 
     void startSim();
     void stopSim();
+
+public slots:
+    void changeSettings(int*);
+
+signals:
+    void settingsChanged(int*);
 };

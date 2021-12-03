@@ -51,10 +51,17 @@ private slots:
     void settingsLinkBudget();
     void documentWasModified();
 
+public slots:
+    void changeSettings(int*);
+
+signals:
+    void settingsChanged(int*);
+
 public:
     MainWindow(QWidget* parent = nullptr);
 
     void loadFile(const QString& fileName);
+    int simulationSettings[19];
 //    void insertCustomer(const QString &customer);
 //    void addParagraph(const QString &paragraph);
 //    void runSimulation();

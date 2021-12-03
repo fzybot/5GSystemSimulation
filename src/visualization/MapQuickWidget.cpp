@@ -4,7 +4,7 @@
 #include <QQmlEngine>
 #include <QQmlContext>
 #include <QCoreApplication>
-
+#include "src/core/CartesianCoordinates.h"
 
 MapQuickWidget::MapQuickWidget(QWidget* parent) :
     QQuickWidget(parent),
@@ -13,6 +13,8 @@ MapQuickWidget::MapQuickWidget(QWidget* parent) :
     connect(manager, &QNetworkAccessManager::finished, this, &MapQuickWidget::findAddress);
 
     ueModel_ = new UEModel;
+
+    connect(this, &MapQuickWidget::settingsChanged, ueModel_, &UEModel::changeSettings);
 
     this->engine()->rootContext()->setContextProperty("_ueModel", ueModel_);
     this->engine()->rootContext()->setContextProperty("PixelMap", QString("file://").append(QString(QCoreApplication::applicationDirPath()).append("/pixelMap.bmp")));
@@ -70,4 +72,9 @@ void MapQuickWidget::startSim()
 void MapQuickWidget::stopSim()
 {
     ueModel_->stopSim();
+}
+
+void MapQuickWidget::changeSettings(int* number)
+{
+    emit settingsChanged(number);
 }

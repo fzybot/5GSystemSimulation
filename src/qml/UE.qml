@@ -18,12 +18,38 @@ MapQuickItem {
 
     //zoomLevel: 1.1
 
-    sourceItem: Image{
-        id: image
+    sourceItem: Grid{
+        columns: 1
+        Grid{
+            Image{
+                    id: image
+                    visible: true
+                    source: "UE.png"
+                    height: 20
+                    width: 20
 
-        source: "UE.png"
-        height: 20
-        width: 20
+                    MouseArea{
+                        id : mouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                    }
+
+                }
+            Rectangle {
+                id: bubble
+                visible: mouseArea.containsMouse ? true : false
+                color: "lightblue"
+                border.width: 1
+                width: text.width * 1.3
+                height: text.height * 1.3
+                radius: 5
+                Text {
+                    id: text
+                    anchors.centerIn: parent
+                    text: name
+                }
+            }
+        }
     }
 
     states: [

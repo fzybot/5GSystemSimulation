@@ -55,11 +55,15 @@ class SettingsDialog : public QDialog
 //     bool m_finished = false;
 public:
     explicit SettingsDialog(QWidget *parent = nullptr);
+    ~SettingsDialog();
 
 private:
     QTabWidget *tabWidget;
     QDialogButtonBox *buttonBox;
-    
+
+signals:
+    void settingsChanged(int*);
+
 };
 
 
@@ -78,41 +82,43 @@ private:
     QDataWidgetMapper *mapper;
 
     QLabel *numberOfCellLabel;
-    QLineEdit *numberOfCellLineEdit;
 
     QLabel *numberOfUeLabel;
-    QLineEdit *numberOfUeLineEdit;
 
     QStringListModel *numerologyModel;
     QLabel *numerologyLabel;
-    QComboBox *numerologyComboBox;
 
     QStringListModel *bandModel;
     QLabel *bandLabel;
-    QComboBox *bandComboBox;
 
     QStringListModel *bandwidthModel;
     QLabel *bandwidthLabel;
-    QComboBox *bandwidthComboBox;
 
     QStringListModel *channelModelModel;
     QLabel *channelModelLabel;
-    QComboBox *channelModelComboBox;
 
     QLabel *dopplerLabel;
-    QRadioButton *dopplerRadioButton;
 
     QStringListModel *mobilityModelModel;
     QLabel *mobilityModelLabel;
-    QComboBox *mobilityModelComboBox;
 
     QStringListModel *distributionModel;
     QLabel *distributionLabel;
-    QComboBox *distributionComboBox;
 
 
 public:
     explicit GeneralTab(QWidget *parent = nullptr);
+
+    QLineEdit *numberOfCellLineEdit;
+    QLineEdit *numberOfUeLineEdit;
+    QComboBox *bandComboBox;
+    QComboBox *numerologyComboBox;
+    QComboBox *bandwidthComboBox;
+    QComboBox *channelModelComboBox;
+    QRadioButton *dopplerRadioButton;
+    QComboBox *mobilityModelComboBox;
+    QComboBox *distributionComboBox;
+
 };
 
 
@@ -131,37 +137,38 @@ private:
     QDataWidgetMapper *mapper;
 
     QLabel *cellTxPowerLabel;
-    QLineEdit *cellTxPowerLineEdit;
 
     QLabel *cellFeederLosLabel;
-    QLineEdit *cellFeederLosLineEdit;
 
     QLabel *antennaGainLabel;
-    QLineEdit *antennaGainLineEdit;
 
     QLabel *noiseFigureLabel;
-    QLineEdit *noiseFigureLineEdit;
 
     QStringListModel *antennaConfigModel;
     QLabel *antennaConfigLabel;
-    QComboBox *antennaConfigComboBox;
 
     QStringListModel *propagationModelModel;
     QLabel *propagationModelLabel;
-    QComboBox *propagationModelComboBox;
 
     QLabel *ueTxPowerLabel;
-    QLineEdit *ueTxPowerLineEdit;
 
     QLabel *ueFeederLosLabel;
-    QLineEdit *ueFeederLosLineEdit;
 
     QLabel *ueAntennaGainLabel;
-    QLineEdit *ueAntennaGainLineEdit;
 
     QLabel *ueNoiseFigureLabel;
-    QLineEdit *ueNoiseFigureLineEdit;
 
 public:
     explicit LinkBudgetTab(QWidget *parent = nullptr);
+
+    QLineEdit *cellTxPowerLineEdit;
+    QLineEdit *cellFeederLosLineEdit;
+    QLineEdit *antennaGainLineEdit;
+    QLineEdit *noiseFigureLineEdit;
+    QComboBox *antennaConfigComboBox;
+    QComboBox *propagationModelComboBox;
+    QLineEdit *ueTxPowerLineEdit;
+    QLineEdit *ueFeederLosLineEdit;
+    QLineEdit *ueAntennaGainLineEdit;
+    QLineEdit *ueNoiseFigureLineEdit;
 };
