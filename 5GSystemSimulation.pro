@@ -125,7 +125,8 @@ HEADERS += \
     src/visualization/Heatmap.h \
     src/visualization/Map.h \
     src/visualization/MapQuickWidget.h \
-    src/visualization/menu/TabMenu.h
+    src/visualization/menu/TabMenu.h \
+    src/visualization/settingsTemplate.h
 
 
 unix: LIBS += -llapack -lblas -larmadillo

@@ -193,9 +193,9 @@ void MainWindow::documentWasModified()
     setWindowModified(textEdit->document()->isModified());
 }
 
-void MainWindow::changeSettings(int* number)
+void MainWindow::changeSettings(void* settings)
 {
-    emit settingsChanged(number);
+    emit settingsChanged(settings);
 }
 //! [16]
 

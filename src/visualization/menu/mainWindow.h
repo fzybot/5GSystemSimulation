@@ -9,6 +9,7 @@
 #include "src/visualization/Map.h"
 #include "src/visualization/menu/TabMenu.h"
 #include "src/visualization/menu/SettingsDialog.h"
+#include "src/visualization/settingsTemplate.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -52,16 +53,16 @@ private slots:
     void documentWasModified();
 
 public slots:
-    void changeSettings(int*);
+    void changeSettings(void*);
 
 signals:
-    void settingsChanged(int*);
+    void settingsChanged(void*);
 
 public:
     MainWindow(QWidget* parent = nullptr);
 
     void loadFile(const QString& fileName);
-    int simulationSettings[19];
+    SettingsTemplate simulationSettings;
 //    void insertCustomer(const QString &customer);
 //    void addParagraph(const QString &paragraph);
 //    void runSimulation();

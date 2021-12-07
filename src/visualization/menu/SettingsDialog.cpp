@@ -46,39 +46,43 @@ SettingsDialog::~SettingsDialog()
         int mobilityModel = general->mobilityModelComboBox->currentIndex();
         int ueDistribution = general->distributionComboBox->currentIndex();
 
-        prnt->simulationSettings[0] = numberOfCell;
-        prnt->simulationSettings[1] = band;
-        prnt->simulationSettings[2] = numerology;
-        prnt->simulationSettings[3] = bandwidth;
-        prnt->simulationSettings[4] = channelModel;
-        prnt->simulationSettings[5] = doppler;
-        prnt->simulationSettings[6] = numberOfUe;
-        prnt->simulationSettings[7] = mobilityModel;
-        prnt->simulationSettings[8] = ueDistribution;
+        prnt->simulationSettings.numberOfCell = numberOfCell;
+        prnt->simulationSettings.band = band;
+        prnt->simulationSettings.numerology = numerology;
+        prnt->simulationSettings.bandwidth = bandwidth;
+        prnt->simulationSettings.channelModel = channelModel;
+        prnt->simulationSettings.dopplerUsage = doppler;
+        prnt->simulationSettings.numberOfUEs = numberOfUe;
+        prnt->simulationSettings.mobilityModel = mobilityModel;
+        prnt->simulationSettings.ueDistribution = ueDistribution;
 
-        int cellTxPower = linkBudget->cellTxPowerLineEdit->text().toInt();
-        int cellFeederLos = linkBudget->cellFeederLosLineEdit->text().toInt();
+        double cellTxPower = linkBudget->cellTxPowerLineEdit->text().toDouble();
+        double cellFeederLos = linkBudget->cellFeederLosLineEdit->text().toDouble();
         int antennaConfig = linkBudget->antennaConfigComboBox->currentIndex();
-        int cellAntennaGain = linkBudget->antennaGainLineEdit->text().toInt();
-        int cellNoiseFigure = linkBudget->noiseFigureLineEdit->text().toInt();
+        double cellAntennaGain = linkBudget->antennaGainLineEdit->text().toDouble();
+        double cellNoiseFigure = linkBudget->noiseFigureLineEdit->text().toDouble();
         int propagationModel = linkBudget->propagationModelComboBox->currentIndex();
-        int ueTxPower = linkBudget->ueTxPowerLineEdit->text().toInt();
-        int ueFeederLos = linkBudget->ueFeederLosLineEdit->text().toInt();
-        int ueAntennaGain = linkBudget->ueAntennaGainLineEdit->text().toInt();
-        int ueNoiseFigure = linkBudget->ueNoiseFigureLineEdit->text().toInt();
+        int heightUsage = linkBudget->heightUsageCheckBox->isChecked();
+        int buildingsUsage = linkBudget->buildingsUsageCheckBox->isChecked();
+        double ueTxPower = linkBudget->ueTxPowerLineEdit->text().toDouble();
+        double ueFeederLos = linkBudget->ueFeederLosLineEdit->text().toDouble();
+        double ueAntennaGain = linkBudget->ueAntennaGainLineEdit->text().toDouble();
+        double ueNoiseFigure = linkBudget->ueNoiseFigureLineEdit->text().toDouble();
 
-        prnt->simulationSettings[9] = cellTxPower;
-        prnt->simulationSettings[10] = cellFeederLos;
-        prnt->simulationSettings[11] = antennaConfig;
-        prnt->simulationSettings[12] = cellAntennaGain;
-        prnt->simulationSettings[13] = cellNoiseFigure;
-        prnt->simulationSettings[14] = propagationModel;
-        prnt->simulationSettings[15] = ueTxPower;
-        prnt->simulationSettings[16] = ueFeederLos;
-        prnt->simulationSettings[17] = ueAntennaGain;
-        prnt->simulationSettings[18] = ueNoiseFigure;
+        prnt->simulationSettings.cellTxPower = cellTxPower;
+        prnt->simulationSettings.cellFeederLos = cellFeederLos;
+        prnt->simulationSettings.antennaConfig= antennaConfig;
+        prnt->simulationSettings.cellAntennaGain = cellAntennaGain;
+        prnt->simulationSettings.cellNoiseFigure = cellNoiseFigure;
+        prnt->simulationSettings.propagationModel = propagationModel;
+        prnt->simulationSettings.heightUsage = heightUsage;
+        prnt->simulationSettings.buildingsUsage = buildingsUsage;
+        prnt->simulationSettings.ueTxPower = ueTxPower;
+        prnt->simulationSettings.ueFeederLos = ueFeederLos;
+        prnt->simulationSettings.ueAntennaGain = ueAntennaGain;
+        prnt->simulationSettings.ueNoiseFigure = ueNoiseFigure;
 
-        emit settingsChanged(prnt->simulationSettings);
+        emit settingsChanged(&(prnt->simulationSettings));
     }
 
 }
@@ -230,6 +234,14 @@ LinkBudgetTab::LinkBudgetTab(QWidget *parent)
     propagationModelComboBox = new QComboBox();
     propagationModelComboBox->setModel(propagationModelModel);
 
+    heightUsageLable = new QLabel(tr("Height Usage:"));
+    heightUsageCheckBox = new QCheckBox("Height above sea level");
+    heightUsageCheckBox->setCheckState(Qt::Checked);
+
+    buildingsUsageLable = new QLabel(tr("Buildings Usage:"));
+    buildingsUsageCheckBox = new QCheckBox("Number of floors in buildings");
+    buildingsUsageCheckBox->setCheckState(Qt::Checked);
+
     QGridLayout *cellLayout = new QGridLayout();
     cellLayout->addWidget(cellTxPowerLabel, 0, 0, 1, 1);
     cellLayout->addWidget(cellTxPowerLineEdit, 0, 1, 1, 1);
@@ -243,6 +255,10 @@ LinkBudgetTab::LinkBudgetTab(QWidget *parent)
     cellLayout->addWidget(noiseFigureLineEdit, 4, 1, 1, 1);
     cellLayout->addWidget(propagationModelLabel, 5, 0, 1, 1);
     cellLayout->addWidget(propagationModelComboBox, 5, 1, 1, 1);
+    cellLayout->addWidget(heightUsageLable, 6, 0, 1, 1);
+    cellLayout->addWidget(heightUsageCheckBox, 6, 1, 1, 1);
+    cellLayout->addWidget(buildingsUsageLable, 7, 0, 1, 1);
+    cellLayout->addWidget(buildingsUsageCheckBox, 7, 1, 1, 1);
 
     cellViewGroupBox->setLayout(cellLayout);
 

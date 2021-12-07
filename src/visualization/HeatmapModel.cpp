@@ -12,6 +12,8 @@ HeatmapModel::HeatmapModel()
     setAntennaGain(12);
     setPixelToMeter(1.25);
     setHeightOfStorey(2.7);
+    setHeightUsage(true);
+    setBuildingsUsage(true);
 }
 
 void HeatmapModel::setBaseStation(CartesianCoordinates BS)
@@ -64,6 +66,16 @@ void HeatmapModel::setPixelToMeter(double ptm)
 void HeatmapModel::setHeightOfStorey(double height)
 {
     storeysToHeight = height;
+}
+
+void HeatmapModel::setHeightUsage(int usage)
+{
+    heightUsage = usage;
+}
+
+void HeatmapModel::setBuildingsUsage(int usage)
+{
+    buildingsUsage = usage;
 }
 
 void HeatmapModel::createData()
@@ -132,24 +144,33 @@ int HeatmapModel::isLOSDDA(vector<CartesianCoordinates> slice)
 {
     int length = slice.size();
 
-    int L = qMax(fabs(slice.size()), fabs(slice.back().getCoordinateZ() +
-                                          storeysHeights[(int)(slice.back().getCoordinateY()) * lonc + (int)(slice.back().getCoordinateX())][4]
-            - (slice.front().getCoordinateZ() +
-               storeysHeights[(int)(slice.front().getCoordinateY()) * lonc + (int)(slice.front().getCoordinateX())][4])));
+    double groundBS = 0;
+    double groundUT = 0;
+
+    if(heightUsage){
+        groundUT = storeysHeights[(int)(slice.back().getCoordinateY()) * lonc
+                + (int)(slice.back().getCoordinateX())][4];
+        groundBS = storeysHeights[(int)(slice.front().getCoordinateY()) * lonc
+                + (int)(slice.front().getCoordinateX())][4];
+    }
+
+    int L = qMax(fabs(slice.size()), fabs(slice.back().getCoordinateZ() + groundUT -
+                                          (slice.front().getCoordinateZ() + groundBS)));
     L++;
     double stepX = ((double)(slice.size()))/L;
-    double stepY = ((double)((slice.back().getCoordinateZ() +
-                              storeysHeights[(int)(slice.back().getCoordinateY()) * lonc + (int)(slice.back().getCoordinateX())][4])
-            - (slice.front().getCoordinateZ() +
-               storeysHeights[(int)(slice.front().getCoordinateY()) * lonc + (int)(slice.front().getCoordinateX())][4])))/L;
+    double stepY = ((double)((slice.back().getCoordinateZ() + groundUT) -
+                             (slice.front().getCoordinateZ() + groundBS)))/L;
 
     double startX = 0;
-    double startY = slice.front().getCoordinateZ() + storeysHeights[(int)(slice.front().getCoordinateY()) * lonc
-            + (int)(slice.front().getCoordinateX())][4];
+    double startY = slice.front().getCoordinateZ() + groundBS;
 
     int kIn = 0;
 
     int prevI = 0;
+
+    double buildingHeight = 0;
+    double buildingGround = 0;
+
     for(int k=0; k<L; ++k){
         int i = qRound(startX + (k*stepX));
         double j = (startY + (k*stepY));
@@ -157,9 +178,17 @@ int HeatmapModel::isLOSDDA(vector<CartesianCoordinates> slice)
         if(prevI < i){
             prevI = i;
             if(i >= length) break;
-            if(storeysHeights[(int)(slice[i].getCoordinateY()) * lonc + (int)(slice[i].getCoordinateX())][2] * storeysToHeight +
-                    storeysHeights[(int)(slice[i].getCoordinateY()) * lonc + (int)(slice[i].getCoordinateX())][4]
-                    >= j){
+
+            if(buildingsUsage){
+                buildingHeight = storeysHeights[(int)(slice[i].getCoordinateY()) * lonc
+                        + (int)(slice[i].getCoordinateX())][2] * storeysToHeight;
+            }
+            if(heightUsage){
+                buildingGround = storeysHeights[(int)(slice[i].getCoordinateY()) * lonc
+                        + (int)(slice[i].getCoordinateX())][4];
+            }
+
+            if(buildingHeight + buildingGround >= j){
                 kIn++;
             }
         }
@@ -231,11 +260,16 @@ void HeatmapModel::calculateHeatmap3DDDA()
 
                 if((data)[i][j]!=0) continue;
                 kIn = isLOSDDA(slice);
-                double groundBS = storeysHeights[(int)(BaseStation.getCoordinateY()) * lonc
-                        + (int)(BaseStation.getCoordinateX())][4];
-                double groundUT = storeysHeights[(int)(slice.back().getCoordinateY()) * lonc
-                        + (int)(slice.back().getCoordinateX())][4];
-                double groundDelta = groundBS - groundUT;
+                double groundBS = 0;
+                double groundUT = 0;
+                double groundDelta = 0;
+                if(heightUsage){
+                    groundBS = storeysHeights[(int)(BaseStation.getCoordinateY()) * lonc
+                                            + (int)(BaseStation.getCoordinateX())][4];
+                    groundUT = storeysHeights[(int)(slice.back().getCoordinateY()) * lonc
+                                            + (int)(slice.back().getCoordinateX())][4];
+                    groundDelta = groundBS - groundUT;
+                }
 
                 if(kIn == 0)
                 {
@@ -286,9 +320,12 @@ void HeatmapModel::calculateHeatmap()
     qDebug()<<"QImage was saved - " << createImage();
 }
 
-void HeatmapModel::changeSettings(int* settings)
+void HeatmapModel::changeSettings(void* stngs)
 {
-    setBSPower(settings[9]);
-    setAntennaGain(settings[12]);
+    SettingsTemplate* settings = (SettingsTemplate*)stngs;
+    setBSPower(settings->cellTxPower);
+    setAntennaGain(settings->cellAntennaGain);
+    setHeightUsage(settings->heightUsage);
+    setBuildingsUsage(settings->buildingsUsage);
 }
 

@@ -31,7 +31,7 @@ TabMenu::TabMenu(QWidget *parent)
     connect(this, &TabMenu::settingsChanged, surfaceWidget_, &Custom3dSurfaceWidget::changeSettings);
 }
 
-void TabMenu::changeSettings(int* number)
+void TabMenu::changeSettings(void* settings)
 {
-    emit settingsChanged(number);
+    emit settingsChanged(settings);
 }

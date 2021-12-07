@@ -29,6 +29,7 @@ class QDataWidgetMapper;
 class QGroupBox;
 class QVBoxLayout;
 class QRadioButton;
+class QCheckBox;
 
 const int kInitialWidth = 750;
 const int kInitialHeight = 450;
@@ -62,7 +63,7 @@ private:
     QDialogButtonBox *buttonBox;
 
 signals:
-    void settingsChanged(int*);
+    void settingsChanged(void*);
 
 };
 
@@ -150,6 +151,10 @@ private:
     QStringListModel *propagationModelModel;
     QLabel *propagationModelLabel;
 
+    QLabel *heightUsageLable;
+
+    QLabel *buildingsUsageLable;
+
     QLabel *ueTxPowerLabel;
 
     QLabel *ueFeederLosLabel;
@@ -167,6 +172,8 @@ public:
     QLineEdit *noiseFigureLineEdit;
     QComboBox *antennaConfigComboBox;
     QComboBox *propagationModelComboBox;
+    QCheckBox *heightUsageCheckBox;
+    QCheckBox *buildingsUsageCheckBox;
     QLineEdit *ueTxPowerLineEdit;
     QLineEdit *ueFeederLosLineEdit;
     QLineEdit *ueAntennaGainLineEdit;

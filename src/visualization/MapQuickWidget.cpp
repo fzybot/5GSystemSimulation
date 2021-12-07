@@ -74,7 +74,7 @@ void MapQuickWidget::stopSim()
     ueModel_->stopSim();
 }
 
-void MapQuickWidget::changeSettings(int* number)
+void MapQuickWidget::changeSettings(void* settings)
 {
-    emit settingsChanged(number);
+    emit settingsChanged(settings);
 }

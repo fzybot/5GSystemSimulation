@@ -26,9 +26,9 @@ void Map::stopSim()
     mapQuickWidget_->stopSim();
 }
 
-void Map::changeSettings(int* number)
+void Map::changeSettings(void* settings)
 {
-    emit settingsChanged(number);
+    emit settingsChanged(settings);
 }
 
 

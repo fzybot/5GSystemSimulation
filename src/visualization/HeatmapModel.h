@@ -11,6 +11,7 @@
 #include <time.h>
 #include <QImage>
 #include <QCoreApplication>
+#include "src/visualization/settingsTemplate.h"
 
 using namespace std;
 
@@ -31,6 +32,8 @@ public:
     void setAntennaGain(double gain);
     void setPixelToMeter(double ptm);
     void setHeightOfStorey(double heightOfStorey);
+    void setHeightUsage(int heightUsage);
+    void setBuildingsUsage(int buildingsUsage);
 
     void createData();
 
@@ -47,6 +50,9 @@ protected:
     double pixelToMeter;
     double storeysToHeight;
 
+    int heightUsage;
+    int buildingsUsage;
+
     double getAvgBuildingHeight();
     bool createImage();
     int isLOSDDA(vector <CartesianCoordinates> slice);
@@ -56,7 +62,7 @@ protected:
 
 public slots:
     void calculateHeatmap();
-    void changeSettings(int*);
+    void changeSettings(void*);
 };
 
 #endif // HEATMAPMODEL_H
