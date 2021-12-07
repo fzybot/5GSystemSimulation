@@ -211,12 +211,13 @@ void UEModel::stopSim()
     m_timer.stop();
 }
 
-void UEModel::changeSettings(int* settings)
+void UEModel::changeSettings(void* stgs)
 {
-    ueNumber_ = settings[6];
-    mobilityModelSettings = settings[7];
-    txPower = settings[15];
-    feederLos = settings[16];
-    antennaGain = settings[17];
-    noiseFigure = settings[18];
+    SettingsTemplate* settings = (SettingsTemplate*)stgs;
+    ueNumber_ = settings->numberOfUEs;
+    mobilityModelSettings = settings->mobilityModel;
+    txPower = settings->ueTxPower;
+    feederLos = settings->ueFeederLos;
+    antennaGain = settings->ueAntennaGain;
+    noiseFigure = settings->ueNoiseFigure;
 }

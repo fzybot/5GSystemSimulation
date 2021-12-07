@@ -147,7 +147,7 @@ void Custom3dSurfaceWidget::changeGradient()
 
 }
 
-void Custom3dSurfaceWidget::changeSettings(int *settings)
+void Custom3dSurfaceWidget::changeSettings(void *settings)
 {
     emit settingsChanged(settings);
 }

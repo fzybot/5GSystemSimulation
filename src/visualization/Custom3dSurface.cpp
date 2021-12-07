@@ -149,7 +149,7 @@ void Custom3dSurface::calculateModel()
     series_->setTextureFile(path);
 }
 
-void Custom3dSurface::changeSettings(int* settings)
+void Custom3dSurface::changeSettings(void* settings)
 {
     emit settingsChanged(settings);
 }

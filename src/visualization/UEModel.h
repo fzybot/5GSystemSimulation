@@ -6,6 +6,7 @@
 #include <QTimer>
 #include "src/equipment/mobility/Mobility.h"
 #include "src/core/CartesianCoordinates.h"
+#include "src/visualization/settingsTemplate.h"
 
 struct mapObjectData {
     mapObjectData() {}
@@ -63,7 +64,7 @@ public slots:
     void testUpdateModel();
     void startSim();
     void stopSim();
-    void changeSettings(int*);
+    void changeSettings(void*);
 
 private:
     QVector <mapObjectData> m_data;

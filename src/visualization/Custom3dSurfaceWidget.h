@@ -18,10 +18,10 @@ public:
 
 public slots:
     void changeGradient();
-    void changeSettings(int*);
+    void changeSettings(void*);
 
 signals:
-    void settingsChanged(int*);
+    void settingsChanged(void*);
 
 };
 

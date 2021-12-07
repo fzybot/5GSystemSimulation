@@ -66,6 +66,16 @@ void HeatmapModel::setHeightOfStorey(double height)
     storeysToHeight = height;
 }
 
+void HeatmapModel::setHeightUsage(int usage)
+{
+    heightUsage = usage;
+}
+
+void HeatmapModel::setBuildingsUsage(int usage)
+{
+    buildingsUsage = usage;
+}
+
 void HeatmapModel::createData()
 {
      data = vector <vector <double>>(lonc, vector <double> (latc));
@@ -286,9 +296,12 @@ void HeatmapModel::calculateHeatmap()
     qDebug()<<"QImage was saved - " << createImage();
 }
 
-void HeatmapModel::changeSettings(int* settings)
+void HeatmapModel::changeSettings(void* stngs)
 {
-    setBSPower(settings[9]);
-    setAntennaGain(settings[12]);
+    SettingsTemplate* settings = (SettingsTemplate*)stngs;
+    setBSPower(settings->cellTxPower);
+    setAntennaGain(settings->cellAntennaGain);
+    setHeightUsage(settings->heightUsage);
+    setBuildingsUsage(settings->buildingsUsage);
 }
 

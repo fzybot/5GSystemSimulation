@@ -37,10 +37,10 @@ public slots:
     void handleElementSelected(QtDataVisualization::QAbstract3DGraph::ElementType type);
     void handlePositionChange(const QPoint &position);
     void calculateModel();
-    void changeSettings(int*);
+    void changeSettings(void*);
 
 signals:
-    void settingsChanged(int*);
+    void settingsChanged(void*);
     void calculateModelSignal();
 
 private:
