@@ -302,6 +302,13 @@ void Equipment::calculateThermalNoise()
     //this->thermalNoise = -174 + 10 * log10(this->bandwidth * 1000000);
 }
 
+// ----- [ Visualizing ] -----------------------------------------------------------------------------------------------
+
+void Equipment::visualizeCounters()
+{
+
+}
+
 
 // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
 void Equipment::print()

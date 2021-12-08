@@ -151,7 +151,9 @@ public:
 
     void addCountSuccPacketTransmitted();
 
-// ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
+    void visualizeCounters();
+
+    // ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
     void print();
 
 };
