@@ -27,6 +27,7 @@ static QVector<QVector<QPair<int, int>>> &Simple ()
     int posZ = 50;
     Cell *cell = networkManager->createCell(idCell, posX, posY, posZ);
     cell->getPhyEntity()->configNewBandwidth("FR1", "n3", NUMEROLOGY[0], 10, 50, 0, 0, true);
+    cell->getPhyEntity()->configNewBandwidth("FR1", "n8", NUMEROLOGY[0], 10, 50, 0, 0, true);
 
     // int idCell_01 = 1;
     // int posX_01 = 200;
@@ -47,6 +48,8 @@ static QVector<QVector<QPair<int, int>>> &Simple ()
     int posY_ue = 500;
     double posZ_ue = 1.5;
     UserEquipment *ue = networkManager->createUserEquipment(idUE, posX_ue, posY_ue, posZ_ue, cell, gNb);
+    ue->getPhyEntity()->configNewBandwidth("FR1", "n3", NUMEROLOGY[0], 10, 50, 0, 0, true);
+    ue->getPhyEntity()->configNewBandwidth("FR1", "n8", NUMEROLOGY[0], 10, 50, 0, 0, true);
     channel->addDevice(ue);
 
     // int idUE2 = 3;
