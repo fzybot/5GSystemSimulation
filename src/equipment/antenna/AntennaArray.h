@@ -8,9 +8,8 @@ class AntennaArray
 enum class AntennaType
     {
         ANTENNA_TYPE_OMNIDIRECTIONAL,
-        ANTENNA_TYPE_TRI_SECTOR,
-        ANTENNA_TYPE_FOUR_SECTOR,
-        ANTENNA_TYPE_SIX_SECTOR
+        ANTENNA_TYPE_3GPP_3D,
+        ANTENNA_TYPE_3GPP_CUSTOM,
     };
 
 private:
@@ -46,7 +45,12 @@ public:
     QVector<float> &getElevationGrid();
     QVector<float> &getAzimuthGrid();
 
+    float calculateAntGain(float elevation, float azimuth);
+    float calculateVerticalCutGain(float elevation);
+    float calculateHorizontalCutGain(float azimuth);
+
     void showElevationGrid();
     void showAzimuthGrid();
+    void visualize3D();
+    void visualize2D(float elevation);
 };
-

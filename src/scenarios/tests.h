@@ -46,9 +46,13 @@ static void simpleTest()
     // Signal class tests
     //**************************************************************
 
-    // AntennaArray ant1;
-    // ant1.calculateElevationGrid();
-    // ant1.calculateAzimuthGrid();
-    // ant1.showAzimuthGrid();
-    // ant1.showElevationGrid();
+    AntennaArray ant1;
+    ant1.calculateElevationGrid();
+    ant1.calculateAzimuthGrid();
+    for (int elev = 0; elev <= 180; elev++){
+        for (int azim = -180; azim <= 180; azim++){
+            qDebug() << "Ant Gain --> " << ant1.calculateAntGain(elev, azim);
+        }
+    }
+        
 }
