@@ -37,7 +37,7 @@ SettingsDialog::~SettingsDialog()
         MainWindow* prnt = (MainWindow*)parent();
 
         int numberOfCell = general->numberOfCellLineEdit->text().toInt();
-        int band = general->bandComboBox->currentIndex();
+        QString band = general->bandComboBox->currentText();
         int numerology = general->numerologyComboBox->currentIndex();
         int bandwidth = general->bandwidthComboBox->currentIndex();
         int channelModel = general->channelModelComboBox->currentIndex();
@@ -47,7 +47,7 @@ SettingsDialog::~SettingsDialog()
         int ueDistribution = general->distributionComboBox->currentIndex();
 
         prnt->simulationSettings.numberOfCell = numberOfCell;
-        prnt->simulationSettings.band = band;
+        prnt->simulationSettings.band = (band.remove(0, 5)).toInt();
         prnt->simulationSettings.numerology = numerology;
         prnt->simulationSettings.bandwidth = bandwidth;
         prnt->simulationSettings.channelModel = channelModel;

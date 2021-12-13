@@ -14,6 +14,7 @@ HeatmapModel::HeatmapModel()
     setHeightOfStorey(2.7);
     setHeightUsage(true);
     setBuildingsUsage(true);
+    setSavePicName("pixelMap.bmp");
 }
 
 void HeatmapModel::setBaseStation(CartesianCoordinates BS)
@@ -26,6 +27,45 @@ void HeatmapModel::setBaseStation(CartesianCoordinates BS)
 void HeatmapModel::setCenterFrequency(double frequency)
 {
     centerFrequency = frequency;
+}
+
+void HeatmapModel::setBand(int band)
+{
+    switch (band){
+        case 0:
+        setCenterFrequency(0);
+        break;
+        case 1:
+        setCenterFrequency(1.92);
+        break;
+        case 3:
+        setCenterFrequency(1.71);
+        break;
+        case 7:
+        setCenterFrequency(2.5);
+        break;
+        case 8:
+        setCenterFrequency(0.88);
+        break;
+        case 20:
+        setCenterFrequency(0.832);
+        break;
+        case 25:
+        setCenterFrequency(1.85);
+        break;
+        case 30:
+        setCenterFrequency(2.305);
+        break;
+        case 41:
+        setCenterFrequency(2.496);
+        break;
+        case 79:
+        setCenterFrequency(4.4);
+        break;
+        case 257:
+        setCenterFrequency(29.5);
+        break;
+    }
 }
 
 void HeatmapModel::setAvgBuildingHeight(double height)
@@ -76,6 +116,11 @@ void HeatmapModel::setHeightUsage(int usage)
 void HeatmapModel::setBuildingsUsage(int usage)
 {
     buildingsUsage = usage;
+}
+
+void HeatmapModel::setSavePicName(QString name)
+{
+    picName = name;
 }
 
 void HeatmapModel::createData()
@@ -134,7 +179,7 @@ bool HeatmapModel::createImage()
     }
 
     QString path = QCoreApplication::applicationDirPath();
-    QString texturePath = QString("/pixelMap.bmp");
+    QString texturePath = QString("/" + picName);
     path.append(texturePath);
 
     return image.save(path, "BMP", 100);
@@ -327,5 +372,6 @@ void HeatmapModel::changeSettings(void* stngs)
     setAntennaGain(settings->cellAntennaGain);
     setHeightUsage(settings->heightUsage);
     setBuildingsUsage(settings->buildingsUsage);
+    setBand(settings->band);
 }
 

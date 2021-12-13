@@ -46,8 +46,10 @@ signals:
 private:
     QtDataVisualization::Q3DSurface *graph_;
     QtDataVisualization::QSurface3DSeries *series_;
-    QtDataVisualization::QSurface3DSeries *highlightSeries_;
+    QtDataVisualization::QSurface3DSeries *series2_;
+    //QtDataVisualization::QSurface3DSeries *highlightSeries_;
     QtDataVisualization::QSurfaceDataProxy *proxy_;
+    QtDataVisualization::QSurfaceDataProxy *proxy2_;
 
     float rangeMinX_;
     float rangeMinZ_;
@@ -69,4 +71,5 @@ private:
     int checkBuildingID(QPoint);
 
     HeatmapModel* heatmapModel_;
+    HeatmapModel* heatmapModel2_;
 };

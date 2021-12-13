@@ -34,10 +34,19 @@ Custom3dSurface::Custom3dSurface(QtDataVisualization::Q3DSurface *surface)
     proxy_ = new QtDataVisualization::QSurfaceDataProxy();
     series_ = new QtDataVisualization::QSurface3DSeries(proxy_);
 
+    proxy2_ = new QtDataVisualization::QSurfaceDataProxy();
+    series2_ = new QtDataVisualization::QSurface3DSeries(proxy2_);
+
     heatmapModel_ = new HeatmapModel;
     heatmapModel_->setBaseStation(CartesianCoordinates(851, 230, 60));
+
+    heatmapModel2_ = new HeatmapModel;
+    heatmapModel2_->setBaseStation(CartesianCoordinates(851, 230, 60));
+    heatmapModel2_->setSavePicName("pixelMap2.bmp");
+
     connect(this, &Custom3dSurface::settingsChanged, heatmapModel_, &HeatmapModel::changeSettings);
     connect(this, &Custom3dSurface::calculateModelSignal, heatmapModel_, &HeatmapModel::calculateHeatmap);
+    connect(this, &Custom3dSurface::calculateModelSignal, heatmapModel2_, &HeatmapModel::calculateHeatmap);
 
     //highlightSeries_ = new QtDataVisualization::QSurface3DSeries(proxy_);
     setsCount_=2;
@@ -87,6 +96,8 @@ void Custom3dSurface::enableModel()
 {
         series_->setDrawMode(QtDataVisualization::QSurface3DSeries::DrawSurface);
         series_->setFlatShadingEnabled(true);
+        series2_->setDrawMode(QtDataVisualization::QSurface3DSeries::DrawSurface);
+        series2_->setFlatShadingEnabled(true);
 
         graph_->axisX()->setLabelFormat("%.10f");
         graph_->axisZ()->setLabelFormat("%.10f");
@@ -99,9 +110,11 @@ void Custom3dSurface::enableModel()
         graph_->axisZ()->setLabelAutoRotation(30);
 
         graph_->addSeries(series_);
+        graph_->addSeries(series2_);
 
         graph_->setShadowQuality(QtDataVisualization::QAbstract3DGraph::ShadowQualityNone);
         setBlueToRedGradient(series_);
+        setBlueToRedGradient(series2_);
 
 
         // Reset range sliders for Sqrt&Sin
@@ -117,13 +130,18 @@ void Custom3dSurface::enableHeatmap(bool check)
 {
     if(check){
         QString path = QCoreApplication::applicationDirPath();
+        QString path2 = QCoreApplication::applicationDirPath();
         QString texturePath = QString("/pixelMap.bmp");
+        QString texturePath2 = QString("/pixelMap2.bmp");
         path.append(texturePath);
+        path2.append(texturePath2);
         series_->setTextureFile(path);
+        series2_->setTextureFile(path2);
     }
     else{
         QImage empty(0,0,QImage::Format_RGB32);
         series_->setTexture(empty);
+        series2_->setTexture(empty);
     }
 }
 
@@ -141,12 +159,8 @@ void Custom3dSurface::enableCityPic(bool check)
 void Custom3dSurface::calculateModel()
 {
     emit calculateModelSignal();
-    QImage empty(0,0,QImage::Format_RGB32);
-    series_->setTexture(empty);
-    QString path = QCoreApplication::applicationDirPath();
-    QString texturePath = QString("/pixelMap.bmp");
-    path.append(texturePath);
-    series_->setTextureFile(path);
+    enableHeatmap(false);
+    enableHeatmap(true);
 }
 
 void Custom3dSurface::changeSettings(void* settings)
@@ -161,9 +175,12 @@ void Custom3dSurface::fillFromFileCustom(int num)
 
     QtDataVisualization::QSurfaceDataArray *dataArray = new QtDataVisualization::QSurfaceDataArray;
     dataArray->reserve(sampleCountZ);
+    QtDataVisualization::QSurfaceDataArray *dataArray2 = new QtDataVisualization::QSurfaceDataArray;
+    dataArray2->reserve(sampleCountZ);
 
     for (int i = 0; i < sampleCountZ; i++) {
         QtDataVisualization::QSurfaceDataRow *newRow = new QtDataVisualization::QSurfaceDataRow(sampleCountX);
+        QtDataVisualization::QSurfaceDataRow *newRow2 = new QtDataVisualization::QSurfaceDataRow(sampleCountX);
         float z = qMin(float(storeysHeights[length-1][0]), (i * stepZ + float(storeysHeights[0][0])));
         int index = 0;
         for (int j = 0; j < sampleCountX; j++) {
@@ -180,12 +197,15 @@ void Custom3dSurface::fillFromFileCustom(int num)
                 if(setsCount_!=1){y = storeysHeights[i*sampleCountX+j][sets_[setsCount_-1]];}
             }
             }
-            (*newRow)[index++].setPosition(QVector3D(x, y, z));
+            (*newRow)[index].setPosition(QVector3D(x, y, z));
+            (*newRow2)[index++].setPosition(QVector3D(x, y + 200, z));
         }
         //qDebug() << "New row: " << newRow->size();
         *dataArray << newRow;
+        *dataArray2 << newRow2;
     }
     proxy_->resetArray(dataArray);
+    proxy2_->resetArray(dataArray2);
 }
 
 void Custom3dSurface::fillFromFile()
@@ -195,9 +215,12 @@ void Custom3dSurface::fillFromFile()
 
     QtDataVisualization::QSurfaceDataArray *dataArray = new QtDataVisualization::QSurfaceDataArray;
     dataArray->reserve(sampleCountZ);
+    QtDataVisualization::QSurfaceDataArray *dataArray2 = new QtDataVisualization::QSurfaceDataArray;
+    dataArray2->reserve(sampleCountZ);
 
     for (int i = 0; i < sampleCountZ; i++) {
         QtDataVisualization::QSurfaceDataRow *newRow = new QtDataVisualization::QSurfaceDataRow(sampleCountX);
+        QtDataVisualization::QSurfaceDataRow *newRow2 = new QtDataVisualization::QSurfaceDataRow(sampleCountX);
         float z = qMin(float(storeysHeights[length-1][0]), (i * stepZ + float(storeysHeights[0][0])));
         int index = 0;
         for (int j = 0; j < sampleCountX; j++) {
@@ -211,11 +234,14 @@ void Custom3dSurface::fillFromFile()
                     y+=storeysHeights[i*sampleCountX+j][sets_[c]];
                 }
             }
-            (*newRow)[index++].setPosition(QVector3D(x, y, z));
+            (*newRow)[index].setPosition(QVector3D(x, y, z));
+            (*newRow2)[index++].setPosition(QVector3D(x, y + 200, z));
         }
         *dataArray << newRow;
+        *dataArray2 << newRow2;
     }
     proxy_->resetArray(dataArray);
+    proxy2_->resetArray(dataArray2);
 }
 
 void Custom3dSurface::setBlueToRedGradient(QtDataVisualization::QSurface3DSeries* series)
@@ -332,11 +358,11 @@ void Custom3dSurface::handlePositionChange(const QPoint &position)
     qDebug()<<position;
     qDebug()<<graph_->seriesList().length();
 
-    if (position == QtDataVisualization::QSurface3DSeries::invalidSelectionPosition()) {
-        highlightSeries_->setVisible(false);
+//    if (position == QtDataVisualization::QSurface3DSeries::invalidSelectionPosition()) {
+//        highlightSeries_->setVisible(false);
 
-        return;
-    }
+//        return;
+//    }
 
     int halfWidth = 100 / 2;
     int halfHeight = 100 / 2;
@@ -369,7 +395,7 @@ void Custom3dSurface::handlePositionChange(const QPoint &position)
         *dataArray << newRow;
     }
 
-    highlightSeries_->dataProxy()->resetArray(dataArray);
-    highlightSeries_->setVisible(true);
+//    highlightSeries_->dataProxy()->resetArray(dataArray);
+//    highlightSeries_->setVisible(true);
 }
 

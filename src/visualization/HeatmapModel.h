@@ -22,7 +22,8 @@ public:
     HeatmapModel();
 
     void setBaseStation(CartesianCoordinates BS);
-    void setCenterFrequency(double frequency);
+    void setCenterFrequency(double frequency); //GHz
+    void setBand(int band);
     void setAvgBuildingHeight(double avgBuildingHeight);
     void setAvgStreetWidth(double avgStreetWidth);
     void setShadowFading(double shadowFading);
@@ -34,6 +35,8 @@ public:
     void setHeightOfStorey(double heightOfStorey);
     void setHeightUsage(int heightUsage);
     void setBuildingsUsage(int buildingsUsage);
+
+    void setSavePicName(QString name);
 
     void createData();
 
@@ -59,6 +62,8 @@ protected:
 
     QRgb signalStrengthToColor(double signalStrength);
     void calculateHeatmap3DDDA();
+
+    QString picName;
 
 public slots:
     void calculateHeatmap();
