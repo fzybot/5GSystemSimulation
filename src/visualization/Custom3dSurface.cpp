@@ -2,18 +2,19 @@
 
 #include <QtDataVisualization/QValue3DAxis>
 #include <QtDataVisualization/Q3DTheme>
-#include <QtGui/QImage>
-#include <QtCore/qmath.h>
-//#include "src/visualization/data/plotData/nskStoreysHeights.cpp"
-//#include "src/visualization/data/plotData/scaleTest.cpp"
-        //#include "src/visualization/data/plotData/interpolationNskStoreysHeights.cpp"
-//#include "src/visualization/data/plotData/interpolationTest.cpp"
-#include <algorithm>
-#include <stdlib.h>
-//#include <QWidgets>
-
 #include <QtDataVisualization/QCustom3DItem>
 #include <QtDataVisualization/QCustom3DLabel>
+#include <QtGui/QImage>
+#include <QtCore/qmath.h>
+#include <algorithm>
+#include <stdlib.h>
+
+//#include "src/visualization/data/plotData/nskStoreysHeights.cpp"
+//#include "src/visualization/data/plotData/scaleTest.cpp"
+//#include "src/visualization/data/plotData/interpolationNskStoreysHeights.cpp"
+//#include "src/visualization/data/plotData/interpolationTest.cpp"
+
+//#include <QWidgets>
 
 //#include "src/scenarios/testModel.h"
 
@@ -34,12 +35,8 @@ Custom3dSurface::Custom3dSurface(QtDataVisualization::Q3DSurface *surface)
     proxy_ = new QtDataVisualization::QSurfaceDataProxy();
     series_ = new QtDataVisualization::QSurface3DSeries(proxy_);
 
-    heatmapModel_ = new HeatmapModel;
-    heatmapModel_->setBaseStation(CartesianCoordinates(851, 230, 60));
-    connect(this, &Custom3dSurface::settingsChanged, heatmapModel_, &HeatmapModel::changeSettings);
-    connect(this, &Custom3dSurface::calculateModelSignal, heatmapModel_, &HeatmapModel::calculateHeatmap);
+    initializeHeatmap();
 
-    //highlightSeries_ = new QtDataVisualization::QSurface3DSeries(proxy_);
     setsCount_=2;
     sets_=new int[setsCount_];
     sets_[0]=2;
@@ -55,6 +52,27 @@ Custom3dSurface::Custom3dSurface(QtDataVisualization::Q3DSurface *surface)
     //                     this, &Custom3dSurface::handlePositionChange);
 }
 
+Custom3dSurface::Custom3dSurface(QtDataVisualization::Q3DSurface *surface, int type)
+    :graph_(surface)
+{
+    graph_->setAxisX(new QtDataVisualization::QValue3DAxis);
+    graph_->setAxisY(new QtDataVisualization::QValue3DAxis);
+    graph_->setAxisZ(new QtDataVisualization::QValue3DAxis);
+
+    proxy_ = new QtDataVisualization::QSurfaceDataProxy();
+    series_ = new QtDataVisualization::QSurface3DSeries(proxy_);
+
+    fillSqrtSinProxy();
+    QLinearGradient gr;
+    gr.setColorAt(0.0, Qt::blue);
+    gr.setColorAt(0.5, Qt::green);
+    gr.setColorAt(1.0, Qt::red);
+
+    series_->setBaseGradient(gr);
+    series_->setColorStyle(QtDataVisualization::Q3DTheme::ColorStyleRangeGradient);
+    
+}
+
 Custom3dSurface::~Custom3dSurface()
 {
     delete graph_;
@@ -62,25 +80,29 @@ Custom3dSurface::~Custom3dSurface()
 
 void Custom3dSurface::fillSqrtSinProxy()
 {
-    float stepX = (sampleMax - sampleMin) / float(sampleCountX - 1);
-    float stepZ = (sampleMax - sampleMin) / float(sampleCountZ - 1);
+    int sampleCountXLocal = 100;
+    int sampleCountZLocal = 100;
+    float stepX = (sampleMax - sampleMin) / float(sampleCountXLocal - 1);
+    float stepZ = (sampleMax - sampleMin) / float(sampleCountZLocal - 1);
 
     QtDataVisualization::QSurfaceDataArray *dataArray = new QtDataVisualization::QSurfaceDataArray;
-    dataArray->reserve(sampleCountZ);
-    for (int i = 0; i < sampleCountZ; i++) {
-        QtDataVisualization::QSurfaceDataRow *newRow = new QtDataVisualization::QSurfaceDataRow(sampleCountX);
+    dataArray->reserve(sampleCountZLocal);
+    for (int i = 0; i < sampleCountZLocal; i++) {
+        QtDataVisualization::QSurfaceDataRow *newRow = new QtDataVisualization::QSurfaceDataRow(sampleCountXLocal);
         float z = qMin(sampleMax, (i * stepZ + sampleMin));
         int index = 0;
-        for (int j = 0; j < sampleCountX; j++) {
+        for (int j = 0; j < sampleCountXLocal; j++) {
             float x = qMin(sampleMax, (j * stepX + sampleMin));
             float R = qSqrt(z * z + x * x) + 0.01f;
             float y = (qSin(R) / R + 0.24f) * 1.61f;
             (*newRow)[index++].setPosition(QVector3D(x, y, z));
         }
-        qDebug() << "New row: " << newRow->size();
+        //qDebug() << "New row: " << newRow->size();
         *dataArray << newRow;
     }
     proxy_->resetArray(dataArray);
+
+    graph_->addSeries(series_);
 }
 
 void Custom3dSurface::enableModel()
@@ -111,6 +133,14 @@ void Custom3dSurface::enableModel()
         stepX_ = (lon[length-1] - X[0]) / float(length - 1);
         stepZ_ = (50 - 0) / float(length - 1);
 */
+}
+
+void Custom3dSurface::initializeHeatmap()
+{
+    heatmapModel_ = new HeatmapModel;
+    heatmapModel_->setBaseStation(CartesianCoordinates(851, 230, 60));
+    connect(this, &Custom3dSurface::settingsChanged, heatmapModel_, &HeatmapModel::changeSettings);
+    connect(this, &Custom3dSurface::calculateModelSignal, heatmapModel_, &HeatmapModel::calculateHeatmap);
 }
 
 void Custom3dSurface::enableHeatmap(bool check)
@@ -156,6 +186,7 @@ void Custom3dSurface::changeSettings(void* settings)
 
 void Custom3dSurface::fillFromFileCustom(int num)
 {
+
     float stepX = (storeysHeights[lonc-1][1] - storeysHeights[0][1]) / float(sampleCountX - 1);
     float stepZ = (storeysHeights[length-1][0] - storeysHeights[0][0]) / float(sampleCountZ - 1);
 

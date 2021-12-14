@@ -2,7 +2,9 @@
 
 #include <QDebug>
 #include <QtMath>
-#include <QtGlobal>
+#include <QtDataVisualization/Q3DSurface>
+#include <QtWidgets>
+#include "src/visualization/Custom3dSurface.h"
 
 AntennaArray::AntennaArray()
 {
@@ -87,7 +89,17 @@ float AntennaArray::calculateHorizontalCutGain(float azimuth)
 
 void AntennaArray::visualize3D()
 {
+    QtDataVisualization::Q3DSurface *graph = new QtDataVisualization::Q3DSurface();
+    QWidget *container = QWidget::createWindowContainer(graph);
+    container->setMinimumSize(800, 600);
+    container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    container->setFocusPolicy(Qt::StrongFocus);
+    surface_ = new Custom3dSurface(graph, 4);
 
+    QHBoxLayout *mainLayout = new QHBoxLayout;
+    mainLayout->addWidget(container);
+
+    container->show();
 }
 
 void AntennaArray::visualize2D(float elevation)

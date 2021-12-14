@@ -13,12 +13,15 @@ class Custom3dSurface : public QObject
     Q_OBJECT
 public:
     Custom3dSurface(QtDataVisualization::Q3DSurface *surface);
+    Custom3dSurface(QtDataVisualization::Q3DSurface *surface, int type);
     ~Custom3dSurface();
 
     void enableModel();
     void enableHeatmap(bool check);
     void enableCityPic(bool check);
     //void enableDataFromFile(bool enable);
+
+    void initializeHeatmap();
 
 
     void setBlackToYellowGradient();

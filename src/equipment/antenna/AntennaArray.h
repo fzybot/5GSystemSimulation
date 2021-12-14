@@ -3,6 +3,8 @@
 #include <QVector>
 
 
+class Custom3dSurface;
+
 class AntennaArray
 {
 enum class AntennaType
@@ -25,6 +27,8 @@ private:
     QVector<float> azimuthGrid_;
     QVector<QVector<float>> Fa_;
     QVector<QVector<float>> Fb_;
+
+    Custom3dSurface* surface_;
 
 public:
     AntennaArray();
