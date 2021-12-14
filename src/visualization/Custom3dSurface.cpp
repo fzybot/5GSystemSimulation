@@ -52,7 +52,7 @@ Custom3dSurface::Custom3dSurface(QtDataVisualization::Q3DSurface *surface)
     //                     this, &Custom3dSurface::handlePositionChange);
 }
 
-Custom3dSurface::Custom3dSurface(QtDataVisualization::Q3DSurface *surface, int type)
+Custom3dSurface::Custom3dSurface(QtDataVisualization::Q3DSurface *surface, int test)
     :graph_(surface)
 {
     graph_->setAxisX(new QtDataVisualization::QValue3DAxis);
@@ -63,14 +63,28 @@ Custom3dSurface::Custom3dSurface(QtDataVisualization::Q3DSurface *surface, int t
     series_ = new QtDataVisualization::QSurface3DSeries(proxy_);
 
     fillSqrtSinProxy();
-    QLinearGradient gr;
-    gr.setColorAt(0.0, Qt::blue);
-    gr.setColorAt(0.5, Qt::green);
-    gr.setColorAt(1.0, Qt::red);
+    // QLinearGradient gr;
+    // gr.setColorAt(0.0, Qt::blue);
+    // gr.setColorAt(0.5, Qt::green);
+    // gr.setColorAt(1.0, Qt::red);
 
-    series_->setBaseGradient(gr);
-    series_->setColorStyle(QtDataVisualization::Q3DTheme::ColorStyleRangeGradient);
+    // series_->setBaseGradient(gr);
+    // series_->setColorStyle(QtDataVisualization::Q3DTheme::ColorStyleRangeGradient);
     
+}
+
+Custom3dSurface::Custom3dSurface(QtDataVisualization::Q3DSurface *surface, QtDataVisualization::QSurfaceDataArray *dataArray)
+    :graph_(surface)
+{
+    graph_->setAxisX(new QtDataVisualization::QValue3DAxis);
+    graph_->setAxisY(new QtDataVisualization::QValue3DAxis);
+    graph_->setAxisZ(new QtDataVisualization::QValue3DAxis);
+
+    proxy_ = new QtDataVisualization::QSurfaceDataProxy();
+    series_ = new QtDataVisualization::QSurface3DSeries(proxy_);
+
+    proxy_->resetArray(dataArray);
+    graph_->addSeries(series_);
 }
 
 Custom3dSurface::~Custom3dSurface()

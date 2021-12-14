@@ -94,12 +94,33 @@ void AntennaArray::visualize3D()
     container->setMinimumSize(800, 600);
     container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     container->setFocusPolicy(Qt::StrongFocus);
-    surface_ = new Custom3dSurface(graph, 4);
+    calculateProxy3d();
+    surface_ = new Custom3dSurface(graph, dataArray_);
 
     QHBoxLayout *mainLayout = new QHBoxLayout;
     mainLayout->addWidget(container);
 
     container->show();
+}
+
+void AntennaArray::calculateProxy3d()
+{
+    int sampleCountZLocal = 90;
+    int sampleCountXLocal = 180;
+    dataArray_ = new QtDataVisualization::QSurfaceDataArray;
+    dataArray_->reserve( (sampleCountZLocal * 2) + 1);
+    for (int i = (-1) * sampleCountZLocal; i < sampleCountZLocal; i++) {
+        QtDataVisualization::QSurfaceDataRow *newRow = new QtDataVisualization::QSurfaceDataRow( (sampleCountXLocal * 2) + 1);
+        float z = i;
+        int index = 0;
+        for (int j = (-1) * sampleCountXLocal; j < sampleCountXLocal; j++) {
+            float x = j;
+            float y = calculateAntGain(i, j);
+            (*newRow)[index++].setPosition(QVector3D(x, y, z));
+        }
+        //qDebug() << "New row: " << newRow->size();
+        *dataArray_ << newRow;
+    }
 }
 
 void AntennaArray::visualize2D(float elevation)

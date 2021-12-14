@@ -13,7 +13,8 @@ class Custom3dSurface : public QObject
     Q_OBJECT
 public:
     Custom3dSurface(QtDataVisualization::Q3DSurface *surface);
-    Custom3dSurface(QtDataVisualization::Q3DSurface *surface, int type);
+    Custom3dSurface(QtDataVisualization::Q3DSurface *surface, int test);
+    Custom3dSurface(QtDataVisualization::Q3DSurface *surface, QtDataVisualization::QSurfaceDataArray *dataArray);
     ~Custom3dSurface();
 
     void enableModel();

@@ -1,6 +1,10 @@
 #pragma once
 
 #include <QVector>
+#include <QtDataVisualization/Q3DSurface>
+#include <QtDataVisualization/QSurfaceDataProxy>
+#include <QtDataVisualization/QHeightMapSurfaceDataProxy>
+#include <QtDataVisualization/QSurface3DSeries>
 
 
 class Custom3dSurface;
@@ -29,6 +33,8 @@ private:
     QVector<QVector<float>> Fb_;
 
     Custom3dSurface* surface_;
+    QtDataVisualization::QSurfaceDataProxy *proxy3d_;
+    QtDataVisualization::QSurfaceDataArray *dataArray_;
 
 public:
     AntennaArray();
@@ -56,5 +62,6 @@ public:
     void showElevationGrid();
     void showAzimuthGrid();
     void visualize3D();
+    void calculateProxy3d();
     void visualize2D(float elevation);
 };
