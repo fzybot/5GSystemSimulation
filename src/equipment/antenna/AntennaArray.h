@@ -62,6 +62,6 @@ public:
     void showElevationGrid();
     void showAzimuthGrid();
     void visualize3D();
-    void calculateProxy3d();
+    void calculateDataArray3d();
     void visualize2D(float elevation);
 };

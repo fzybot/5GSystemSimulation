@@ -80,6 +80,12 @@ Custom3dSurface::Custom3dSurface(QtDataVisualization::Q3DSurface *surface, QtDat
     graph_->setAxisY(new QtDataVisualization::QValue3DAxis);
     graph_->setAxisZ(new QtDataVisualization::QValue3DAxis);
 
+    graph_->axisX()->setLabelFormat("%.10f");
+    graph_->axisZ()->setLabelFormat("%.10f");
+    graph_->axisX()->setRange(-180,180);
+    graph_->axisY()->setRange(-90, 90);
+    graph_->axisZ()->setRange(-100, 100);
+
     proxy_ = new QtDataVisualization::QSurfaceDataProxy();
     series_ = new QtDataVisualization::QSurface3DSeries(proxy_);
 
