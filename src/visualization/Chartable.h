@@ -20,6 +20,6 @@ public:
     Chartable();
 
     void visualize3D();
-    void visualize2D(float elevation);
+    void visualize2D(QVector<QVector<QPair<int, int>>> data, QString str);
 };
 
