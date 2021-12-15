@@ -6,10 +6,12 @@
 #include <QtDataVisualization/QHeightMapSurfaceDataProxy>
 #include <QtDataVisualization/QSurface3DSeries>
 
+#include "src/visualization/Chartable.h"
+
 
 class Custom3dSurface;
 
-class AntennaArray
+class AntennaArray: public Chartable
 {
 enum class AntennaType
     {
@@ -31,10 +33,6 @@ private:
     QVector<float> azimuthGrid_;
     QVector<QVector<float>> Fa_;
     QVector<QVector<float>> Fb_;
-
-    Custom3dSurface* surface_;
-    QtDataVisualization::QSurfaceDataProxy *proxy3d_;
-    QtDataVisualization::QSurfaceDataArray *dataArray_;
 
 public:
     AntennaArray();
@@ -61,7 +59,6 @@ public:
 
     void showElevationGrid();
     void showAzimuthGrid();
-    void visualize3D();
+
     void calculateDataArray3d();
-    void visualize2D(float elevation);
 };

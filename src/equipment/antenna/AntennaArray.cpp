@@ -87,28 +87,12 @@ float AntennaArray::calculateHorizontalCutGain(float azimuth)
     return gain;
 }
 
-void AntennaArray::visualize3D()
-{
-    QtDataVisualization::Q3DSurface *graph = new QtDataVisualization::Q3DSurface();
-    QWidget *container = QWidget::createWindowContainer(graph);
-    container->setMinimumSize(800, 600);
-    container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    container->setFocusPolicy(Qt::StrongFocus);
-    calculateDataArray3d();
-    surface_ = new Custom3dSurface(graph, dataArray_);
-
-    QHBoxLayout *mainLayout = new QHBoxLayout;
-    mainLayout->addWidget(container);
-
-    container->show();
-}
-
 void AntennaArray::calculateDataArray3d()
 {
     int sampleCountZLocal = 90;
     int sampleCountXLocal = 180;
-    dataArray_ = new QtDataVisualization::QSurfaceDataArray;
-    dataArray_->reserve(181);
+    dataArray3d_ = new QtDataVisualization::QSurfaceDataArray;
+    dataArray3d_->reserve(181);
     for (int i = -90; i <= 90; i++) {
         QtDataVisualization::QSurfaceDataRow *newRow = new QtDataVisualization::QSurfaceDataRow(361);
         float z = i;
@@ -119,16 +103,9 @@ void AntennaArray::calculateDataArray3d()
             (*newRow)[index++].setPosition(QVector3D(x, y, z));
         }
         //qDebug() << "New row: " << newRow->size();
-        *dataArray_ << newRow;
+        *dataArray3d_ << newRow;
     }
 }
-
-void AntennaArray::visualize2D(float elevation)
-{
-
-}
-
-
 
 void AntennaArray::showElevationGrid()
 {

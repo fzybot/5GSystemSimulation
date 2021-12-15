@@ -33,6 +33,7 @@ SOURCES += \
     src/protocols/mac_layer/TransportBlock.cpp \
     src/protocols/mac_layer/UeMacEntity.cpp \
     src/visualization/ChartGroupWidget.cpp \
+    src/visualization/Chartable.cpp \
     src/visualization/HeatmapModel.cpp \
     src/visualization/UEModel.cpp \
     src/visualization/data/DataSource.cpp \
@@ -92,6 +93,7 @@ HEADERS += \
     src/scenarios/simple.h \
     src/scenarios/testModel.h \
     src/visualization/ChartGroupWidget.h \
+    src/visualization/Chartable.h \
     src/visualization/HeatmapModel.h \
     src/visualization/UEModel.h \
     src/visualization/data/DataSource.h \
