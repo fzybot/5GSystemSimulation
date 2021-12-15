@@ -49,8 +49,7 @@ static void simpleTest()
     AntennaArray ant1;
     ant1.calculateElevationGrid();
     ant1.calculateAzimuthGrid();
-    ant1.calculateDataArray3d();
-    ant1.visualize3D();
+    ant1.show3dPlot();
     // for (int elev = 0; elev <= 180; elev++){
     //     for (int azim = -180; azim <= 180; azim++){
     //         qDebug() << "Ant Gain --> " << ant1.calculateAntGain(elev, azim);

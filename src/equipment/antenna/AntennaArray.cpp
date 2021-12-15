@@ -87,6 +87,12 @@ float AntennaArray::calculateHorizontalCutGain(float azimuth)
     return gain;
 }
 
+void AntennaArray::show3dPlot()
+{
+    calculateDataArray3d();
+    visualize3D();
+}
+
 void AntennaArray::calculateDataArray3d()
 {
     int sampleCountZLocal = 90;
