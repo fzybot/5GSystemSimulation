@@ -174,7 +174,7 @@ void MainWindow::about()
 void MainWindow::settings()
 {
     //SettingsDialog tabdialog(this);
-    const QRect screenGeometry = screen()->geometry();
+    const QRect screenGeometry = QApplication::desktop()->screenGeometry();
     settingsDialog_ = new SettingsDialog(this);
     settingsDialog_->setWindowTitle(tr("Settings"));
     settingsDialog_->setAttribute(Qt::WA_DeleteOnClose);
@@ -328,7 +328,7 @@ void MainWindow::readSettings()
     QSettings settings(QCoreApplication::organizationName(), QCoreApplication::applicationName());
     const QByteArray geometry = settings.value("geometry", QByteArray()).toByteArray();
     if (geometry.isEmpty()) {
-        const QRect availableGeometry = screen()->availableGeometry();
+        const QRect availableGeometry = QApplication::desktop()->availableGeometry();
         resize(availableGeometry.width() / 2, availableGeometry.height() / 2);
         move((availableGeometry.width() - width()) / 2,
              (availableGeometry.height() - height()) / 2);

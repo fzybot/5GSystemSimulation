@@ -54,7 +54,7 @@ void Simulation::calculateCoordinateBordersFromPixel(){
 }
 
 void Simulation::showBordersll(){
-    qDebug() << "Lat Lon borders:" << Qt::endl;
+    qDebug() << "Lat Lon borders:";
     qDebug() << this->maxLat << this->maxLon << this->minLat << this->minLon;
 }
 

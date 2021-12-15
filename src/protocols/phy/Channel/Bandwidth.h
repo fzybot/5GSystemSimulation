@@ -10,6 +10,7 @@
 #include <QMap>
 #include <QString>
 #include <QPair>
+#include <QVector>
 
 /*
  * The 5G NR operating bands list according to TS 38.104 Table 5.2-1\2.

@@ -54,7 +54,7 @@ void MapQuickWidget::findAddress(QNetworkReply* reply)
         result.push_back(data[index]);
         ++index;
     }
-    qDebug() << result << Qt::endl;
+    qDebug() << result;
 
     reply->deleteLater();
 }
