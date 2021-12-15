@@ -9,18 +9,27 @@
 #include <QtCore/QElapsedTimer>
 #include <QtCore/QTimer>
 
+#include <armadillo>
+
+#include "src/visualization/Chartable.h"
+
 class TransportBlock;
 
-class Signal : public QObject
+class Signal : public QObject, public Chartable
 {
     Q_OBJECT
 private:
-    int sampleRate_;
-    int FFTSize_;
 
-    QVector<QVector<double>> powerValues_; //transmitted power for each MIMO path and sub-carrier
-    QVector<QVector<double>> IOvalues_; //phase shift of received signal for each MIMO path and sub-carrier
-    QVector<double> signalInTime_;
+    int startFrequency_ = 0;
+    int bandwidth_ = 0;
+    int scs_ = 0;
+    int sampleRate_ = 0;
+    int FFTSize_ = 0;
+    double samplingTime_; // [nanoSec]
+
+    QVector<QVector<double>>                powerValues_; //transmitted power for each MIMO path and sub-carrier
+    QVector<QVector<QPair<float, float>>>   IOvalues_; //phase shift of received signal for each MIMO path and sub-carrier
+    QVector<QPair<float, float>>            signalInTime_;
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
@@ -29,12 +38,17 @@ public:
 
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
+    void configSignalSettings(int bandLow, int SCS, int bandwidth);
+
+    int getFFTSize();
+    double getSamplingTime();
+
     void setPowerValues(const QVector< QVector<double> > powerValues);
-    void setIOValues(const QVector< QVector<double> >  IOvalues);
+    void setIOValues(const QVector< QVector<QPair<float, float>> >  IOvalues);
 
 
-    QVector<QVector<double>> getPowerValues(void);
-    QVector<QVector<double>> getIOValues(void);
+    QVector<QVector<double>> &getPowerValues();
+    QVector<QVector<QPair<float, float>>> &getIOValues();
 
     Signal *copy(void);
 
@@ -45,5 +59,8 @@ public:
 
     void getDataFromFile(QString filePath);
 
-// ----- [ PLOT FUNCTIONS ] --------------------------------------------------------------------------------------------
+// ----- [ Calculations ] ----------------------------------------------------------------------------------------------
+
+    void calculateFFTSize();
+    void calculateSamplingTime();
 };

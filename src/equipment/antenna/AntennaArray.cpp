@@ -93,6 +93,19 @@ void AntennaArray::show3dPlot()
     visualize3D();
 }
 
+void AntennaArray::show2dPlot()
+{
+    QVector<QPair<float, float>> test;
+    test.append(qMakePair(6, 6));
+    test.append(qMakePair(61, 61));
+    test.append(qMakePair(62, 63));
+    test.append(qMakePair(63, 65));
+
+    QVector<QVector<QPair<float, float>>> test1;
+    test1.append(test);
+    visualize2D(test1, "test");
+}
+
 void AntennaArray::calculateDataArray3d()
 {
     int sampleCountZLocal = 90;

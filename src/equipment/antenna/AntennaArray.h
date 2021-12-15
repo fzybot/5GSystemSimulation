@@ -60,5 +60,6 @@ public:
     void showElevationGrid();
     void showAzimuthGrid();
     void show3dPlot();
+    void show2dPlot();
     void calculateDataArray3d();
 };

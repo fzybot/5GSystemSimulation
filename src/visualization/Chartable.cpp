@@ -31,7 +31,7 @@ void Chartable::visualize3D()
     container->show();
 }
 
-void Chartable::visualize2D(QVector<QVector<QPair<int, int>>> data, QString str)
+void Chartable::visualize2D(QVector<QVector<QPair<float, float>>> data, QString str)
 {
     QtCharts::QChartView *chartView;
     QtCharts::QChart *chart = new QtCharts::QChart();
@@ -59,4 +59,10 @@ void Chartable::visualize2D(QVector<QVector<QPair<int, int>>> data, QString str)
 
     chartView = new QtCharts::QChartView(chart);
 
+    QWidget *container = new QWidget();
+    QHBoxLayout *mainLayout = new QHBoxLayout;
+    mainLayout->addWidget(chartView);
+    container->setMinimumSize(800, 600);
+    container->setLayout(mainLayout);
+    container->show();
 }
