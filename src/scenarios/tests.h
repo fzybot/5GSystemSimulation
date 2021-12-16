@@ -48,19 +48,23 @@ static void simpleTest()
     // Signal class tests
     //**************************************************************
 
+    // Signal signal;
+    // signal.configSignalSettings(2100, 15, 100);
+    // qDebug() << "FFT Size = " << signal.getFFTSize();
+    // qDebug() << "Sampling Time = " << signal.getSamplingTime();
+    // arma::cx_double value(0., 1.);
+    // arma::Col<arma::cx_double> vector;
+    // vector << value;
+    // qDebug() << "arma::cx_dmat = " << value.imag();
+    // qDebug() << "arma::cx_dmat = " << value.real();
+    // qDebug() << "arma::Col<arma::cx_double> = " << vector(0).imag();
+    // QVector<bool> test;
+    // test << 0 << 1 << 1;
+    // qDebug() << "QVector<bool> test = " << test[0] << test[1] << test[2];
+
     Signal signal;
-    signal.configSignalSettings(2100, 15, 100);
-    qDebug() << "FFT Size = " << signal.getFFTSize();
-    qDebug() << "Sampling Time = " << signal.getSamplingTime();
-    arma::cx_double value(0., 1.);
-    arma::Col<arma::cx_double> vector;
-    vector << value;
-    qDebug() << "arma::cx_dmat = " << value.imag();
-    qDebug() << "arma::cx_dmat = " << value.real();
-    qDebug() << "arma::Col<arma::cx_double> = " << vector(0).imag();
-    QVector<bool> test;
-    test << 0 << 1 << 1;
-    qDebug() << "QVector<bool> test = " << test[0] << test[1] << test[2];
+    signal.fillRandomData(2, 2);
+    signal.modulateData(8);
 
     AntennaArray ant1;
     ant1.calculateElevationGrid();

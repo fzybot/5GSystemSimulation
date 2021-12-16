@@ -20,8 +20,6 @@ class Signal : public QObject, public Chartable
     Q_OBJECT
 private:
 
-    QVector<bool> dataArray_;
-
     int startFrequency_ = 0;
     int bandwidth_ = 0;
     int scs_ = 0;
@@ -30,8 +28,10 @@ private:
     double samplingTime_; // [nanoSec]
 
     // For each MIMO layer
+    QVector<bool> dataArray_;
     QVector<QVector<double>>            powerValues_; //transmitted power for each MIMO path and sub-carrier
-    QVector<arma::Col<arma::cx_double>> IOvalues_; //phase shift of received signal for each MIMO path and sub-carrier
+    QVector<arma::Col<arma::cx_double>> modulatedIO_;
+    QVector<arma::Col<arma::cx_double>> IOvalues_; // phase shift of received signal for each MIMO path and sub-carrier
     QVector<arma::Col<arma::cx_double>> signalInTime_;
 
 public:
@@ -66,7 +66,18 @@ public:
     void calculateFFTSize();
     void calculateSamplingTime();
 
+    void modulateData(int modulationOrder);
+    arma::Col<arma::cx_double> QPSK();
+    arma::Col<arma::cx_double> QAM16();
+    arma::Col<arma::cx_double> QAM64();
+    arma::Col<arma::cx_double> QAM256();
 
-// ----- [ Debug ] -----------------------------------------------------------------------------------------------------
-     void printIOValues();
+    void demodulate(int modulationOrder);
+    arma::Col<arma::cx_double> demQPSK();
+    arma::Col<arma::cx_double> demQAM16();
+    arma::Col<arma::cx_double> demQAM64();
+    arma::Col<arma::cx_double> demQAM256();
+
+    // ----- [ Debug ] -----------------------------------------------------------------------------------------------------
+    void printIOValues();
 };
