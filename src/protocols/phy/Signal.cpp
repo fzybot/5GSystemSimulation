@@ -31,7 +31,7 @@ void Signal::setPowerValues(const QVector< QVector<double> > powerValues)
     powerValues_ = powerValues;
 }
 
-void Signal::setIOValues(const QVector< QVector<QPair<float, float>> >  IOvalues)
+void Signal::setIOValues(const QVector<arma::Col<arma::cx_double>>  IOvalues)
 {
     IOvalues_ = IOvalues;
 }
@@ -41,7 +41,7 @@ QVector<QVector<double>> &Signal::getPowerValues()
     return powerValues_;
 }
 
-QVector<QVector<QPair<float, float>>> &Signal::getIOValues()
+QVector<arma::Col<arma::cx_double>> &Signal::getIOValues()
 {
     return IOvalues_;
 }
@@ -88,4 +88,9 @@ Signal* Signal::copy(void)
 void Signal::fromTbToSignal(QVector<TransportBlock> tbContainer)
 {
 
+}
+
+void Signal::fillRandomData(int mimoSize, int length)
+{
+    dataArray_ << 0 << 1 << 1 << 0 << 0 << 1 << 0 << 1 << 1 << 1 << 0 << 1 << 0 << 0 << 0 << 0;
 }

@@ -20,6 +20,8 @@ class Signal : public QObject, public Chartable
     Q_OBJECT
 private:
 
+    QVector<bool> dataArray_;
+
     int startFrequency_ = 0;
     int bandwidth_ = 0;
     int scs_ = 0;
@@ -27,14 +29,17 @@ private:
     int FFTSize_ = 0;
     double samplingTime_; // [nanoSec]
 
-    QVector<QVector<double>>                powerValues_; //transmitted power for each MIMO path and sub-carrier
-    QVector<QVector<QPair<float, float>>>   IOvalues_; //phase shift of received signal for each MIMO path and sub-carrier
-    QVector<QPair<float, float>>            signalInTime_;
+    // For each MIMO layer
+    QVector<QVector<double>>            powerValues_; //transmitted power for each MIMO path and sub-carrier
+    QVector<arma::Col<arma::cx_double>> IOvalues_; //phase shift of received signal for each MIMO path and sub-carrier
+    QVector<arma::Col<arma::cx_double>> signalInTime_;
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
     Signal();
     virtual ~Signal() = default;
+
+    Signal *copy(void);
 
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
@@ -44,23 +49,24 @@ public:
     double getSamplingTime();
 
     void setPowerValues(const QVector< QVector<double> > powerValues);
-    void setIOValues(const QVector< QVector<QPair<float, float>> >  IOvalues);
+    void setIOValues(const QVector<arma::Col<arma::cx_double>>  IOvalues);
 
 
     QVector<QVector<double>> &getPowerValues();
-    QVector<QVector<QPair<float, float>>> &getIOValues();
+    QVector<arma::Col<arma::cx_double>> &getIOValues();
 
-    Signal *copy(void);
 
-    void printIOValues() const;
     void generateRandomIOValues(int MIMOSize, int dataSize);
-
     void fromTbToSignal(QVector<TransportBlock> tbContainer);
-
     void getDataFromFile(QString filePath);
+    void fillRandomData(int mimoSize, int length);
 
 // ----- [ Calculations ] ----------------------------------------------------------------------------------------------
 
     void calculateFFTSize();
     void calculateSamplingTime();
+
+
+// ----- [ Debug ] -----------------------------------------------------------------------------------------------------
+     void printIOValues();
 };

@@ -11,6 +11,8 @@
 #include "src/protocols/phy/Signal.h"
 #include "src/equipment/antenna/AntennaArray.h"
 
+#include <armadillo>
+
 #include <QDebug>
 
 
@@ -50,6 +52,15 @@ static void simpleTest()
     signal.configSignalSettings(2100, 15, 100);
     qDebug() << "FFT Size = " << signal.getFFTSize();
     qDebug() << "Sampling Time = " << signal.getSamplingTime();
+    arma::cx_double value(0., 1.);
+    arma::Col<arma::cx_double> vector;
+    vector << value;
+    qDebug() << "arma::cx_dmat = " << value.imag();
+    qDebug() << "arma::cx_dmat = " << value.real();
+    qDebug() << "arma::Col<arma::cx_double> = " << vector(0).imag();
+    QVector<bool> test;
+    test << 0 << 1 << 1;
+    qDebug() << "QVector<bool> test = " << test[0] << test[1] << test[2];
 
     AntennaArray ant1;
     ant1.calculateElevationGrid();
