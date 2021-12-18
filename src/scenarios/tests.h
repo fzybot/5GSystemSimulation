@@ -64,7 +64,7 @@ static void simpleTest()
 
     Signal signal;
     signal.fillRandomData(2, 2);
-    signal.modulateData(8);
+    signal.modulateData(8, signal.getDataArray());
 
     AntennaArray ant1;
     ant1.calculateElevationGrid();

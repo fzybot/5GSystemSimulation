@@ -29,6 +29,7 @@ private:
 
     // For each MIMO layer
     QVector<bool> dataArray_;
+    QVector<QVector<bool>> dataArrayDemodulated_;
     QVector<QVector<double>>            powerValues_; //transmitted power for each MIMO path and sub-carrier
     QVector<arma::Col<arma::cx_double>> modulatedIO_;
     QVector<arma::Col<arma::cx_double>> IOvalues_; // phase shift of received signal for each MIMO path and sub-carrier
@@ -60,23 +61,25 @@ public:
     void fromTbToSignal(QVector<TransportBlock> tbContainer);
     void getDataFromFile(QString filePath);
     void fillRandomData(int mimoSize, int length);
+    QVector<bool> &getDataArray();
+    QVector<QVector<bool>> &getDataArrayDemodulated();
 
-// ----- [ Calculations ] ----------------------------------------------------------------------------------------------
+    // ----- [ Calculations ] ----------------------------------------------------------------------------------------------
 
     void calculateFFTSize();
     void calculateSamplingTime();
 
-    void modulateData(int modulationOrder);
-    arma::Col<arma::cx_double> QPSK();
-    arma::Col<arma::cx_double> QAM16();
-    arma::Col<arma::cx_double> QAM64();
-    arma::Col<arma::cx_double> QAM256();
+    void modulateData(int modulationOrder, QVector<bool> &dataArray);
+    arma::Col<arma::cx_double> QPSK(QVector<bool> &dataArray);
+    arma::Col<arma::cx_double> QAM16(QVector<bool> &dataArray);
+    arma::Col<arma::cx_double> QAM64(QVector<bool> &dataArray);
+    arma::Col<arma::cx_double> QAM256(QVector<bool> &dataArray);
 
-    void demodulate(int modulationOrder);
-    arma::Col<arma::cx_double> demQPSK();
-    arma::Col<arma::cx_double> demQAM16();
-    arma::Col<arma::cx_double> demQAM64();
-    arma::Col<arma::cx_double> demQAM256();
+    void demodulate(int modulationOrder, arma::Col<arma::cx_double> &IOvalues);
+    QVector<bool> demQPSK(arma::Col<arma::cx_double> &IOvalues);
+    QVector<bool> demQAM16(arma::Col<arma::cx_double> &IOvalues);
+    QVector<bool> demQAM64(arma::Col<arma::cx_double> &IOvalues);
+    QVector<bool> demQAM256(arma::Col<arma::cx_double> &IOvalues);
 
     // ----- [ Debug ] -----------------------------------------------------------------------------------------------------
     void printIOValues();
