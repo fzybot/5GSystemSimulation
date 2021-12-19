@@ -183,50 +183,49 @@ arma::Col<arma::cx_double> Signal::QAM256(QVector<bool> &dataArray)
 }
 
 
-void Signal::demodulate(int modulationOrder, arma::Col<arma::cx_double> &IOvalues)
+void Signal::demodulate(int modulationOrder, arma::Col<arma::cx_double> &IOValues)
 {
-    // switch (modulationOrder)
-    // {
-    // case 2:
-    //     modulatedIO_.append(QPSK(dataArray));
-    //     //qDebug() << "modulateData --> " << modulatedIO_[0](0).real() << modulatedIO_[0](0).imag();
-    //     break;
-    // case 4:
-    //     modulatedIO_.append(QAM16(dataArray));
-    //     break;
-    // case 6:
-    //     modulatedIO_.append(QAM64(dataArray));
-    //     break;
-    // case 8:
-    //     modulatedIO_.append(QAM256(dataArray));
-    //     break;
-    // }
+    switch (modulationOrder)
+    {
+    case 2:
+        dataArrayDemodulated_.append(demQPSK(IOValues));
+        break;
+    case 4:
+        dataArrayDemodulated_.append(demQAM16(IOValues));
+        break;
+    case 6:
+        dataArrayDemodulated_.append(demQAM64(IOValues));
+        break;
+    case 8:
+        dataArrayDemodulated_.append(demQAM256(IOValues));
+        break;
+    }
 }
 
-QVector<bool> Signal::demQPSK(arma::Col<arma::cx_double> &IOvalues)
+QVector<bool> Signal::demQPSK(arma::Col<arma::cx_double> &IOValues)
 {
-    QVector<bool> localData;
+    QVector<bool> demodulatedData;
 
-    return localData;
+    return demodulatedData;
 }
 
-QVector<bool> Signal::demQAM16(arma::Col<arma::cx_double> &IOvalues)
+QVector<bool> Signal::demQAM16(arma::Col<arma::cx_double> &IOValues)
 {
-    QVector<bool> localData;
+    QVector<bool> demodulatedData;
 
-    return localData;
+    return demodulatedData;
 }
 
-QVector<bool> Signal::demQAM64(arma::Col<arma::cx_double> &IOvalues)
+QVector<bool> Signal::demQAM64(arma::Col<arma::cx_double> &IOValues)
 {
-    QVector<bool> localData;
+    QVector<bool> demodulatedData;
 
-    return localData;
+    return demodulatedData;
 }
 
-QVector<bool> Signal::demQAM256(arma::Col<arma::cx_double> &IOvalues)
+QVector<bool> Signal::demQAM256(arma::Col<arma::cx_double> &IOValues)
 {
-    QVector<bool> localData;
+    QVector<bool> demodulatedData;
 
-    return localData;
+    return demodulatedData;
 }
