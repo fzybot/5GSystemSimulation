@@ -30,40 +30,46 @@ private:
     // For each MIMO layer
     QVector<bool>                       dataArray_;
     QVector<QVector<bool>>              dataArrayDemodulated_;
-    QVector<QVector<double>>            powerValues_; //transmitted power for each MIMO path and sub-carrier
+    
     QVector<QVector<arma::cx_double>>   modulatedIQ_;
-    QVector<QVector<arma::cx_double>>   IOvalues_; // phase shift of received signal for each MIMO path and sub-carrier
+    QVector<QVector<arma::cx_double>>   IQvalues_; // phase shift of received signal for each MIMO path and sub-carrier
     QVector<QVector<arma::cx_double>>   signalInTime_;
+    QVector<QVector<double>>            powerValues_; //transmitted power for each MIMO path and sub-carrier
+
+    float averageEVM_ = 0;
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
+    
     Signal();
     virtual ~Signal() = default;
-
     Signal *copy(void);
-
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
     void configSignalSettings(int bandLow, int SCS, int bandwidth);
 
-    int getFFTSize();
-    double getSamplingTime();
+    int     getFFTSize();
+    double  getSamplingTime();
+    float   getAverageEvm();
+
+    QVector<bool>                       &getDataArray();
+    QVector<QVector<bool>>              &getDataArrayDemodulated();
+    QVector<QVector<arma::cx_double>>   &getModulatedIQ();
+
+
+
+
 
     void setPowerValues(const QVector< QVector<double> > powerValues);
-    void setIOValues(const QVector<QVector<arma::cx_double>>  IOvalues);
+    void setIQValues(const QVector<QVector<arma::cx_double>>  IQvalues);
 
+    QVector<QVector<double>>            &getPowerValues();
+    QVector<QVector<arma::cx_double>>   &getIQValues();
 
-    QVector<QVector<double>> &getPowerValues();
-    QVector<QVector<arma::cx_double>> &getIOValues();
-
-
-    void generateRandomIOValues(int MIMOSize, int dataSize);
+    void generateRandomIQValues(int MIMOSize, int dataSize);
     void fromTbToSignal(QVector<TransportBlock> tbContainer);
     void getDataFromFile(QString filePath);
     void fillRandomData(int mimoSize, int length);
-    QVector<bool>                       &getDataArray();
-    QVector<QVector<bool>>              &getDataArrayDemodulated();
-    QVector<QVector<arma::cx_double>> &getModulatedIQ();
 
     // ----- [ Calculations ] ----------------------------------------------------------------------------------------------
 
@@ -76,12 +82,12 @@ public:
     QVector<arma::cx_double> QAM64(QVector<bool> &dataArray);
     QVector<arma::cx_double> QAM256(QVector<bool> &dataArray);
 
-    void demodulate(int modulationOrder, QVector<arma::cx_double> &IOvalues);
-    QVector<bool> demQPSK(QVector<arma::cx_double> &IOvalues);
-    QVector<bool> demQAM16(QVector<arma::cx_double> &IOvalues);
-    QVector<bool> demQAM64(QVector<arma::cx_double> &IOvalues);
-    QVector<bool> demQAM256(QVector<arma::cx_double> &IOvalues);
+    void demodulate(int modulationOrder, QVector<arma::cx_double> &IQvalues);
+    QVector<bool> demQPSK(QVector<arma::cx_double> &IQvalues);
+    QVector<bool> demQAM16(QVector<arma::cx_double> &IQvalues);
+    QVector<bool> demQAM64(QVector<arma::cx_double> &IQvalues);
+    QVector<bool> demQAM256(QVector<arma::cx_double> &IQvalues);
 
     // ----- [ Debug ] -----------------------------------------------------------------------------------------------------
-    void printIOValues();
+    void printIQValues();
 };

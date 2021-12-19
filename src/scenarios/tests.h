@@ -66,6 +66,7 @@ static void simpleTest()
     signal.fillRandomData(2, 2);
     signal.modulateData(8, signal.getDataArray());
     signal.demodulate(8, signal.getModulatedIQ()[0]);
+    qDebug() << "EVM --> " << signal.getAverageEvm();
 
     AntennaArray ant1;
     ant1.calculateElevationGrid();

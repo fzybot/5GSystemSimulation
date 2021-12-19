@@ -33,9 +33,9 @@ void Signal::setPowerValues(const QVector< QVector<double> > powerValues)
     powerValues_ = powerValues;
 }
 
-void Signal::setIOValues(const QVector<QVector<arma::cx_double>>  IOvalues)
+void Signal::setIQValues(const QVector<QVector<arma::cx_double>>  IQvalues)
 {
-    IOvalues_ = IOvalues;
+    IQvalues_ = IQvalues;
 }
 
 QVector<QVector<double>> &Signal::getPowerValues()
@@ -43,9 +43,9 @@ QVector<QVector<double>> &Signal::getPowerValues()
     return powerValues_;
 }
 
-QVector<QVector<arma::cx_double>> &Signal::getIOValues()
+QVector<QVector<arma::cx_double>> &Signal::getIQValues()
 {
-    return IOvalues_;
+    return IQvalues_;
 }
 
 int Signal::getFFTSize()
@@ -56,6 +56,11 @@ int Signal::getFFTSize()
 double Signal::getSamplingTime()
 {
     return samplingTime_;
+}
+
+float Signal::getAverageEvm()
+{
+    return averageEVM_;
 }
 
 QVector<bool> &Signal::getDataArray()
@@ -97,7 +102,7 @@ Signal* Signal::copy(void)
 {
     Signal *txSignal = new Signal();
     txSignal->setPowerValues(getPowerValues());
-    txSignal->setIOValues(getIOValues());
+    txSignal->setIQValues(getIQValues());
 
     return txSignal;
 }
@@ -140,7 +145,7 @@ QVector<arma::cx_double> Signal::QPSK(QVector<bool> &dataArray)
         double real = static_cast<double>(1 / qSqrt(2)) * (1 - 2 * dataArray[i]);
         double imag = static_cast<double>(1 / qSqrt(2)) * (1 - 2 * dataArray[i + 1]);
         arma::cx_double value(real, imag);
-        qDebug() << "QPSK --> " << value.real() << value.imag();
+        //qDebug() << "QPSK --> " << value.real() << value.imag();
         modulated.push_back(value);
     }
     return modulated;
@@ -153,7 +158,7 @@ QVector<arma::cx_double> Signal::QAM16(QVector<bool> &dataArray)
         double real = static_cast<double>(1 / qSqrt(10)) * (1 - 2 * dataArray[i]) * (2 - (1 - dataArray[i+2]));
         double imag = static_cast<double>(1 / qSqrt(10)) * (1 - 2 * dataArray[i + 1]) * (2 - (1 - dataArray[i+3])); 
         arma::cx_double value(real, imag);
-        qDebug() << "QAM16 --> " << value.real() << value.imag();
+        //qDebug() << "QAM16 --> " << value.real() << value.imag();
         modulated.push_back(value);
     }
     return modulated;
@@ -168,7 +173,7 @@ QVector<arma::cx_double> Signal::QAM64(QVector<bool> &dataArray)
         double imag = static_cast<double>(1 / qSqrt(42)) * (1 - 2 * dataArray[i + 1]) * 
                                             (4 - (1 - 2 * dataArray[i+3])) * (2 - (1 - dataArray[i+5])); 
         arma::cx_double value(real, imag);
-        qDebug() << "QAM64 --> " << value.real() << value.imag();
+        //qDebug() << "QAM64 --> " << value.real() << value.imag();
         modulated.push_back(value);
     }
     return modulated;
@@ -183,7 +188,7 @@ QVector<arma::cx_double> Signal::QAM256(QVector<bool> &dataArray)
         double imag = static_cast<double>(1 / qSqrt(170)) * (1 - 2 * dataArray[i + 1]) * (8 - (1 - 2 * dataArray[i+3])) * 
                         (4 - (1 - 2 * dataArray[i+5])) * (2 - (1 - dataArray[i+7])); 
         arma::cx_double value(real, imag);
-        qDebug() << "QAM256 --> " << value.real() << value.imag();
+        //qDebug() << "QAM256 --> " << value.real() << value.imag();
         modulated.push_back(value);
     }
     return modulated;
@@ -233,12 +238,15 @@ QVector<bool> Signal::demQPSK(QVector<arma::cx_double> &IQValues)
             if(diff <= min){
                 min = diff;
                 localIndex = j;
+
             }
         }
-        demodulatedData.push_back(originalModulation[localIndex*MO]);
+        averageEVM_ += min;
+        demodulatedData.push_back(originalModulation[localIndex * MO]);
         demodulatedData.push_back(originalModulation[localIndex*MO + 1]);
         //qDebug() << "localIndex = --> " << localIndex << originalModulation[localIndex*2] << originalModulation[localIndex*2+1];
     }
+    averageEVM_ = averageEVM_ / IQValues.length();
 
     return demodulatedData;
 }
@@ -270,12 +278,13 @@ QVector<bool> Signal::demQAM16(QVector<arma::cx_double> &IQValues)
                 localIndex = j;
             }
         }
+        averageEVM_ += min;
         demodulatedData.push_back(originalModulation[localIndex*MO]);
         demodulatedData.push_back(originalModulation[localIndex*MO + 1]);
         demodulatedData.push_back(originalModulation[localIndex*MO + 2]);
         demodulatedData.push_back(originalModulation[localIndex*MO + 3]);
     }
-
+    averageEVM_ = averageEVM_ / IQValues.length();
     return demodulatedData;
 }
 
@@ -308,6 +317,7 @@ QVector<bool> Signal::demQAM64(QVector<arma::cx_double> &IQValues)
                 localIndex = j;
             }
         }
+        averageEVM_ += min;
         demodulatedData.push_back(originalModulation[localIndex*MO]);
         demodulatedData.push_back(originalModulation[localIndex*MO + 1]);
         demodulatedData.push_back(originalModulation[localIndex*MO + 2]);
@@ -315,11 +325,7 @@ QVector<bool> Signal::demQAM64(QVector<arma::cx_double> &IQValues)
         demodulatedData.push_back(originalModulation[localIndex*MO + 4]);
         demodulatedData.push_back(originalModulation[localIndex*MO + 5]);
     }
-
-    for (int i = 0; i < demodulatedData.length();i++){
-        qDebug() << "Demodulated Data = --> " << demodulatedData[i];
-    }
-
+    averageEVM_ = averageEVM_ / IQValues.length();
     return demodulatedData;
 }
 
@@ -354,6 +360,7 @@ QVector<bool> Signal::demQAM256(QVector<arma::cx_double> &IQValues)
                 localIndex = j;
             }
         }
+        averageEVM_ += min;
         demodulatedData.push_back(originalModulation[localIndex*MO]);
         demodulatedData.push_back(originalModulation[localIndex*MO + 1]);
         demodulatedData.push_back(originalModulation[localIndex*MO + 2]);
@@ -363,10 +370,9 @@ QVector<bool> Signal::demQAM256(QVector<arma::cx_double> &IQValues)
         demodulatedData.push_back(originalModulation[localIndex*MO + 6]);
         demodulatedData.push_back(originalModulation[localIndex*MO + 7]);
     }
-
-    for (int i = 0; i < demodulatedData.length();i++){
-        qDebug() << "Demodulated Data = --> " << demodulatedData[i];
-    }
-
+    // for (int i = 0; i < demodulatedData.length();i++){
+    //     qDebug() << "Demodulated Data = --> " << demodulatedData[i];
+    // }
+    averageEVM_ = averageEVM_ / IQValues.length();
     return demodulatedData;
 }
