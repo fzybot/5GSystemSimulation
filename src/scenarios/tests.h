@@ -64,9 +64,10 @@ static void simpleTest()
 
     Signal signal;
     signal.fillRandomData(2, 2);
-    signal.modulateData(8, signal.getDataArray());
-    signal.demodulate(8, signal.getModulatedIQ()[0]);
+    signal.modulateData(2, signal.getDataArray());
+    signal.demodulate(2, signal.getModulatedIQ()[0]);
     qDebug() << "EVM --> " << signal.getAverageEvm();
+    signal.makeIFFT(signal.getModulatedIQ()[0], 8);
 
     AntennaArray ant1;
     ant1.calculateElevationGrid();
@@ -74,7 +75,8 @@ static void simpleTest()
     ant1.show3dPlot();
     ant1.show2dPlot();
 
-    arma::vec y(10, arma::fill::zeros);
+    arma::cx_vec y;
+    y << 1 << 2;
     qDebug() << "Arma test --> " << y.size();
 
     // for (int elev = 0; elev <= 180; elev++){

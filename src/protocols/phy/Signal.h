@@ -32,6 +32,8 @@ private:
     QVector<QVector<bool>>              dataArrayDemodulated_;
     
     QVector<QVector<arma::cx_double>>   modulatedIQ_;
+
+    
     QVector<QVector<arma::cx_double>>   IQvalues_; // phase shift of received signal for each MIMO path and sub-carrier
     QVector<QVector<arma::cx_double>>   signalInTime_;
     QVector<QVector<double>>            powerValues_; //transmitted power for each MIMO path and sub-carrier
@@ -75,6 +77,8 @@ public:
 
     void calculateFFTSize();
     void calculateSamplingTime();
+
+    void makeIFFT(QVector<arma::cx_double> vector, int size);
 
     void modulateData(int modulationOrder, QVector<bool> &dataArray);
     QVector<arma::cx_double> QPSK(QVector<bool> &dataArray);

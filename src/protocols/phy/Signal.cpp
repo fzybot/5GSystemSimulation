@@ -376,3 +376,12 @@ QVector<bool> Signal::demQAM256(QVector<arma::cx_double> &IQValues)
     averageEVM_ = averageEVM_ / IQValues.length();
     return demodulatedData;
 }
+
+void Signal::makeIFFT(QVector<arma::cx_double> vector, int size)
+{
+    arma::vec X(100, arma::fill::randu);
+    arma::cx_vec Y = arma::fft(X, 128);
+    for(int i = 0; i < Y.size(); i++){
+        qDebug() <<" FFT -->" << Y(i).real();
+    }
+}
