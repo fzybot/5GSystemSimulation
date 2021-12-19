@@ -65,12 +65,16 @@ static void simpleTest()
     Signal signal;
     signal.fillRandomData(2, 2);
     signal.modulateData(8, signal.getDataArray());
+    signal.demodulate(8, signal.getModulatedIQ()[0]);
 
     AntennaArray ant1;
     ant1.calculateElevationGrid();
     ant1.calculateAzimuthGrid();
     ant1.show3dPlot();
     ant1.show2dPlot();
+
+    arma::vec y(10, arma::fill::zeros);
+    qDebug() << "Arma test --> " << y.size();
 
     // for (int elev = 0; elev <= 180; elev++){
     //     for (int azim = -180; azim <= 180; azim++){

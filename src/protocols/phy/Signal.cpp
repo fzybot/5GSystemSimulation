@@ -5,6 +5,8 @@
 #include <QtMath>
 
 #include <armadillo>
+#include <bitset>
+#include <iostream>
 
 #include "src/visualization/Chartable.h"
 
@@ -31,7 +33,7 @@ void Signal::setPowerValues(const QVector< QVector<double> > powerValues)
     powerValues_ = powerValues;
 }
 
-void Signal::setIOValues(const QVector<arma::Col<arma::cx_double>>  IOvalues)
+void Signal::setIOValues(const QVector<QVector<arma::cx_double>>  IOvalues)
 {
     IOvalues_ = IOvalues;
 }
@@ -41,7 +43,7 @@ QVector<QVector<double>> &Signal::getPowerValues()
     return powerValues_;
 }
 
-QVector<arma::Col<arma::cx_double>> &Signal::getIOValues()
+QVector<QVector<arma::cx_double>> &Signal::getIOValues()
 {
     return IOvalues_;
 }
@@ -64,6 +66,11 @@ QVector<bool> &Signal::getDataArray()
 QVector<QVector<bool>> &Signal::getDataArrayDemodulated()
 {
     return dataArrayDemodulated_;
+}
+
+QVector<QVector<arma::cx_double>> &Signal::getModulatedIQ()
+{
+    return modulatedIQ_;
 }
 
 // ----- [ FUNCTIONALITY ] ---------------------------------------------------------------------------------------------
@@ -111,50 +118,50 @@ void Signal::modulateData(int modulationOrder, QVector<bool> &dataArray)
     switch (modulationOrder)
     {
     case 2:
-        modulatedIO_.append(QPSK(dataArray));
+        modulatedIQ_.push_back(QPSK(dataArray));
         //qDebug() << "modulateData --> " << modulatedIO_[0](0).real() << modulatedIO_[0](0).imag();
         break;
     case 4:
-        modulatedIO_.append(QAM16(dataArray));
+        modulatedIQ_.push_back(QAM16(dataArray));
         break;
     case 6:
-        modulatedIO_.append(QAM64(dataArray));
+        modulatedIQ_.push_back(QAM64(dataArray));
         break;
     case 8:
-        modulatedIO_.append(QAM256(dataArray));
+        modulatedIQ_.push_back(QAM256(dataArray));
         break;
     }
 }
 
-arma::Col<arma::cx_double> Signal::QPSK(QVector<bool> &dataArray)
+QVector<arma::cx_double> Signal::QPSK(QVector<bool> &dataArray)
 {
-    arma::Col<arma::cx_double> modulated;
+    QVector<arma::cx_double> modulated;
     for (int i = 0; i < dataArray.length(); i = i + 2){
         double real = static_cast<double>(1 / qSqrt(2)) * (1 - 2 * dataArray[i]);
         double imag = static_cast<double>(1 / qSqrt(2)) * (1 - 2 * dataArray[i + 1]);
         arma::cx_double value(real, imag);
         qDebug() << "QPSK --> " << value.real() << value.imag();
-        modulated << value;
+        modulated.push_back(value);
     }
     return modulated;
 }
 
-arma::Col<arma::cx_double> Signal::QAM16(QVector<bool> &dataArray)
+QVector<arma::cx_double> Signal::QAM16(QVector<bool> &dataArray)
 {
-    arma::Col<arma::cx_double> modulated;
+    QVector<arma::cx_double> modulated;
     for (int i = 0; i < dataArray.length(); i = i + 4){
         double real = static_cast<double>(1 / qSqrt(10)) * (1 - 2 * dataArray[i]) * (2 - (1 - dataArray[i+2]));
         double imag = static_cast<double>(1 / qSqrt(10)) * (1 - 2 * dataArray[i + 1]) * (2 - (1 - dataArray[i+3])); 
         arma::cx_double value(real, imag);
         qDebug() << "QAM16 --> " << value.real() << value.imag();
-        modulated << value;
+        modulated.push_back(value);
     }
     return modulated;
 }
 
-arma::Col<arma::cx_double> Signal::QAM64(QVector<bool> &dataArray)
+QVector<arma::cx_double> Signal::QAM64(QVector<bool> &dataArray)
 {
-    arma::Col<arma::cx_double> modulated;
+    QVector<arma::cx_double> modulated;
     for (int i = 0; i < dataArray.length(); i = i + 6){
         double real = static_cast<double>(1 / qSqrt(42)) * (1 - 2 * dataArray[i]) * 
                                             (4 - (1 - 2 * dataArray[i+2])) * (2 - (1 - dataArray[i+4]));
@@ -162,14 +169,14 @@ arma::Col<arma::cx_double> Signal::QAM64(QVector<bool> &dataArray)
                                             (4 - (1 - 2 * dataArray[i+3])) * (2 - (1 - dataArray[i+5])); 
         arma::cx_double value(real, imag);
         qDebug() << "QAM64 --> " << value.real() << value.imag();
-        modulated << value;
+        modulated.push_back(value);
     }
     return modulated;
 }
 
-arma::Col<arma::cx_double> Signal::QAM256(QVector<bool> &dataArray)
+QVector<arma::cx_double> Signal::QAM256(QVector<bool> &dataArray)
 {
-    arma::Col<arma::cx_double> modulated;
+    QVector<arma::cx_double> modulated;
     for (int i = 0; i < dataArray.length(); i = i + 8){
         double real = static_cast<double>(1 / qSqrt(170)) * (1 - 2 * dataArray[i]) * (8 - (1 - 2 * dataArray[i+2])) * 
                         (4 - (1 - 2 * dataArray[i+4])) * (2 - (1 - dataArray[i+6]));
@@ -177,55 +184,189 @@ arma::Col<arma::cx_double> Signal::QAM256(QVector<bool> &dataArray)
                         (4 - (1 - 2 * dataArray[i+5])) * (2 - (1 - dataArray[i+7])); 
         arma::cx_double value(real, imag);
         qDebug() << "QAM256 --> " << value.real() << value.imag();
-        modulated << value;
+        modulated.push_back(value);
     }
     return modulated;
 }
 
 
-void Signal::demodulate(int modulationOrder, arma::Col<arma::cx_double> &IOValues)
+void Signal::demodulate(int modulationOrder, QVector<arma::cx_double> &IQValues)
 {
     switch (modulationOrder)
     {
     case 2:
-        dataArrayDemodulated_.append(demQPSK(IOValues));
+        dataArrayDemodulated_.append(demQPSK(IQValues));
         break;
     case 4:
-        dataArrayDemodulated_.append(demQAM16(IOValues));
+        dataArrayDemodulated_.append(demQAM16(IQValues));
         break;
     case 6:
-        dataArrayDemodulated_.append(demQAM64(IOValues));
+        dataArrayDemodulated_.append(demQAM64(IQValues));
         break;
     case 8:
-        dataArrayDemodulated_.append(demQAM256(IOValues));
+        dataArrayDemodulated_.append(demQAM256(IQValues));
         break;
     }
 }
 
-QVector<bool> Signal::demQPSK(arma::Col<arma::cx_double> &IOValues)
+QVector<bool> Signal::demQPSK(QVector<arma::cx_double> &IQValues)
 {
+    int MO = 2;
     QVector<bool> demodulatedData;
+    QVector<bool> originalModulation;
+
+    for (int i = 0; i < qPow(2, MO); i++){
+        std::bitset<2>      bitArray(i);
+        originalModulation.push_back(bitArray[1]);
+        originalModulation.push_back(bitArray[0]);
+    }
+    QVector<arma::cx_double> originalIQ;
+    originalIQ = QPSK(originalModulation);
+    for (int i = 0; i < IQValues.length(); i++){
+        double diff = 0;
+        double min = 100000.;
+        int localIndex = 0;
+        for (int j = 0; j < originalIQ.length(); j++){
+            diff = qSqrt(   qPow(originalIQ[j].real() - IQValues[i].real(), 2) + 
+                            qPow(originalIQ[j].imag() - IQValues[i].imag(), 2)
+                        );
+            if(diff <= min){
+                min = diff;
+                localIndex = j;
+            }
+        }
+        demodulatedData.push_back(originalModulation[localIndex*MO]);
+        demodulatedData.push_back(originalModulation[localIndex*MO + 1]);
+        //qDebug() << "localIndex = --> " << localIndex << originalModulation[localIndex*2] << originalModulation[localIndex*2+1];
+    }
 
     return demodulatedData;
 }
 
-QVector<bool> Signal::demQAM16(arma::Col<arma::cx_double> &IOValues)
+QVector<bool> Signal::demQAM16(QVector<arma::cx_double> &IQValues)
 {
+    int MO = 4;
     QVector<bool> demodulatedData;
+    QVector<bool> originalModulation;
+    for (int i = 0; i < qPow(2, MO); i++){
+        std::bitset<4>      bitArray(i);
+        originalModulation.push_back(bitArray[3]);
+        originalModulation.push_back(bitArray[2]);
+        originalModulation.push_back(bitArray[1]);
+        originalModulation.push_back(bitArray[0]);
+    }
+    QVector<arma::cx_double> originalIQ;
+    originalIQ = QAM16(originalModulation);
+    for (int i = 0; i < IQValues.length(); i++){
+        double diff = 0;
+        double min = 100000.;
+        int localIndex = 0;
+        for (int j = 0; j < originalIQ.length(); j++){
+            diff = qSqrt(   qPow(originalIQ[j].real() - IQValues[i].real(), 2) + 
+                            qPow(originalIQ[j].imag() - IQValues[i].imag(), 2)
+                        );
+            if(diff <= min){
+                min = diff;
+                localIndex = j;
+            }
+        }
+        demodulatedData.push_back(originalModulation[localIndex*MO]);
+        demodulatedData.push_back(originalModulation[localIndex*MO + 1]);
+        demodulatedData.push_back(originalModulation[localIndex*MO + 2]);
+        demodulatedData.push_back(originalModulation[localIndex*MO + 3]);
+    }
 
     return demodulatedData;
 }
 
-QVector<bool> Signal::demQAM64(arma::Col<arma::cx_double> &IOValues)
+QVector<bool> Signal::demQAM64(QVector<arma::cx_double> &IQValues)
 {
+    int MO = 6;  
     QVector<bool> demodulatedData;
+    QVector<bool> originalModulation;
+    for (int i = 0; i < qPow(2, MO); i++){
+        std::bitset<6>      bitArray(i);
+        originalModulation.push_back(bitArray[5]);
+        originalModulation.push_back(bitArray[4]);
+        originalModulation.push_back(bitArray[3]);
+        originalModulation.push_back(bitArray[2]);
+        originalModulation.push_back(bitArray[1]);
+        originalModulation.push_back(bitArray[0]);
+    }
+    QVector<arma::cx_double> originalIQ;
+    originalIQ = QAM64(originalModulation);
+    for (int i = 0; i < IQValues.length(); i++){
+        double diff = 0;
+        double min = 100000.;
+        int localIndex = 0;
+        for (int j = 0; j < originalIQ.length(); j++){
+            diff = qSqrt(   qPow(originalIQ[j].real() - IQValues[i].real(), 2) + 
+                            qPow(originalIQ[j].imag() - IQValues[i].imag(), 2)
+                        );
+            if(diff <= min){
+                min = diff;
+                localIndex = j;
+            }
+        }
+        demodulatedData.push_back(originalModulation[localIndex*MO]);
+        demodulatedData.push_back(originalModulation[localIndex*MO + 1]);
+        demodulatedData.push_back(originalModulation[localIndex*MO + 2]);
+        demodulatedData.push_back(originalModulation[localIndex*MO + 3]);
+        demodulatedData.push_back(originalModulation[localIndex*MO + 4]);
+        demodulatedData.push_back(originalModulation[localIndex*MO + 5]);
+    }
+
+    for (int i = 0; i < demodulatedData.length();i++){
+        qDebug() << "Demodulated Data = --> " << demodulatedData[i];
+    }
 
     return demodulatedData;
 }
 
-QVector<bool> Signal::demQAM256(arma::Col<arma::cx_double> &IOValues)
+QVector<bool> Signal::demQAM256(QVector<arma::cx_double> &IQValues)
 {
+    int MO = 8;  
     QVector<bool> demodulatedData;
+    QVector<bool> originalModulation;
+    for (int i = 0; i < qPow(2, MO); i++){
+        std::bitset<8>      bitArray(i);
+        originalModulation.push_back(bitArray[7]);
+        originalModulation.push_back(bitArray[6]);
+        originalModulation.push_back(bitArray[5]);
+        originalModulation.push_back(bitArray[4]);
+        originalModulation.push_back(bitArray[3]);
+        originalModulation.push_back(bitArray[2]);
+        originalModulation.push_back(bitArray[1]);
+        originalModulation.push_back(bitArray[0]);
+    }
+    QVector<arma::cx_double> originalIQ;
+    originalIQ = QAM256(originalModulation);
+    for (int i = 0; i < IQValues.length(); i++){
+        double diff = 0;
+        double min = 100000.;
+        int localIndex = 0;
+        for (int j = 0; j < originalIQ.length(); j++){
+            diff = qSqrt(   qPow(originalIQ[j].real() - IQValues[i].real(), 2) + 
+                            qPow(originalIQ[j].imag() - IQValues[i].imag(), 2)
+                        );
+            if(diff <= min){
+                min = diff;
+                localIndex = j;
+            }
+        }
+        demodulatedData.push_back(originalModulation[localIndex*MO]);
+        demodulatedData.push_back(originalModulation[localIndex*MO + 1]);
+        demodulatedData.push_back(originalModulation[localIndex*MO + 2]);
+        demodulatedData.push_back(originalModulation[localIndex*MO + 3]);
+        demodulatedData.push_back(originalModulation[localIndex*MO + 4]);
+        demodulatedData.push_back(originalModulation[localIndex*MO + 5]);
+        demodulatedData.push_back(originalModulation[localIndex*MO + 6]);
+        demodulatedData.push_back(originalModulation[localIndex*MO + 7]);
+    }
+
+    for (int i = 0; i < demodulatedData.length();i++){
+        qDebug() << "Demodulated Data = --> " << demodulatedData[i];
+    }
 
     return demodulatedData;
 }
