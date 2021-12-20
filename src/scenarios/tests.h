@@ -12,6 +12,7 @@
 #include "src/equipment/antenna/AntennaArray.h"
 
 #include <armadillo>
+#include <fftw3.h>
 
 #include <QDebug>
 
