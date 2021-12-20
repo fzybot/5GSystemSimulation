@@ -80,6 +80,8 @@ public:
 
     void makeIFFT(QVector<arma::cx_double> vector, int size);
 
+    void addDoppler(int carrierFreq, int speed);
+
     void modulateData(int modulationOrder, QVector<bool> &dataArray);
     QVector<arma::cx_double> QPSK(QVector<bool> &dataArray);
     QVector<arma::cx_double> QAM16(QVector<bool> &dataArray);
