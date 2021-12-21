@@ -7,6 +7,7 @@
 #include <armadillo>
 #include <bitset>
 #include <iostream>
+#include <algorithm>
 
 #include "src/visualization/Chartable.h"
 
@@ -96,6 +97,35 @@ void Signal::calculateSamplingTime()
 {
     // In [nanoSec]
     samplingTime_ = 1000 / ( static_cast<double>(scs_) * static_cast<double>(FFTSize_ / 1000) );
+}
+
+void Signal::normalize(QVector<QVector<arma::cx_double>> &IQ, int byValue)
+{
+    double max = -1000000;
+    for (int i = 0; i < IQ.length(); i++)
+    {
+        for (int j = 0; j < IQ[i].length(); j++)
+        {
+            if(qFabs(IQ[i][j].real()) >= max){
+                max = qFabs(IQ[i][j].real());
+            }
+            if(qFabs(IQ[i][j].imag()) >= max){
+                max = qFabs(IQ[i][j].imag());
+            }
+        }
+    }
+    double real;
+    double imag;
+    for (int i = 0; i < IQ.length(); i++)
+    {
+        for (int j = 0; j < IQ[i].length(); j++)
+        {
+            real = (IQ[i][j].real() / max) * byValue;
+            imag = (IQ[i][j].imag() / max) * byValue;
+            arma::cx_double value(real, imag);
+            IQ[i][j] = value;
+        }
+    }
 }
 
 Signal* Signal::copy(void)
@@ -383,5 +413,16 @@ void Signal::makeIFFT(QVector<arma::cx_double> vector, int size)
     arma::cx_vec Y = arma::fft(X, 128);
     for(int i = 0; i < Y.size(); i++){
         qDebug() <<" FFT -->" << Y(i).real();
+    }
+}
+
+void Signal::printIQValues(QVector<QVector<arma::cx_double>> &IQ)
+{
+    for (int i = 0; i < IQ.length(); i++)
+    {
+        for (int j = 0; j < IQ[i].length(); j++)
+        {
+            qDebug() << "Signal::printIQValues -->" << IQ[i][j].real() << IQ[i][j].imag();
+        }
     }
 }

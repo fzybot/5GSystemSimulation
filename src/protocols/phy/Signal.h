@@ -78,6 +78,8 @@ public:
     void calculateFFTSize();
     void calculateSamplingTime();
 
+    void normalize(QVector<QVector<arma::cx_double>> &IQ, int byValue);
+
     void makeIFFT(QVector<arma::cx_double> vector, int size);
 
     void addDoppler(int carrierFreq, int speed);
@@ -95,5 +97,5 @@ public:
     QVector<bool> demQAM256(QVector<arma::cx_double> &IQvalues);
 
     // ----- [ Debug ] -----------------------------------------------------------------------------------------------------
-    void printIQValues();
+    void printIQValues(QVector<QVector<arma::cx_double>> &IQ);
 };
