@@ -407,13 +407,28 @@ QVector<bool> Signal::demQAM256(QVector<arma::cx_double> &IQValues)
     return demodulatedData;
 }
 
-void Signal::makeIFFT(QVector<arma::cx_double> vector, int size)
+// void Signal::makeIFFT(QVector<arma::cx_double> vector, int size)
+// {
+//     arma::vec X(100, arma::fill::randu);
+//     arma::cx_vec Y = arma::fft(X, 128);
+//     for(int i = 0; i < Y.size(); i++){
+//         qDebug() <<" FFT -->" << Y(i).real();
+//     }
+// }
+
+void Signal::FFT(QVector<arma::cx_double> vector, int size, int freq, int numerology)
 {
-    arma::vec X(100, arma::fill::randu);
-    arma::cx_vec Y = arma::fft(X, 128);
-    for(int i = 0; i < Y.size(); i++){
-        qDebug() <<" FFT -->" << Y(i).real();
-    }
+
+}
+
+void Signal::IFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology)
+{
+
+}
+
+void Signal::dopplerIFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology)
+{
+
 }
 
 void Signal::printIQValues(QVector<QVector<arma::cx_double>> &IQ)

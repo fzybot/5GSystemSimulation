@@ -80,7 +80,9 @@ public:
 
     void normalize(QVector<QVector<arma::cx_double>> &IQ, int byValue);
 
-    void makeIFFT(QVector<arma::cx_double> vector, int size);
+    void FFT(QVector<arma::cx_double> vector, int size, int freq, int numerology);
+    void IFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology);
+    void dopplerIFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology);
 
     void addDoppler(int carrierFreq, int speed);
 
