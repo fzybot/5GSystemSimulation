@@ -49,6 +49,11 @@ QVector<QVector<arma::cx_double>> &Signal::getIQValues()
     return IQvalues_;
 }
 
+QVector<QVector<arma::cx_double>>   &Signal::getSignalInTime()
+{
+    return signalInTime_;
+}
+
 int Signal::getFFTSize()
 {
     return FFTSize_;
@@ -416,28 +421,55 @@ QVector<bool> Signal::demQAM256(QVector<arma::cx_double> &IQValues)
 //     }
 // }
 
-void Signal::FFT(QVector<arma::cx_double> vector, int size, int freq, int numerology)
+void Signal::layersIFFT(QVector<QVector<arma::cx_double>> &modulatedIQ, int size, int freq, int numerology)
 {
-
+    int N = modulatedIQ.length();
+    for (int i = 0; i < N; i++)
+    {
+        signalInTime_.push_back(IFFT(modulatedIQ[i], size, freq, numerology));
+    }
 }
 
-void Signal::IFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology)
+QVector<arma::cx_double> Signal::IFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology)
 {
+    int N = vector.length();
+    QVector<arma::cx_double> afterIFFT;
+    for (int i = 0; i < N; i++)
+    {
+        double localSummReal = 0.0;
+        double localSummImag = 0.0;
+        double arg = 0.0;
+        for (int j = 0; j < N; j++)
+        {
+            arg = static_cast<double>( (2 * M_PI * j * i) / N) ;
+            localSummReal += vector[j].real() * qCos(arg);
+            localSummImag += vector[j].imag() * qSin(arg);
+            qDebug() << "IFFT " << arg << vector[j].real() << vector[j].imag();
+        }
+        arma::cx_double value(localSummReal/N, localSummImag/N);
+        afterIFFT.push_back(value);
+    }
 
+    return afterIFFT;
 }
 
-void Signal::dopplerIFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology)
-{
+// void Signal::IFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology)
+// {
 
-}
+// }
 
-void Signal::printIQValues(QVector<QVector<arma::cx_double>> &IQ)
+// void Signal::dopplerIFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology)
+// {
+
+// }
+
+void Signal::printIQValues(QVector<QVector<arma::cx_double>> &IQ, QString str)
 {
     for (int i = 0; i < IQ.length(); i++)
     {
         for (int j = 0; j < IQ[i].length(); j++)
         {
-            qDebug() << "Signal::printIQValues -->" << IQ[i][j].real() << IQ[i][j].imag();
+            qDebug() << "Signal::" << str << IQ[i][j].real() << IQ[i][j].imag();
         }
     }
 }

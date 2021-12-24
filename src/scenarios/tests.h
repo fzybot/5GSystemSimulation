@@ -65,13 +65,14 @@ static void simpleTest()
 
     Signal signal;
     signal.fillRandomData(2, 2);
-    signal.modulateData(8, signal.getDataArray());
-    signal.demodulate(8, signal.getModulatedIQ()[0]);
+    signal.modulateData(2, signal.getDataArray());
+    signal.demodulate(2, signal.getModulatedIQ()[0]);
     signal.printIQValues(signal.getModulatedIQ());
     qDebug() << "EVM --> " << signal.getAverageEvm();
-    signal.normalize(signal.getModulatedIQ(), 1);
-    signal.printIQValues(signal.getModulatedIQ());
-    signal.makeIFFT(signal.getModulatedIQ()[0], 8);
+    //signal.normalize(signal.getModulatedIQ(), 1);
+    signal.layersIFFT(signal.getModulatedIQ(), 0, 0, 0);
+    signal.printIQValues(signal.getSignalInTime());
+
 
     AntennaArray ant1;
     ant1.calculateElevationGrid();

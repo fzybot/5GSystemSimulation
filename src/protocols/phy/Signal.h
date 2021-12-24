@@ -32,10 +32,10 @@ private:
     QVector<QVector<bool>>              dataArrayDemodulated_;
     
     QVector<QVector<arma::cx_double>>   modulatedIQ_;
-
+    QVector<QVector<arma::cx_double>>   signalInTime_; // modulatedIQ after FFT
     
     QVector<QVector<arma::cx_double>>   IQvalues_; // phase shift of received signal for each MIMO path and sub-carrier
-    QVector<QVector<arma::cx_double>>   signalInTime_;
+    
     QVector<QVector<double>>            powerValues_; //transmitted power for each MIMO path and sub-carrier
 
     float averageEVM_ = 0;
@@ -67,6 +67,7 @@ public:
 
     QVector<QVector<double>>            &getPowerValues();
     QVector<QVector<arma::cx_double>>   &getIQValues();
+    QVector<QVector<arma::cx_double>>   &getSignalInTime();
 
     void generateRandomIQValues(int MIMOSize, int dataSize);
     void fromTbToSignal(QVector<TransportBlock> tbContainer);
@@ -80,9 +81,10 @@ public:
 
     void normalize(QVector<QVector<arma::cx_double>> &IQ, int byValue);
 
-    void FFT(QVector<arma::cx_double> vector, int size, int freq, int numerology);
-    void IFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology);
-    void dopplerIFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology);
+    void layersIFFT(QVector<QVector<arma::cx_double>>   &modulatedIQ, int size, int freq, int numerology);
+    QVector<arma::cx_double> IFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology);
+    // void IFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology);
+    // void dopplerIFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology);
 
     void addDoppler(int carrierFreq, int speed);
 
@@ -99,5 +101,5 @@ public:
     QVector<bool> demQAM256(QVector<arma::cx_double> &IQvalues);
 
     // ----- [ Debug ] -----------------------------------------------------------------------------------------------------
-    void printIQValues(QVector<QVector<arma::cx_double>> &IQ);
+    void printIQValues(QVector<QVector<arma::cx_double>> &IQ, QString str = "printIQValues -->");
 };
