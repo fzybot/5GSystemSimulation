@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget* parent) :
 {
 
     tabMenu_= new TabMenu;
-    tabMenu_->resize(1300, 1200);
+    tabMenu_->resize(700, 800);
     // fixed size for widget
     //tabMenu_->setFixedSize(500, 500);
     setCentralWidget(tabMenu_);

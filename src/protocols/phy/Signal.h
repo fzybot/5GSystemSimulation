@@ -32,7 +32,8 @@ private:
     QVector<QVector<bool>>              dataArrayDemodulated_;
     
     QVector<QVector<arma::cx_double>>   modulatedIQ_;
-    QVector<QVector<arma::cx_double>>   signalInTime_; // modulatedIQ after FFT
+    QVector<QVector<arma::cx_double>>   signalInTime_; // modulatedIQ after IFFT
+    QVector<QVector<arma::cx_double>>   signalInFreq_; // timeSignal after FFT
     
     QVector<QVector<arma::cx_double>>   IQvalues_; // phase shift of received signal for each MIMO path and sub-carrier
     
@@ -79,15 +80,17 @@ public:
     void calculateFFTSize();
     void calculateSamplingTime();
 
-    void normalize(QVector<QVector<arma::cx_double>> &IQ, int byValue);
-
     void layersIFFT(QVector<QVector<arma::cx_double>>   &modulatedIQ, int size, int freq, int numerology);
+    void layersFFT(QVector<QVector<arma::cx_double>> &timeIO, int size, int freq, int numerology);
     QVector<arma::cx_double> IFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology);
+    QVector<arma::cx_double> FFT(QVector<arma::cx_double> vector, int size, int freq, int numerology);
+
     // void IFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology);
     // void dopplerIFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology);
 
     void addDoppler(int carrierFreq, int speed);
 
+    void normalize(QVector<QVector<arma::cx_double>> &IQ, int byValue);
     void modulateData(int modulationOrder, QVector<bool> &dataArray);
     QVector<arma::cx_double> QPSK(QVector<bool> &dataArray);
     QVector<arma::cx_double> QAM16(QVector<bool> &dataArray);

@@ -454,6 +454,38 @@ QVector<arma::cx_double> Signal::IFFT(QVector<arma::cx_double> vector, int size,
     return afterIFFT;
 }
 
+void Signal::layersFFT(QVector<QVector<arma::cx_double>> &timeIO, int size, int freq, int numerology)
+{
+    int N = timeIO.length();
+    for (int i = 0; i < N; i++){
+        signalInFreq_.push_back(FFT(timeIO[i], size, freq, numerology));
+    }
+}
+
+QVector<arma::cx_double> Signal::FFT(QVector<arma::cx_double> vector, int size, int freq, int numerology)
+{
+     int N = vector.length();
+    QVector<arma::cx_double> afterFFT;
+    for (int i = 0; i < N; i++)
+    {
+        double localSummReal = 0;
+        double localSummImag = 0;
+        double arg = 0;
+        for (int j = 0; j < N; j++)
+        {
+            arg = static_cast<double>( static_cast<double>((-1) * j * i)) ;
+            localSummReal += vector[j].real() * static_cast<double>(qCos(arg));
+            localSummImag += vector[j].imag() * static_cast<double>(qSin(arg));
+            //qDebug() << "IFFT " << arg << vector[j].real() << vector[j].imag();
+        }
+        qDebug() << "IFFT " << localSummReal << localSummImag;
+        arma::cx_double value(localSummReal, localSummImag);
+        afterFFT.push_back(value);
+    }
+
+    return afterFFT;   
+}
+
 // void Signal::IFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology)
 // {
 

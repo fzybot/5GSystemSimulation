@@ -132,7 +132,7 @@ HEADERS += \
     src/visualization/settingsTemplate.h
 
 
-unix: LIBS += -llapack -lblas -larmadillo -lfftw3
+unix: LIBS += -llapack -lblas -larmadillo
 win32: INCLUDEPATH += $$PWD/libs
 
 FORMS +=
