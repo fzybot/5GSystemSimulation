@@ -69,6 +69,7 @@ public:
     QVector<QVector<double>>            &getPowerValues();
     QVector<QVector<arma::cx_double>>   &getIQValues();
     QVector<QVector<arma::cx_double>>   &getSignalInTime();
+    QVector<QVector<arma::cx_double>>   &getSignalInFreq();
 
     void generateRandomIQValues(int MIMOSize, int dataSize);
     void fromTbToSignal(QVector<TransportBlock> tbContainer);

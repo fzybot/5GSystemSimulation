@@ -71,8 +71,9 @@ static void simpleTest()
     qDebug() << "EVM --> " << signal.getAverageEvm();
     //signal.normalize(signal.getModulatedIQ(), 1);
     signal.layersIFFT(signal.getModulatedIQ(), 0, 0, 0);
-    signal.printIQValues(signal.getSignalInTime());
-
+    signal.printIQValues(signal.getSignalInTime(), "IFFT--> ");
+    signal.layersFFT(signal.getSignalInTime(), 0, 0, 0);
+    signal.printIQValues(signal.getSignalInFreq(), "FFT--> ");
 
     AntennaArray ant1;
     ant1.calculateElevationGrid();

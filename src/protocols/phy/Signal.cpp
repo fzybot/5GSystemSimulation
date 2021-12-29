@@ -54,6 +54,11 @@ QVector<QVector<arma::cx_double>>   &Signal::getSignalInTime()
     return signalInTime_;
 }
 
+QVector<QVector<arma::cx_double>>   &Signal::getSignalInFreq()
+{
+    return signalInFreq_;
+}
+
 int Signal::getFFTSize()
 {
     return FFTSize_;
