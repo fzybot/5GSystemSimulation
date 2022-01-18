@@ -450,7 +450,7 @@ QVector<arma::cx_double> Signal::IFFT(QVector<arma::cx_double> vector, int size,
             localSummReal += vector[j].real() * static_cast<double>(qCos(arg));
             localSummImag += vector[j].imag() * static_cast<double>(qSin(arg));
             //qDebug() << "IFFT " << arg << vector[j].real() << vector[j].imag();
-            qDebug() << "IFFT summ " << arg << localSummReal << localSummImag;
+            //qDebug() << "IFFT summ " << arg << localSummReal << localSummImag;
         }
         //qDebug() << "IFFT summ " << localSummReal << localSummImag;
         arma::cx_double value(localSummReal/N, localSummImag/N);

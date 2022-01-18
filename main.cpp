@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     MainWindow mainWin;
-    mainWin.resize(1200, 700);
+    mainWin.resize(1400, 1200);
     mainWin.show();
 
     // Simple();
