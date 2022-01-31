@@ -78,8 +78,8 @@ static void simpleTest()
     AntennaArray ant1;
     ant1.calculateElevationGrid();
     ant1.calculateAzimuthGrid();
-    ant1.show3dPlot();
-    ant1.show2dPlot();
+    //ant1.show3dPlot();
+    //ant1.show2dPlot();
 
     arma::cx_vec y;
     y << 1 << 2;

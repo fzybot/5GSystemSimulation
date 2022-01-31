@@ -446,13 +446,13 @@ QVector<arma::cx_double> Signal::IFFT(QVector<arma::cx_double> vector, int size,
         double arg = 0.0;
         for (int j = 0; j < N; j++)
         {
-            arg = static_cast<double>( static_cast<double>(2 * M_PI * j * i) / N) ;
-            localSummReal += vector[j].real() * static_cast<double>(qCos(arg));
-            localSummImag += vector[j].imag() * static_cast<double>(qSin(arg));
+            arg = (2 * M_PI * j * i) / N;
+            localSummReal += vector[j].real() * static_cast<double>(qCos(arg));// / static_cast<double>(N);
+            localSummImag += vector[j].imag() * static_cast<double>(qSin(arg));// / static_cast<double>(N);
             //qDebug() << "IFFT " << arg << vector[j].real() << vector[j].imag();
-            //qDebug() << "IFFT summ " << arg << localSummReal << localSummImag;
+            qDebug() << "IFFT --->  " << i << j << static_cast<double>(arg) << vector[j].real() << vector[j].imag() << localSummReal << localSummImag;
         }
-        //qDebug() << "IFFT summ " << localSummReal << localSummImag;
+        //qDebug() << "IFFT summ --->  " << localSummReal << localSummImag;
         arma::cx_double value(localSummReal/N, localSummImag/N);
         afterIFFT.push_back(value);
     }
@@ -470,21 +470,22 @@ void Signal::layersFFT(QVector<QVector<arma::cx_double>> &timeIO, int size, int 
 
 QVector<arma::cx_double> Signal::FFT(QVector<arma::cx_double> vector, int size, int freq, int numerology)
 {
-     int N = vector.length();
+    int N = vector.length();
     QVector<arma::cx_double> afterFFT;
     for (int i = 0; i < N; i++)
     {
-        double localSummReal = 0;
-        double localSummImag = 0;
+        double localSummReal = 0.0;
+        double localSummImag = 0.0;
         double arg = 0;
         for (int j = 0; j < N; j++)
         {
-            arg = static_cast<double>( static_cast<double>((-1) * j * i)) ;
+            arg = (2 * M_PI * j * i) / N ;
             localSummReal += vector[j].real() * static_cast<double>(qCos(arg));
-            localSummImag += vector[j].imag() * static_cast<double>(qSin(arg));
+            localSummImag += vector[j].imag() *  (-1) * static_cast<double>(qSin(arg));
             //qDebug() << "IFFT " << arg << vector[j].real() << vector[j].imag();
+            qDebug() << "FFT --->  " << i << j << arg << vector[j].real() << vector[j].imag() << localSummReal << localSummImag;
         }
-        qDebug() << "IFFT " << localSummReal << localSummImag;
+        //qDebug() << "IFFT " << localSummReal << localSummImag;
         arma::cx_double value(localSummReal, localSummImag);
         afterFFT.push_back(value);
     }

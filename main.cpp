@@ -19,6 +19,8 @@
 
 #include "src/debug.h"
 
+#define SHOW_WINDOW       0
+
 int main(int argc, char *argv[])
 {
 
@@ -30,8 +32,10 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     MainWindow mainWin;
-    mainWin.resize(1400, 1200);
-    mainWin.show();
+    if (SHOW_WINDOW == 1){
+        mainWin.resize(1400, 1200);
+        mainWin.show();
+    }
 
     // Simple();
 
