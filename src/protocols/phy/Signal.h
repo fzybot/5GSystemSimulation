@@ -28,7 +28,7 @@ private:
     double samplingTime_; // [nanoSec]
 
     // For each MIMO layer
-    QVector<bool>                       dataArray_;
+    QVector<QVector<bool>>              dataArray_;
     QVector<QVector<bool>>              dataArrayDemodulated_;
     
     QVector<QVector<arma::cx_double>>   modulatedIQ_;
@@ -55,7 +55,7 @@ public:
     double  getSamplingTime();
     float   getAverageEvm();
 
-    QVector<bool>                       &getDataArray();
+    QVector<QVector<bool>>              &getDataArray();
     QVector<QVector<bool>>              &getDataArrayDemodulated();
     QVector<QVector<arma::cx_double>>   &getModulatedIQ();
 
@@ -93,12 +93,14 @@ public:
 
     void normalize(QVector<QVector<arma::cx_double>> &IQ, int byValue);
     void modulateData(int modulationOrder, QVector<bool> &dataArray);
+    void modulateDataLayer(int modulationOrder, QVector<QVector<bool>> &dataArray);
     QVector<arma::cx_double> QPSK(QVector<bool> &dataArray);
     QVector<arma::cx_double> QAM16(QVector<bool> &dataArray);
     QVector<arma::cx_double> QAM64(QVector<bool> &dataArray);
     QVector<arma::cx_double> QAM256(QVector<bool> &dataArray);
 
-    void demodulate(int modulationOrder, QVector<arma::cx_double> &IQvalues);
+    void demodulateIQ(int modulationOrder, QVector<arma::cx_double> &IQvalues);
+    void demodulateIQLayer(int modulationOrder, QVector<QVector<arma::cx_double>> &IQvalues);
     QVector<bool> demQPSK(QVector<arma::cx_double> &IQvalues);
     QVector<bool> demQAM16(QVector<arma::cx_double> &IQvalues);
     QVector<bool> demQAM64(QVector<arma::cx_double> &IQvalues);
@@ -106,4 +108,6 @@ public:
 
     // ----- [ Debug ] -----------------------------------------------------------------------------------------------------
     void printIQValues(QVector<QVector<arma::cx_double>> &IQ, QString str = "printIQValues -->");
+
+    void printData();
 };

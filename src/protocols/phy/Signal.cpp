@@ -74,7 +74,7 @@ float Signal::getAverageEvm()
     return averageEVM_;
 }
 
-QVector<bool> &Signal::getDataArray()
+QVector<QVector<bool>> &Signal::getDataArray()
 {
     return dataArray_;
 }
@@ -154,7 +154,16 @@ void Signal::fromTbToSignal(QVector<TransportBlock> tbContainer)
 
 void Signal::fillRandomData(int mimoSize, int length)
 {
-    dataArray_ << 0 << 1 << 1 << 0 << 0 << 1 << 0 << 1 << 1 << 1 << 0 << 1 << 0 << 0 << 0 << 0;
+    QVector<bool> oneLayer;
+    for (int i = 0; i < mimoSize; i++)
+    {
+        oneLayer.clear();
+        for (int j = 0; j < length; j++) {
+            bool x = QRandomGenerator::global()->generate();
+            oneLayer.push_back(x);
+        }
+        getDataArray().append(oneLayer);
+    }
 }
 
 
@@ -235,7 +244,7 @@ QVector<arma::cx_double> Signal::QAM256(QVector<bool> &dataArray)
 }
 
 
-void Signal::demodulate(int modulationOrder, QVector<arma::cx_double> &IQValues)
+void Signal::demodulateIQ(int modulationOrder, QVector<arma::cx_double> &IQValues)
 {
     switch (modulationOrder)
     {
