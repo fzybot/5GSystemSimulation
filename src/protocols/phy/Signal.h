@@ -92,15 +92,15 @@ public:
     void addDoppler(int carrierFreq, int speed);
 
     void normalize(QVector<QVector<arma::cx_double>> &IQ, int byValue);
-    void modulateData(int modulationOrder, QVector<bool> &dataArray);
-    void modulateDataLayer(int modulationOrder, QVector<QVector<bool>> &dataArray);
+    void modulateData(int modulationOrder, QVector<QVector<bool>> &dataArray);
+    //void modulateDataLayer(int modulationOrder, QVector<QVector<bool>> &dataArray);
     QVector<arma::cx_double> QPSK(QVector<bool> &dataArray);
     QVector<arma::cx_double> QAM16(QVector<bool> &dataArray);
     QVector<arma::cx_double> QAM64(QVector<bool> &dataArray);
     QVector<arma::cx_double> QAM256(QVector<bool> &dataArray);
 
-    void demodulateIQ(int modulationOrder, QVector<arma::cx_double> &IQvalues);
-    void demodulateIQLayer(int modulationOrder, QVector<QVector<arma::cx_double>> &IQvalues);
+    void demodulateIQ(int modulationOrder, QVector<QVector<arma::cx_double>> &IQvalues);
+    //void demodulateIQLayer(int modulationOrder, QVector<QVector<arma::cx_double>> &IQvalues);
     QVector<bool> demQPSK(QVector<arma::cx_double> &IQvalues);
     QVector<bool> demQAM16(QVector<arma::cx_double> &IQvalues);
     QVector<bool> demQAM64(QVector<arma::cx_double> &IQvalues);

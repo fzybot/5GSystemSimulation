@@ -159,30 +159,43 @@ void Signal::fillRandomData(int mimoSize, int length)
     {
         oneLayer.clear();
         for (int j = 0; j < length; j++) {
-            bool x = QRandomGenerator::global()->generate();
-            oneLayer.push_back(x);
+            int x = QRandomGenerator::global()->bounded(0, 100);
+            if(x < 50){
+                oneLayer.push_back(false);
+            } else {
+                oneLayer.push_back(true);
+            }
         }
         getDataArray().append(oneLayer);
     }
 }
 
 
-void Signal::modulateData(int modulationOrder, QVector<bool> &dataArray)
+void Signal::modulateData(int modulationOrder, QVector<QVector<bool>> &dataArray)
 {
+    int N = dataArray.length();
     switch (modulationOrder)
     {
     case 2:
-        modulatedIQ_.push_back(QPSK(dataArray));
+        for (int i = 0; i < N; i++){
+            modulatedIQ_.push_back(QPSK(dataArray[i]));
+        }
         //qDebug() << "modulateData --> " << modulatedIO_[0](0).real() << modulatedIO_[0](0).imag();
         break;
     case 4:
-        modulatedIQ_.push_back(QAM16(dataArray));
+        for (int i = 0; i < N; i++){
+            modulatedIQ_.push_back(QAM16(dataArray[i]));
+        }
         break;
     case 6:
-        modulatedIQ_.push_back(QAM64(dataArray));
+        for (int i = 0; i < N; i++){
+            modulatedIQ_.push_back(QAM64(dataArray[i]));
+        }
         break;
     case 8:
-        modulatedIQ_.push_back(QAM256(dataArray));
+        for (int i = 0; i < N; i++){
+            modulatedIQ_.push_back(QAM256(dataArray[i]));
+        }
         break;
     }
 }
@@ -244,21 +257,31 @@ QVector<arma::cx_double> Signal::QAM256(QVector<bool> &dataArray)
 }
 
 
-void Signal::demodulateIQ(int modulationOrder, QVector<arma::cx_double> &IQValues)
+void Signal::demodulateIQ(int modulationOrder, QVector<QVector<arma::cx_double>> &IQValues)
 {
+    int N = IQValues.length();
+
     switch (modulationOrder)
     {
     case 2:
-        dataArrayDemodulated_.append(demQPSK(IQValues));
+        for (int i = 0; i < N; i++){
+            dataArrayDemodulated_.append(demQPSK(IQValues[i]));
+        }
         break;
     case 4:
-        dataArrayDemodulated_.append(demQAM16(IQValues));
+        for (int i = 0; i < N; i++){
+            dataArrayDemodulated_.append(demQAM16(IQValues[i]));
+        }
         break;
     case 6:
-        dataArrayDemodulated_.append(demQAM64(IQValues));
+        for (int i = 0; i < N; i++){
+            dataArrayDemodulated_.append(demQAM64(IQValues[i]));
+        }
         break;
     case 8:
-        dataArrayDemodulated_.append(demQAM256(IQValues));
+        for (int i = 0; i < N; i++){
+            dataArrayDemodulated_.append(demQAM256(IQValues[i]));
+        }
         break;
     }
 }
