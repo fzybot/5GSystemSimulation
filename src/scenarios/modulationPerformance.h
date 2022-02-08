@@ -22,8 +22,8 @@ static void modulationToDoppler(int MO)
     Signal signal;
     signal.fillRandomData(1, 16);
     signal.modulateData(MO, signal.getDataArray());
-    signal.layersIFFT(signal.getModulatedIQ(), 0, 0, 0);
-    signal.layersFFT(signal.getSignalInTime(), 0, 0, 0);
+    signal.layersIFFT(signal.getModulatedIQ());
+    signal.layersFFT(signal.getSignalInTime());
     // signal.printIQValues(signal.getModulatedIQ());
     // qDebug() << "EVM --> " << signal.getAverageEvm();
     // //signal.normalize(signal.getModulatedIQ(), 1);

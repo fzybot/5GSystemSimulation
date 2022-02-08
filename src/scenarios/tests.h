@@ -69,9 +69,9 @@ static void simpleTest()
     signal.printIQValues(signal.getModulatedIQ());
     qDebug() << "EVM --> " << signal.getAverageEvm();
     //signal.normalize(signal.getModulatedIQ(), 1);
-    signal.layersIFFT(signal.getModulatedIQ(), 0, 0, 0);
+    signal.layersIFFT(signal.getModulatedIQ());
     signal.printIQValues(signal.getSignalInTime(), "IFFT--> ");
-    signal.layersFFT(signal.getSignalInTime(), 0, 0, 0);
+    signal.layersFFT(signal.getSignalInTime());
     signal.printIQValues(signal.getSignalInFreq(), "FFT--> ");
     signal.demodulateIQ(2, signal.getSignalInFreq());
 

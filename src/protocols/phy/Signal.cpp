@@ -458,16 +458,16 @@ QVector<bool> Signal::demQAM256(QVector<arma::cx_double> &IQValues)
 //     }
 // }
 
-void Signal::layersIFFT(QVector<QVector<arma::cx_double>> &modulatedIQ, int size, int freq, int numerology, double doppler)
+void Signal::layersIFFT(QVector<QVector<arma::cx_double>> &modulatedIQ)
 {
     int N = modulatedIQ.length();
     for (int i = 0; i < N; i++)
     {
-        signalInTime_.push_back(IFFT(modulatedIQ[i], size, freq, numerology, doppler));
+        signalInTime_.push_back(IFFT(modulatedIQ[i]));
     }
 }
 
-QVector<arma::cx_double> Signal::IFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology, double doppler)
+QVector<arma::cx_double> Signal::IFFT(QVector<arma::cx_double> vector)
 {
     int N = vector.length();
     QVector<arma::cx_double> afterIFFT;
@@ -481,10 +481,7 @@ QVector<arma::cx_double> Signal::IFFT(QVector<arma::cx_double> vector, int size,
             arg = (2 * arma::datum::pi * j * i) / N;
             localSummReal += (vector[j].real() * cos(arg)) - (vector[j].imag() * sin(arg));
             localSummImag += (vector[j].real() * sin(arg)) + (cos(arg) * vector[j].imag());
-            //qDebug() << "IFFT " << arg << vector[j].real() << vector[j].imag();
-            //qDebug() << "IFFT --->  " << i << j << static_cast<double>(arg) << localSummReal << localSummImag << cos(arg) << sin(arg);
         }
-        //qDebug() << "IFFT summ --->  " << localSummReal << localSummImag;
         arma::cx_double value(localSummReal / N, localSummImag / N);
         afterIFFT.push_back(value);
     }
@@ -492,15 +489,15 @@ QVector<arma::cx_double> Signal::IFFT(QVector<arma::cx_double> vector, int size,
     return afterIFFT;
 }
 
-void Signal::layersFFT(QVector<QVector<arma::cx_double>> &timeIO, int size, int freq, int numerology)
+void Signal::layersFFT(QVector<QVector<arma::cx_double>> &timeIO)
 {
     int N = timeIO.length();
     for (int i = 0; i < N; i++){
-        signalInFreq_.push_back(FFT(timeIO[i], size, freq, numerology));
+        signalInFreq_.push_back(FFT(timeIO[i]));
     }
 }
 
-QVector<arma::cx_double> Signal::FFT(QVector<arma::cx_double> vector, int size, int freq, int numerology)
+QVector<arma::cx_double> Signal::FFT(QVector<arma::cx_double> vector)
 {
     int N = vector.length();
     QVector<arma::cx_double> afterFFT;
@@ -523,6 +520,30 @@ QVector<arma::cx_double> Signal::FFT(QVector<arma::cx_double> vector, int size, 
     }
 
     return afterFFT;   
+}
+
+void Signal::layersIFFTCarrier(QVector<QVector<arma::cx_double>> &modulatedIQ, int size, int freq, int numerology, double doppler)
+{
+
+
+}
+
+void Signal::layersFFTCarrier(QVector<QVector<arma::cx_double>> &timeIO, int size, int freq, int numerology)
+{
+
+
+}
+
+QVector<arma::cx_double> Signal::IFFTCarrier(QVector<arma::cx_double> vector, int size, int freq, int numerology, double doppler)
+{
+
+    return 0;
+}
+
+QVector<arma::cx_double> Signal::FFTCarrier(QVector<arma::cx_double> vector, int size, int freq, int numerology)
+{
+
+    return 0;
 }
 
 // void Signal::IFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology)

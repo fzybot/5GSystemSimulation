@@ -81,10 +81,15 @@ public:
     void calculateFFTSize();
     void calculateSamplingTime();
 
-    void layersIFFT(QVector<QVector<arma::cx_double>> &modulatedIQ, int size, int freq, int numerology, double doppler);
-    void layersFFT(QVector<QVector<arma::cx_double>> &timeIO, int size, int freq, int numerology);
-    QVector<arma::cx_double> IFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology, double doppler);
-    QVector<arma::cx_double> FFT(QVector<arma::cx_double> vector, int size, int freq, int numerology);
+    void layersIFFT(QVector<QVector<arma::cx_double>> &modulatedIQ);
+    void layersFFT(QVector<QVector<arma::cx_double>> &timeIO);
+    QVector<arma::cx_double> IFFT(QVector<arma::cx_double> vector);
+    QVector<arma::cx_double> FFT(QVector<arma::cx_double> vector);
+    
+    void layersIFFTCarrier(QVector<QVector<arma::cx_double>> &modulatedIQ, int size, int freq, int numerology, double doppler);
+    void layersFFTCarrier(QVector<QVector<arma::cx_double>> &timeIO, int size, int freq, int numerology);
+    QVector<arma::cx_double> IFFTCarrier(QVector<arma::cx_double> vector, int size, int freq, int numerology, double doppler);
+    QVector<arma::cx_double> FFTCarrier(QVector<arma::cx_double> vector, int size, int freq, int numerology);
 
     // void IFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology);
     // void dopplerIFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology);
