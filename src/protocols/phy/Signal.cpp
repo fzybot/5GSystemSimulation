@@ -458,16 +458,16 @@ QVector<bool> Signal::demQAM256(QVector<arma::cx_double> &IQValues)
 //     }
 // }
 
-void Signal::layersIFFT(QVector<QVector<arma::cx_double>> &modulatedIQ, int size, int freq, int numerology)
+void Signal::layersIFFT(QVector<QVector<arma::cx_double>> &modulatedIQ, int size, int freq, int numerology, double doppler)
 {
     int N = modulatedIQ.length();
     for (int i = 0; i < N; i++)
     {
-        signalInTime_.push_back(IFFT(modulatedIQ[i], size, freq, numerology));
+        signalInTime_.push_back(IFFT(modulatedIQ[i], size, freq, numerology, doppler));
     }
 }
 
-QVector<arma::cx_double> Signal::IFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology)
+QVector<arma::cx_double> Signal::IFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology, double doppler)
 {
     int N = vector.length();
     QVector<arma::cx_double> afterIFFT;
