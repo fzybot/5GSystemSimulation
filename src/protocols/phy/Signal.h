@@ -38,6 +38,7 @@ private:
     QVector<QVector<arma::cx_double>>   IQvalues_; // phase shift of received signal for each MIMO path and sub-carrier
     
     QVector<QVector<double>>            powerValues_; //transmitted power for each MIMO path and sub-carrier
+    QVector<double>                     distance_;
 
     float averageEVM_ = 0;
 
@@ -86,9 +87,11 @@ public:
     QVector<arma::cx_double> IFFT(QVector<arma::cx_double> vector);
     QVector<arma::cx_double> FFT(QVector<arma::cx_double> vector);
     
-    void layersIFFTCarrier(QVector<QVector<arma::cx_double>> &modulatedIQ, int size, int freq, int numerology, double doppler);
+    void layersIFFTCarrier( QVector<QVector<arma::cx_double>> &modulatedIQ, int size, int freq, 
+                            int numerology, double doppler);
     void layersFFTCarrier(QVector<QVector<arma::cx_double>> &timeIO, int size, int freq, int numerology);
-    QVector<arma::cx_double> IFFTCarrier(QVector<arma::cx_double> vector, int size, int freq, int numerology, double doppler);
+    QVector<arma::cx_double> IFFTCarrier(   QVector<arma::cx_double> vector, int size, int freq, 
+                                            int numerology, double doppler);
     QVector<arma::cx_double> FFTCarrier(QVector<arma::cx_double> vector, int size, int freq, int numerology);
 
     // void IFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology);

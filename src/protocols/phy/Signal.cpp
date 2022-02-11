@@ -524,20 +524,45 @@ QVector<arma::cx_double> Signal::FFT(QVector<arma::cx_double> vector)
 
 void Signal::layersIFFTCarrier(QVector<QVector<arma::cx_double>> &modulatedIQ, int size, int freq, int numerology, double doppler)
 {
-
+    int N = modulatedIQ.length();
+    for (int i = 0; i < N; i++){
+        signalInTime_.push_back(IFFTCarrier(modulatedIQ[i], size, freq, numerology, doppler));
+    }
+}
 
 }
 
 void Signal::layersFFTCarrier(QVector<QVector<arma::cx_double>> &timeIO, int size, int freq, int numerology)
 {
-
+    int N = timeIO.length();
+    for (int i = 0; i < N; i++){
+        signalInFreq_.push_back(FFTCarrier(timeIO[i], size, freq, numerology));
+    }
 
 }
 
-QVector<arma::cx_double> Signal::IFFTCarrier(QVector<arma::cx_double> vector, int size, int freq, int numerology, double doppler)
+QVector<arma::cx_double> Signal::IFFTCarrier(   QVector<arma::cx_double> vector, int size, int freq, 
+                                                int numerology, double doppler)
 {
+    int N = vector.length();
+    freq = freq * qPow(10, 6);
+    QVector<arma::cx_double> afterIFFT;
+    for (int i = 0; i < N; i++)
+    {
+        double localSummReal = 0.0;
+        double localSummImag = 0.0;
+        double arg = 0.0;
+        for (int j = 0; j < N; j++)
+        {
+            arg = (2 * arma::datum::pi * j * i) / N;
+            localSummReal += (vector[j].real() * cos(arg)) - (vector[j].imag() * sin(arg));
+            localSummImag += (vector[j].real() * sin(arg)) + (cos(arg) * vector[j].imag());
+        }
+        arma::cx_double value(localSummReal / N, localSummImag / N);
+        afterIFFT.push_back(value);
+    }
 
-    return 0;
+    return afterIFFT;
 }
 
 QVector<arma::cx_double> Signal::FFTCarrier(QVector<arma::cx_double> vector, int size, int freq, int numerology)
