@@ -74,6 +74,8 @@ static void simpleTest()
     signal.layersFFT(signal.getSignalInTime());
     signal.printIQValues(signal.getSignalInFreq(), "FFT--> ");
     signal.demodulateIQ(2, signal.getSignalInFreq());
+    signal.compareData();
+    signal.printSignalInfo();
 
     // AntennaArray ant1;
     // ant1.calculateElevationGrid();

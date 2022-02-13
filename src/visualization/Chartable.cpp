@@ -55,7 +55,7 @@ void Chartable::visualize2D(QVector<QVector<QPair<float, float>>> data, QString 
     // Add space to label to add space between labels and axis
     QtCharts::QValueAxis *axisY = qobject_cast<QtCharts::QValueAxis*>(chart->axes(Qt::Vertical).first());
     Q_ASSERT(axisY);
-    axisY->setLabelFormat("%d  ");
+    //axisY->setLabelFormat("%f  ");
 
     chartView = new QtCharts::QChartView(chart);
 

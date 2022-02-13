@@ -18,15 +18,22 @@ Signal::Signal()
     // powerValues_.resize(1);
 }
 
+Signal::Signal(int carrierFreq, int SCS, int bandwidth, double dopplerSpeed, int angle)
+{
+    configSignalSettings(carrierFreq, SCS, bandwidth, dopplerSpeed, angle);
+}
+
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
 
-void Signal::configSignalSettings(int bandLow, int SCS, int bandwidth)
+void Signal::configSignalSettings(int bandLow, int SCS, int bandwidth, double dopplerSpeed, int angle)
 {
     startFrequency_ = bandLow;
+    startFrequencyHz_ = bandLow * qPow(10, 6);
     bandwidth_ = bandwidth;
     scs_ = SCS;
     calculateFFTSize();
     calculateSamplingTime();
+    calculateDoppler(startFrequencyHz_, angle, dopplerSpeed);
 }
 
 void Signal::setPowerValues(const QVector< QVector<double> > powerValues)
@@ -94,6 +101,7 @@ QVector<QVector<arma::cx_double>> &Signal::getModulatedIQ()
 void Signal::calculateFFTSize()
 {
     float diff = bandwidth_ * 1000 / scs_;
+    numberOfFreq_ = (int)diff * 12;
 
     for (int i = 1; i <= 50; i ++) {
         if(qPow(2, i) >= diff){
@@ -136,6 +144,13 @@ void Signal::normalize(QVector<QVector<arma::cx_double>> &IQ, int byValue)
             IQ[i][j] = value;
         }
     }
+}
+
+void Signal::calculateDoppler(int carrierFreq, double angle, double dopplerSpeed)
+{
+    double angleRad = (angle * arma::datum::pi) / 180;
+    double speedUe = (dopplerSpeed * 1000) / 3600;
+    dopplerFreq_ = (speedUe * qCos(0) *carrierFreq) / c_;
 }
 
 Signal* Signal::copy(void)
@@ -522,30 +537,29 @@ QVector<arma::cx_double> Signal::FFT(QVector<arma::cx_double> vector)
     return afterFFT;   
 }
 
-void Signal::layersIFFTCarrier(QVector<QVector<arma::cx_double>> &modulatedIQ, int size, int freq, int numerology, double doppler)
+void Signal::layersIFFTCarrier( QVector<QVector<arma::cx_double>> &modulatedIQ, int size, int freqHz, 
+                                int numerology, double dopplerSpeed)
 {
     int N = modulatedIQ.length();
     for (int i = 0; i < N; i++){
-        signalInTime_.push_back(IFFTCarrier(modulatedIQ[i], size, freq, numerology, doppler));
+        signalInTime_.push_back(IFFTCarrier(modulatedIQ[i], size, freqHz, numerology, dopplerSpeed));
     }
 }
 
-}
 
-void Signal::layersFFTCarrier(QVector<QVector<arma::cx_double>> &timeIO, int size, int freq, int numerology)
+void Signal::layersFFTCarrier(QVector<QVector<arma::cx_double>> &timeIO, int size, int freqHz, int numerology)
 {
     int N = timeIO.length();
     for (int i = 0; i < N; i++){
-        signalInFreq_.push_back(FFTCarrier(timeIO[i], size, freq, numerology));
+        signalInFreq_.push_back(FFTCarrier(timeIO[i], size, freqHz, numerology));
     }
 
 }
 
-QVector<arma::cx_double> Signal::IFFTCarrier(   QVector<arma::cx_double> vector, int size, int freq, 
-                                                int numerology, double doppler)
+QVector<arma::cx_double> Signal::IFFTCarrier(   QVector<arma::cx_double> vector, int size, int freqHz, 
+                                                int numerology, double dopplerSpeed)
 {
     int N = vector.length();
-    freq = freq * qPow(10, 6);
     QVector<arma::cx_double> afterIFFT;
     for (int i = 0; i < N; i++)
     {
@@ -554,21 +568,73 @@ QVector<arma::cx_double> Signal::IFFTCarrier(   QVector<arma::cx_double> vector,
         double arg = 0.0;
         for (int j = 0; j < N; j++)
         {
-            arg = (2 * arma::datum::pi * j * i) / N;
+            calculateDoppler(freqHz + numerology * j, 0, dopplerSpeed);
+            arg = (2 * arma::datum::pi * i * (freqHz + numerology * j + dopplerFreq_)) / N;
             localSummReal += (vector[j].real() * cos(arg)) - (vector[j].imag() * sin(arg));
             localSummImag += (vector[j].real() * sin(arg)) + (cos(arg) * vector[j].imag());
         }
         arma::cx_double value(localSummReal / N, localSummImag / N);
         afterIFFT.push_back(value);
     }
-
     return afterIFFT;
 }
 
-QVector<arma::cx_double> Signal::FFTCarrier(QVector<arma::cx_double> vector, int size, int freq, int numerology)
+QVector<arma::cx_double> Signal::FFTCarrier(QVector<arma::cx_double> vector, int size, int freqHz, int numerology)
 {
+    int N = vector.length();
+    QVector<arma::cx_double> afterFFT;
+    for (int i = 0; i < N; i++)
+    {
+        double localSummReal = 0.0;
+        double localSummImag = 0.0;
+        double arg = 0;
+        for (int j = 0; j < N; j++)
+        {
+            arg = (2 * arma::datum::pi * i * (freqHz + numerology * j) ) / N ;
+            localSummReal += (vector[j].real() * cos(arg)) - (vector[j].imag() * (-1) * sin(arg));
+            localSummImag += (vector[j].real() * (-1) * sin(arg)) + (cos(arg) * vector[j].imag());
+        }
+        arma::cx_double value(localSummReal, localSummImag);
+        afterFFT.push_back(value);
+    }
 
-    return 0;
+    return afterFFT;
+}
+
+void Signal::compareData()
+{
+    int mimoN = dataArray_.length();
+    int N = dataArray_[0].length();
+    double BER;
+    for (int i = 0; i < mimoN; i++)
+    {
+        BER = 0.0;
+        int count = 0;
+        for (int j = 0; j < N; j++)
+        {
+            if (dataArray_[i][j] != dataArrayDemodulated_[i][j]){
+                count++;
+            }
+        }
+        BER = count / N;
+    }
+    BER_.push_back(BER);
+}
+
+QVector<double> &Signal::getBER()
+{
+    return BER_;
+}
+
+double Signal::transmitAndReceive(int MO, int speed)
+{
+    fillRandomData(1, 4800);
+    modulateData(MO, getDataArray());
+    //normalize(getModulatedIQ(), 100);
+    layersIFFTCarrier(getModulatedIQ(), 0, startFrequencyHz_, scs_ * 1000, speed);
+    layersFFTCarrier(getSignalInTime(), 0, startFrequencyHz_, scs_ * 1000);
+    demodulateIQ(MO, getSignalInFreq());
+    compareData();
 }
 
 // void Signal::IFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology)
@@ -590,4 +656,20 @@ void Signal::printIQValues(QVector<QVector<arma::cx_double>> &IQ, QString str)
             qDebug() << "Signal::" << str << IQ[i][j].real() << IQ[i][j].imag();
         }
     }
+}
+
+void Signal::printSignalInfo()
+{
+    qDebug() << "Signal::printSignalInfo()--> ";
+    qDebug() << "Signal::printSignalInfo()--> Freq: " << startFrequency_;
+    qDebug() << "Signal::printSignalInfo()--> BW: " << bandwidth_;
+    qDebug() << "Signal::printSignalInfo()--> SCS: " << scs_;
+    qDebug() << "Signal::printSignalInfo()--> Samp. Rate: " << sampleRate_;
+    qDebug() << "Signal::printSignalInfo()--> FFT Size: " << FFTSize_;
+    qDebug() << "Signal::printSignalInfo()--> Samp. Time: " << samplingTime_;
+    qDebug() << "Signal::printSignalInfo()--> Doppler Freq: " << dopplerFreq_;
+    for (int i = 0; i < BER_.length(); i++){
+        qDebug() << "Signal::printSignalInfo()--> BER: " << BER_[i];
+    }
+    qDebug() << "Signal::printSignalInfo()--> Aver. EVM: " << averageEVM_;
 }

@@ -8,6 +8,7 @@
 #include <QtWidgets/QLabel>
 #include <QtCore/QElapsedTimer>
 #include <QtCore/QTimer>
+#include <QtMath>
 
 #include <armadillo>
 
@@ -20,12 +21,16 @@ class Signal : public QObject, public Chartable
     Q_OBJECT
 private:
 
-    int startFrequency_ = 0;
+    int startFrequency_ = 0; // [MHz]
+    int startFrequencyHz_ = 0; // [Hz]
     int bandwidth_ = 0;
     int scs_ = 0;
     int sampleRate_ = 0;
     int FFTSize_ = 0;
+    int numberOfFreq_ = 0;
     double samplingTime_; // [nanoSec]
+    double dopplerFreq_ = 0;
+    int c_ = 3 * qPow(10, 8);
 
     // For each MIMO layer
     QVector<QVector<bool>>              dataArray_;
@@ -41,16 +46,18 @@ private:
     QVector<double>                     distance_;
 
     float averageEVM_ = 0;
+    QVector<double> BER_;
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
     
     Signal();
+    Signal(int carrierFreq, int SCS, int bandwidth, double dopplerSpeed, int angle);
     virtual ~Signal() = default;
     Signal *copy(void);
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
-    void configSignalSettings(int bandLow, int SCS, int bandwidth);
+    void configSignalSettings(int bandLow, int SCS, int bandwidth, double dopplerSpeed, int angle);
 
     int     getFFTSize();
     double  getSamplingTime();
@@ -59,6 +66,7 @@ public:
     QVector<QVector<bool>>              &getDataArray();
     QVector<QVector<bool>>              &getDataArrayDemodulated();
     QVector<QVector<arma::cx_double>>   &getModulatedIQ();
+    QVector<double>                     &getBER();
 
 
 
@@ -82,17 +90,19 @@ public:
     void calculateFFTSize();
     void calculateSamplingTime();
 
+    void calculateDoppler(int carrierFreq, double angle, double dopplerSpeed);
+
     void layersIFFT(QVector<QVector<arma::cx_double>> &modulatedIQ);
     void layersFFT(QVector<QVector<arma::cx_double>> &timeIO);
     QVector<arma::cx_double> IFFT(QVector<arma::cx_double> vector);
     QVector<arma::cx_double> FFT(QVector<arma::cx_double> vector);
     
-    void layersIFFTCarrier( QVector<QVector<arma::cx_double>> &modulatedIQ, int size, int freq, 
+    void layersIFFTCarrier( QVector<QVector<arma::cx_double>> &modulatedIQ, int size, int freqHz, 
                             int numerology, double doppler);
-    void layersFFTCarrier(QVector<QVector<arma::cx_double>> &timeIO, int size, int freq, int numerology);
-    QVector<arma::cx_double> IFFTCarrier(   QVector<arma::cx_double> vector, int size, int freq, 
+    void layersFFTCarrier(QVector<QVector<arma::cx_double>> &timeIO, int size, int freqHz, int numerology);
+    QVector<arma::cx_double> IFFTCarrier(   QVector<arma::cx_double> vector, int size, int freqHz, 
                                             int numerology, double doppler);
-    QVector<arma::cx_double> FFTCarrier(QVector<arma::cx_double> vector, int size, int freq, int numerology);
+    QVector<arma::cx_double> FFTCarrier(QVector<arma::cx_double> vector, int size, int freqHz, int numerology);
 
     // void IFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology);
     // void dopplerIFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology);
@@ -114,8 +124,11 @@ public:
     QVector<bool> demQAM64(QVector<arma::cx_double> &IQvalues);
     QVector<bool> demQAM256(QVector<arma::cx_double> &IQvalues);
 
+    double transmitAndReceive(int MO, int speed);
+    void compareData();
+
     // ----- [ Debug ] -----------------------------------------------------------------------------------------------------
     void printIQValues(QVector<QVector<arma::cx_double>> &IQ, QString str = "printIQValues -->");
-
     void printData();
+    void printSignalInfo();
 };

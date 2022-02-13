@@ -16,6 +16,7 @@
 #include "src/visualization/menu/mainWindow.h"
 #include "src/scenarios/tests.h"
 #include "src/scenarios/simple.h"
+#include "src/scenarios/modulationPerformance.h"
 
 #include "src/debug.h"
 
@@ -43,9 +44,10 @@ int main(int argc, char *argv[])
     //                   Testing features (in src/scenarios/tests.h)
     //##############################################################################
 
-    simpleTest();
+    //simpleTest();
+    modulationToDoppler();
 
-//##############################################################################
+    //##############################################################################
     return app.exec();
 
 }
