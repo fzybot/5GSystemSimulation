@@ -55,10 +55,10 @@ Custom3dSurfaceWidget::Custom3dSurfaceWidget(QWidget *parent)
     calculationVLayout->addWidget(calculationButton);
     calculationGroupBox->setLayout(calculationVLayout);
 
-    gradientGroupBox_ = new QGroupBox(QStringLiteral("Gradient"));
+    gradientGroupBox_ = new QGroupBox(QStringLiteral("Signal Strength"));
 
     int height = 400;
-    int width = 100;
+    int width = 150;
     int border = 10;
     QLinearGradient gr(0, 0, 1, height - 2 * border);
     gr.setColorAt(1.0f, Qt::blue);
@@ -79,7 +79,7 @@ Custom3dSurfaceWidget::Custom3dSurfaceWidget(QWidget *parent)
     for (int i = 0; i < 11; i++) {
         int yPos = i * step + border;
         pmp.drawLine(border, yPos, 55, yPos);
-        pmp.drawText(60, yPos + 2, QString("%1 dBm").arg(-44 - (i * 10)));
+        pmp.drawText(60, yPos + 2, QString("%1 [dBm]").arg(-44 - (i * 10)));
     }
 
     label_ = new QLabel();

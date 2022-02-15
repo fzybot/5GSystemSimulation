@@ -50,7 +50,7 @@ void Chartable::visualize2D(QVector<QVector<QPair<float, float>>> data, QString 
 
     chart->createDefaultAxes();
     // chart->axes(Qt::Horizontal).first()->setRange(0, 20);
-    chart->axes(Qt::Vertical).first()->setRange(0, data[0][0].second * 3);
+    // chart->axes(Qt::Vertical).first()->setRange(0, 10);
 
     // Add space to label to add space between labels and axis
     QtCharts::QValueAxis *axisY = qobject_cast<QtCharts::QValueAxis*>(chart->axes(Qt::Vertical).first());

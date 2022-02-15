@@ -64,7 +64,7 @@ void testModel()
     //test - 600, 347, 15
     //test2 - 284, 85
 
-    double centerFrequency = 2.4;
+    double centerFrequency = 2.6;
     double h = getAvgBuildingHeight(); //[m]
     qDebug()<<"avgH = " << h;
     double W = 46;  //[m]
@@ -654,7 +654,7 @@ void calculateHeatmap3DDDA(double ***data, int X, int Y, double centerFrequency,
 
                 if(kIn == 0)
                 {
-                        pathloss = UMa_LOS(startPoint->calculateDistance2D(point), 0, BS->getCoordinateZ() + groundDelta, heightUT, centerFrequency, h,  W, shadowFading);
+                        pathloss = UMi_LOS(startPoint->calculateDistance2D(point), 0, BS->getCoordinateZ() + groundDelta, heightUT, centerFrequency, h,  W, shadowFading);
                         if(pathloss == -1){
                             (*data)[i][j] = 20000;
                         }
@@ -665,7 +665,7 @@ void calculateHeatmap3DDDA(double ***data, int X, int Y, double centerFrequency,
                 }
                 else
                 {
-                    pathloss = UMa_NLOS(startPoint->calculateDistance2D(point) - kIn*pixelToMeter, kIn*pixelToMeter, BS->getCoordinateZ() + groundDelta, heightUT, centerFrequency, h,  W, shadowFading);
+                    pathloss = UMi_NLOS(startPoint->calculateDistance2D(point) - kIn*pixelToMeter, kIn*pixelToMeter, BS->getCoordinateZ() + groundDelta, heightUT, centerFrequency, h,  W, shadowFading);
                     if(pathloss == -1){
                         (*data)[i][j] = 20000;
                     }

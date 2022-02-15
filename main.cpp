@@ -20,7 +20,7 @@
 
 #include "src/debug.h"
 
-#define SHOW_WINDOW       0
+#define SHOW_WINDOW       1
 
 int main(int argc, char *argv[])
 {
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
     //##############################################################################
 
     //simpleTest();
-    modulationToDoppler();
+    //modulationToDoppler();
 
     //##############################################################################
     return app.exec();
