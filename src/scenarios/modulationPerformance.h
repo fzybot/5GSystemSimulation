@@ -9,6 +9,7 @@
 #include "src/protocols/phy/Channel/Bandwidth.h"
 #include "src/protocols/phy/Signal.h"
 #include "src/equipment/antenna/AntennaArray.h"
+#include "src/visualization/Chartable.h"
 
 #include <armadillo>
 
@@ -17,6 +18,15 @@
 
 #define NUMBER_OF_REP 1000
 
+
+
+QVector<QPair<float, float>> dopplerModulationPerformanceTest(int modulationOrder, int speedLow, int speedHigh, int speedStep)
+{
+    QVector<QPair<float, float>> localData;
+    for (int i = speedLow; i < speedHigh; i = i + speedStep)
+    {
+    }
+}
 
 static void modulationToDoppler()
 {
@@ -106,4 +116,14 @@ static void modulationToDoppler()
     // signal.layersFFT(signal.getSignalInTime());
 
 
+}
+
+static void run(){
+
+    QVector<QVector<QPair<float, float>>> dataEVM, dataBER;
+    int startFrequency = 2600,
+        numerology = 15,
+        bandwidth = 20;
+
+    Chartable chartEVM, chartBER;
 }
