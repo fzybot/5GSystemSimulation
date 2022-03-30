@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import QtQuick.Window 2.14
+import QtQuick.Window 2.2
 import QtLocation 5.6
 import QtPositioning 5.6
 import QtGraphicalEffects 1.15

@@ -46,7 +46,6 @@ SOURCES += \
     src/equipment/Walker.cpp \
     src/equipment/antenna/AntennaArray.cpp \
     src/equipment/gNodeB.cpp \
-#    src/qcustomplot/qcustomplot.cpp \
     src/equipment/mobility/Mobility.cpp \
     src/protocols/phy/Physical.cpp \
     src/protocols/phy/propagationModels.cpp \
@@ -115,7 +114,6 @@ HEADERS += \
     src/protocols/phy/Channel/Bandwidth.h \
     src/protocols/phy/Channel/RadioChannel.h \
     src/protocols/phy/Signal.h \
-#    src/qcustomplot/qcustomplot.h \
     src/protocols/Packet.h \
     src/protocols/mac_layer/MacEntity.h \
     src/protocols/pdcp_layer/PdcpEntity.h \

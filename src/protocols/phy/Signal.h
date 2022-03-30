@@ -52,14 +52,17 @@ public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
     
     Signal();
-    Signal(int carrierFreq, int SCS, int bandwidth, double dopplerSpeed, int angle);
+    Signal(int carrierFreq, int SCS, int bandwidth);
     virtual ~Signal() = default;
     Signal *copy(void);
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
-    void configSignalSettings(int bandLow, int SCS, int bandwidth, double dopplerSpeed, int angle);
+    void configSignalSettings(int bandLow, int SCS, int bandwidth);
+    void configDopplerSettings(int dSpeed, int angle);
 
-    int     getFFTSize();
+    int getStartFreqMhz();
+    int getStartFreqHz();
+    int getFFTSize();
     double  getSamplingTime();
     float   getAverageEvm();
 
@@ -92,6 +95,7 @@ public:
 
     void calculateDoppler(int carrierFreq, double angle, double dopplerSpeed);
 
+
     void layersIFFT(QVector<QVector<arma::cx_double>> &modulatedIQ);
     void layersFFT(QVector<QVector<arma::cx_double>> &timeIO);
     QVector<arma::cx_double> IFFT(QVector<arma::cx_double> vector);
@@ -106,8 +110,6 @@ public:
 
     // void IFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology);
     // void dopplerIFFT(QVector<arma::cx_double> vector, int size, int freq, int numerology);
-
-    void addDoppler(int carrierFreq, int speed);
 
     void normalize(QVector<QVector<arma::cx_double>> &IQ, int byValue);
     void modulateData(int modulationOrder, QVector<QVector<bool>> &dataArray);

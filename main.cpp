@@ -26,9 +26,9 @@ int main(int argc, char *argv[])
 {
 
 //    Q_INIT_RESOURCE(application);
-//#ifdef Q_OS_ANDROID
+// #ifdef Q_OS_ANDROID
 //    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-//#endif
+// #endif
 
     QApplication app(argc, argv);
 
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
     //##############################################################################
 
     //simpleTest();
-    //modulationToDoppler();
+    runModulationPerformance();
 
     //##############################################################################
     return app.exec();

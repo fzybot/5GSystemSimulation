@@ -18,14 +18,14 @@ Signal::Signal()
     // powerValues_.resize(1);
 }
 
-Signal::Signal(int carrierFreq, int SCS, int bandwidth, double dopplerSpeed, int angle)
+Signal::Signal(int carrierFreq, int SCS, int bandwidth)
 {
-    configSignalSettings(carrierFreq, SCS, bandwidth, dopplerSpeed, angle);
+    configSignalSettings(carrierFreq, SCS, bandwidth);
 }
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
 
-void Signal::configSignalSettings(int bandLow, int SCS, int bandwidth, double dopplerSpeed, int angle)
+void Signal::configSignalSettings(int bandLow, int SCS, int bandwidth)
 {
     startFrequency_ = bandLow;
     startFrequencyHz_ = bandLow * qPow(10, 6);
@@ -33,7 +33,22 @@ void Signal::configSignalSettings(int bandLow, int SCS, int bandwidth, double do
     scs_ = SCS;
     calculateFFTSize();
     calculateSamplingTime();
-    calculateDoppler(startFrequencyHz_, angle, dopplerSpeed);
+    //calculateDoppler(startFrequencyHz_, angle, dopplerSpeed);
+}
+
+void Signal::configDopplerSettings(int dSpeed, int angle)
+{
+    calculateDoppler(getStartFreqHz(), angle, dSpeed);
+}
+
+int Signal::getStartFreqMhz()
+{
+    return startFrequency_;
+}
+
+int Signal::getStartFreqHz()
+{
+    return startFrequencyHz_;
 }
 
 void Signal::setPowerValues(const QVector< QVector<double> > powerValues)
@@ -617,8 +632,8 @@ void Signal::compareData()
             }
         }
         BER = count / N;
+        BER_.push_back(BER);
     }
-    BER_.push_back(BER);
 }
 
 QVector<double> &Signal::getBER()
