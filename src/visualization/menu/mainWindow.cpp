@@ -23,14 +23,15 @@ MainWindow::MainWindow(QWidget* parent) :
     tabMenu_->resize(700, 800);
     // fixed size for widget
     //tabMenu_->setFixedSize(500, 500);
-    setCentralWidget(tabMenu_);
+    
+    // setCentralWidget(tabMenu_);
 
-    connect(this, &MainWindow::settingsChanged, tabMenu_, &TabMenu::changeSettings);
+    // connect(this, &MainWindow::settingsChanged, tabMenu_, &TabMenu::changeSettings);
 
-    createActions();
-    createStatusBar();
-    createDockWindows();
-    readSettings();
+    // createActions();
+    // createStatusBar();
+    // createDockWindows();
+    // readSettings();
 
    // QGraphicsView* view_ = new QGraphicsView(scene);
     //setCentralWidget(view_);

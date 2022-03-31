@@ -33,10 +33,10 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     MainWindow mainWin;
-    if (SHOW_WINDOW == 1){
-        mainWin.resize(1400, 1200);
-        mainWin.show();
-    }
+
+    mainWin.resize(1400, 1200);
+    mainWin.show();
+
 
     // Simple();
 
