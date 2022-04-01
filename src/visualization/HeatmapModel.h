@@ -36,6 +36,12 @@ public:
     void setBuildingsUsage(int buildingsUsage);
 
     void createData();
+    void createTempData();
+    void clearTempData();
+
+    void addBStoList(CartesianCoordinates coordinates);
+    void addTempData();
+    void getFinalData();
 
 protected:
     double centerFrequency;
@@ -45,6 +51,7 @@ protected:
     double heightUT;            //[m]
     CartesianCoordinates BaseStation;
     vector<vector<double>> data;
+    vector<vector<double>> tempData;
     double BSPower;
     double AntennaGain;
     double pixelToMeter;
@@ -59,6 +66,8 @@ protected:
 
     QRgb signalStrengthToColor(double signalStrength);
     void calculateHeatmap3DDDA();
+
+    vector<CartesianCoordinates> BSlist;
 
 public slots:
     void calculateHeatmap();

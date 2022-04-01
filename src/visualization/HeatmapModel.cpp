@@ -89,6 +89,49 @@ void HeatmapModel::createData()
         }
 }
 
+void HeatmapModel::createTempData()
+{
+    tempData = vector <vector <double>>(lonc, vector <double> (latc));
+
+   for (int i = 0; i < lonc; i++)
+       for (int j = 0; j < latc; j++)
+       {
+           tempData[i][j] = 0;
+       }
+}
+
+void HeatmapModel::clearTempData()
+{
+    for (int i = 0; i < lonc; i++)
+        for (int j = 0; j < latc; j++)
+        {
+            tempData[i][j] = 0;
+        }
+}
+
+void HeatmapModel::addBStoList(CartesianCoordinates coordinates)
+{
+    BSlist.push_back(coordinates);
+}
+
+void HeatmapModel::addTempData()
+{
+    for (int i = 0; i < lonc; i++)
+        for (int j = 0; j < latc; j++)
+        {
+            data[i][j] += tempData[i][j];
+        }
+}
+
+void HeatmapModel::getFinalData()
+{
+    for (int i = 0; i < lonc; i++)
+        for (int j = 0; j < latc; j++)
+        {
+            data[i][j] /= BSlist.size();
+        }
+}
+
 double HeatmapModel::getAvgBuildingHeight()
 {
     double sum = 0;
@@ -258,7 +301,7 @@ void HeatmapModel::calculateHeatmap3DDDA()
                 point->setCoordinateY(j);
                 slice.push_back(*point);
 
-                if((data)[i][j]!=0) continue;
+                if((tempData)[i][j]!=0) continue;
                 kIn = isLOSDDA(slice);
                 double groundBS = 0;
                 double groundUT = 0;
@@ -276,26 +319,26 @@ void HeatmapModel::calculateHeatmap3DDDA()
                         pathloss = UMa_LOS(startPoint->calculateDistance2D(point), 0,
                                            BaseStation.getCoordinateZ() + groundDelta,
                                            heightUT, centerFrequency, h,  W, shadowFading);
-                        if(pathloss == -1){
-                            (data)[i][j] = 20000;
-                        }
-                        else{
+                        //if(pathloss == -1){
+                        //    (tempData)[i][j] = 20000;
+                        //}
+                        //else{
                         double rsrp = BSPower + AntennaGain - pathloss - 10*log10(50*1000/15);
-                        (data)[i][j]= rsrp;
-                        }
+                        (tempData)[i][j]= rsrp;
+                        //}
                 }
                 else
                 {
                     pathloss = UMa_NLOS(startPoint->calculateDistance2D(point) - kIn*pixelToMeter, kIn*pixelToMeter,
                                         BaseStation.getCoordinateZ() + groundDelta,
                                         heightUT, centerFrequency, h,  W, shadowFading);
-                    if(pathloss == -1){
-                        (data)[i][j] = 20000;
-                    }
-                    else{
+                    //if(pathloss == -1){
+                    //    (tempData)[i][j] = 20000;
+                    //}
+                    //else{
                     double rsrp = BSPower + AntennaGain - pathloss - 10*log10(50*1000/15);
-                    (data)[i][j]= rsrp;
-                    }
+                    (tempData)[i][j]= rsrp;
+                    //}
 
                 }
 
@@ -310,12 +353,18 @@ void HeatmapModel::calculateHeatmap()
 {
     clock_t start, end;
     createData();
+    createTempData();
+    for(int i = 0; i < (int)BSlist.size(); ++i){
+    setBaseStation(BSlist[i]);
 
     start = clock();
     calculateHeatmap3DDDA();
     end = clock();
-
     qDebug()<<"heatmap calculation TIME = "<<(end - start)/CLOCKS_PER_SEC;
+    addTempData();
+    clearTempData();
+    }
+    getFinalData();
 
     qDebug()<<"QImage was saved - " << createImage();
 }
