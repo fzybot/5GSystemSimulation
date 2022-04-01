@@ -41,7 +41,8 @@ public:
 
     void addBStoList(CartesianCoordinates coordinates);
     void addTempData();
-    void getFinalData();
+    void getFinalDataByMean();
+    void getFinalDataByMax();
 
 protected:
     double centerFrequency;

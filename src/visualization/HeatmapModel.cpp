@@ -123,7 +123,18 @@ void HeatmapModel::addTempData()
         }
 }
 
-void HeatmapModel::getFinalData()
+void HeatmapModel::getFinalDataByMax()
+{
+    for (int i = 0; i < lonc; i++)
+        for (int j = 0; j < latc; j++)
+        {
+            if(tempData[i][j] > data[i][j] || data[i][j] == 0) {
+                data[i][j] = tempData[i][j];
+            }
+        }
+}
+
+void HeatmapModel::getFinalDataByMean()
 {
     for (int i = 0; i < lonc; i++)
         for (int j = 0; j < latc; j++)
@@ -361,10 +372,11 @@ void HeatmapModel::calculateHeatmap()
     calculateHeatmap3DDDA();
     end = clock();
     qDebug()<<"heatmap calculation TIME = "<<(end - start)/CLOCKS_PER_SEC;
-    addTempData();
+    //addTempData();
+    getFinalDataByMax();
     clearTempData();
     }
-    getFinalData();
+    //getFinalDataByMean();
 
     qDebug()<<"QImage was saved - " << createImage();
 }

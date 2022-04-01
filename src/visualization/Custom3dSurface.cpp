@@ -158,21 +158,19 @@ void Custom3dSurface::enableModel()
 void Custom3dSurface::initializeHeatmap()
 {
     heatmapModel_ = new HeatmapModel;
-    heatmapModel_->addBStoList(CartesianCoordinates(851, 230, 60));
-    //heatmapModel_->addBStoList(CartesianCoordinates(700, 100, 60));
-    //heatmapModel_->addBStoList(CartesianCoordinates(100, 369, 60));
-    //heatmapModel_->addBStoList(CartesianCoordinates(1219, 364, 60));
-    //heatmapModel_->addBStoList(CartesianCoordinates(1210, 276, 60));
-    //heatmapModel_->addBStoList(CartesianCoordinates(230, 50, 60));
-    heatmapModel_->addBStoList(CartesianCoordinates(549, 412, 60));
-    heatmapModel_->addBStoList(CartesianCoordinates(190, 40, 60));
-    heatmapModel_->addBStoList(CartesianCoordinates(687, 89, 60));
-    heatmapModel_->addBStoList(CartesianCoordinates(1179, 70, 60));
-    heatmapModel_->addBStoList(CartesianCoordinates(630, 144, 60));
-    heatmapModel_->addBStoList(CartesianCoordinates(1201, 177, 60));
-    heatmapModel_->addBStoList(CartesianCoordinates(630, 144, 60));
-    heatmapModel_->addBStoList(CartesianCoordinates(1215, 276, 60));
-    heatmapModel_->addBStoList(CartesianCoordinates(847, 402, 60));
+    //heatmapModel_->addBStoList(CartesianCoordinates(851, 230, 60));
+    heatmapModel_->addBStoList(CartesianCoordinates(342, 233, 60));
+    heatmapModel_->addBStoList(CartesianCoordinates(93, 368, 60));
+    heatmapModel_->addBStoList(CartesianCoordinates(732, 395, 60));
+    heatmapModel_->addBStoList(CartesianCoordinates(1216, 368, 60));
+
+    heatmapModel_->addBStoList(CartesianCoordinates(85, 204, 60));
+    heatmapModel_->addBStoList(CartesianCoordinates(641, 188, 60));
+    heatmapModel_->addBStoList(CartesianCoordinates(1215, 203, 60));
+
+    heatmapModel_->addBStoList(CartesianCoordinates(71, 26, 60));
+    heatmapModel_->addBStoList(CartesianCoordinates(662, 42, 60));
+    heatmapModel_->addBStoList(CartesianCoordinates(1160, 59, 60));
     connect(this, &Custom3dSurface::settingsChanged, heatmapModel_, &HeatmapModel::changeSettings);
     connect(this, &Custom3dSurface::calculateModelSignal, heatmapModel_, &HeatmapModel::calculateHeatmap);
 }
