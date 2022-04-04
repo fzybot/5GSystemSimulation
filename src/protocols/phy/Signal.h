@@ -45,8 +45,8 @@ private:
     QVector<QVector<double>>            powerValues_; //transmitted power for each MIMO path and sub-carrier
     QVector<double>                     distance_;
 
-    float averageEVM_ = 0;
-    QVector<double> BER_;
+    double averageEVM_ = 0;
+    QVector<double> BER_ = {0,0,0,0};
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
@@ -65,6 +65,7 @@ public:
     int getFFTSize();
     double  getSamplingTime();
     float   getAverageEvm();
+    double getDopplerFreq();
 
     QVector<QVector<bool>>              &getDataArray();
     QVector<QVector<bool>>              &getDataArrayDemodulated();

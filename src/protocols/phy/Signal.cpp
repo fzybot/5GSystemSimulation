@@ -111,6 +111,11 @@ QVector<QVector<arma::cx_double>> &Signal::getModulatedIQ()
     return modulatedIQ_;
 }
 
+double Signal::getDopplerFreq()
+{
+    return dopplerFreq_;
+}
+
 // ----- [ FUNCTIONALITY ] ---------------------------------------------------------------------------------------------
 
 void Signal::calculateFFTSize()
@@ -620,7 +625,7 @@ void Signal::compareData()
 {
     int mimoN = dataArray_.length();
     int N = dataArray_[0].length();
-    double BER;
+    double BER = 0.0;
     for (int i = 0; i < mimoN; i++)
     {
         BER = 0.0;
@@ -631,8 +636,9 @@ void Signal::compareData()
                 count++;
             }
         }
-        BER = count / N;
-        BER_.push_back(BER);
+        BER = count / static_cast<double>(N) *100;
+        BER_[i] = BER;
+        qDebug() << "BER -> " << BER;
     }
 }
 
@@ -646,8 +652,10 @@ double Signal::transmitAndReceive(int MO, int speed)
     fillRandomData(1, 4800);
     modulateData(MO, getDataArray());
     //normalize(getModulatedIQ(), 100);
-    layersIFFTCarrier(getModulatedIQ(), 0, startFrequencyHz_, scs_ * 1000, speed);
-    layersFFTCarrier(getSignalInTime(), 0, startFrequencyHz_, scs_ * 1000);
+    // layersIFFTCarrier(getModulatedIQ(), 0, startFrequencyHz_, scs_ * 1000, speed);
+    // layersFFTCarrier(getSignalInTime(), 0, startFrequencyHz_, scs_ * 1000);
+    layersIFFTCarrier(getModulatedIQ(), 0, 2600000000, 30 * 1000, 0);
+    layersFFTCarrier(getSignalInTime(), 0, 2600000000, 30 * 1000);
     demodulateIQ(MO, getSignalInFreq());
     compareData();
 }

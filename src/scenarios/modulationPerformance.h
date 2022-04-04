@@ -15,18 +15,29 @@
 
 #include <QDebug>
 #include <QPair>
+#include <QFile>
+#include <QTextStream>
+
 
 #define NUMBER_OF_REP 1000
 
 
 
-QVector<QVector<QPair<float, float>>>   &dopplerModulationPerformanceTest(
+QVector<QVector<QPair<float, float>>>   dopplerModulationPerformanceTest(
                                         int modulationOrder, int speedLow, int speedHigh, 
                                         int speedStep, int centralFrequency, int scs, int bw
                                         )
 {
+
+    QFile file("/home/ruslan/dev/git/5GSystemSimulation/FeatureTesting/modulation.txt");
+    file.open(QIODevice::WriteOnly);
+    QTextStream stream( &file );
+    
+    
+
     QVector<QVector<QPair<float, float>>> localData;
     QVector<QPair<float, float>> dataEvm, dataBer;
+
 
     Signal signal(centralFrequency, scs, bw);
 
@@ -35,18 +46,27 @@ QVector<QVector<QPair<float, float>>>   &dopplerModulationPerformanceTest(
         QPair<float, float> pairEvm, pairBer;
 
         signal.transmitAndReceive(modulationOrder, speed);
+        //qDebug() << "Doppler freq -> " << signal.getDopplerFreq();
 
         pairEvm.first = speed;
         pairEvm.second = signal.getAverageEvm();
         dataEvm.push_back(pairEvm);
+        
+        
 
         pairBer.first = speed;
         pairBer.second = signal.getBER()[0];
         dataBer.push_back(pairBer);
+
+        stream  << QString::number(speed) << " " << QString::number(signal.getAverageEvm()) << " " 
+                << QString::number(signal.getBER()[0]) << endl;
     }
 
     localData.push_back(dataEvm);
     localData.push_back(dataBer);
+
+    file.close();
+    
 
     return localData;
 }
@@ -146,16 +166,16 @@ static void runModulationPerformance(){
     qDebug() << "Modulation Performance is started";
 
     QVector<QVector<QPair<float, float>>> dataEvm, dataBer;
-    int startFrequency = 2600,
-        numerology = 15,
-        bandwidth = 20,
-        speedStart = 0,
-        speedEnd = 200,
-        speedStep = 5;
+    int startFrequency = 6000,
+        numerology = 30,
+        bandwidth = 100,
+        speedStart = 5,
+        speedEnd = 500,
+        speedStep = 20;
 
     Chartable chartEvm, chartBer;
-    dataEvm.push_back(dopplerModulationPerformanceTest(2, 0, 200, 5, startFrequency, numerology, bandwidth)[0]);
-    dataEvm.push_back(dopplerModulationPerformanceTest(4, 0, 200, 5, startFrequency, numerology, bandwidth)[0]);
+    dataEvm.push_back(dopplerModulationPerformanceTest(2, speedStart, speedEnd, speedStep, startFrequency, numerology, bandwidth)[0]);
+    //dataEvm.push_back(dopplerModulationPerformanceTest(4, 0, 200, 5, startFrequency, numerology, bandwidth)[0]);
 
     chartEvm.visualize2D(dataEvm, "EVM");
 }
