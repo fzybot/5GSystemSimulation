@@ -21,6 +21,7 @@ SOURCES += \
     main.cpp \
     src/core/NetworkManager.cpp \
     src/core/Simulator.cpp \
+    src/equipment/antenna/Beam.cpp \
     src/protocols/PacketSegment.cpp \
     src/protocols/bearers/QoS/QoSProfile.cpp \
     src/equipment/mobility/ConstantPosition.cpp \
@@ -32,6 +33,8 @@ SOURCES += \
     src/protocols/mac_layer/CellMacEntity.cpp \
     src/protocols/mac_layer/TransportBlock.cpp \
     src/protocols/mac_layer/UeMacEntity.cpp \
+    src/protocols/phy/Manipulator.cpp \
+    src/protocols/phy/Symbol.cpp \
     src/visualization/ChartGroupWidget.cpp \
     src/visualization/Chartable.cpp \
     src/visualization/HeatmapModel.cpp \
@@ -51,7 +54,6 @@ SOURCES += \
     src/protocols/phy/propagationModels.cpp \
     src/protocols/phy/Channel/Bandwidth.cpp \
     src/protocols/phy/Channel/RadioChannel.cpp \
-    src/protocols/phy/Signal.cpp \
     src/protocols/Packet.cpp \
     src/protocols/mac_layer/MacEntity.cpp \
     src/protocols/pdcp_layer/PdcpEntity.cpp \
@@ -75,6 +77,7 @@ HEADERS += \
     src/core/NetworkManager.h \
     src/core/Simulator.h \
     src/debug.h \
+    src/equipment/antenna/Beam.h \
     src/protocols/PacketSegment.h \
     src/protocols/bearers/QoS/QoSProfile.h \
     src/equipment/mobility/ConstantPosition.h \
@@ -89,6 +92,8 @@ HEADERS += \
     src/protocols/mac_layer/CellMacEntity.h \
     src/protocols/mac_layer/TransportBlock.h \
     src/protocols/mac_layer/UeMacEntity.h \
+    src/protocols/phy/Manipulator.h \
+    src/protocols/phy/Symbol.h \
     src/protocols/phy/modulationOrderValues.h \
     src/scenarios/modulationPerformance.h \
     src/scenarios/simple.h \
@@ -113,7 +118,6 @@ HEADERS += \
     src/protocols/phy/propagationModels.h \
     src/protocols/phy/Channel/Bandwidth.h \
     src/protocols/phy/Channel/RadioChannel.h \
-    src/protocols/phy/Signal.h \
     src/protocols/Packet.h \
     src/protocols/mac_layer/MacEntity.h \
     src/protocols/pdcp_layer/PdcpEntity.h \

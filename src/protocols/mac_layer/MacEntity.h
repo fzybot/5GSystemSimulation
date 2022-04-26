@@ -35,8 +35,8 @@ public:
     MacEntity();
     virtual ~MacEntity() {};
 
-    void setDevice(Cell *e);
-    Cell *getDevice();
+    void assignCell(Cell *cell);
+    Cell *getCell();
 
     void createAMCEntity();
     void setAMCEntity(AMCEntity *amc);

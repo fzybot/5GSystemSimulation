@@ -222,6 +222,37 @@ int Equipment::getLocalOwnTimeSlot()
     return localOwnTimeSlot_;
 }
 
+void Equipment::setRsrpPerBandidth(double rsrp, int bwIndex)
+{
+    getPhyEntity()->getBandwidthContainer()[0][bwIndex]->setRsrp(rsrp);
+}
+
+void Equipment::setRsrqPerBandidth(double rsrq, int bwIndex)
+{
+    getPhyEntity()->getBandwidthContainer()[0][bwIndex]->setRsrq(rsrq);
+}
+
+void Equipment::setSinrPerBandidth(double sinr, int bwIndex)
+{
+    getPhyEntity()->getBandwidthContainer()[0][bwIndex]->setSinr(sinr);
+}
+
+double Equipment::getRsrqPerBandidth(int bwIndex)
+{
+    return getPhyEntity()->getBandwidthContainer()[0][bwIndex]->getRsrq();
+}
+
+double Equipment::getRsrpPerBandidth(int bwIndex)
+{
+    return getPhyEntity()->getBandwidthContainer()[0][bwIndex]->getRsrp();
+}
+
+double Equipment::getSinrPerBandidth(int bwIndex)
+{
+    return getPhyEntity()->getBandwidthContainer()[0][bwIndex]->getSinr();
+}
+
+
 // ----- [ COUNTERS ] --------------------------------------------------------------------------------------------------
 
 
@@ -301,6 +332,8 @@ void Equipment::calculateThermalNoise()
 {
     //this->thermalNoise = -174 + 10 * log10(this->bandwidth * 1000000);
 }
+
+
 
 // ----- [ Visualizing ] -----------------------------------------------------------------------------------------------
 

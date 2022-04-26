@@ -13,12 +13,12 @@ MacEntity::MacEntity()
     debug("Mac Entity: MAC Entity is created");
 }
 
-void MacEntity::setDevice(Cell *e)
+void MacEntity::assignCell(Cell *e)
 {
     device_ = e;
 }
 
-Cell *MacEntity::getDevice()
+Cell *MacEntity::getCell()
 {
     return device_;
 }
@@ -61,7 +61,7 @@ int calculateTransportBlockSize(int packetSize)
 void MacEntity::packetsToTransportBlockContainer(QVector<Packet> &packetContainer)
 {
     for (auto pack : packetContainer) {
-        getDevice()->getUserEquipmentContainer();
+        getCell()->getUserEquipmentContainer();
         TransportBlock tbs(pack);
         transportBlockContainer_.push_back(tbs);
     }

@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     //                   Testing features (in src/scenarios/tests.h)
     //##############################################################################
 
-    //simpleTest();
+    // simpleTest();
     //runModulationPerformance();
 
     //##############################################################################

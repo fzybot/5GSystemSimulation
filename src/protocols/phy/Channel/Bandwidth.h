@@ -161,6 +161,10 @@ private:
 
     int     sizeRbg_;
 
+    double      _sinr = 0;
+    double      _rsrp = 0;
+    double      _rsrq = 0;
+
     // first - number of OFDM Symbols
     // second - number of RBs (1 RB = 12 REs)
     QPair<int, int> sizeCORESET_;
@@ -196,6 +200,13 @@ public:
     QPair<int, int> &getCoresetSize();
 
     void calculateSizeRbg();
+
+    void setRsrp(double rsrp);
+    void setRsrq(double rsrq);
+    void setSinr(double sinr);
+    double getRsrq();
+    double getRsrp();
+    double getSinr();
 
     void print();
 };

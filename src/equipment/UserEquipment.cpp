@@ -30,6 +30,7 @@ UserEquipment::UserEquipment(int id,
     // Physical
     createPhyEntity();
     setLinkBudgetParameters();
+    getPhyEntity()->defaultPhyConfig();
     
 
     // Bearer config
@@ -50,7 +51,7 @@ UserEquipment::UserEquipment(int id,
 
     // Random SINR
     int localSINR = QRandomGenerator::global()->bounded(0, 19);
-    setSINR(localSINR);
+    setSinrPerBandidth(localSINR, 0);
 
     // Generate Traffic per each bearer
     //generatePacketsPerBearer();
@@ -132,16 +133,6 @@ void UserEquipment::setDRX(bool drx)
 bool UserEquipment::getDRX()
 {
     return DRX_;
-}
-
-void UserEquipment::setSINR(double sinr)
-{
-    sinr_ = sinr;
-}
-
-double UserEquipment::getSINR()
-{
-    return sinr_;
 }
 
 void UserEquipment::generatePacketsPerBearer(int slot)

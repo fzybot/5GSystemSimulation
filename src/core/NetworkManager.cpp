@@ -302,7 +302,7 @@ void NetworkManager::scheduleCells(QVector<Cell*> *cellContainer)
             cell->pathLosDetach();
             initialCellSelection(cell->getLocalOwnTimeSlot());
             generateTrafficPerUE(cell->getUserEquipmentContainer(), (int) current120TimeSlot_ / (int)(120/scs));
-            cell->getMacEntity()->schedule(cell);
+            cell->schedule();
         }
     }
 }

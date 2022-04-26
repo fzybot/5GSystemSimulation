@@ -6,25 +6,24 @@
 #include "src/debug.h"
 
 
-CellMacEntity::CellMacEntity()
+CellMacEntity::CellMacEntity(Cell *cell)
 {
     debug("Cell Mac Entity: MAC Entity is created");
+    assignCell(cell);
     configMacEntity();
 }
 
 void CellMacEntity::createScheduler(Scheduler::SchedulingAlgorithm algo)
 {
-    scheduler_ = new Scheduler();
-    scheduler_->setAlgorithm(algo);
-    scheduler_->setCell(getDevice());
+    _scheduler = new Scheduler(getCell(), algo);
 }
 
 Scheduler *CellMacEntity::getScheduler()
 {
-    return scheduler_;
+    return _scheduler;
 }
 
-void CellMacEntity::schedule(Cell *cell)
+void CellMacEntity::schedule()
 {
-    getScheduler()->doSchedule(cell->getUserEquipmentContainer());
+    getScheduler()->doSchedule(getCell()->getUserEquipmentContainer());
 }

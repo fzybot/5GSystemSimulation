@@ -111,13 +111,21 @@ public:
     void createBearer(RadioBearer::RadioBearerType type, int id, int QoSProfile);
     QVector<RadioBearer*> *getBearerContainer();
 
-    void createPhyEntity();
-    void setPhyEntity(Physical *phy);
-    Physical *getPhyEntity();
+    void        createPhyEntity();
+    void        setPhyEntity(Physical *phy);
+    Physical    *getPhyEntity();
 
-    void setLinkBudgetParameters();
-    float getEirp();
-    float getNoiseFigure();
+    void    setLinkBudgetParameters();
+    float   getEirp();
+    float   getNoiseFigure();
+
+    void setRsrpPerBandidth(double rsrp, int bwIndex);
+    void setRsrqPerBandidth(double rsrq, int bwIndex);
+    void setSinrPerBandidth(double sinr, int bwIndex);
+
+    double getRsrqPerBandidth(int bwIndex);
+    double getRsrpPerBandidth(int bwIndex);
+    double getSinrPerBandidth(int bwIndex);
 
     double calculateDistanceToCell(Cell *targetCell);
     double calculateDistanceToUserEquipment(UserEquipment *targetUser);

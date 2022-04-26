@@ -1,6 +1,6 @@
 #include "Physical.h"
 #include "src/protocols/phy/Channel/Bandwidth.h"
-#include "src/protocols/phy/Signal.h"
+#include "src/protocols/phy/Symbol.h"
 #include "src/protocols/phy/Channel/RadioChannel.h"
 #include "src/commonParameters.h"
 
@@ -44,7 +44,7 @@ void Physical::configNewBandwidth( QString fr, QString band, int scs, double ulB
     addBandwidth(bw);
 }
 
-void Physical::sendSignal(QVector<TransportBlock> tbContainer)
+void Physical::sendSymbol(QVector<TransportBlock> tbContainer)
 {
     //txSignal_.fromTbToSignal();
 }

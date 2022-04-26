@@ -8,7 +8,7 @@
 #include "src/protocols/phy/propagationModels.h"
 #include "src/simulation/Simulation.h"
 #include "src/protocols/phy/Channel/Bandwidth.h"
-#include "src/protocols/phy/Signal.h"
+#include "src/protocols/phy/Symbol.h"
 #include "src/equipment/antenna/AntennaArray.h"
 
 #include <armadillo>
@@ -63,19 +63,31 @@ static void simpleTest()
     // test << 0 << 1 << 1;
     // qDebug() << "QVector<bool> test = " << test[0] << test[1] << test[2];
 
-    Signal signal;
-    signal.fillRandomData(1, 16);
-    signal.modulateData(2, signal.getDataArray());
-    signal.printIQValues(signal.getModulatedIQ());
-    qDebug() << "EVM --> " << signal.getAverageEvm();
-    //signal.normalize(signal.getModulatedIQ(), 1);
-    signal.layersIFFT(signal.getModulatedIQ());
-    signal.printIQValues(signal.getSignalInTime(), "IFFT--> ");
-    signal.layersFFT(signal.getSignalInTime());
-    signal.printIQValues(signal.getSignalInFreq(), "FFT--> ");
-    signal.demodulateIQ(2, signal.getSignalInFreq());
-    signal.compareData();
-    signal.printSignalInfo();
+    //**************************************************************
+    // Modulation test
+    //**************************************************************
+
+    // int centralFrequency = 2600;
+    // int scs = 15;
+    // int bw = 100;
+    // int speed = 500;
+
+    // Signal signal(centralFrequency, scs, bw);
+
+    // signal.fillRandomData(1, 16000);
+    // signal.modulateData(8, signal.getDataArray());
+    // // signal.printIQValues(signal.getModulatedIQ());
+    // qDebug() << "EVM --> " << signal.getAverageEvm();
+    // //signal.normalize(signal.getModulatedIQ(), 1);
+    // signal.layersIFFTCarrier(signal.getModulatedIQ(), scs, speed);
+    // // signal.printIQValues(signal.getSignalInTime(), "IFFT--> ");
+    // signal.layersFFTCarrier(signal.getSignalInTime(), scs);
+    // // signal.printIQValues(signal.getSignalInFreq(), "FFT--> ");
+    // signal.demodulateIQ(8, signal.getSignalInFreq());
+    // // signal.printData(signal.getDataArray());
+    // // signal.printData(signal.getDataArrayDemodulated());
+    // signal.compareData();
+    // signal.printSignalInfo();
 
     // AntennaArray ant1;
     // ant1.calculateElevationGrid();
@@ -83,8 +95,14 @@ static void simpleTest()
     //ant1.show3dPlot();
     //ant1.show2dPlot();
 
+
+    //**************************************************************
+    // Armadillo test
+    //**************************************************************
+
     arma::cx_vec y;
     y << 1 << 2;
+    
     qDebug() << "Arma test --> " << y.size();
 
     // for (int elev = 0; elev <= 180; elev++){

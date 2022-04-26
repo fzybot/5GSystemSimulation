@@ -52,7 +52,13 @@ QString Bandwidth::getBand()
 double Bandwidth::getCarrierFreq()
 {
     return carrierFreq_;
-}
+}    void setRsrp(double rsrp);
+    void setRsrq(double rsrq);
+    void setSinr(double sinr);
+
+    double getRsrq();
+    double getRsrp();
+    double getSinr();
 
 double Bandwidth::getUlBandwidth()
 {
@@ -110,6 +116,36 @@ void Bandwidth::calculateSizeRbg()
     } else if (nPrb >= 145 && nPrb <= 275) {
         sizeRbg_ = 16;
     }  
+}
+
+void Bandwidth::setRsrp(double rsrp)
+{
+    _rsrp = rsrp;
+}
+
+void Bandwidth::setRsrq(double rsrq)
+{
+    _rsrq = rsrq;
+}
+
+void Bandwidth::setSinr(double sinr)
+{
+    _sinr = sinr;
+}
+
+double Bandwidth::getRsrq()
+{
+    return _rsrq;
+}
+
+double Bandwidth::getRsrp()
+{   
+    return _rsrp;
+}
+
+double Bandwidth::getSinr()
+{
+    return _sinr;
 }
 
 void Bandwidth::print()

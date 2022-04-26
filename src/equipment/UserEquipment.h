@@ -21,7 +21,6 @@ protected:
     int slotToCampOnCell_ = 0;
 
     // TODO: for this part of code it is needed to do a lot of classes for all simplified objects
-    double      sinr_;
     bool        BSR_ = true;
     bool        measurementGAP_ = false;
     bool        DRX_ = false;
@@ -59,8 +58,6 @@ public:
     bool getMeasurementGap();
     void setDRX(bool drx);
     bool getDRX();
-    void setSINR(double sinr);
-    double getSINR();
 
     // ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
     void calculateEIRP();

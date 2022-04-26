@@ -1,4 +1,4 @@
-#include "Signal.h"
+#include "Symbol.h"
 
 #include <QDebug>
 #include <QRandomGenerator>
@@ -13,19 +13,19 @@
 
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
 
-Signal::Signal()
+Symbol::Symbol()
 {
     // powerValues_.resize(1);
 }
 
-Signal::Signal(int carrierFreq, int SCS, int bandwidth)
+Symbol::Symbol(int carrierFreq, int SCS, int bandwidth)
 {
     configSignalSettings(carrierFreq, SCS, bandwidth);
 }
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
 
-void Signal::configSignalSettings(int bandLow, int SCS, int bandwidth)
+void Symbol::configSignalSettings(int bandLow, int SCS, int bandwidth)
 {
     startFrequency_ = bandLow;
     startFrequencyHz_ = bandLow * qPow(10, 6);
@@ -33,92 +33,91 @@ void Signal::configSignalSettings(int bandLow, int SCS, int bandwidth)
     scs_ = SCS;
     calculateFFTSize();
     calculateSamplingTime();
-    //calculateDoppler(startFrequencyHz_, angle, dopplerSpeed);
 }
 
-void Signal::configDopplerSettings(int dSpeed, int angle)
+void Symbol::configDopplerSettings(int dSpeed, int angle)
 {
     calculateDoppler(getStartFreqHz(), angle, dSpeed);
 }
 
-int Signal::getStartFreqMhz()
+int Symbol::getStartFreqMhz()
 {
     return startFrequency_;
 }
 
-int Signal::getStartFreqHz()
+int Symbol::getStartFreqHz()
 {
     return startFrequencyHz_;
 }
 
-void Signal::setPowerValues(const QVector< QVector<double> > powerValues)
+void Symbol::setPowerValues(const QVector< QVector<double> > powerValues)
 {
     powerValues_ = powerValues;
 }
 
-void Signal::setIQValues(const QVector<QVector<arma::cx_double>>  IQvalues)
+void Symbol::setIQValues(const QVector<QVector<arma::cx_double>>  IQvalues)
 {
     IQvalues_ = IQvalues;
 }
 
-QVector<QVector<double>> &Signal::getPowerValues()
+QVector<QVector<double>> &Symbol::getPowerValues()
 {
     return powerValues_;
 }
 
-QVector<QVector<arma::cx_double>> &Signal::getIQValues()
+QVector<QVector<arma::cx_double>> &Symbol::getIQValues()
 {
     return IQvalues_;
 }
 
-QVector<QVector<arma::cx_double>>   &Signal::getSignalInTime()
+QVector<QVector<arma::cx_double>>   &Symbol::getSignalInTime()
 {
     return signalInTime_;
 }
 
-QVector<QVector<arma::cx_double>>   &Signal::getSignalInFreq()
+QVector<QVector<arma::cx_double>>   &Symbol::getSignalInFreq()
 {
     return signalInFreq_;
 }
 
-int Signal::getFFTSize()
+int Symbol::getFFTSize()
 {
     return FFTSize_;
 }
 
-double Signal::getSamplingTime()
+double Symbol::getSamplingTime()
 {
     return samplingTime_;
 }
 
-float Signal::getAverageEvm()
+double Symbol::getAverageEvm()
 {
     return averageEVM_;
 }
 
-QVector<QVector<bool>> &Signal::getDataArray()
+QVector<QVector<bool>> &Symbol::getDataArray()
 {
     return dataArray_;
 }
 
-QVector<QVector<bool>> &Signal::getDataArrayDemodulated()
+QVector<QVector<bool>> &Symbol::getDataArrayDemodulated()
 {
     return dataArrayDemodulated_;
 }
 
-QVector<QVector<arma::cx_double>> &Signal::getModulatedIQ()
+QVector<QVector<arma::cx_double>> &Symbol::getModulatedIQ()
 {
     return modulatedIQ_;
 }
 
-double Signal::getDopplerFreq()
+double Symbol::getDopplerFreq()
 {
     return dopplerFreq_;
 }
 
 // ----- [ FUNCTIONALITY ] ---------------------------------------------------------------------------------------------
 
-void Signal::calculateFFTSize()
+void Symbol::calculateFFTSize()
 {
     float diff = bandwidth_ * 1000 / scs_;
     numberOfFreq_ = (int)diff * 12;
@@ -131,13 +130,13 @@ void Signal::calculateFFTSize()
     }
 }
 
-void Signal::calculateSamplingTime()
+void Symbol::calculateSamplingTime()
 {
     // In [nanoSec]
     samplingTime_ = 1000 / ( static_cast<double>(scs_) * static_cast<double>(FFTSize_ / 1000) );
 }
 
-void Signal::normalize(QVector<QVector<arma::cx_double>> &IQ, int byValue)
+void Symbol::normalize(QVector<QVector<arma::cx_double>> &IQ, int byValue)
 {
     double max = -1000000;
     for (int i = 0; i < IQ.length(); i++)
@@ -166,28 +165,28 @@ void Signal::normalize(QVector<QVector<arma::cx_double>> &IQ, int byValue)
     }
 }
 
-void Signal::calculateDoppler(int carrierFreq, double angle, double dopplerSpeed)
+void Symbol::calculateDoppler(int carrierFreq, double angle, double speed)
 {
     double angleRad = (angle * arma::datum::pi) / 180;
-    double speedUe = (dopplerSpeed * 1000) / 3600;
+    double speedUe = (speed * 1000) / 3600;
     dopplerFreq_ = (speedUe * qCos(0) *carrierFreq) / c_;
 }
 
-Signal* Signal::copy(void)
+Symbol* Symbol::copy(void)
 {
-    Signal *txSignal = new Signal();
+    Symbol *txSignal = new Symbol();
     txSignal->setPowerValues(getPowerValues());
     txSignal->setIQValues(getIQValues());
 
     return txSignal;
 }
 
-void Signal::fromTbToSignal(QVector<TransportBlock> tbContainer)
+void Symbol::fromTbToSignal(QVector<TransportBlock> tbContainer)
 {
 
 }
 
-void Signal::fillRandomData(int mimoSize, int length)
+void Symbol::fillRandomData(int mimoSize, int length)
 {
     QVector<bool> oneLayer;
     for (int i = 0; i < mimoSize; i++)
@@ -206,7 +205,7 @@ void Signal::fillRandomData(int mimoSize, int length)
 }
 
 
-void Signal::modulateData(int modulationOrder, QVector<QVector<bool>> &dataArray)
+void Symbol::modulateData(int modulationOrder, QVector<QVector<bool>> &dataArray)
 {
     int N = dataArray.length();
     switch (modulationOrder)
@@ -235,7 +234,7 @@ void Signal::modulateData(int modulationOrder, QVector<QVector<bool>> &dataArray
     }
 }
 
-QVector<arma::cx_double> Signal::QPSK(QVector<bool> &dataArray)
+QVector<arma::cx_double> Symbol::QPSK(QVector<bool> &dataArray)
 {
     QVector<arma::cx_double> modulated;
     for (int i = 0; i < dataArray.length(); i = i + 2){
@@ -248,7 +247,7 @@ QVector<arma::cx_double> Signal::QPSK(QVector<bool> &dataArray)
     return modulated;
 }
 
-QVector<arma::cx_double> Signal::QAM16(QVector<bool> &dataArray)
+QVector<arma::cx_double> Symbol::QAM16(QVector<bool> &dataArray)
 {
     QVector<arma::cx_double> modulated;
     for (int i = 0; i < dataArray.length(); i = i + 4){
@@ -261,7 +260,7 @@ QVector<arma::cx_double> Signal::QAM16(QVector<bool> &dataArray)
     return modulated;
 }
 
-QVector<arma::cx_double> Signal::QAM64(QVector<bool> &dataArray)
+QVector<arma::cx_double> Symbol::QAM64(QVector<bool> &dataArray)
 {
     QVector<arma::cx_double> modulated;
     for (int i = 0; i < dataArray.length(); i = i + 6){
@@ -276,7 +275,7 @@ QVector<arma::cx_double> Signal::QAM64(QVector<bool> &dataArray)
     return modulated;
 }
 
-QVector<arma::cx_double> Signal::QAM256(QVector<bool> &dataArray)
+QVector<arma::cx_double> Symbol::QAM256(QVector<bool> &dataArray)
 {
     QVector<arma::cx_double> modulated;
     for (int i = 0; i < dataArray.length(); i = i + 8){
@@ -292,7 +291,7 @@ QVector<arma::cx_double> Signal::QAM256(QVector<bool> &dataArray)
 }
 
 
-void Signal::demodulateIQ(int modulationOrder, QVector<QVector<arma::cx_double>> &IQValues)
+void Symbol::demodulateIQ(int modulationOrder, QVector<QVector<arma::cx_double>> &IQValues)
 {
     int N = IQValues.length();
 
@@ -321,7 +320,7 @@ void Signal::demodulateIQ(int modulationOrder, QVector<QVector<arma::cx_double>>
     }
 }
 
-QVector<bool> Signal::demQPSK(QVector<arma::cx_double> &IQValues)
+QVector<bool> Symbol::demQPSK(QVector<arma::cx_double> &IQValues)
 {
     int MO = 2;
     QVector<bool> demodulatedData;
@@ -336,7 +335,7 @@ QVector<bool> Signal::demQPSK(QVector<arma::cx_double> &IQValues)
     originalIQ = QPSK(originalModulation);
     for (int i = 0; i < IQValues.length(); i++){
         double diff = 0;
-        double min = 100000.;
+        double min = 100000.0;
         int localIndex = 0;
         for (int j = 0; j < originalIQ.length(); j++){
             diff = qSqrt(   qPow(originalIQ[j].real() - IQValues[i].real(), 2) + 
@@ -358,7 +357,7 @@ QVector<bool> Signal::demQPSK(QVector<arma::cx_double> &IQValues)
     return demodulatedData;
 }
 
-QVector<bool> Signal::demQAM16(QVector<arma::cx_double> &IQValues)
+QVector<bool> Symbol::demQAM16(QVector<arma::cx_double> &IQValues)
 {
     int MO = 4;
     QVector<bool> demodulatedData;
@@ -395,7 +394,7 @@ QVector<bool> Signal::demQAM16(QVector<arma::cx_double> &IQValues)
     return demodulatedData;
 }
 
-QVector<bool> Signal::demQAM64(QVector<arma::cx_double> &IQValues)
+QVector<bool> Symbol::demQAM64(QVector<arma::cx_double> &IQValues)
 {
     int MO = 6;  
     QVector<bool> demodulatedData;
@@ -436,7 +435,7 @@ QVector<bool> Signal::demQAM64(QVector<arma::cx_double> &IQValues)
     return demodulatedData;
 }
 
-QVector<bool> Signal::demQAM256(QVector<arma::cx_double> &IQValues)
+QVector<bool> Symbol::demQAM256(QVector<arma::cx_double> &IQValues)
 {
     int MO = 8;  
     QVector<bool> demodulatedData;
@@ -493,7 +492,7 @@ QVector<bool> Signal::demQAM256(QVector<arma::cx_double> &IQValues)
 //     }
 // }
 
-void Signal::layersIFFT(QVector<QVector<arma::cx_double>> &modulatedIQ)
+void Symbol::layersIFFT(QVector<QVector<arma::cx_double>> &modulatedIQ)
 {
     int N = modulatedIQ.length();
     for (int i = 0; i < N; i++)
@@ -502,7 +501,7 @@ void Signal::layersIFFT(QVector<QVector<arma::cx_double>> &modulatedIQ)
     }
 }
 
-QVector<arma::cx_double> Signal::IFFT(QVector<arma::cx_double> vector)
+QVector<arma::cx_double> Symbol::IFFT(QVector<arma::cx_double> vector)
 {
     int N = vector.length();
     QVector<arma::cx_double> afterIFFT;
@@ -524,7 +523,7 @@ QVector<arma::cx_double> Signal::IFFT(QVector<arma::cx_double> vector)
     return afterIFFT;
 }
 
-void Signal::layersFFT(QVector<QVector<arma::cx_double>> &timeIO)
+void Symbol::layersFFT(QVector<QVector<arma::cx_double>> &timeIO)
 {
     int N = timeIO.length();
     for (int i = 0; i < N; i++){
@@ -532,7 +531,7 @@ void Signal::layersFFT(QVector<QVector<arma::cx_double>> &timeIO)
     }
 }
 
-QVector<arma::cx_double> Signal::FFT(QVector<arma::cx_double> vector)
+QVector<arma::cx_double> Symbol::FFT(QVector<arma::cx_double> vector)
 {
     int N = vector.length();
     QVector<arma::cx_double> afterFFT;
@@ -557,27 +556,52 @@ QVector<arma::cx_double> Signal::FFT(QVector<arma::cx_double> vector)
     return afterFFT;   
 }
 
-void Signal::layersIFFTCarrier( QVector<QVector<arma::cx_double>> &modulatedIQ, int size, int freqHz, 
-                                int numerology, double dopplerSpeed)
+// void Signal::layersArmaIFFT(QVector<QVector<arma::cx_double>> &modulatedIQ, int size_fft)
+// {
+//     int N = modulatedIQ.length();
+//     for (int i = 0; i < N; i++)
+//     {
+//         signalInTime_.push_back(armaIFFT(modulatedIQ[i], size_fft));
+//     }
+// }
+
+// QVector<arma::cx_double> Signal::armaIFFT(QVector<arma::cx_double> vector, int size_fft)
+// {
+//     return arma::ifft(vector, size_fft);
+// }
+
+// void Signal::layersArmaFFT(QVector<QVector<arma::cx_double>> &timeIO, int size_fft)
+// {
+//     int N = timeIO.length();
+//     for (int i = 0; i < N; i++){
+//         signalInFreq_.push_back(armaFFT(timeIO[i], size_fft));
+//     }
+// }
+
+// QVector<arma::cx_double> Signal::armaFFT(QVector<arma::cx_double> vector, int size_fft)
+// {
+//     return arma::fft(vector);
+// }
+
+void Symbol::layersIFFTCarrier( QVector<QVector<arma::cx_double>> &modulatedIQ, 
+                                int numerology, double speed)
 {
     int N = modulatedIQ.length();
     for (int i = 0; i < N; i++){
-        signalInTime_.push_back(IFFTCarrier(modulatedIQ[i], size, freqHz, numerology, dopplerSpeed));
+        signalInTime_.push_back(IFFTCarrier(modulatedIQ[i], numerology, speed));
     }
 }
 
 
-void Signal::layersFFTCarrier(QVector<QVector<arma::cx_double>> &timeIO, int size, int freqHz, int numerology)
+void Symbol::layersFFTCarrier(QVector<QVector<arma::cx_double>> &timeIO, int numerology)
 {
     int N = timeIO.length();
     for (int i = 0; i < N; i++){
-        signalInFreq_.push_back(FFTCarrier(timeIO[i], size, freqHz, numerology));
+        signalInFreq_.push_back(FFTCarrier(timeIO[i], numerology));
     }
-
 }
 
-QVector<arma::cx_double> Signal::IFFTCarrier(   QVector<arma::cx_double> vector, int size, int freqHz, 
-                                                int numerology, double dopplerSpeed)
+QVector<arma::cx_double> Symbol::IFFTCarrier(QVector<arma::cx_double> vector, int numerology, double speed)
 {
     int N = vector.length();
     QVector<arma::cx_double> afterIFFT;
@@ -588,8 +612,11 @@ QVector<arma::cx_double> Signal::IFFTCarrier(   QVector<arma::cx_double> vector,
         double arg = 0.0;
         for (int j = 0; j < N; j++)
         {
-            calculateDoppler(freqHz + numerology * j, 0, dopplerSpeed);
-            arg = (2 * arma::datum::pi * i * (freqHz + numerology * j + dopplerFreq_)) / N;
+            calculateDoppler(getStartFreqHz() + numerology * j, 0, speed);
+
+            double dopplerRad = dopplerFreq_ / getStartFreqHz();
+
+            arg = (2 * arma::datum::pi * i * (j - 2 * arma::datum::pi * dopplerRad)) / N;
             localSummReal += (vector[j].real() * cos(arg)) - (vector[j].imag() * sin(arg));
             localSummImag += (vector[j].real() * sin(arg)) + (cos(arg) * vector[j].imag());
         }
@@ -599,7 +626,7 @@ QVector<arma::cx_double> Signal::IFFTCarrier(   QVector<arma::cx_double> vector,
     return afterIFFT;
 }
 
-QVector<arma::cx_double> Signal::FFTCarrier(QVector<arma::cx_double> vector, int size, int freqHz, int numerology)
+QVector<arma::cx_double> Symbol::FFTCarrier(QVector<arma::cx_double> vector, int numerology)
 {
     int N = vector.length();
     QVector<arma::cx_double> afterFFT;
@@ -610,7 +637,7 @@ QVector<arma::cx_double> Signal::FFTCarrier(QVector<arma::cx_double> vector, int
         double arg = 0;
         for (int j = 0; j < N; j++)
         {
-            arg = (2 * arma::datum::pi * i * (freqHz + numerology * j) ) / N ;
+            arg = (2 * arma::datum::pi * i * (j) ) / N ;
             localSummReal += (vector[j].real() * cos(arg)) - (vector[j].imag() * (-1) * sin(arg));
             localSummImag += (vector[j].real() * (-1) * sin(arg)) + (cos(arg) * vector[j].imag());
         }
@@ -621,7 +648,7 @@ QVector<arma::cx_double> Signal::FFTCarrier(QVector<arma::cx_double> vector, int
     return afterFFT;
 }
 
-void Signal::compareData()
+void Symbol::compareData()
 {
     int mimoN = dataArray_.length();
     int N = dataArray_[0].length();
@@ -637,25 +664,25 @@ void Signal::compareData()
             }
         }
         BER = count / static_cast<double>(N) *100;
-        BER_[i] = BER;
+        BER_[0] = BER;
         qDebug() << "BER -> " << BER;
     }
 }
 
-QVector<double> &Signal::getBER()
+QVector<double> &Symbol::getBER()
 {
     return BER_;
 }
 
-double Signal::transmitAndReceive(int MO, int speed)
+double Symbol::transmitAndReceive(int MO, int speed)
 {
-    fillRandomData(1, 4800);
+    fillRandomData(1, 1000);
     modulateData(MO, getDataArray());
     //normalize(getModulatedIQ(), 100);
-    // layersIFFTCarrier(getModulatedIQ(), 0, startFrequencyHz_, scs_ * 1000, speed);
-    // layersFFTCarrier(getSignalInTime(), 0, startFrequencyHz_, scs_ * 1000);
-    layersIFFTCarrier(getModulatedIQ(), 0, 2600000000, 30 * 1000, 0);
-    layersFFTCarrier(getSignalInTime(), 0, 2600000000, 30 * 1000);
+    layersIFFTCarrier(getModulatedIQ(), scs_ * 1000, speed);
+    layersFFTCarrier(getSignalInTime(), scs_ * 1000);
+    // layersIFFTCarrier(getModulatedIQ(), 0, getStartFreqHz(), 30 * 1000, 1);
+    // layersFFTCarrier(getSignalInTime(), 0, getStartFreqHz(), 30 * 1000);
     demodulateIQ(MO, getSignalInFreq());
     compareData();
 }
@@ -670,7 +697,7 @@ double Signal::transmitAndReceive(int MO, int speed)
 
 // }
 
-void Signal::printIQValues(QVector<QVector<arma::cx_double>> &IQ, QString str)
+void Symbol::printIQValues(QVector<QVector<arma::cx_double>> &IQ, QString str)
 {
     for (int i = 0; i < IQ.length(); i++)
     {
@@ -681,7 +708,7 @@ void Signal::printIQValues(QVector<QVector<arma::cx_double>> &IQ, QString str)
     }
 }
 
-void Signal::printSignalInfo()
+void Symbol::printSignalInfo()
 {
     qDebug() << "Signal::printSignalInfo()--> ";
     qDebug() << "Signal::printSignalInfo()--> Freq: " << startFrequency_;
@@ -695,4 +722,14 @@ void Signal::printSignalInfo()
         qDebug() << "Signal::printSignalInfo()--> BER: " << BER_[i];
     }
     qDebug() << "Signal::printSignalInfo()--> Aver. EVM: " << averageEVM_;
+}
+
+void Symbol::printData(QVector<QVector<bool>> &data)
+{
+    for (int i = 0; i < data.length(); i++)
+    {
+        qDebug() << "Data Array for antenna port " << '[' << i << "]: ";
+        qDebug() << data[i];
+    }
+    
 }

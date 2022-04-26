@@ -16,6 +16,8 @@ public:
     {
       ROUND_ROBIN,
       PROPOTIONAL_FAIR,
+      BEST_CQI,
+      SOMETHING_ELSE,
     };
 
 protected:
@@ -40,7 +42,7 @@ private:
     int nMinPrbPerUe_ = 1;
 
 public:
-    Scheduler();
+    Scheduler(Cell *cell, Scheduler::SchedulingAlgorithm algo);
 
     void doSchedule(QVector<UserEquipment*> *userEquipmentContainer);
 

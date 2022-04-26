@@ -6,7 +6,7 @@
 class CartesianCoordinates;
 class PropagationLossModel;
 class PacketBurst;
-class Signal;
+class Symbol;
 class Equipment;
 
 class RadioChannel
@@ -40,8 +40,8 @@ public:
     void setChannelId(int id);
     int getChannelId();
 
-    void startTx(Signal *txSignal, Equipment* src);
-    void startRx(Signal *rxSignal, Equipment* src);
+    void startTx(Symbol *txSignal, Equipment* src);
+    void startRx(Symbol *rxSignal, Equipment* src);
 
     void addDevice(Equipment *e);
     QVector<Equipment*>* getConnectedDevices();

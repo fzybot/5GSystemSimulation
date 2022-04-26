@@ -11,12 +11,15 @@
 #include <QVector>
 #include <QRandomGenerator>
 
-Scheduler::Scheduler()
+Scheduler::Scheduler(Cell *cell, Scheduler::SchedulingAlgorithm algo)
 {
     cell_ = nullptr;
     firstQueue_ = new QVector<UserEquipment *>;
     timeQueue_ = new QVector<UserEquipment *>;
     freqQueue_ = new QVector<UserEquipment *>;
+
+    setCell(cell);
+    setAlgorithm(algo);
 }
 
 void Scheduler::setAlgorithm(Scheduler::SchedulingAlgorithm algo)
@@ -31,9 +34,9 @@ Scheduler::SchedulingAlgorithm Scheduler::getAlgorithm()
 
 void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
 {
-    qDebug() << "Current Cell Id------>" << cell_->getEquipmentId();
-    int nPrb = cell_->getPhyEntity()->getBandwidthContainer()[0][0]->getNumberOfPRB();
-    QPair<int, int> coreset = cell_->getPhyEntity()->getBandwidthContainer()[0][0]->getCoresetSize();
+    qDebug() << "Current Cell Id------>" << getCell()->getEquipmentId();
+    int nPrb = getCell()->getPhyEntity()->getBandwidthContainer()[0][0]->getNumberOfPRB();
+    QPair<int, int> coreset = getCell()->getPhyEntity()->getBandwidthContainer()[0][0]->getCoresetSize();
     int coresetSize = coreset.first * coreset.second * 12; // 12 subcarriers in 1 RB
     int slot = getCell()->getLocalOwnTimeSlot();
     updateAvailableNumPRB(nPrb);
@@ -84,7 +87,7 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer, int 
     int codeRateSize = 0;
     for (auto timeUE : *userEquipmentContainer)
     {
-        double ueSINR = timeUE->getSINR();
+        double ueSINR = timeUE->getSinrPerBandidth(0);
         int ueBufferSize = timeUE->getBufferSize();
         int cqi = getCell()->getMacEntity()->getAMCEntity()->getCQIFromSinr (ueSINR);
         int mcs = getCell()->getMacEntity()->getAMCEntity()->getMCSFromCQI(cqi);

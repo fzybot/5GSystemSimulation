@@ -14,7 +14,7 @@ Cell::Cell()
     // Protocols Configuration
     // Physical
     createPhyEntity();
-    //getPhyEntity()->defaultPhyConfig();
+    getPhyEntity()->defaultPhyConfig();
 
     // MAC Layer
     createMacEntity();
@@ -68,8 +68,7 @@ Antenna *Cell::getAntenna()
 
 void Cell::createMacEntity()
 {
-    macEntity_ = new CellMacEntity();
-    macEntity_->setDevice(this);
+    macEntity_ = new CellMacEntity(this);
     macEntity_->createScheduler(Scheduler::SchedulingAlgorithm::ROUND_ROBIN);
 }
 
@@ -81,6 +80,11 @@ void Cell::setMacEntity(CellMacEntity *cellMac)
 CellMacEntity *Cell::getMacEntity()
 {
     return macEntity_;
+}
+
+void Cell::schedule()
+{
+    getMacEntity()->schedule();
 }
 
 void Cell::pathLosDetach()
