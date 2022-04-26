@@ -27,7 +27,7 @@ UserEquipment::UserEquipment(int id,
     setTargetCell(cell);
     setTargetGNodeB(targetGNodeB);
 
-    // Physical
+    // Physical config
     createPhyEntity();
     setLinkBudgetParameters();
     getPhyEntity()->defaultPhyConfig();
@@ -38,8 +38,6 @@ UserEquipment::UserEquipment(int id,
     int bearerId = 3;
     bearerContainer_ = new QVector<RadioBearer *>();
     createDefaultBearer(bearerId);
-
-
     // Additional Data Bearer
     bearerId++;
     int randQoSProfile = QRandomGenerator::global()->bounded(1, 9);
