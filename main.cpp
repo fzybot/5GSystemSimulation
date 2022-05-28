@@ -38,14 +38,14 @@ int main(int argc, char *argv[])
     mainWin.show();
 
 
-    // Simple();
+    Simple();
 
     //##############################################################################
     //                   Testing features (in src/scenarios/tests.h)
     //##############################################################################
 
     // simpleTest();
-    //runModulationPerformance();
+    // runModulationPerformance();
 
     //##############################################################################
     return app.exec();

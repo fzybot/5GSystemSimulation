@@ -96,6 +96,7 @@ HEADERS += \
     src/protocols/phy/Symbol.h \
     src/protocols/phy/modulationOrderValues.h \
     src/scenarios/modulationPerformance.h \
+    src/scenarios/schedulerAnalysis.h \
     src/scenarios/simple.h \
     src/scenarios/testModel.h \
     src/visualization/ChartGroupWidget.h \

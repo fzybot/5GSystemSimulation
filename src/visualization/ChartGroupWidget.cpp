@@ -43,15 +43,15 @@ ChartGroupWidget::ChartGroupWidget(QWidget *parent) :
     //dataTable_(generateRandomData(listCount_))
 {
 
-    QVector<QVector<QPair<int, int>>> data = Simple();
-    QVector<QVector<QPair<int, int>>> dataThroughput;
-    QVector<QVector<QPair<int, int>>> prbUtilized;
-    QVector<QVector<QPair<int, int>>> dataDelay;
-    QVector<QVector<QPair<int, int>>> dataBler;
+    // QVector<QVector<QPair<int, int>>> data = Simple();
+    // QVector<QVector<QPair<int, int>>> dataThroughput;
+    // QVector<QVector<QPair<int, int>>> prbUtilized;
+    // QVector<QVector<QPair<int, int>>> dataDelay;
+    // QVector<QVector<QPair<int, int>>> dataBler;
 
-    dataThroughput.push_back(data[0]);
-    dataThroughput.push_back(data[1]);
-    prbUtilized.push_back(data[2]);
+    // dataThroughput.push_back(data[0]);
+    // dataThroughput.push_back(data[1]);
+    // prbUtilized.push_back(data[2]);
 
     QGridLayout *grid = new QGridLayout(this);
     grid->setSpacing(2);
@@ -80,13 +80,13 @@ ChartGroupWidget::ChartGroupWidget(QWidget *parent) :
     // grid->addWidget(chartView, 1, 0);
     // charts_ << chartView;
 
-    chartView = new QChartView(createLineChart(dataThroughput, "Cell Throughput (TBS/Pure)"));
-    grid->addWidget(chartView, 0, 1);
-    charts_ << chartView;
+    // chartView = new QChartView(createLineChart(dataThroughput, "Cell Throughput (TBS/Pure)"));
+    // grid->addWidget(chartView, 0, 1);
+    // charts_ << chartView;
 
-    chartView = new QChartView(createLineChart(prbUtilized, "PRB Utilized"));
-    grid->addWidget(chartView, 1, 1);
-    charts_ << chartView;
+    // chartView = new QChartView(createLineChart(prbUtilized, "PRB Utilized"));
+    // grid->addWidget(chartView, 1, 1);
+    // charts_ << chartView;
 
     // chartView = new QChartView(createBarChart(valueCount_));
     // grid->addWidget(chartView, 2, 0);

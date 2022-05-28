@@ -338,15 +338,21 @@ QVector<bool> Symbol::demQPSK(QVector<arma::cx_double> &IQValues)
         double min = 100000.0;
         int localIndex = 0;
         for (int j = 0; j < originalIQ.length(); j++){
-            diff = qSqrt(   qPow(originalIQ[j].real() - IQValues[i].real(), 2) + 
+            diff = qFabs( qSqrt(   qPow(originalIQ[j].real() - IQValues[i].real(), 2) + 
                             qPow(originalIQ[j].imag() - IQValues[i].imag(), 2)
-                        );
-            if(diff <= min){
+                        ));
+            // diff =  qFabs( 
+            //                 qSqrt(qPow(originalIQ[j].real(), 2) + qPow(originalIQ[j].imag(), 2)) - 
+            //                 qSqrt(qPow(IQValues[i].real(), 2) + qPow(IQValues[i].imag(), 2)) 
+            //             );
+            qDebug() << "Diff  = --> " << diff;
+            if (diff <= min)
+            {
                 min = diff;
                 localIndex = j;
-
             }
         }
+        qDebug() << "EVM  = --> " << min;
         averageEVM_ += min;
         demodulatedData.push_back(originalModulation[localIndex * MO]);
         demodulatedData.push_back(originalModulation[localIndex*MO + 1]);
@@ -614,9 +620,9 @@ QVector<arma::cx_double> Symbol::IFFTCarrier(QVector<arma::cx_double> vector, in
         {
             calculateDoppler(getStartFreqHz() + numerology * j, 0, speed);
 
-            double dopplerRad = dopplerFreq_ / getStartFreqHz();
+            double dopplerRad =  (dopplerFreq_ / getStartFreqHz());
 
-            arg = (2 * arma::datum::pi * i * (j - 2 * arma::datum::pi * dopplerRad)) / N;
+            arg = (2 * arma::datum::pi * i * (j -  dopplerRad)) / N;
             localSummReal += (vector[j].real() * cos(arg)) - (vector[j].imag() * sin(arg));
             localSummImag += (vector[j].real() * sin(arg)) + (cos(arg) * vector[j].imag());
         }

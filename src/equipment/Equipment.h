@@ -38,7 +38,8 @@ public:
         UMi_LOS,
         UMi_NLOS,
         UMa_LOS,
-        UMaNLOS
+        UMa_NLOS,
+        COST231_Hata,
     };
 
 protected:
@@ -131,8 +132,8 @@ public:
     double calculateDistanceToUserEquipment(UserEquipment *targetUser);
     double calculatePathLosToCell(Cell *targetCell, double distance);
     double calculatePathLosToUserEquipment(UserEquipment *targetUser, double distance);
-    double calculateRssiFromUserEquipment(UserEquipment *targetUser, double pathLos);
-    double calculateRssiFromCell(Cell *targetCell, double pathLos);
+    double calculateRssiFromUserEquipment(UserEquipment *targetUser, double distance);
+    double calculateRssiFromCell(Cell *targetCell, double distance);
     double calculateRsrpFromRssi(Bandwidth *BW, double rssi);
 
     void sync120TimeSlot(int &timeSlot);

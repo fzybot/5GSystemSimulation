@@ -48,8 +48,7 @@ static QVector<QVector<QPair<int, int>>> &Simple ()
     int posY_ue = 500;
     double posZ_ue = 1.5;
     UserEquipment *ue = networkManager->createUserEquipment(idUE, posX_ue, posY_ue, posZ_ue, cell, gNb);
-    ue->getPhyEntity()->configNewBandwidth("FR1", "n3", NUMEROLOGY[0], 10, 50, 0, 0, true);
-    ue->getPhyEntity()->configNewBandwidth("FR1", "n8", NUMEROLOGY[0], 10, 50, 0, 0, true);
+    //ue->getPhyEntity()->configNewBandwidth("FR1", "n3", NUMEROLOGY[0], 10, 50, 0, 0, true);
     channel->addDevice(ue);
 
     // int idUE2 = 3;
@@ -59,9 +58,9 @@ static QVector<QVector<QPair<int, int>>> &Simple ()
     // UserEquipment *ue2 = networkManager->createUserEquipment(idUE2, posX_ue2, posY_ue2, posZ_ue2, cell, gNb);
     // channel->addDevice(ue2);
 
-    // int nUe = 10;
-    // networkManager->createMultipleUserEquipments(nUe, 0, 1000, 0, 1000, 10, cell, gNb);
-    // debug("Simple: User Equipments entity are created");
+    int nUe = 10;
+    networkManager->createMultipleUserEquipments(nUe, 0, 1000, 0, 1000, 10, cell, gNb);
+    debug("Simple: User Equipments entity are created");
 
     networkManager->setSINRCalcMethod(NetworkManager::SINRCalcMethod::STUPID);
     networkManager->runNetwork();

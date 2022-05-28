@@ -169,28 +169,51 @@ double Equipment::calculatePathLosToCell(Cell *targetCell, double distance)
     double heightBs = targetCell->getMobilityModel()->getPosition()->getCoordinateZ();
     double heightUe = getMobilityModel()->getPosition()->getCoordinateZ();
     int centerFrequency = targetCell->getPhyEntity()->getBandwidthContainer()[0][0]->getCarrierFreq();
+    double pathLoss = 0;
+    
+    switch (getPropagationModel())
+    {
+    case Equipment::PropagationModel::UMi_LOS:
+        pathLoss = UMi_LOS(distance, 1, heightBs, heightUe, centerFrequency/1000, 0, 0, 0);
+        break;
+    case Equipment::PropagationModel::UMi_NLOS:
+        pathLoss = UMi_NLOS(distance, 1, heightBs, heightUe, centerFrequency/1000, 0, 0, 0);
+        break;
+    case Equipment::PropagationModel::UMa_LOS:
+        pathLoss = UMa_LOS(distance, 1, heightBs, heightUe, centerFrequency/1000, 0, 0, 0);
+        break;
+    case Equipment::PropagationModel::UMa_NLOS:
+        pathLoss = UMa_NLOS(distance, 1, heightBs, heightUe, centerFrequency/1000, 0, 0, 0);
+        break;
+    case Equipment::PropagationModel::COST231_Hata:
+        pathLoss = UMa_LOS(distance, 1, heightBs, heightUe, centerFrequency/1000, 0, 0, 0);
+        break;
+    } 
 
-    return UMi_LOS(distance, 1, heightBs, heightUe, centerFrequency/1000, 0, 0, 0);
+    return pathLoss;
 }
 
 double Equipment::calculatePathLosToUserEquipment(UserEquipment *targetUser, double distance)
 {
+    // TODO: add frequency filter
     double heightUe = getMobilityModel()->getPosition()->getCoordinateZ();
     double heightUeTarget = targetUser->getMobilityModel()->getPosition()->getCoordinateZ();
     double centerFrequency = getPhyEntity()->getBandwidthContainer()[0][0]->getCarrierFreq();
     double bandwidth = getPhyEntity()->getBandwidthContainer()[0][0]->getBandwidth();
 
-    return UMi_LOS(distance, 1, heightUeTarget, heightUe, centerFrequency/1000, 0, 0, 0);
+    return UMa_LOS(distance, 1, heightUeTarget, heightUe, centerFrequency/1000, 0, 0, 0);
 }
 
-double Equipment::calculateRssiFromUserEquipment(UserEquipment *targetUser, double pathLos)
+double Equipment::calculateRssiFromUserEquipment(UserEquipment *targetUser, double distance)
 {
-    return targetUser->getEirp() - pathLos - getNoiseFigure() - 20;
+    double pathLoss = calculatePathLosToUserEquipment(targetUser, distance);
+    return targetUser->getEirp() - pathLoss - getNoiseFigure();
 }
 
-double Equipment::calculateRssiFromCell(Cell *targetCell, double pathLos)
+double Equipment::calculateRssiFromCell(Cell *targetCell, double distance)
 {
-    return targetCell->getEirp() - pathLos - getNoiseFigure() - 20;
+    double pathLoss = calculatePathLosToCell(targetCell, distance);
+    return targetCell->getEirp() - pathLoss - getNoiseFigure();
 }
 
 double Equipment::calculateRsrpFromRssi(Bandwidth *BW, double rssi)

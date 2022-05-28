@@ -179,7 +179,13 @@ double InF_NLOS_DH(double distance2Dout, double distance2Din, double heightBS, d
                        centerFrequency, h, W, shadowFading), PL_InF_NLOS_DH);
 }
 
-
+double COST231_Hata(double distance2Dout, double distance2Din, double heightBS, double heightUT,
+    double centerFrequency, double h, double W, double shadowFading)
+{
+    double d_3D = distance3D(distance2Dout, distance2Din, heightBS, heightUT);
+    double loss = 0;
+    return loss;
+}
 
 //LOS probabilitys
 double RMa_LOS_probability(double distance2Dout, double distance2Din, double heightBS, double heightUT)

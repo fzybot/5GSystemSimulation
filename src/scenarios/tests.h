@@ -67,27 +67,28 @@ static void simpleTest()
     // Modulation test
     //**************************************************************
 
-    // int centralFrequency = 2600;
-    // int scs = 15;
-    // int bw = 100;
-    // int speed = 500;
+    int centralFrequency = 2600;
+    int scs = 15;
+    int bw = 100;
+    int speed = 100;
+    int MO = 2;
 
-    // Signal signal(centralFrequency, scs, bw);
+    Symbol signal(centralFrequency, scs, bw);
 
-    // signal.fillRandomData(1, 16000);
-    // signal.modulateData(8, signal.getDataArray());
-    // // signal.printIQValues(signal.getModulatedIQ());
-    // qDebug() << "EVM --> " << signal.getAverageEvm();
-    // //signal.normalize(signal.getModulatedIQ(), 1);
-    // signal.layersIFFTCarrier(signal.getModulatedIQ(), scs, speed);
-    // // signal.printIQValues(signal.getSignalInTime(), "IFFT--> ");
-    // signal.layersFFTCarrier(signal.getSignalInTime(), scs);
-    // // signal.printIQValues(signal.getSignalInFreq(), "FFT--> ");
-    // signal.demodulateIQ(8, signal.getSignalInFreq());
-    // // signal.printData(signal.getDataArray());
-    // // signal.printData(signal.getDataArrayDemodulated());
-    // signal.compareData();
-    // signal.printSignalInfo();
+    signal.fillRandomData(1, 16);
+    signal.modulateData(MO, signal.getDataArray());
+    signal.printIQValues(signal.getModulatedIQ());
+    qDebug() << "EVM --> " << signal.getAverageEvm();
+    //signal.normalize(signal.getModulatedIQ(), 1);
+    signal.layersIFFTCarrier(signal.getModulatedIQ(), scs, speed);
+    // signal.printIQValues(signal.getSignalInTime(), "IFFT--> ");
+    signal.layersFFTCarrier(signal.getSignalInTime(), scs);
+    signal.printIQValues(signal.getSignalInFreq(), "FFT--> ");
+    signal.demodulateIQ(MO, signal.getSignalInFreq());
+    // signal.printData(signal.getDataArray());
+    // signal.printData(signal.getDataArrayDemodulated());
+    signal.compareData();
+    signal.printSignalInfo();
 
     // AntennaArray ant1;
     // ant1.calculateElevationGrid();

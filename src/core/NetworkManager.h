@@ -17,7 +17,8 @@ public:
     {
         STUPID,
         SIGNAL,
-        SIGNAL_DOPPLER
+        SIGNAL_DOPPLER,
+        WO_BUILDINGS,
     };
 private:
     int cellIdLocal_;
@@ -96,12 +97,15 @@ public:
     float calculatePathLosses(UserEquipment *user1, UserEquipment *user2);
     // 'Equipment' is equal to 'Cell' & 'UserEquipment'
     double calcOnePointSINR();
+    double calculate_sinr_per_user(UserEquipment *user1);
     void calculateSINRPerEquipment(NetworkManager::SINRCalcMethod method);
+    void calculateSINRPerEquipment_wo_buildings();
     void calculateSINRPerEquipment_stupid();
     void calculateSINRPerEquipment_signals();
     void calculateSINRPerEquipment_signal_doppler();
+    double summ_dBm(double dbm1, double dbm2);
 
-// ----- [ SIMULATION ] ------------------------------------------------------------------------------------------------
+    // ----- [ SIMULATION ] ------------------------------------------------------------------------------------------------
 
     void runNetwork();
 

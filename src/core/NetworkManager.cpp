@@ -369,18 +369,34 @@ void NetworkManager::initialCellSelection(int slot)
     }
 }
 
-float NetworkManager::calculatePathLosses(Cell *cell, UserEquipment *user)
+double NetworkManager::summ_dBm(double dbm1, double dbm2)
 {
-    float pathLosses = 0;
-
-    return pathLosses;
+    double summ = 0;
+    //summ = dbm1 + 10 * std::log10(1 + qPow(2, qFabs(dbm1 - dbm2) / 3));
+    return summ;
 }
 
-float NetworkManager::calculatePathLosses(UserEquipment *user1, UserEquipment *user2)
+double NetworkManager::calculate_sinr_per_user(UserEquipment *user1)
 {
-    float pathLosses = 0;
-    
-    return pathLosses;
+    double sinr = 0;
+    double interference = 0;
+    int bwIndex = 0;
+    int count = 0;
+    for (auto ue : *getUserEquipmentContainer())
+    {
+        if (user1 != ue){
+            double distance = user1->calculateDistanceToUserEquipment(ue);
+            double rssi = user1->calculateRssiFromUserEquipment(ue, distance);
+            double rsrp = user1->calculateRsrpFromRssi(user1->getPhyEntity()->getBandwidthContainer()[0][bwIndex], rssi);
+            interference = summ_dBm(interference, rsrp);
+            qDebug() << "Distance -->" << distance;
+            qDebug() << "rssi -->" << rssi;
+            qDebug() << "rsrp -->" << rsrp;
+            qDebug() << "Interference -->" << interference;
+        }
+    }
+
+    return sinr;
 }
 
 void NetworkManager::calculateSINRPerEquipment(NetworkManager::SINRCalcMethod method)
@@ -396,21 +412,25 @@ void NetworkManager::calculateSINRPerEquipment(NetworkManager::SINRCalcMethod me
     case NetworkManager::SINRCalcMethod::SIGNAL_DOPPLER:
         calculateSINRPerEquipment_signal_doppler();
         break;
-    default:
+    case NetworkManager::SINRCalcMethod::WO_BUILDINGS:
+        calculateSINRPerEquipment_wo_buildings();
         break;
     } 
 }
 
 void NetworkManager::calculateSINRPerEquipment_stupid()
 {
-    float sinr;
-    float pathLosses; // in [dBm]
+    double sinr;
+    double pathLosses; // in [dBm]
 
     for ( auto ue : *getUserEquipmentContainer() ) {
-        for ( auto cell: *getCellContainer() ) {
-            
-        }
+        sinr = calculate_sinr_per_user(ue);
     }
+}
+
+void NetworkManager::calculateSINRPerEquipment_wo_buildings()
+{
+    double sinr;
 }
 
 void NetworkManager::calculateSINRPerEquipment_signals()

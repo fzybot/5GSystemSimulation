@@ -39,27 +39,27 @@ QVector<QVector<QPair<float, float>>>   dopplerModulationPerformanceTest(
     QVector<QPair<float, float>> dataEvm, dataBer;
 
 
-    Symbol signal(centralFrequency, scs, bw);
+    Symbol symbol(centralFrequency, scs, bw);
 
     for (int speed = speedLow; speed < speedHigh; speed = speed + speedStep)
     {
         QPair<float, float> pairEvm, pairBer;
 
-        signal.transmitAndReceive(modulationOrder, speed);
-        //qDebug() << "Doppler freq -> " << signal.getDopplerFreq();
+        symbol.transmitAndReceive(modulationOrder, speed);
+        //qDebug() << "Doppler freq -> " << symbol.getDopplerFreq();
 
         pairEvm.first = speed;
-        pairEvm.second = signal.getAverageEvm();
+        pairEvm.second = symbol.getAverageEvm();
         dataEvm.push_back(pairEvm);
         
         
 
         pairBer.first = speed;
-        pairBer.second = signal.getBER()[0];
+        pairBer.second = symbol.getBER()[0];
         dataBer.push_back(pairBer);
 
-        stream  << QString::number(speed) << " " << QString::number(signal.getAverageEvm()) << " " 
-                << QString::number(signal.getBER()[0]) << endl;
+        stream  << QString::number(speed) << " " << QString::number(symbol.getAverageEvm()) << " " 
+                << QString::number(symbol.getBER()[0]) << endl;
     }
 
     localData.push_back(dataEvm);

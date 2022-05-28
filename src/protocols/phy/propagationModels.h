@@ -90,9 +90,11 @@ double InF_NLOS_SH(double distance2Dout, double distance2Din, double heightBS, d
 double InF_NLOS_DH(double distance2Dout, double distance2Din, double heightBS, double heightUT,
                int centerFrequency, double h, double W, double shadowFading);
 
-//LOS probabilitys
-//Note: The LOS probability is derived with assuming antenna
-//heights of 3m for indoor, 10m for UMi, and 25m for UMa
+double COST231_Hata(double distance2Dout, double distance2Din, double heightBS, double heightUT,
+    double centerFrequency, double h, double W, double shadowFading);
+// LOS probabilitys
+// Note: The LOS probability is derived with assuming antenna
+// heights of 3m for indoor, 10m for UMi, and 25m for UMa
 double RMa_LOS_probability(double distance2Dout, double distance2Din, double heightBS, double heightUT);
 
 double UMi_LOS_probability(double distance2Dout, double distance2Din, double heightBS, double heightUT);
