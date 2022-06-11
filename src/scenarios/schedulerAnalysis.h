@@ -1,13 +1,5 @@
 #pragma once
 
-
-
-
-
-
-
-
-
 // QVector<QVector<QPair<int, int>>> data = Simple();
 // QVector<QVector<QPair<int, int>>> dataThroughput;
 // QVector<QVector<QPair<int, int>>> prbUtilized;
