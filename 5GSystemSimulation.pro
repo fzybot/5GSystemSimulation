@@ -33,8 +33,9 @@ SOURCES += \
     src/protocols/mac_layer/CellMacEntity.cpp \
     src/protocols/mac_layer/TransportBlock.cpp \
     src/protocols/mac_layer/UeMacEntity.cpp \
+    src/protocols/phy/OfdmSymbol.cpp \
+    src/protocols/phy/Slot.cpp \
     src/protocols/phy/Symbol.cpp \
-    src/protocols/phy/ofdm_symbol.cpp \
     src/visualization/ChartGroupWidget.cpp \
     src/visualization/Chartable.cpp \
     src/visualization/HeatmapModel.cpp \
@@ -92,8 +93,9 @@ HEADERS += \
     src/protocols/mac_layer/CellMacEntity.h \
     src/protocols/mac_layer/TransportBlock.h \
     src/protocols/mac_layer/UeMacEntity.h \
+    src/protocols/phy/OfdmSymbol.h \
+    src/protocols/phy/Slot.h \
     src/protocols/phy/Symbol.h \
-    src/protocols/phy/ofdm_symbol.h \
     src/scenarios/modulationPerformance.h \
     src/scenarios/schedulerAnalysis.h \
     src/scenarios/simple.h \
