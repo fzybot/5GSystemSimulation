@@ -15,8 +15,6 @@ class Physical
 {
 protected:
     int                 numerologyIndex_ = 0;
-    RadioChannel        *dlChannel_;
-    RadioChannel        *ulChannel_;
     QVector<Bandwidth*> *bandwidthContainer_;
     double              carrierFreq_;
     Symbol              _symbol;
@@ -27,12 +25,6 @@ public:
     Physical();
 
     void defaultPhyConfig();
-
-    void setDLChannel(RadioChannel *channel);
-    RadioChannel *getDLChannel();
-
-    void setULchannel(RadioChannel *channel);
-    RadioChannel *getULChannel();
 
     void configNewBandwidth(QString fr, QString band, int scs, double ulBw,
                      double dlBw, int ulOffset, int dlOffset, bool tddTrue);

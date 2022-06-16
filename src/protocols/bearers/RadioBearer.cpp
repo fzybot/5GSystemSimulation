@@ -2,6 +2,7 @@
 #include "src/protocols/bearers/QoS/QoSProfile.h"
 #include "src/protocols/Packet.h"
 #include "src/protocols/bearers/ServiceTrafficProfile.h"
+#include "src/equipment/UserEquipment.h"
 
 #include <QRandomGenerator>
 #include <QDebug>
@@ -68,13 +69,14 @@ ServiceTrafficProfile &RadioBearer::getTrafficProfile()
 void RadioBearer::generatePackets(int number, int currentSlot)
 {
     if (this->getQoSProfile() != nullptr) {
-        for (int i = 0; i < number; i++) {
+        gPacketId_ = getUserEquipment()->getEquipmentId() * 1000000 + getId() * 100000;
+        for (int i = 0; i < number; i++)
+        {
             int size = QRandomGenerator::global()->bounded( this->getQoSProfile()->getDataBurstVolumeRange().first, 
                                                             this->getQoSProfile()->getDataBurstVolumeRange().second);
-            //qDebug() << "RadioBearer::generatePackets::Packt size ------>>>>> " << size;
-            Packet *pack = new Packet(size, currentSlot, i, this);
-            pack->setId(gPacketId_);
-            gPacketId_++;
+            gPacketId_ ++;
+            Packet *pack = new Packet(size, currentSlot, gPacketId_, this);
+            // qDebug() << "Pack id: " << pack->getId();
             packetsInBuffer_.push_back(pack);
             addToBuffer(size);
         }
@@ -117,10 +119,20 @@ void RadioBearer::deletePacket(Packet *packetToDelete)
             qDebug() << "RadioBearer::deletePacket:: packet deleted-->" << getPacketsContainer()[i]->getId();
             decreaseBuffer(packetToDelete->getSize());
             getPacketsContainer().remove(i);
-            delete packetToDelete;
+            addToTransmitted(packetToDelete)
             break;
         }
     }
+}
+
+void RadioBearer::addToTransmitted(Packet *packet)
+{
+    _transmittedPackets.push_back(packet);
+}
+
+QVector<Packet*> &RadioBearer::getTransmittedPackets()
+{
+    return _transmittedPackets;
 }
 
 void RadioBearer::updatePacketTransmitSlot(int slot)

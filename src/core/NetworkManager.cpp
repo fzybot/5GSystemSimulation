@@ -389,10 +389,6 @@ double NetworkManager::calculate_sinr_per_user(UserEquipment *user1)
             double rssi = user1->calculateRssiFromUserEquipment(ue, distance);
             double rsrp = user1->calculateRsrpFromRssi(user1->getPhyEntity()->getBandwidthContainer()[0][bwIndex], rssi);
             interference = summ_dBm(interference, rsrp);
-            qDebug() << "Distance -->" << distance;
-            qDebug() << "rssi -->" << rssi;
-            qDebug() << "rsrp -->" << rsrp;
-            qDebug() << "Interference -->" << interference;
         }
     }
 
@@ -442,19 +438,5 @@ void NetworkManager::calculateSINRPerEquipment_signal_doppler()
 {
     float sinr;
 }
-
-// ----- [ DEBUG INFORMATION ] -----------------------------------------------------------------------------------------
-
-// void NetworkManager::print()
-// {
-//     // for (auto gNodeB : *gNodeBContainer_) {
-//     //     gNodeB->print();
-//     // }
-
-//     // for(auto ue : *userEquipmentContainer_) {
-//     //     ue->print();
-//     // }
-// }
-
 
 

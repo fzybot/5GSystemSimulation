@@ -27,7 +27,6 @@ static QVector<QVector<QPair<int, int>>> &Simple ()
     int posZ = 50;
     Cell *cell = networkManager->createCell(idCell, posX, posY, posZ);
     cell->getPhyEntity()->configNewBandwidth("FR1", "n3", NUMEROLOGY[0], 10, 50, 0, 0, true);
-    cell->getPhyEntity()->configNewBandwidth("FR1", "n8", NUMEROLOGY[0], 10, 50, 0, 0, true);
 
     // int idCell_01 = 1;
     // int posX_01 = 200;

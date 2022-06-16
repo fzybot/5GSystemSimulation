@@ -10,24 +10,32 @@ class Packet
 {
 protected:
     double  timeStamp_;
-    int     headerSize_ = 20; // bytes
-    int     size_ = 0;
+    int     headerSize_ = 20; // [bytes]
+    int     size_ = 0; // [bytes]
     int     id_;
     int     timeSlotGenerated_;
     int     timeSlotToTransmit_;
     int     timeSlotTransmitted_ = -1000;
-    
+
+    bool _isParent = true;
+
+    Packet *_parent = nullptr;
+    QVector<Packet *> _childs;
+
     RadioBearer *bearer_;
 
     QVector<bool> data_;
 
 public:
     Packet();
-    Packet(QVector<bool> data, double timeStamp, int id);
     Packet(int size, double timeStamp, int id);
     Packet(int size, int slot, int id, RadioBearer *bearer);
+    Packet(QVector<bool> &data, Packet *parent, QVector<Packet *> &buffer);
 
     ~Packet();
+
+    bool isParent();
+    Packet *getParent();
 
     void setHeaderSize(int s);
     int getHeaderSize();
@@ -44,14 +52,18 @@ public:
     int getSize();
     int getSizeBits();
 
+    void setSlotGenerated(int slot);
+    int getSlotGenerated();
+
     void setSlotToTransmit(int slot);
     int getSlotToTransmit();
 
     void setSlotTransmitted(int transmittedSlot);
     int getSlotTransmitted();
 
-    void setData(QVector<bool> data);
-    QVector<bool> getData();
+    void generateRandomData();
+    void copyData(QVector<bool> &data);
+    QVector<bool> &getData();
 
     void setBearer(RadioBearer *bearer);
     RadioBearer *getBearer();
@@ -59,37 +71,7 @@ public:
     // TODO: add to raw data realisation according to specifications
     QVector<bool> &toRawData();
 
-    // TODO: add classes for all the headers below
-    //    void addRTPHeader(RTPHeader *header);
-    //    RTPHeader* getRTPHeader();
+private:
+    void setParent(Packet *parent);
 
-    //    void addUDPHeader(UDPHeader *header);
-    //    UDPHeader* getUDPHeader();
-
-    //    void addIPHeader(IPHeader *header);
-    //    IPHeader* getIPHeader();
-
-    //    void addSDAPHeader (SDAPHeader *header);
-    //    SDAPHeader* getSDAPHeader();
-
-    //    void addPDCPHeader(PDCPHeader *header);
-    //    PDCDHeader* getPDCPHeader();
-
-    //    void addRLCHeader(RLCHeader *header);
-    //    RLCHeader* getRLCHeader();
-
-    //    void addMACHeader(MACHeader *header);
-    //    MACHeader* getMACHeader();
-
-    /*
- * Additional headers per each packet from RTP (for VoIP packets) down to
- *
- */
-    //    RTPHeader *m_RTPHeader;
-    //    UPDHeader *m_UDPHeader;
-    //    IPHeader *m_IPHeader;
-    //    SDAPHeader *m_SDAPHeader;
-    //    PDCPHeader *m_PDCPHeader;
-    //    RLCHeader *m_RLCHeader;
-    //    MACHeader *m_MACHeader;
 };

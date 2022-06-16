@@ -153,8 +153,8 @@ private:
     double  carrierFreq_;
     double  ulBandwidth_;
     double  dlBandwidth_;
-    int ulOffsetBw_;
-    int dlOffsetBw_;
+    int     ulOffsetBw_;
+    int     dlOffsetBw_;
     double  bandwidth_;
     int     subcarrierSpacing_;
     int     numPRB_;
@@ -172,10 +172,9 @@ private:
     // Each element should looks like: [PRB Index, RSRP own, Interference Neighbour] 
     QVector<QVector<int>> vectorPrb_;
 
-
-
     QVector<double> dlSubChannels_;
     QVector<double> ulSubChannels_;
+
 
 public:
     Bandwidth() = default;
@@ -184,11 +183,11 @@ public:
 
     QString getFrequencyRange();
     QString getBand();
-    double getCarrierFreq();
-    double getUlBandwidth();
-    double getDlBandwidth();
-    double getBandwidth();
-    int getSCS();
+    double  getCarrierFreq();
+    double  getUlBandwidth();
+    double  getDlBandwidth();
+    double  getBandwidth();
+    int     getSCS();
 
     void setNumberOfPRB(int number);
     int getNumberOfPRB();

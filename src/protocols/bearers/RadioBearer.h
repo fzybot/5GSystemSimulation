@@ -36,6 +36,8 @@ private:
     QVector<Packet*>    packetsCurrentSlot_;
     QQueue<Packet*>     packetsQueueCurrentSlot_;
 
+    QQueue<Packet*>     _transmittedPackets;
+
     int                 gPacketId_ = 1000;
     int                 bufferSize_ = 0;
 
@@ -65,8 +67,10 @@ public:
     void generatePackets(int number, int currentSlot);
     QVector<Packet*> &getPacketsContainer();
     QVector<Packet*> &getPacketsContainerCurrentSlot(int slot);
+    QVector<Packet*> &getTransmittedPackets();
     void deletePackets(QVector<Packet*> &packetsToDelete);
     void deletePacket(Packet *packetToDelete);
+    void addToTransmitted(Packet *packet);
     void showPacketsInBuffer();
     void updatePacketTransmitSlot(int slot);
 

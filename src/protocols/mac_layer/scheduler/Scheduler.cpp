@@ -58,7 +58,7 @@ void Scheduler::timeDomainScheduling(QVector<UserEquipment*> *userEquipmentConta
     qDebug() << "Starting time scheduling-->";
     timeQueue_->clear();
     for (auto ue : *userEquipmentContainer) {
-        if (ue->getBSR() != false && ue->getMeasurementGap() != true && ue->getDRX() != true) {
+        if (ue->getBSR() == true && ue->getMeasurementGap() != true && ue->getDRX() != true) {
             timeQueue_->push_back(ue);
         }
     }
@@ -93,8 +93,7 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer, int 
         int mcs = getCell()->getMacEntity()->getAMCEntity()->getMCSFromCQI(cqi);
         int mOrder = getCell()->getMacEntity()->getAMCEntity()->getModulationOrderFromMCS(mcs);
         double codeRate = getCell()->getMacEntity()->getAMCEntity()->getCodeRateFromMcs(mcs);
-        int maxNPrbPerUe = 30;
-        int nPrbPerUe =  calculateOptimalNumberOfPrbPerUe(mcs, nPrb, ueBufferSize); // TODO: think about nRemainingPrb_
+        int nPrbPerUe =  calculateOptimalNumberOfPrbPerUe(mcs, _maxPrbPerUe, ueBufferSize); // TODO: think about nRemainingPrb_
         int tbs = getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(mcs, nPrbPerUe, nLayers_, nCoresetRe_);
         int nReCce = calcAggLevel(ueSINR) * 6 * 12; // 1 [CCE] = 6 [REG]; 1 [RE]G = 12 [subcarrires] x 1 [OFDM symbol]
 

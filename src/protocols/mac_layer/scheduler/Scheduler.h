@@ -40,6 +40,7 @@ private:
     int nMaxScheuledUe_ = 5;
     int currentScheduledUe = 0;
     int nMinPrbPerUe_ = 1;
+    int _maxPrbPerUe = 60;
 
 public:
     Scheduler(Cell *cell, Scheduler::SchedulingAlgorithm algo);

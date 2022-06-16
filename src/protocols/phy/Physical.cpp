@@ -7,22 +7,11 @@
 Physical::Physical()
 {
     bandwidthContainer_ = new QVector<Bandwidth*>;
-    dlChannel_ = new RadioChannel();
-    ulChannel_ = new RadioChannel();
 }
 
 void Physical::defaultPhyConfig()
 {
     configNewBandwidth("FR1", "n3", NUMEROLOGY[numerologyIndex_], 10, 50, 0, 0, true);
-}
-
-void Physical::setDLChannel(RadioChannel *channel)
-{
-    dlChannel_ = channel;
-}
-RadioChannel *Physical::getDLChannel()
-{
-    return dlChannel_;
 }
 
 void Physical::addBandwidth(Bandwidth *b)

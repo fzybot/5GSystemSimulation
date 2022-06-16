@@ -10,7 +10,7 @@ CONFIG += c++14
 # any Qt feature that has been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
-DEFINES += QT_DEPRECATED_WARNINGS
+DEFINES += QT_DEPRECATED_WARNINGS QT_MESSAGELOGCONTEXT
 
 # You can also make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -22,7 +22,7 @@ SOURCES += \
     src/core/NetworkManager.cpp \
     src/core/Simulator.cpp \
     src/equipment/antenna/Beam.cpp \
-    src/protocols/PacketSegment.cpp \
+    src/logging/loggingCategories.cpp \
     src/protocols/bearers/QoS/QoSProfile.cpp \
     src/equipment/mobility/ConstantPosition.cpp \
     src/protocols/Protocol.cpp \
@@ -32,9 +32,6 @@ SOURCES += \
     src/protocols/mac_layer/AMC/AMCEntity.cpp \
     src/protocols/mac_layer/CellMacEntity.cpp \
     src/protocols/mac_layer/TransportBlock.cpp \
-    src/protocols/mac_layer/UeMacEntity.cpp \
-    src/protocols/phy/OfdmSymbol.cpp \
-    src/protocols/phy/Slot.cpp \
     src/protocols/phy/Symbol.cpp \
     src/visualization/ChartGroupWidget.cpp \
     src/visualization/Chartable.cpp \
@@ -56,7 +53,6 @@ SOURCES += \
     src/protocols/phy/Channel/Bandwidth.cpp \
     src/protocols/phy/Channel/RadioChannel.cpp \
     src/protocols/Packet.cpp \
-    src/protocols/mac_layer/MacEntity.cpp \
     src/protocols/pdcp_layer/PdcpEntity.cpp \
     src/protocols/rlc_layer/RlcEntity.cpp \
     src/protocols/rrc_layer/RrcEntity.cpp \
@@ -79,7 +75,7 @@ HEADERS += \
     src/core/Simulator.h \
     src/debug.h \
     src/equipment/antenna/Beam.h \
-    src/protocols/PacketSegment.h \
+    src/logging/loggingCategories.h \
     src/protocols/bearers/QoS/QoSProfile.h \
     src/equipment/mobility/ConstantPosition.h \
     src/protocols/Protocol.h \
@@ -92,14 +88,13 @@ HEADERS += \
     src/protocols/mac_layer/AMC/miesmParameters.h \
     src/protocols/mac_layer/CellMacEntity.h \
     src/protocols/mac_layer/TransportBlock.h \
-    src/protocols/mac_layer/UeMacEntity.h \
-    src/protocols/phy/OfdmSymbol.h \
-    src/protocols/phy/Slot.h \
     src/protocols/phy/Symbol.h \
+    src/protocols/phy/modulation.h \
     src/scenarios/modulationPerformance.h \
     src/scenarios/schedulerAnalysis.h \
     src/scenarios/simple.h \
     src/scenarios/testModel.h \
+    src/tests/packet_test.h \
     src/visualization/ChartGroupWidget.h \
     src/visualization/Chartable.h \
     src/visualization/HeatmapModel.h \
@@ -121,7 +116,6 @@ HEADERS += \
     src/protocols/phy/Channel/Bandwidth.h \
     src/protocols/phy/Channel/RadioChannel.h \
     src/protocols/Packet.h \
-    src/protocols/mac_layer/MacEntity.h \
     src/protocols/pdcp_layer/PdcpEntity.h \
     src/protocols/rlc_layer/RlcEntity.h \
     src/protocols/rrc_layer/RrcEntity.h \
@@ -148,7 +142,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    .gitignore
+    .gitignore \
+    src/logging/log.txt
     src/qml/map.qml
 
 RESOURCES += \

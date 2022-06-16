@@ -6,6 +6,8 @@
 #include "src/protocols/bearers/RadioBearer.h"
 #include "src/protocols/mac_layer/scheduler/Scheduler.h"
 
+#include "src/logging/loggingCategories.h"
+
 
 Cell::Cell()
 {
@@ -19,7 +21,8 @@ Cell::Cell()
     // MAC Layer
     createMacEntity();
     getMacEntity()->configMacEntity();
-    
+    qDebug(logDebug()) << "test log";
+
     // Scheduler
 //    createScheduler(Scheduler::SchedulingAlgorithm::ROUND_ROBIN);
 //    scheduler_->setCell(this);

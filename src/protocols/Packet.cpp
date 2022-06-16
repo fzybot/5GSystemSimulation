@@ -1,26 +1,15 @@
+
+#include <QRandomGenerator>
+#include <functional>
+#include <random>
+#include <QDebug>
+
 #include "Packet.h"
 #include "src/protocols/bearers/RadioBearer.h"
 
 Packet::Packet()
 {
     bearer_ = new RadioBearer();
-}
-
-Packet::Packet(QVector<bool> data, double timeStamp, int id)
-{
-    data_ = data;
-    id_ = id;
-    timeStamp_ = timeStamp;
-    size_ = data.size();
-    /*
-    m_RTPHeader = nullptr;
-    m_UDPHeader = nullptr;
-    m_IPHeader = nullptr;
-    m_SDAPHeader = nullptr;
-    m_PDCPHeader = nullptr;
-    m_RLCHeader = nullptr;
-    m_MACHeader = nullptr;
-    */
 }
 
 Packet::Packet(int size, double timeStamp, int id)
@@ -32,24 +21,44 @@ Packet::Packet(int size, double timeStamp, int id)
 
 Packet::Packet(int size, int slot, int id, RadioBearer *bearer)
 {
-    size_ = size;
+    setSize(size);
     timeSlotGenerated_ = slot;
     timeSlotToTransmit_ = slot;
-    id_ = id;
+    setId(id);
     setBearer(bearer);
+    generateRandomData();
+}
+
+Packet::Packet(QVector<bool> &data, Packet *parent, QVector<Packet *> &buffer)
+{
+    copyData(data);
+    setParent(parent);
+    buffer.push_back(this);
 }
 
 Packet::~Packet()
 {
-    /*
-    delete m_RTPHeader;
-    delete m_UDPHeader;
-    delete m_IPHeader;
-    delete m_SDAPHeader;
-    delete m_PDCPHeader;
-    delete m_RLCHeader;
-    delete m_MACHeader;
-    */
+
+}
+
+bool Packet::isParent()
+{
+    return _isParent;
+}
+
+void Packet::setParent(Packet *parent)
+{
+    _parent = parent;
+    _isParent = false;
+    setId(parent->getId());
+    setSlotGenerated(parent->getSlotGenerated());
+    setSlotToTransmit(parent->getSlotToTransmit());
+    setBearer(parent->getBearer());
+}
+
+Packet *Packet::getParent()
+{
+    return _parent;
 }
 
 void Packet::setId(int pId)
@@ -89,12 +98,27 @@ void Packet::addHeaderSize(int s)
 
 void Packet::setSize(int size)
 {
-    size_ = size * 8;
+    size_ = size;
 }
 
 int Packet::getSize()
 {
-    return size_ + (headerSize_ * 8);
+    return size_;
+}
+
+int Packet::getSizeBits()
+{
+    return getSize() * 8;
+}
+
+void Packet::setSlotGenerated(int slot)
+{
+    timeSlotGenerated_ = slot;
+}
+
+int Packet::getSlotGenerated()
+{
+    return timeSlotGenerated_;
 }
 
 void Packet::setSlotToTransmit(int slot)
@@ -125,4 +149,27 @@ void Packet::setBearer(RadioBearer *bearer)
 RadioBearer *Packet::getBearer()
 {
     return bearer_;
+}
+
+void Packet::copyData(QVector<bool> &data)
+{
+    data_.clear();
+    for (int i = 0; i < data.size(); i ++){
+        data_.push_back(data[i]);
+    }
+    setSize(data.size());
+}
+
+QVector<bool> &Packet::getData()
+{
+    return data_;
+}
+
+void Packet::generateRandomData()
+{
+    QRandomGenerator generator;
+    for (int i = 0; i < getSizeBits(); i ++){
+        int val = generator.bounded(0, 2);
+        data_.push_back(val);
+    }
 }

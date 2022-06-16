@@ -3,7 +3,6 @@
 #include "src/equipment/mobility/Mobility.h"
 #include "src/equipment/mobility/ConstantPosition.h"
 #include "src/core/CartesianCoordinates.h"
-#include "src/protocols/mac_layer/MacEntity.h"
 
 #include "src/debug.h"
 
