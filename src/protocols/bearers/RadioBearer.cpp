@@ -69,14 +69,14 @@ ServiceTrafficProfile &RadioBearer::getTrafficProfile()
 void RadioBearer::generatePackets(int number, int currentSlot)
 {
     if (this->getQoSProfile() != nullptr) {
-        gPacketId_ = getUserEquipment()->getEquipmentId() * 1000000 + getId() * 100000;
+        gPacketId_ = getUserEquipment()->getEquipmentId() * 100000 + getId() * 10000;
         for (int i = 0; i < number; i++)
         {
             int size = QRandomGenerator::global()->bounded( this->getQoSProfile()->getDataBurstVolumeRange().first, 
                                                             this->getQoSProfile()->getDataBurstVolumeRange().second);
             gPacketId_ ++;
             Packet *pack = new Packet(size, currentSlot, gPacketId_, this);
-            // qDebug() << "Pack id: " << pack->getId();
+            qDebug() << "Pack id: " << pack->getId();
             packetsInBuffer_.push_back(pack);
             addToBuffer(size);
         }
@@ -119,7 +119,7 @@ void RadioBearer::deletePacket(Packet *packetToDelete)
             qDebug() << "RadioBearer::deletePacket:: packet deleted-->" << getPacketsContainer()[i]->getId();
             decreaseBuffer(packetToDelete->getSize());
             getPacketsContainer().remove(i);
-            addToTransmitted(packetToDelete)
+            addToTransmitted(packetToDelete);
             break;
         }
     }

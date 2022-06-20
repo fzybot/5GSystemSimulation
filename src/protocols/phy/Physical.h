@@ -2,6 +2,7 @@
 #define PHYSICAL_H
 
 #include "src/protocols/phy/Symbol.h"
+#include "src/protocols/phy/Channel/Bandwidth.h"
 
 #include <QVector>
 
@@ -26,7 +27,7 @@ public:
 
     void defaultPhyConfig();
 
-    void configNewBandwidth(QString fr, QString band, int scs, double ulBw,
+    void configNewBandwidth(QString fr, QString band, int scs, bool cpType, double ulBw,
                      double dlBw, int ulOffset, int dlOffset, bool tddTrue);
     void addBandwidth(Bandwidth *b);
     QVector<Bandwidth*> *getBandwidthContainer();

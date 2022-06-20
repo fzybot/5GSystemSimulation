@@ -41,6 +41,7 @@ void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
     int slot = getCell()->getLocalOwnTimeSlot();
     updateAvailableNumPRB(nPrb);
     updateAvailableNumCoresetRe(coresetSize);
+    // qDebug() << "Cp Type: " << getCell()->getPhyEntity()->getBandwidthContainer()[0][0]->getCpType();
     // qDebug() << "Scheduler::doSchedule::Number of RE CORESET --->" << coresetSize;
     // qDebug() << "Number of PRBs --->" << getNumPRB();
     // qDebug() << "Number of TBS: "<< cell_->getMacEntity()->getTransportBlockContainer().length();

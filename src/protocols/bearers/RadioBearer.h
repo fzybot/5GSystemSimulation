@@ -36,7 +36,7 @@ private:
     QVector<Packet*>    packetsCurrentSlot_;
     QQueue<Packet*>     packetsQueueCurrentSlot_;
 
-    QQueue<Packet*>     _transmittedPackets;
+    QVector<Packet*>     _transmittedPackets;
 
     int                 gPacketId_ = 1000;
     int                 bufferSize_ = 0;

@@ -11,7 +11,7 @@ Physical::Physical()
 
 void Physical::defaultPhyConfig()
 {
-    configNewBandwidth("FR1", "n3", NUMEROLOGY[numerologyIndex_], 10, 50, 0, 0, true);
+    configNewBandwidth("FR1", "n3", NUMEROLOGY[numerologyIndex_], true, 50, 50, 0, 0, true);
 }
 
 void Physical::addBandwidth(Bandwidth *b)
@@ -24,11 +24,11 @@ QVector<Bandwidth*> *Physical::getBandwidthContainer()
     return bandwidthContainer_;
 }
 
-void Physical::configNewBandwidth( QString fr, QString band, int scs, double ulBw,
+void Physical::configNewBandwidth( QString fr, QString band, int scs, bool cpType, double ulBw,
                                 double dlBw, int ulOffset, int dlOffset, bool tddTrue)
 {
     //QString fr, QString band, int scs, double ulBw, double dlBw, int ulOffset, int dlOffset, bool tddTrue = true
-    Bandwidth *bw = new Bandwidth(fr, band, scs, ulBw, dlBw, ulOffset, dlOffset, tddTrue);
+    Bandwidth *bw = new Bandwidth(fr, band, scs, cpType, ulBw, dlBw, ulOffset, dlOffset, tddTrue);
     bw->setCoresetSize(2, bw->getNumberOfPRB() - 30);
     addBandwidth(bw);
 }

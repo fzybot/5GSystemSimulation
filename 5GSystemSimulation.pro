@@ -32,6 +32,7 @@ SOURCES += \
     src/protocols/mac_layer/AMC/AMCEntity.cpp \
     src/protocols/mac_layer/CellMacEntity.cpp \
     src/protocols/mac_layer/TransportBlock.cpp \
+    src/protocols/phy/ResourceGrid.cpp \
     src/protocols/phy/Symbol.cpp \
     src/visualization/ChartGroupWidget.cpp \
     src/visualization/Chartable.cpp \
@@ -88,6 +89,8 @@ HEADERS += \
     src/protocols/mac_layer/AMC/miesmParameters.h \
     src/protocols/mac_layer/CellMacEntity.h \
     src/protocols/mac_layer/TransportBlock.h \
+    src/protocols/phy/Channel/bandList.h \
+    src/protocols/phy/ResourceGrid.h \
     src/protocols/phy/Symbol.h \
     src/protocols/phy/modulation.h \
     src/scenarios/modulationPerformance.h \

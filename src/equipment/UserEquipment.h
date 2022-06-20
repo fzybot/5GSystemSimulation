@@ -13,7 +13,7 @@ class Cell;
 class UserEquipment : public Equipment
 {
 
-protected:
+public:
     gNodeB              *targetGNodeB_;
     Cell                *targetCell_;
 

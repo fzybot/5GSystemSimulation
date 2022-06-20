@@ -5,7 +5,7 @@
 
 
 
-Bandwidth::Bandwidth(QString fr, QString band, int scs, double ulBw,
+Bandwidth::Bandwidth(QString fr, QString band, int scs, bool cp, double ulBw,
                      double dlBw, int ulOffset, int dlOffset, bool tddTrue)
 {
     if(tddTrue == true) {
@@ -23,6 +23,7 @@ Bandwidth::Bandwidth(QString fr, QString band, int scs, double ulBw,
     operatingBand_ = band;
     carrierFreq_ = (NR_OPERATING_BAND_DL_HIGH[band] + NR_OPERATING_BAND_DL_LOW[band]) / 2;
     subcarrierSpacing_ = scs;
+    _normalCpType = cp;
     ulOffsetBw_ = ulOffset;
     dlOffsetBw_ = dlOffset;
     setNumberOfPRB(PRBs_for_BW[fr][scs][dlBw]);
@@ -39,6 +40,11 @@ Bandwidth::Bandwidth(QString fr, QString band, int scs, double ulBw,
     }
 }
 
+void Bandwidth::configResourceGrid(bool normalCp, int scs, int nRb)
+{
+
+}
+
 QString Bandwidth::getFrequencyRange()
 {
     return frequencyRange_;
@@ -52,13 +58,7 @@ QString Bandwidth::getBand()
 double Bandwidth::getCarrierFreq()
 {
     return carrierFreq_;
-}    void setRsrp(double rsrp);
-    void setRsrq(double rsrq);
-    void setSinr(double sinr);
-
-    double getRsrq();
-    double getRsrp();
-    double getSinr();
+} 
 
 double Bandwidth::getUlBandwidth()
 {
@@ -78,6 +78,11 @@ double Bandwidth::getBandwidth()
 int Bandwidth::getSCS()
 {
     return subcarrierSpacing_;
+}
+
+bool &Bandwidth::getCpType()
+{
+    return _normalCpType;
 }
 
 void Bandwidth::setNumberOfPRB(int number)

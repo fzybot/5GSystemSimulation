@@ -42,7 +42,7 @@ public:
         COST231_Hata,
     };
 
-protected:
+public:
     int     id_;
     int     localSystem120TimeSlot_ = 0;
     int     localOwnTimeSlot_ = 0;
