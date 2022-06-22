@@ -4,7 +4,7 @@
 #include <QObject>
 #include "src/visualization/data/plotData/interpolationNskStoreysHeights.cpp"
 #include "src/core/CartesianCoordinates.h"
-#include "src/protocols/phy/propagationModels.h"
+#include "src/protocols/phy/Channel/propagationModels.h"
 #include <QtMath>
 #include <QDebug>
 #include <vector>

@@ -9,7 +9,7 @@
 #include "src/equipment/mobility/Mobility.h"
 #include "src/core/CartesianCoordinates.h"
 #include "src/protocols/bearers/RadioBearer.h"
-#include "src/protocols/phy/Channel/Bandwidth.h"
+#include "src/protocols/phy/Bandwidth.h"
 
 class Cell;
 class UserEquipment;

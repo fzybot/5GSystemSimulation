@@ -5,7 +5,7 @@
 #include "src/protocols/mac_layer/scheduler/Scheduler.h"
 #include "src/protocols/mac_layer/CellMacEntity.h"
 #include "src/protocols/phy/Physical.h"
-#include "src/protocols/phy/Channel/Bandwidth.h"
+#include "src/protocols/phy/Bandwidth.h"
 #include "src/equipment/mobility/ConstantPosition.h"
 
 #include "src/debug.h"

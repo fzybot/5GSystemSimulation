@@ -10,11 +10,11 @@
 
 #include "src/debug.h"
 #include "src/protocols/bearers/RadioBearer.h"
-#include "src/protocols/phy/propagationModels.h"
+#include "src/protocols/phy/Channel/propagationModels.h"
 #include "src/equipment/Cell.h"
 #include "src/equipment/UserEquipment.h"
 #include "src/protocols/phy/Physical.h"
-#include "src/protocols/phy/Channel/Bandwidth.h"
+#include "src/protocols/phy/Bandwidth.h"
 
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
 

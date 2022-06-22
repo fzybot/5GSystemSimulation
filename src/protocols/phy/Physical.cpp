@@ -1,5 +1,5 @@
 #include "Physical.h"
-#include "src/protocols/phy/Channel/Bandwidth.h"
+#include "src/protocols/phy/Bandwidth.h"
 #include "src/protocols/phy/Symbol.h"
 #include "src/protocols/phy/Channel/RadioChannel.h"
 #include "src/commonParameters.h"
@@ -9,9 +9,24 @@ Physical::Physical()
     bandwidthContainer_ = new QVector<Bandwidth*>;
 }
 
-void Physical::defaultPhyConfig()
+void Physical::defaultPhyConfig(Physical::MIMO_MODE mode)
 {
-    configNewBandwidth("FR1", "n3", NUMEROLOGY[numerologyIndex_], true, 50, 50, 0, 0, true);
+    _mimoMode = mode;
+    switch ( _mimoMode )
+      {
+         case Physical::MIMO_MODE::MIMO_2x2:
+            configNewBandwidth("FR1", "n3", NUMEROLOGY[numerologyIndex_], true, 50, 50, 0, 0, true);
+            configNewBandwidth("FR1", "n3", NUMEROLOGY[numerologyIndex_], true, 50, 50, 0, 0, true);
+            break;
+         case Physical::MIMO_MODE::MIMO_4x4:
+            configNewBandwidth("FR1", "n3", NUMEROLOGY[numerologyIndex_], true, 50, 50, 0, 0, true);
+            configNewBandwidth("FR1", "n3", NUMEROLOGY[numerologyIndex_], true, 50, 50, 0, 0, true);
+            configNewBandwidth("FR1", "n3", NUMEROLOGY[numerologyIndex_], true, 50, 50, 0, 0, true);
+            configNewBandwidth("FR1", "n3", NUMEROLOGY[numerologyIndex_], true, 50, 50, 0, 0, true);
+            break;
+         default:
+            configNewBandwidth("FR1", "n3", NUMEROLOGY[numerologyIndex_], true, 50, 50, 0, 0, true);
+      }
 }
 
 void Physical::addBandwidth(Bandwidth *b)
@@ -33,7 +48,7 @@ void Physical::configNewBandwidth( QString fr, QString band, int scs, bool cpTyp
     addBandwidth(bw);
 }
 
-void Physical::sendSymbol(QVector<TransportBlock> tbContainer)
+Physical::MIMO_MODE &Physical::getMimoMode()
 {
-    //txSignal_.fromTbToSignal();
+    return _mimoMode;
 }

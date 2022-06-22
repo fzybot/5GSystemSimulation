@@ -2,7 +2,7 @@
 #include "src/equipment/UserEquipment.h"
 #include "src/equipment/Cell.h"
 #include "src/protocols/phy/Physical.h"
-#include "src/protocols/phy/Channel/Bandwidth.h"
+#include "src/protocols/phy/Bandwidth.h"
 #include "src/protocols/bearers/RadioBearer.h"
 #include "src/protocols/mac_layer/CellMacEntity.h"
 #include "src/protocols/mac_layer/AMC/AMCEntity.h"

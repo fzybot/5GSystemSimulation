@@ -16,7 +16,7 @@
 
 class TransportBlock;
 
-class Symbol : public QObject, public Chartable
+class Symbol : public QObject
 {
     Q_OBJECT
 private:

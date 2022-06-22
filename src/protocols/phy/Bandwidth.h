@@ -11,7 +11,7 @@
 #include <QVector>
 #include <complex>
 
-#include "src/protocols/phy/Channel/bandList.h"
+#include "src/protocols/phy/bandList.h"
 
 /*
  * This class models the bandwidth used for the transmission
@@ -43,11 +43,14 @@ private:
 
     // first - number of OFDM Symbols
     // second - number of RBs (1 RB = 12 REs)
+    int _coresetStart = 0;
     QPair<int, int> sizeCORESET_;
-    
+    QVector<QVector<int>> _coresetPattern;
+
+    int _dmrsStartFreq = 1, _dmrsStepFreq = 3, _dmrsStartSymb = 0, _dmrsStepSymb = 3;   
+
     // Each element should looks like: [PRB Index, RSRP own, Interference Neighbour] 
     QVector<QVector<int>> v;
-
     QVector<double> dlSubChannels_;
     QVector<double> ulSubChannels_;
 

@@ -1,399 +1,383 @@
-2022-06-20 14:25:31.006 WRN  : qrc:/qml/map.qml:5:1: module "QtGraphicalEffects" version 1.15 is not installed
-2022-06-20 14:25:31.114 DBG  double HeatmapModel::getAvgBuildingHeight(): buildings count = 393
-2022-06-20 14:25:31.278 DBG  double HeatmapModel::getAvgBuildingHeight(): SUM =  8.31532e-307
-2022-06-20 14:25:31.379 WRN  : QObject::connect(QGraphicsScene, DataSource): invalid null parameter
-2022-06-20 14:25:31.379 DBG  void DataSource::update(QtCharts::QAbstractSeries*, int): Update:
-2022-06-20 14:25:31.379 DBG  void DataSource::update(QtCharts::QAbstractSeries*, int): Update series
-2022-06-20 14:25:31.379 DBG  QtCharts::QChart* ChartGroupWidget::createSignalChart(): Hello
-2022-06-20 14:25:31.424 DBG  Cell::Cell(): test log
-2022-06-20 14:25:31.424 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
-2022-06-20 14:25:31.424 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  58
-2022-06-20 14:25:31.425 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
-2022-06-20 14:25:31.425 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
-2022-06-20 14:25:31.425 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
-2022-06-20 14:25:31.425 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
-2022-06-20 14:25:31.425 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
-2022-06-20 14:25:31.425 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
-2022-06-20 14:25:31.425 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
-2022-06-20 14:25:31.425 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
-2022-06-20 14:25:31.425 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
-2022-06-20 14:25:31.425 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
-2022-06-20 14:25:31.425 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
-2022-06-20 14:25:31.426 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
-2022-06-20 14:25:31.426 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
-2022-06-20 14:25:31.426 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
-2022-06-20 14:25:31.426 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
-2022-06-20 14:25:31.426 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
-2022-06-20 14:25:31.426 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
-2022-06-20 14:25:31.426 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
-2022-06-20 14:25:31.426 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
-2022-06-20 14:25:31.426 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
-2022-06-20 14:25:31.426 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
-2022-06-20 14:25:31.426 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
-2022-06-20 14:25:31.427 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-2022-06-20 14:25:31.427 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 0
-2022-06-20 14:25:31.427 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  0
-2022-06-20 14:25:31.427 DBG  void NetworkManager::scheduleCells(QVector<Cell*>*): 0
-2022-06-20 14:25:31.427 DBG  void NetworkManager::scheduleCells(QVector<Cell*>*): NetworkManager::scheduleCells:: cell SCS -->  15
-2022-06-20 14:25:31.427 DBG  void NetworkManager::scheduleCells(QVector<Cell*>*): NetworkManager::scheduleCells:: cell time slot -->  0
-2022-06-20 14:25:31.427 DBG  void NetworkManager::initialCellSelection(int): NetworkManager::initialAttach()
-2022-06-20 14:25:31.427 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 2
-2022-06-20 14:25:31.427 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 10001
-2022-06-20 14:25:31.427 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 10002
-2022-06-20 14:25:31.427 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 10003
-2022-06-20 14:25:31.427 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 10004
-2022-06-20 14:25:31.427 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 10005
-2022-06-20 14:25:31.427 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 10006
-2022-06-20 14:25:31.427 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 10007
-2022-06-20 14:25:31.427 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 10008
-2022-06-20 14:25:31.427 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 10009
-2022-06-20 14:25:31.427 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 10010
-2022-06-20 14:25:31.427 DBG  void RadioBearer::generatePackets(int, int): Pack id:  230001
-2022-06-20 14:25:31.428 DBG  void RadioBearer::generatePackets(int, int): Pack id:  230002
-2022-06-20 14:25:31.428 DBG  void RadioBearer::generatePackets(int, int): Pack id:  240001
-2022-06-20 14:25:31.428 DBG  void RadioBearer::generatePackets(int, int): Pack id:  240002
-2022-06-20 14:25:31.428 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000130001
-2022-06-20 14:25:31.429 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000130002
-2022-06-20 14:25:31.429 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000140001
-2022-06-20 14:25:31.429 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000140002
-2022-06-20 14:25:31.430 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000230001
-2022-06-20 14:25:31.430 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000230002
-2022-06-20 14:25:31.430 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000240001
-2022-06-20 14:25:31.430 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000240002
-2022-06-20 14:25:31.431 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000330001
-2022-06-20 14:25:31.431 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000330002
-2022-06-20 14:25:31.432 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000340001
-2022-06-20 14:25:31.432 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000340002
-2022-06-20 14:25:31.432 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000430001
-2022-06-20 14:25:31.433 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000430002
-2022-06-20 14:25:31.433 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000440001
-2022-06-20 14:25:31.433 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000440002
-2022-06-20 14:25:31.434 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000530001
-2022-06-20 14:25:31.434 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000530002
-2022-06-20 14:25:31.435 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000540001
-2022-06-20 14:25:31.435 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000540002
-2022-06-20 14:25:31.435 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000630001
-2022-06-20 14:25:31.436 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000630002
-2022-06-20 14:25:31.437 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000640001
-2022-06-20 14:25:31.437 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000640002
-2022-06-20 14:25:31.438 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000730001
-2022-06-20 14:25:31.438 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000730002
-2022-06-20 14:25:31.438 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000740001
-2022-06-20 14:25:31.438 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000740002
-2022-06-20 14:25:31.439 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000830001
-2022-06-20 14:25:31.439 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000830002
-2022-06-20 14:25:31.440 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000840001
-2022-06-20 14:25:31.441 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000840002
-2022-06-20 14:25:31.441 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000930001
-2022-06-20 14:25:31.441 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000930002
-2022-06-20 14:25:31.442 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000940001
-2022-06-20 14:25:31.442 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000940002
-2022-06-20 14:25:31.442 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001030001
-2022-06-20 14:25:31.442 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001030002
-2022-06-20 14:25:31.443 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001040001
-2022-06-20 14:25:31.443 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001040002
-2022-06-20 14:25:31.443 DBG  void Scheduler::doSchedule(QVector<UserEquipment*>*): Current Cell Id------> 0
-2022-06-20 14:25:31.443 DBG  void Scheduler::timeDomainScheduling(QVector<UserEquipment*>*): Starting time scheduling-->
-2022-06-20 14:25:31.443 DBG  void Scheduler::roundRobin(QVector<UserEquipment*>*, int, int): Scheduler::roundRobin::Starting frequency diomain scheduling (ROUND ROBIN)-->
-2022-06-20 14:25:31.443 DBG  void Scheduler::roundRobin(QVector<UserEquipment*>*, int, int): Scheduler::roundRobin::userEquipmentContainer length --> 11
-2022-06-20 14:25:31.443 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  176
-2022-06-20 14:25:31.443 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  333
-2022-06-20 14:25:31.443 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 240001
-2022-06-20 14:25:31.443 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 240002
-2022-06-20 14:25:31.444 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  360
-2022-06-20 14:25:31.444 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  695
-2022-06-20 14:25:31.444 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000140001
-2022-06-20 14:25:31.444 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000140002
-2022-06-20 14:25:31.444 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  154
-2022-06-20 14:25:31.444 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  313
-2022-06-20 14:25:31.444 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000240001
-2022-06-20 14:25:31.444 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000240002
-2022-06-20 14:25:31.444 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  4326
-2022-06-20 14:25:31.444 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000330001
-2022-06-20 14:25:31.444 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  3727
-2022-06-20 14:25:31.444 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000340001
-2022-06-20 14:25:31.444 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  2589
-2022-06-20 14:25:31.444 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000430001
-2022-06-20 14:25:31.444 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  1021
-2022-06-20 14:25:31.444 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  2949
-2022-06-20 14:25:31.444 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000440001
-2022-06-20 14:25:31.444 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000440002
-2022-06-20 14:25:31.446 DBG  void Equipment::showDataTransmitted(): Equipment::showDataTransmitted():: BITS 123
-2022-06-20 14:25:31.446 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-2022-06-20 14:25:31.446 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 1
-2022-06-20 14:25:31.446 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  1
-2022-06-20 14:25:31.446 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-2022-06-20 14:25:31.446 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 2
-2022-06-20 14:25:31.446 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  2
-2022-06-20 14:25:31.446 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-2022-06-20 14:25:31.446 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 3
-2022-06-20 14:25:31.446 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  3
-2022-06-20 14:25:31.446 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-2022-06-20 14:25:31.446 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 4
-2022-06-20 14:25:31.446 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  4
-2022-06-20 14:25:31.446 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-2022-06-20 14:25:31.446 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 5
-2022-06-20 14:25:31.446 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  5
-2022-06-20 14:25:31.446 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-2022-06-20 14:25:31.446 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 6
-2022-06-20 14:25:31.446 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  6
-2022-06-20 14:25:31.446 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-2022-06-20 14:25:31.446 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 7
-2022-06-20 14:25:31.446 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  7
-2022-06-20 14:25:31.446 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-2022-06-20 14:25:31.446 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 8
-2022-06-20 14:25:31.446 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  8
-2022-06-20 14:25:31.446 DBG  void NetworkManager::scheduleCells(QVector<Cell*>*): 0
-2022-06-20 14:25:31.446 DBG  void NetworkManager::scheduleCells(QVector<Cell*>*): NetworkManager::scheduleCells:: cell SCS -->  15
-2022-06-20 14:25:31.446 DBG  void NetworkManager::scheduleCells(QVector<Cell*>*): NetworkManager::scheduleCells:: cell time slot -->  1
-2022-06-20 14:25:31.446 DBG  void NetworkManager::initialCellSelection(int): NetworkManager::initialAttach()
-2022-06-20 14:25:31.447 DBG  void RadioBearer::generatePackets(int, int): Pack id:  230001
-2022-06-20 14:25:31.447 DBG  void RadioBearer::generatePackets(int, int): Pack id:  230002
-2022-06-20 14:25:31.447 DBG  void RadioBearer::generatePackets(int, int): Pack id:  240001
-2022-06-20 14:25:31.447 DBG  void RadioBearer::generatePackets(int, int): Pack id:  240002
-2022-06-20 14:25:31.448 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000130001
-2022-06-20 14:25:31.449 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000130002
-2022-06-20 14:25:31.449 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000140001
-2022-06-20 14:25:31.449 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000140002
-2022-06-20 14:25:31.449 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000230001
-2022-06-20 14:25:31.450 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000230002
-2022-06-20 14:25:31.450 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000240001
-2022-06-20 14:25:31.450 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000240002
-2022-06-20 14:25:31.450 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000330001
-2022-06-20 14:25:31.451 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000330002
-2022-06-20 14:25:31.452 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000340001
-2022-06-20 14:25:31.452 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000340002
-2022-06-20 14:25:31.453 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000430001
-2022-06-20 14:25:31.453 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000430002
-2022-06-20 14:25:31.454 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000440001
-2022-06-20 14:25:31.454 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000440002
-2022-06-20 14:25:31.455 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000530001
-2022-06-20 14:25:31.455 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000530002
-2022-06-20 14:25:31.455 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000540001
-2022-06-20 14:25:31.456 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000540002
-2022-06-20 14:25:31.456 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000630001
-2022-06-20 14:25:31.457 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000630002
-2022-06-20 14:25:31.458 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000640001
-2022-06-20 14:25:31.458 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000640002
-2022-06-20 14:25:31.459 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000730001
-2022-06-20 14:25:31.459 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000730002
-2022-06-20 14:25:31.459 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000740001
-2022-06-20 14:25:31.459 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000740002
-2022-06-20 14:25:31.460 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000830001
-2022-06-20 14:25:31.461 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000830002
-2022-06-20 14:25:31.462 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000840001
-2022-06-20 14:25:31.462 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000840002
-2022-06-20 14:25:31.463 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000930001
-2022-06-20 14:25:31.463 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000930002
-2022-06-20 14:25:31.463 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000940001
-2022-06-20 14:25:31.463 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000940002
-2022-06-20 14:25:31.464 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001030001
-2022-06-20 14:25:31.465 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001030002
-2022-06-20 14:25:31.465 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001040001
-2022-06-20 14:25:31.465 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001040002
-2022-06-20 14:25:31.465 DBG  void Scheduler::doSchedule(QVector<UserEquipment*>*): Current Cell Id------> 0
-2022-06-20 14:25:31.465 DBG  void Scheduler::timeDomainScheduling(QVector<UserEquipment*>*): Starting time scheduling-->
-2022-06-20 14:25:31.465 DBG  void Scheduler::roundRobin(QVector<UserEquipment*>*, int, int): Scheduler::roundRobin::Starting frequency diomain scheduling (ROUND ROBIN)-->
-2022-06-20 14:25:31.465 DBG  void Scheduler::roundRobin(QVector<UserEquipment*>*, int, int): Scheduler::roundRobin::userEquipmentContainer length --> 11
-2022-06-20 14:25:31.465 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  2879
-2022-06-20 14:25:31.465 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 230001
-2022-06-20 14:25:31.465 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  184
-2022-06-20 14:25:31.465 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  346
-2022-06-20 14:25:31.465 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 240001
-2022-06-20 14:25:31.465 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 240002
-2022-06-20 14:25:31.465 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  4347
-2022-06-20 14:25:31.465 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000130001
-2022-06-20 14:25:31.465 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  322
-2022-06-20 14:25:31.465 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  606
-2022-06-20 14:25:31.465 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000140001
-2022-06-20 14:25:31.465 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000140002
-2022-06-20 14:25:31.466 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  2522
-2022-06-20 14:25:31.466 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000230001
-2022-06-20 14:25:31.466 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  200
-2022-06-20 14:25:31.466 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  340
-2022-06-20 14:25:31.466 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000240001
-2022-06-20 14:25:31.466 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000240002
-2022-06-20 14:25:31.466 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  4794
-2022-06-20 14:25:31.466 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000330001
-2022-06-20 14:25:31.466 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  3760
-2022-06-20 14:25:31.466 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000340001
-2022-06-20 14:25:31.467 DBG  void Equipment::showDataTransmitted(): Equipment::showDataTransmitted():: BITS 1186
-2022-06-20 14:25:31.467 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-2022-06-20 14:25:31.467 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 9
-2022-06-20 14:25:31.467 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  9
-2022-06-20 14:25:31.467 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-2022-06-20 14:25:31.467 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 10
-2022-06-20 14:25:31.467 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  10
-2022-06-20 14:25:31.467 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-2022-06-20 14:25:31.467 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 11
-2022-06-20 14:25:31.468 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  11
-2022-06-20 14:25:31.468 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-2022-06-20 14:25:31.468 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 12
-2022-06-20 14:25:31.468 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  12
-2022-06-20 14:25:31.468 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-2022-06-20 14:25:31.468 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 13
-2022-06-20 14:25:31.468 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  13
-2022-06-20 14:25:31.468 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-2022-06-20 14:25:31.468 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 14
-2022-06-20 14:25:31.468 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  14
-2022-06-20 14:25:31.468 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-2022-06-20 14:25:31.468 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 15
-2022-06-20 14:25:31.468 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  15
-2022-06-20 14:25:31.468 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-2022-06-20 14:25:31.468 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 16
-2022-06-20 14:25:31.468 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  16
-2022-06-20 14:25:31.468 DBG  void NetworkManager::scheduleCells(QVector<Cell*>*): 0
-2022-06-20 14:25:31.468 DBG  void NetworkManager::scheduleCells(QVector<Cell*>*): NetworkManager::scheduleCells:: cell SCS -->  15
-2022-06-20 14:25:31.468 DBG  void NetworkManager::scheduleCells(QVector<Cell*>*): NetworkManager::scheduleCells:: cell time slot -->  2
-2022-06-20 14:25:31.468 DBG  void NetworkManager::initialCellSelection(int): NetworkManager::initialAttach()
-2022-06-20 14:25:31.468 DBG  void RadioBearer::generatePackets(int, int): Pack id:  230001
-2022-06-20 14:25:31.469 DBG  void RadioBearer::generatePackets(int, int): Pack id:  230002
-2022-06-20 14:25:31.469 DBG  void RadioBearer::generatePackets(int, int): Pack id:  240001
-2022-06-20 14:25:31.469 DBG  void RadioBearer::generatePackets(int, int): Pack id:  240002
-2022-06-20 14:25:31.470 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000130001
-2022-06-20 14:25:31.470 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000130002
-2022-06-20 14:25:31.470 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000140001
-2022-06-20 14:25:31.470 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000140002
-2022-06-20 14:25:31.471 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000230001
-2022-06-20 14:25:31.471 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000230002
-2022-06-20 14:25:31.471 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000240001
-2022-06-20 14:25:31.471 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000240002
-2022-06-20 14:25:31.472 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000330001
-2022-06-20 14:25:31.472 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000330002
-2022-06-20 14:25:31.472 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000340001
-2022-06-20 14:25:31.473 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000340002
-2022-06-20 14:25:31.474 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000430001
-2022-06-20 14:25:31.474 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000430002
-2022-06-20 14:25:31.474 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000440001
-2022-06-20 14:25:31.475 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000440002
-2022-06-20 14:25:31.475 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000530001
-2022-06-20 14:25:31.476 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000530002
-2022-06-20 14:25:31.476 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000540001
-2022-06-20 14:25:31.477 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000540002
-2022-06-20 14:25:31.477 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000630001
-2022-06-20 14:25:31.477 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000630002
-2022-06-20 14:25:31.478 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000640001
-2022-06-20 14:25:31.479 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000640002
-2022-06-20 14:25:31.479 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000730001
-2022-06-20 14:25:31.480 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000730002
-2022-06-20 14:25:31.480 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000740001
-2022-06-20 14:25:31.480 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000740002
-2022-06-20 14:25:31.480 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000830001
-2022-06-20 14:25:31.481 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000830002
-2022-06-20 14:25:31.482 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000840001
-2022-06-20 14:25:31.483 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000840002
-2022-06-20 14:25:31.483 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000930001
-2022-06-20 14:25:31.484 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000930002
-2022-06-20 14:25:31.484 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000940001
-2022-06-20 14:25:31.484 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000940002
-2022-06-20 14:25:31.484 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001030001
-2022-06-20 14:25:31.485 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001030002
-2022-06-20 14:25:31.485 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001040001
-2022-06-20 14:25:31.485 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001040002
-2022-06-20 14:25:31.485 DBG  void Scheduler::doSchedule(QVector<UserEquipment*>*): Current Cell Id------> 0
-2022-06-20 14:25:31.485 DBG  void Scheduler::timeDomainScheduling(QVector<UserEquipment*>*): Starting time scheduling-->
-2022-06-20 14:25:31.485 DBG  void Scheduler::roundRobin(QVector<UserEquipment*>*, int, int): Scheduler::roundRobin::Starting frequency diomain scheduling (ROUND ROBIN)-->
-2022-06-20 14:25:31.485 DBG  void Scheduler::roundRobin(QVector<UserEquipment*>*, int, int): Scheduler::roundRobin::userEquipmentContainer length --> 11
-2022-06-20 14:25:31.485 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  3242
-2022-06-20 14:25:31.485 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 230001
-2022-06-20 14:25:31.485 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  173
-2022-06-20 14:25:31.485 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  378
-2022-06-20 14:25:31.485 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 240001
-2022-06-20 14:25:31.485 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 240002
-2022-06-20 14:25:31.486 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  2538
-2022-06-20 14:25:31.486 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  4781
-2022-06-20 14:25:31.486 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000130001
-2022-06-20 14:25:31.486 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000130002
-2022-06-20 14:25:31.486 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  384
-2022-06-20 14:25:31.486 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  798
-2022-06-20 14:25:31.486 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000140001
-2022-06-20 14:25:31.486 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000140002
-2022-06-20 14:25:31.486 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  3199
-2022-06-20 14:25:31.486 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000230001
-2022-06-20 14:25:31.486 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  135
-2022-06-20 14:25:31.486 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  313
-2022-06-20 14:25:31.486 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000240001
-2022-06-20 14:25:31.486 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000240002
-2022-06-20 14:25:31.486 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  2782
-2022-06-20 14:25:31.486 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000330001
-2022-06-20 14:25:31.486 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  2847
-2022-06-20 14:25:31.486 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000340001
-2022-06-20 14:25:31.489 DBG  void Equipment::showDataTransmitted(): Equipment::showDataTransmitted():: BITS 2383
-2022-06-20 14:25:31.489 DBG  QVector<QVector<QPair<int, int> > >& Simple(): Network Manager:
-2022-06-20 14:25:31.489 DBG  QVector<QVector<QPair<int, int> > >& Simple():      Cell IDs list
-2022-06-20 14:25:31.489 DBG  QVector<QVector<QPair<int, int> > >& Simple():          Cell id:  0
-2022-06-20 14:25:31.489 DBG  QVector<QVector<QPair<int, int> > >& Simple():              Cell info:
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE IDs list in CELL
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  2
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  5
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  10001
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  1
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  10002
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  5
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  10003
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  10004
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  2
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  10005
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  7
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  10006
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  10007
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
-2022-06-20 14:25:31.490 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  1
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  10008
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  4
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  10009
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  5
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  10010
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  5
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():      gNodeB IDs list
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():          1000
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():      UE IDs list
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():          2
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():          10001
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():          10002
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():          10003
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():          10004
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():          10005
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():          10006
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():          10007
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():          10008
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():          10009
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple():          10010
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple(): PRB UTILIZED -->  QPair(0,315)
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple(): PRB UTILIZED -->  QPair(1,420)
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple(): PRB UTILIZED -->  QPair(2,360)
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple(): 1
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple(): 2
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple(): 3
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple(): -->
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple(): 1
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple(): 2
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple(): 3
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple(): 2
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple(): 2
-2022-06-20 14:25:31.491 DBG  QVector<QVector<QPair<int, int> > >& Simple(): 2
-2022-06-20 14:25:31.491 DBG  void pdcp_test(): PDCP PDU SIZE -->  QVector(false, true, true, true, true, false, true, false, true, true, true, false, false, false, true, true, false, true, false, true, false, false, true, false, true, true, false, false, true, false, true, false, true, true, false, true, true, true, true, false, true, false, false, false, true, true, false, true, true, false, false, true, false, true, true, false, false, false, true, false, true, true, false, true, true, false, true, false, false, false, true, false, false, false, true, true, true, true, true, false, true, true, false, false, true, false, true, true, false, false, true, false, false, true, false, false, false, true, false, true, false, true, false, false, true, true, false, true, true, true, false, false, false, false, false, false, false, true, false, false, false, false, false, false, true, false, false, false, false, true, true, false, false, true, true, false, true, true, false, false, false, false, false, true, true, false, true, false, false, false, true, true, true, false, false, true, true, true, false, false, true, true, true, false, true, false, true, false, false, false, false, false, true, false, false, false, true, true, false, false, false, true, true, true, true, true, true, false, false, true, true, true, true, true, true, true, false, true, false, true, true, true, true, false, false, true, true, true, false, true, true, true, true, true, true, false, false, true, false, false, true, true, false, false, false, true, true, true, false, false, false, false, true, false, true, false, true, true, false, false, false, true, false, true, false, true, true, true, true, false, false, false, false, true, true, false, false, false, false, true, false, true, true, true, false, false, false, true, false, false, true, true, false, false, false, false, true, true, true, false, true, false, true, true, false, true, false, true, true, true, false, true, true, true, true, true, false, true, false, true, true, true, true, false, false, false, true, false, false, false, true, false, true, false, true, true, false, true, true, false, true, true, false, false, true, false, false, true, true, true, true, false, false, true, true, false, true, false, true, false, true, false, false, true, false, false, false, true, true, false, false, false, false, false, true, true, false, false, true, false, false, false, false, false, true, true, false, false, true, true, false, false, true, true, false, false, false, false, true, true, false, true, false, false, false, false, true, false, false, false, true, false, false, false, true, true, true, false, false, true, false, false, false, true, false, true, false, true, true, true, true, false, true, false, true, false, false, true, true, false, true, true, false, true, true, true, false, false, false, false, true, false, false, true, false, false, false, true, true, false, false, true, true, true, false, false, true, false, true, false, false, true, true, true, false, true, true, false, false, false, false, true, true, true, false, false, true, false, false, false, true, false, true, false, true, true, true, false, false, true, false, true, true, false, true, true, false, false, true, false, true, true, true, true, false, false, false, false, false, true, false, true, true, true, false, false, true, true, false, false, false, true, false, false, true, true, true, false, false, true, true, true, true, false, true, true, false, true, true, false, false, true, true, true, false, false, false, true, false, false, false, false, true, false, false, true, false, true, true, false, true, false, false, true, true, true, false, true, true, false, true, false, false, true, true, false, true, true, false, false, true, false, true, true, true, false, false, true, false, true, true, true, false, false, false, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false, true, true, false, true, true, false, false, true, false, true, true, true, false, true, true, true, true, true, false, false, false, false, false, false, true, true, false, true, false, true, true, false, true, true, true, true, false, false, false, false, false, false, true, true, false, false, true, true, true, true, true, true, true, true, true, true, true, false, false, true, true, false, false, false, false, false, true, false, true, false, false, true, true, false, true, true, false, false, true, true, false, true, false, true, false, false, false, true, true, false, false, true, true, true, false, true, true, false, true, true, false, false, true, true, true, true, true, false, true, false, false, false, false, true, true, false, true, false, true, false, false, false, true, true, false, false, false, false, false, true, false, false, true, true, false, true, true, true, false, false, true, false, false, true, false, true, true, true, false, true, true, false, false, false, true, true, true, false, false, true, false, true, false, false, true, false, true, true, true, false, true, false, false, true, true, false, false, false, false, false, false, false, false, true, true, false, true, true, false, false, false, true, false, true, true, false, false, true, true)
-2022-06-20 14:25:33.245 DBG  void MapQuickWidget::findAddress(QNetworkReply*): "ул. Кирова, 86, Новосибирск, Новосибирская обл., 630102"
+2022-06-22 11:22:43.710 WRN  : qrc:/qml/map.qml:5:1: module "QtGraphicalEffects" version 1.15 is not installed
+2022-06-22 11:22:43.930 DBG  double HeatmapModel::getAvgBuildingHeight(): buildings count = 393
+2022-06-22 11:22:44.108 DBG  double HeatmapModel::getAvgBuildingHeight(): SUM =  8.35837e-307
+2022-06-22 11:22:44.229 WRN  : QObject::connect(QGraphicsScene, DataSource): invalid null parameter
+2022-06-22 11:22:44.229 DBG  void DataSource::update(QtCharts::QAbstractSeries*, int): Update:
+2022-06-22 11:22:44.229 DBG  void DataSource::update(QtCharts::QAbstractSeries*, int): Update series
+2022-06-22 11:22:44.229 DBG  QtCharts::QChart* ChartGroupWidget::createSignalChart(): Hello
+2022-06-22 11:22:44.275 DBG  Cell::Cell(): test log
+2022-06-22 11:22:44.275 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
+2022-06-22 11:22:44.275 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  58
+2022-06-22 11:22:44.276 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
+2022-06-22 11:22:44.276 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
+2022-06-22 11:22:44.277 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
+2022-06-22 11:22:44.277 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
+2022-06-22 11:22:44.277 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
+2022-06-22 11:22:44.277 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
+2022-06-22 11:22:44.277 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
+2022-06-22 11:22:44.278 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
+2022-06-22 11:22:44.278 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
+2022-06-22 11:22:44.278 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
+2022-06-22 11:22:44.278 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
+2022-06-22 11:22:44.278 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
+2022-06-22 11:22:44.278 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
+2022-06-22 11:22:44.279 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
+2022-06-22 11:22:44.279 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
+2022-06-22 11:22:44.279 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
+2022-06-22 11:22:44.279 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
+2022-06-22 11:22:44.279 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
+2022-06-22 11:22:44.280 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
+2022-06-22 11:22:44.280 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
+2022-06-22 11:22:44.280 DBG  void Equipment::setLinkBudgetParameters(): Equipment::setLinkBudgetParameters()
+2022-06-22 11:22:44.280 DBG  void Equipment::setLinkBudgetParameters():     Equipment::setLinkBudgetParameters()::EIRP -->  23
+2022-06-22 11:22:44.280 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2022-06-22 11:22:44.280 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 0
+2022-06-22 11:22:44.280 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  0
+2022-06-22 11:22:44.280 DBG  void NetworkManager::scheduleCells(QVector<Cell*>*): 0
+2022-06-22 11:22:44.280 DBG  void NetworkManager::scheduleCells(QVector<Cell*>*): NetworkManager::scheduleCells:: cell SCS -->  15
+2022-06-22 11:22:44.280 DBG  void NetworkManager::scheduleCells(QVector<Cell*>*): NetworkManager::scheduleCells:: cell time slot -->  0
+2022-06-22 11:22:44.280 DBG  void NetworkManager::initialCellSelection(int): NetworkManager::initialAttach()
+2022-06-22 11:22:44.280 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 2
+2022-06-22 11:22:44.280 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 10001
+2022-06-22 11:22:44.280 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 10002
+2022-06-22 11:22:44.280 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 10003
+2022-06-22 11:22:44.280 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 10004
+2022-06-22 11:22:44.280 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 10005
+2022-06-22 11:22:44.280 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 10006
+2022-06-22 11:22:44.280 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 10007
+2022-06-22 11:22:44.281 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 10008
+2022-06-22 11:22:44.281 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 10009
+2022-06-22 11:22:44.281 DBG  void NetworkManager::attachUEtoCell(Cell*, UserEquipment*): NetworkManager::attachUEtoCell::UE ID--> 10010
+2022-06-22 11:22:44.281 DBG  void RadioBearer::generatePackets(int, int): Pack id:  230001
+2022-06-22 11:22:44.282 DBG  void RadioBearer::generatePackets(int, int): Pack id:  230002
+2022-06-22 11:22:44.282 DBG  void RadioBearer::generatePackets(int, int): Pack id:  240001
+2022-06-22 11:22:44.283 DBG  void RadioBearer::generatePackets(int, int): Pack id:  240002
+2022-06-22 11:22:44.283 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000130001
+2022-06-22 11:22:44.284 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000130002
+2022-06-22 11:22:44.284 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000140001
+2022-06-22 11:22:44.285 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000140002
+2022-06-22 11:22:44.286 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000230001
+2022-06-22 11:22:44.286 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000230002
+2022-06-22 11:22:44.287 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000240001
+2022-06-22 11:22:44.287 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000240002
+2022-06-22 11:22:44.288 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000330001
+2022-06-22 11:22:44.289 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000330002
+2022-06-22 11:22:44.289 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000340001
+2022-06-22 11:22:44.289 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000340002
+2022-06-22 11:22:44.290 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000430001
+2022-06-22 11:22:44.291 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000430002
+2022-06-22 11:22:44.291 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000440001
+2022-06-22 11:22:44.292 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000440002
+2022-06-22 11:22:44.293 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000530001
+2022-06-22 11:22:44.294 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000530002
+2022-06-22 11:22:44.294 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000540001
+2022-06-22 11:22:44.294 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000540002
+2022-06-22 11:22:44.295 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000630001
+2022-06-22 11:22:44.296 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000630002
+2022-06-22 11:22:44.296 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000640001
+2022-06-22 11:22:44.297 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000640002
+2022-06-22 11:22:44.298 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000730001
+2022-06-22 11:22:44.300 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000730002
+2022-06-22 11:22:44.301 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000740001
+2022-06-22 11:22:44.302 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000740002
+2022-06-22 11:22:44.304 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000830001
+2022-06-22 11:22:44.304 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000830002
+2022-06-22 11:22:44.305 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000840001
+2022-06-22 11:22:44.306 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000840002
+2022-06-22 11:22:44.307 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000930001
+2022-06-22 11:22:44.308 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000930002
+2022-06-22 11:22:44.309 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000940001
+2022-06-22 11:22:44.309 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000940002
+2022-06-22 11:22:44.310 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001030001
+2022-06-22 11:22:44.311 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001030002
+2022-06-22 11:22:44.312 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001040001
+2022-06-22 11:22:44.312 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001040002
+2022-06-22 11:22:44.312 DBG  void Scheduler::doSchedule(QVector<UserEquipment*>*): Current Cell Id------> 0
+2022-06-22 11:22:44.312 DBG  void Scheduler::timeDomainScheduling(QVector<UserEquipment*>*): Starting time scheduling-->
+2022-06-22 11:22:44.312 DBG  void Scheduler::roundRobin(QVector<UserEquipment*>*, int, int): Scheduler::roundRobin::Starting frequency diomain scheduling (ROUND ROBIN)-->
+2022-06-22 11:22:44.312 DBG  void Scheduler::roundRobin(QVector<UserEquipment*>*, int, int): Scheduler::roundRobin::userEquipmentContainer length --> 11
+2022-06-22 11:22:44.313 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  3681
+2022-06-22 11:22:44.313 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 230001
+2022-06-22 11:22:44.313 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  3543
+2022-06-22 11:22:44.313 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 240001
+2022-06-22 11:22:44.313 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  2262
+2022-06-22 11:22:44.313 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000130001
+2022-06-22 11:22:44.313 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  2627
+2022-06-22 11:22:44.313 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000140001
+2022-06-22 11:22:44.313 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  3109
+2022-06-22 11:22:44.313 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000230001
+2022-06-22 11:22:44.313 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  2671
+2022-06-22 11:22:44.313 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000240001
+2022-06-22 11:22:44.313 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  1205
+2022-06-22 11:22:44.314 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000340001
+2022-06-22 11:22:44.315 DBG  void Equipment::showDataTransmitted(): Equipment::showDataTransmitted():: BITS 1308
+2022-06-22 11:22:44.315 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2022-06-22 11:22:44.315 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 1
+2022-06-22 11:22:44.315 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  1
+2022-06-22 11:22:44.315 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2022-06-22 11:22:44.315 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 2
+2022-06-22 11:22:44.315 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  2
+2022-06-22 11:22:44.315 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2022-06-22 11:22:44.315 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 3
+2022-06-22 11:22:44.315 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  3
+2022-06-22 11:22:44.315 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2022-06-22 11:22:44.315 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 4
+2022-06-22 11:22:44.315 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  4
+2022-06-22 11:22:44.315 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2022-06-22 11:22:44.315 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 5
+2022-06-22 11:22:44.315 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  5
+2022-06-22 11:22:44.315 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2022-06-22 11:22:44.315 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 6
+2022-06-22 11:22:44.316 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  6
+2022-06-22 11:22:44.316 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2022-06-22 11:22:44.316 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 7
+2022-06-22 11:22:44.316 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  7
+2022-06-22 11:22:44.316 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2022-06-22 11:22:44.316 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 8
+2022-06-22 11:22:44.316 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  8
+2022-06-22 11:22:44.316 DBG  void NetworkManager::scheduleCells(QVector<Cell*>*): 0
+2022-06-22 11:22:44.316 DBG  void NetworkManager::scheduleCells(QVector<Cell*>*): NetworkManager::scheduleCells:: cell SCS -->  15
+2022-06-22 11:22:44.316 DBG  void NetworkManager::scheduleCells(QVector<Cell*>*): NetworkManager::scheduleCells:: cell time slot -->  1
+2022-06-22 11:22:44.316 DBG  void NetworkManager::initialCellSelection(int): NetworkManager::initialAttach()
+2022-06-22 11:22:44.316 DBG  void RadioBearer::generatePackets(int, int): Pack id:  230001
+2022-06-22 11:22:44.317 DBG  void RadioBearer::generatePackets(int, int): Pack id:  230002
+2022-06-22 11:22:44.317 DBG  void RadioBearer::generatePackets(int, int): Pack id:  240001
+2022-06-22 11:22:44.318 DBG  void RadioBearer::generatePackets(int, int): Pack id:  240002
+2022-06-22 11:22:44.319 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000130001
+2022-06-22 11:22:44.320 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000130002
+2022-06-22 11:22:44.320 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000140001
+2022-06-22 11:22:44.321 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000140002
+2022-06-22 11:22:44.322 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000230001
+2022-06-22 11:22:44.323 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000230002
+2022-06-22 11:22:44.323 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000240001
+2022-06-22 11:22:44.324 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000240002
+2022-06-22 11:22:44.324 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000330001
+2022-06-22 11:22:44.325 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000330002
+2022-06-22 11:22:44.325 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000340001
+2022-06-22 11:22:44.325 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000340002
+2022-06-22 11:22:44.326 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000430001
+2022-06-22 11:22:44.327 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000430002
+2022-06-22 11:22:44.327 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000440001
+2022-06-22 11:22:44.328 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000440002
+2022-06-22 11:22:44.328 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000530001
+2022-06-22 11:22:44.329 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000530002
+2022-06-22 11:22:44.329 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000540001
+2022-06-22 11:22:44.329 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000540002
+2022-06-22 11:22:44.329 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000630001
+2022-06-22 11:22:44.330 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000630002
+2022-06-22 11:22:44.330 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000640001
+2022-06-22 11:22:44.330 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000640002
+2022-06-22 11:22:44.331 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000730001
+2022-06-22 11:22:44.331 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000730002
+2022-06-22 11:22:44.332 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000740001
+2022-06-22 11:22:44.333 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000740002
+2022-06-22 11:22:44.333 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000830001
+2022-06-22 11:22:44.333 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000830002
+2022-06-22 11:22:44.334 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000840001
+2022-06-22 11:22:44.334 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000840002
+2022-06-22 11:22:44.334 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000930001
+2022-06-22 11:22:44.335 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000930002
+2022-06-22 11:22:44.335 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000940001
+2022-06-22 11:22:44.336 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000940002
+2022-06-22 11:22:44.336 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001030001
+2022-06-22 11:22:44.337 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001030002
+2022-06-22 11:22:44.337 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001040001
+2022-06-22 11:22:44.338 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001040002
+2022-06-22 11:22:44.338 DBG  void Scheduler::doSchedule(QVector<UserEquipment*>*): Current Cell Id------> 0
+2022-06-22 11:22:44.338 DBG  void Scheduler::timeDomainScheduling(QVector<UserEquipment*>*): Starting time scheduling-->
+2022-06-22 11:22:44.338 DBG  void Scheduler::roundRobin(QVector<UserEquipment*>*, int, int): Scheduler::roundRobin::Starting frequency diomain scheduling (ROUND ROBIN)-->
+2022-06-22 11:22:44.338 DBG  void Scheduler::roundRobin(QVector<UserEquipment*>*, int, int): Scheduler::roundRobin::userEquipmentContainer length --> 11
+2022-06-22 11:22:44.338 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  2373
+2022-06-22 11:22:44.338 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 230001
+2022-06-22 11:22:44.338 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  4448
+2022-06-22 11:22:44.338 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 240001
+2022-06-22 11:22:44.338 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  4301
+2022-06-22 11:22:44.338 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000130001
+2022-06-22 11:22:44.338 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  5079
+2022-06-22 11:22:44.338 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000140001
+2022-06-22 11:22:44.339 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  3518
+2022-06-22 11:22:44.339 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000230001
+2022-06-22 11:22:44.339 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  2530
+2022-06-22 11:22:44.339 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000240001
+2022-06-22 11:22:44.339 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  2557
+2022-06-22 11:22:44.339 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000330001
+2022-06-22 11:22:44.339 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  2064
+2022-06-22 11:22:44.339 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  3673
+2022-06-22 11:22:44.339 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000340001
+2022-06-22 11:22:44.339 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000340002
+2022-06-22 11:22:44.340 DBG  void Equipment::showDataTransmitted(): Equipment::showDataTransmitted():: BITS 3826
+2022-06-22 11:22:44.340 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2022-06-22 11:22:44.340 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 9
+2022-06-22 11:22:44.340 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  9
+2022-06-22 11:22:44.340 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2022-06-22 11:22:44.340 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 10
+2022-06-22 11:22:44.340 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  10
+2022-06-22 11:22:44.340 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2022-06-22 11:22:44.340 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 11
+2022-06-22 11:22:44.340 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  11
+2022-06-22 11:22:44.340 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2022-06-22 11:22:44.340 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 12
+2022-06-22 11:22:44.340 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  12
+2022-06-22 11:22:44.340 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2022-06-22 11:22:44.340 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 13
+2022-06-22 11:22:44.340 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  13
+2022-06-22 11:22:44.340 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2022-06-22 11:22:44.340 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 14
+2022-06-22 11:22:44.340 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  14
+2022-06-22 11:22:44.341 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2022-06-22 11:22:44.341 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 15
+2022-06-22 11:22:44.341 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  15
+2022-06-22 11:22:44.341 DBG  void NetworkManager::runNetwork(): <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2022-06-22 11:22:44.341 DBG  void NetworkManager::runNetwork(): Current 120 Time Slot -> 16
+2022-06-22 11:22:44.341 DBG  void NetworkManager::scheduleGNodeB(): gNodeB local 120 Time Slot -->  16
+2022-06-22 11:22:44.341 DBG  void NetworkManager::scheduleCells(QVector<Cell*>*): 0
+2022-06-22 11:22:44.341 DBG  void NetworkManager::scheduleCells(QVector<Cell*>*): NetworkManager::scheduleCells:: cell SCS -->  15
+2022-06-22 11:22:44.341 DBG  void NetworkManager::scheduleCells(QVector<Cell*>*): NetworkManager::scheduleCells:: cell time slot -->  2
+2022-06-22 11:22:44.341 DBG  void NetworkManager::initialCellSelection(int): NetworkManager::initialAttach()
+2022-06-22 11:22:44.341 DBG  void RadioBearer::generatePackets(int, int): Pack id:  230001
+2022-06-22 11:22:44.342 DBG  void RadioBearer::generatePackets(int, int): Pack id:  230002
+2022-06-22 11:22:44.342 DBG  void RadioBearer::generatePackets(int, int): Pack id:  240001
+2022-06-22 11:22:44.342 DBG  void RadioBearer::generatePackets(int, int): Pack id:  240002
+2022-06-22 11:22:44.343 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000130001
+2022-06-22 11:22:44.343 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000130002
+2022-06-22 11:22:44.344 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000140001
+2022-06-22 11:22:44.345 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000140002
+2022-06-22 11:22:44.345 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000230001
+2022-06-22 11:22:44.346 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000230002
+2022-06-22 11:22:44.347 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000240001
+2022-06-22 11:22:44.347 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000240002
+2022-06-22 11:22:44.348 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000330001
+2022-06-22 11:22:44.349 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000330002
+2022-06-22 11:22:44.349 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000340001
+2022-06-22 11:22:44.349 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000340002
+2022-06-22 11:22:44.350 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000430001
+2022-06-22 11:22:44.350 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000430002
+2022-06-22 11:22:44.351 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000440001
+2022-06-22 11:22:44.351 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000440002
+2022-06-22 11:22:44.352 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000530001
+2022-06-22 11:22:44.352 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000530002
+2022-06-22 11:22:44.352 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000540001
+2022-06-22 11:22:44.352 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000540002
+2022-06-22 11:22:44.353 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000630001
+2022-06-22 11:22:44.353 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000630002
+2022-06-22 11:22:44.353 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000640001
+2022-06-22 11:22:44.354 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000640002
+2022-06-22 11:22:44.354 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000730001
+2022-06-22 11:22:44.355 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000730002
+2022-06-22 11:22:44.355 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000740001
+2022-06-22 11:22:44.356 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000740002
+2022-06-22 11:22:44.356 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000830001
+2022-06-22 11:22:44.357 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000830002
+2022-06-22 11:22:44.357 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000840001
+2022-06-22 11:22:44.357 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000840002
+2022-06-22 11:22:44.358 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000930001
+2022-06-22 11:22:44.358 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000930002
+2022-06-22 11:22:44.359 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000940001
+2022-06-22 11:22:44.360 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1000940002
+2022-06-22 11:22:44.360 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001030001
+2022-06-22 11:22:44.361 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001030002
+2022-06-22 11:22:44.361 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001040001
+2022-06-22 11:22:44.362 DBG  void RadioBearer::generatePackets(int, int): Pack id:  1001040002
+2022-06-22 11:22:44.362 DBG  void Scheduler::doSchedule(QVector<UserEquipment*>*): Current Cell Id------> 0
+2022-06-22 11:22:44.362 DBG  void Scheduler::timeDomainScheduling(QVector<UserEquipment*>*): Starting time scheduling-->
+2022-06-22 11:22:44.362 DBG  void Scheduler::roundRobin(QVector<UserEquipment*>*, int, int): Scheduler::roundRobin::Starting frequency diomain scheduling (ROUND ROBIN)-->
+2022-06-22 11:22:44.362 DBG  void Scheduler::roundRobin(QVector<UserEquipment*>*, int, int): Scheduler::roundRobin::userEquipmentContainer length --> 11
+2022-06-22 11:22:44.362 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  3456
+2022-06-22 11:22:44.362 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 230001
+2022-06-22 11:22:44.362 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  2321
+2022-06-22 11:22:44.362 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  4840
+2022-06-22 11:22:44.362 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 240001
+2022-06-22 11:22:44.362 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 240002
+2022-06-22 11:22:44.362 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  2196
+2022-06-22 11:22:44.362 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  5035
+2022-06-22 11:22:44.362 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000130001
+2022-06-22 11:22:44.362 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000130002
+2022-06-22 11:22:44.362 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  4212
+2022-06-22 11:22:44.362 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000230001
+2022-06-22 11:22:44.362 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  5141
+2022-06-22 11:22:44.362 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000240001
+2022-06-22 11:22:44.363 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  3535
+2022-06-22 11:22:44.363 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000330001
+2022-06-22 11:22:44.363 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  2494
+2022-06-22 11:22:44.363 DBG  void Scheduler::fillTbWithPackets(RadioBearer*, int, double, int, int):      Scheduler::fillTbWithPackets:: TBS -->  4758
+2022-06-22 11:22:44.363 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000340001
+2022-06-22 11:22:44.363 DBG  void RadioBearer::deletePacket(Packet*): RadioBearer::deletePacket:: packet deleted--> 1000340002
+2022-06-22 11:22:44.364 DBG  void Equipment::showDataTransmitted(): Equipment::showDataTransmitted():: BITS 6889
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple(): Network Manager:
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():      Cell IDs list
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():          Cell id:  0
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():              Cell info:
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE IDs list in CELL
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  2
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  10001
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  6
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  10002
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  6
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  10003
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  2
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  10004
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  10005
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  5
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  10006
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  5
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  10007
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  6
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  10008
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  2
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  10009
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():              UE id:  10010
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  Bearers:
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():                  5QI:  8
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():      gNodeB IDs list
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():          1000
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():      UE IDs list
+2022-06-22 11:22:44.364 DBG  QVector<QVector<QPair<int, int> > >& Simple():          2
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple():          10001
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple():          10002
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple():          10003
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple():          10004
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple():          10005
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple():          10006
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple():          10007
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple():          10008
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple():          10009
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple():          10010
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple(): PRB UTILIZED -->  QPair(0,350)
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple(): PRB UTILIZED -->  QPair(1,420)
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple(): PRB UTILIZED -->  QPair(2,360)
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple(): 1
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple(): 2
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple(): 3
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple(): -->
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple(): 1
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple(): 2
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple(): 3
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple(): 2
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple(): 2
+2022-06-22 11:22:44.365 DBG  QVector<QVector<QPair<int, int> > >& Simple(): 2
+2022-06-22 11:22:44.365 DBG  void vectorTest(): QVector(QVector(0, 0), QVector(), QVector(), QVector(), QVector())
+2022-06-22 11:22:45.435 DBG  void MapQuickWidget::findAddress(QNetworkReply*): "ул. Кирова, 86, Новосибирск, Новосибирская обл., 630102"

@@ -153,6 +153,7 @@ double Bandwidth::getSinr()
     return _sinr;
 }
 
+
 void Bandwidth::print()
 {
     qDebug() << "Bandwidth information:";

@@ -5,9 +5,9 @@
 #include "src/equipment/gNodeB.h"
 #include "src/equipment/UserEquipment.h"
 #include "src/equipment/Walker.h"
-#include "src/protocols/phy/propagationModels.h"
+#include "src/protocols/phy/Channel/propagationModels.h"
 #include "src/simulation/Simulation.h"
-#include "src/protocols/phy/Channel/Bandwidth.h"
+#include "src/protocols/phy/Bandwidth.h"
 #include "src/protocols/phy/Symbol.h"
 #include "src/equipment/antenna/AntennaArray.h"
 

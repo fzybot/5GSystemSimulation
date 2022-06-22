@@ -187,6 +187,11 @@ double COST231_Hata(double distance2Dout, double distance2Din, double heightBS, 
     return loss;
 }
 
+double Free_space(int distance, double centerFrequency)
+{
+    return 3 * pow(10, 8) / (4 * M_PI * distance * centerFrequency * pow(10, 9));
+}
+
 //LOS probabilitys
 double RMa_LOS_probability(double distance2Dout, double distance2Din, double heightBS, double heightUT)
 {

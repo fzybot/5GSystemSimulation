@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 
 
     Simple();
-    pdcp_test();
+    vectorTest();
 
     //##############################################################################
     //                   Testing features (in src/scenarios/tests.h)

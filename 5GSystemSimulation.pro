@@ -32,6 +32,7 @@ SOURCES += \
     src/protocols/mac_layer/AMC/AMCEntity.cpp \
     src/protocols/mac_layer/CellMacEntity.cpp \
     src/protocols/mac_layer/TransportBlock.cpp \
+    src/protocols/phy/Channel/PropagationLossModel.cpp \
     src/protocols/phy/ResourceGrid.cpp \
     src/protocols/phy/Symbol.cpp \
     src/visualization/ChartGroupWidget.cpp \
@@ -50,8 +51,8 @@ SOURCES += \
     src/equipment/gNodeB.cpp \
     src/equipment/mobility/Mobility.cpp \
     src/protocols/phy/Physical.cpp \
-    src/protocols/phy/propagationModels.cpp \
-    src/protocols/phy/Channel/Bandwidth.cpp \
+    src/protocols/phy/Channel/propagationModels.cpp \
+    src/protocols/phy/Bandwidth.cpp \
     src/protocols/phy/Channel/RadioChannel.cpp \
     src/protocols/Packet.cpp \
     src/protocols/pdcp_layer/PdcpEntity.cpp \
@@ -89,7 +90,8 @@ HEADERS += \
     src/protocols/mac_layer/AMC/miesmParameters.h \
     src/protocols/mac_layer/CellMacEntity.h \
     src/protocols/mac_layer/TransportBlock.h \
-    src/protocols/phy/Channel/bandList.h \
+    src/protocols/phy/Channel/PropagationLossModel.h \
+    src/protocols/phy/bandList.h \
     src/protocols/phy/ResourceGrid.h \
     src/protocols/phy/Symbol.h \
     src/protocols/phy/modulation.h \
@@ -115,8 +117,8 @@ HEADERS += \
     src/equipment/gNodeB.h \
     src/equipment/mobility/Mobility.h \
     src/protocols/phy/Physical.h \
-    src/protocols/phy/propagationModels.h \
-    src/protocols/phy/Channel/Bandwidth.h \
+    src/protocols/phy/Channel/propagationModels.h \
+    src/protocols/phy/Bandwidth.h \
     src/protocols/phy/Channel/RadioChannel.h \
     src/protocols/Packet.h \
     src/protocols/pdcp_layer/PdcpEntity.h \
