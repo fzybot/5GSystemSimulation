@@ -31,31 +31,31 @@ void Chartable::visualize3D()
     container->show();
 }
 
-void Chartable::visualize2D(QVector<QVector<QPair<float, float>>> data, QString str)
+void Chartable::visualize2D(QVector<QVector<QPair<double, double>>> data, QString plotName, QVector<QString> seriesName, int minY, int maxY)
 {
     QtCharts::QChartView *chartView;
     QtCharts::QChart *chart = new QtCharts::QChart();
-    chart->setTitle(str);
-
-    QString name("Data ");
+    chart->setTitle(plotName);
+    chartView->setRubberBand(QtCharts::QChartView::HorizontalRubberBand);
     int nameIndex = 0;
     for (auto list : data) {
         QtCharts::QLineSeries *series = new QtCharts::QLineSeries(chart);
         for (auto element : list)
             series->append(element.first, element.second);
-        series->setName(name + QString::number(nameIndex));
+        series->setName(seriesName[nameIndex]);
         nameIndex++;
         chart->addSeries(series);
     }
 
     chart->createDefaultAxes();
     // chart->axes(Qt::Horizontal).first()->setRange(0, 20);
-    // chart->axes(Qt::Vertical).first()->setRange(0, 10);
+    //chart->axes(Qt::Vertical).first()->setRange(minY, maxY);
 
     // Add space to label to add space between labels and axis
     QtCharts::QValueAxis *axisY = qobject_cast<QtCharts::QValueAxis*>(chart->axes(Qt::Vertical).first());
     Q_ASSERT(axisY);
-    //axisY->setLabelFormat("%f  ");
+    axisY->setLabelFormat("%d  ");
+    axisY->setRange(minY, maxY);
 
     chartView = new QtCharts::QChartView(chart);
 

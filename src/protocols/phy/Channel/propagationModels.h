@@ -10,7 +10,7 @@
 
 
 /* According to TR 38.901 Table 7.4.1-1: Pathloss models (page 26):
- * centerFrequency - 'Fc' [Hz]
+ * centerFrequency - 'Fc' [GHz]
  * breakPointDistance - d_BP [m]
  * heightBS - h_BS [m]
  * heightUT - h_UT [m]
@@ -93,7 +93,8 @@ double InF_NLOS_DH(double distance2Dout, double distance2Din, double heightBS, d
 double COST231_Hata(double distance2Dout, double distance2Din, double heightBS, double heightUT,
     double centerFrequency, double h, double W, double shadowFading);
 
-double Free_space(int distance, double centerFrequency);
+double Free_space(double distance2Dout, double distance2Din, double heightBS, double heightUT,
+    double centerFrequency, double h, double W, double shadowFading);
 
 // LOS probabilitys
 // Note: The LOS probability is derived with assuming antenna

@@ -100,6 +100,8 @@ HEADERS += \
     src/scenarios/simple.h \
     src/scenarios/testModel.h \
     src/tests/packet_test.h \
+    src/tests/propagation_models_test.h \
+    src/tests/python_test.h \
     src/visualization/ChartGroupWidget.h \
     src/visualization/Chartable.h \
     src/visualization/HeatmapModel.h \
@@ -136,8 +138,12 @@ HEADERS += \
     src/visualization/settingsTemplate.h
 
 
-unix: LIBS += -llapack -lblas -larmadillo
-win32: INCLUDEPATH += $$PWD/libs
+#unix: LIBS += -llapack -lblas -larmadillo -L /usr/local/lib/python3.8
+#win32: INCLUDEPATH += $$PWD/libs
+
+LIBS += -llapack -lblas -larmadillo -L /usr/local/lib/python3.8 -lpython3.8
+INCLUDEPATH += $$PWD/libs   /usr/include/python3.8
+DEPENDPATH +=               /usr/include/python3.8
 
 FORMS +=
 
@@ -148,7 +154,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     .gitignore \
-    src/logging/log.txt
+    src/logging/log.txt \
+    src/tests/func.py \
+    src/tests/simple.py
     src/qml/map.qml
 
 RESOURCES += \

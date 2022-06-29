@@ -19,6 +19,7 @@ public:
     Chartable();
 
     void visualize3D();
-    void visualize2D(QVector<QVector<QPair<float, float>>> data, QString str);
+    void visualize2D(QVector<QVector<QPair<double, double>>> data, QString plotName, QVector<QString> seriesName, 
+                        int minY, int maxY);
 };
 

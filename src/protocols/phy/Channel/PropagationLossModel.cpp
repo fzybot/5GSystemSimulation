@@ -3,7 +3,7 @@
 
 PropagationLossModel::PropagationLossModel(PropagationLossModel::PropagationModel model)
 {
-
+    _propagationModel = model;
 }
 
 double PropagationLossModel::calculateLosses(   double distance2Dout,
@@ -15,53 +15,54 @@ double PropagationLossModel::calculateLosses(   double distance2Dout,
                                                 double W,
                                                 double shadowFading )
 {
-
+    double loss = 0;
     switch (_propagationModel)
     {
         case PropagationLossModel::PropagationModel::RMA_LOS:
-            RMa_LOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, shadowFading);
+            loss = RMa_LOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, shadowFading);
             break;
         case PropagationLossModel::PropagationModel::RMA_NLOS:
-            RMa_NLOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
+            loss = RMa_NLOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
             break;
         case PropagationLossModel::PropagationModel::UMA_LOS:
-            UMa_LOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
+            loss = UMa_LOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
             break;
         case PropagationLossModel::PropagationModel::UMA_NLOS:
-            UMa_NLOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
+            loss = UMa_NLOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
             break;
         case PropagationLossModel::PropagationModel::UMI_LOS:
-            UMi_LOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
+            loss = UMi_LOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
             break;
         case PropagationLossModel::PropagationModel::UMI_NLOS:
-            UMi_NLOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
+            loss = UMi_NLOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
             break;
         case PropagationLossModel::PropagationModel::INH_LOS:
-            InH_LOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
+            loss = InH_LOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
             break;
         case PropagationLossModel::PropagationModel::INH_NLOS:
-            InH_NLOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
+            loss = InH_NLOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
             break;
         case PropagationLossModel::PropagationModel::INF_LOS:
-            InF_LOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
+            loss = InF_LOS(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
             break;
         case PropagationLossModel::PropagationModel::INF_NLOS_SL:
-            InF_NLOS_SL(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
+            loss = InF_NLOS_SL(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
             break;
         case PropagationLossModel::PropagationModel::INF_NLOS_DL:
-            InF_NLOS_DL(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
+            loss = InF_NLOS_DL(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
             break;
         case PropagationLossModel::PropagationModel::INF_NLOS_SH:
-            InF_NLOS_SH(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
+            loss = InF_NLOS_SH(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
             break;
         case PropagationLossModel::PropagationModel::INF_NLOS_DH:
-            InF_NLOS_DH(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
+            loss = InF_NLOS_DH(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
             break;
         case PropagationLossModel::PropagationModel::COST231_HATA:
-            COST231_Hata(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
+            loss = COST231_Hata(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
             break;
         case PropagationLossModel::PropagationModel::FREE_SPACE:
-            Free_space(distance2Dout, centerFrequency);
+            loss = Free_space(distance2Dout, distance2Din, heightBS, heightUT, centerFrequency, h, W, shadowFading);
             break;
     }
+    return loss;
 }

@@ -24,6 +24,8 @@
 #include "src/scenarios/simple.h"
 #include "src/scenarios/modulationPerformance.h"
 #include "src/tests/packet_test.h"
+#include "src/tests/propagation_models_test.h"
+#include "src/tests/python_test.h"
 
 #include "src/debug.h"
 
@@ -58,11 +60,14 @@ int main(int argc, char *argv[])
     MainWindow mainWin;
 
     mainWin.resize(1400, 1200);
-    mainWin.show();
+    //mainWin.show();
 
 
     Simple();
     vectorTest();
+    propagation_model_test_plot();
+    python_test();
+    python_test_function_file();
 
     //##############################################################################
     //                   Testing features (in src/scenarios/tests.h)

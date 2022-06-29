@@ -183,14 +183,20 @@ double COST231_Hata(double distance2Dout, double distance2Din, double heightBS, 
     double centerFrequency, double h, double W, double shadowFading)
 {
     double d_3D = distance3D(distance2Dout, distance2Din, heightBS, heightUT);
-    double loss = 0;
+    double C = 3;
+    double a = 3.2 * (log10(11.75 * heightUT)) * 2 - 4.97;
+    double loss = 46.3 + 33.9 * log10(centerFrequency) - 13.82 * log10(heightBS) - a + (44.9 - 6.55 * log10(heightBS)) * log10(d_3D) + C;
     return loss;
 }
 
-double Free_space(int distance, double centerFrequency)
+double Free_space(double distance2Dout, double distance2Din, double heightBS, double heightUT,
+    double centerFrequency, double h, double W, double shadowFading)
 {
-    return 3 * pow(10, 8) / (4 * M_PI * distance * centerFrequency * pow(10, 9));
+    double d_3D = distance3D(distance2Dout, distance2Din, heightBS, heightUT);
+    return 32.44 + 20 * log10(d_3D) + 20 * log10(centerFrequency);
 }
+
+
 
 //LOS probabilitys
 double RMa_LOS_probability(double distance2Dout, double distance2Din, double heightBS, double heightUT)
