@@ -103,7 +103,6 @@ public:
     void calculateSINRPerEquipment_stupid();
     void calculateSINRPerEquipment_signals();
     void calculateSINRPerEquipment_signal_doppler();
-    double summ_dBm(double dbm1, double dbm2);
 
     // ----- [ SIMULATION ] ------------------------------------------------------------------------------------------------
 

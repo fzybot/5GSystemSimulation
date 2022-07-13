@@ -13,9 +13,21 @@ AntennaArray::AntennaArray()
 
 }
 
-AntennaArray::AntennaArray(int sizeX, int sizeY, float azimuth, float elevation, float beamWidth, float sectorWidth)
+AntennaArray::AntennaArray(AntennaArray::AntennaType type, int sizeX, int sizeY, 
+                            float azimuth, float elevation, float beamWidth, float sectorWidth)
 {
-    configAntennaGrid(sizeX, sizeY);
+    setAntennaType(type);
+    switch (type)
+    {
+        case AntennaArray::AntennaType::ANTENNA_TYPE_OMNIDIRECTIONAL:
+            setDefaultGain(0);
+            configAntennaGrid(sizeX, sizeY);
+            break;
+        case AntennaArray::AntennaType::ANTENNA_TYPE_3GPP_CUSTOM:
+            setDefaultGain(12);
+            configAntennaGrid(sizeX, sizeY);
+            break;
+    }
 }
 
 void AntennaArray::configAntennaGrid(int sizeX, int sizeY)
@@ -35,6 +47,35 @@ void AntennaArray::setBeams(float azimuth, float elevation, float beamWidth, flo
         for (int j = 0; j < _beamContainer[0].size(); i++){
             Beam *beam = new Beam();
             _beamContainer[i][j] = beam;
+        }
+    }
+}
+
+void AntennaArray::setAntennaType(AntennaArray::AntennaType type)
+{
+    _type = type;
+}
+
+AntennaArray::AntennaType &AntennaArray::getAntennaType()
+{
+    return _type;
+}
+
+QVector<QVector<Beam *>> &AntennaArray::getBeamContainer()
+{
+    return _beamContainer;
+}
+
+float AntennaArray::gainPerBeamIndex(int indexX, int indexY, int elevation, int azimuth)
+{
+    return _beamContainer[indexX][indexY]->calculateAntGain(elevation, azimuth);
+}
+
+void AntennaArray::setDefaultGain(double gain)
+{
+    for (int i = 0; i < _beamContainer.length(); i++){
+        for (int j = 0; j < _beamContainer[0].length(); j++){
+            _beamContainer[i][j]->defaultGain(gain);
         }
     }
 }

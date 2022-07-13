@@ -58,6 +58,9 @@ public:
     // TODO: calculate distance for sphere
     double calculateDistanceSphere(CartesianCoordinates *remoteEquipment);
 
+    double calculateAngleToRemote(CartesianCoordinates *sourceEquipment, CartesianCoordinates *remoteEquipment);
+    double calculateAngleToRemoteRad(CartesianCoordinates *sourceEquipment, CartesianCoordinates *remoteEquipment);
+
     // TODO: Need a method is able to transform from Cartesian to Geographical position.
     void transformToLatLon();
 

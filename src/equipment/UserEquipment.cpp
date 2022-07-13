@@ -30,7 +30,7 @@ UserEquipment::UserEquipment(int id,
     // Physical config
     createPhyEntity();
     setLinkBudgetParameters();
-    getPhyEntity()->defaultPhyConfig(Physical::MIMO_MODE::MIMO_2x2);
+    getPhyEntity()->defaultPhyConfig(Physical::MIMO_MODE::MIMO_2x2, 1);
     
 
     // Bearer config

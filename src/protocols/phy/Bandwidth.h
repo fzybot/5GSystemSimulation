@@ -22,20 +22,22 @@
 class Bandwidth
 {
 private:
-    bool    tdd_;
     QString frequencyRange_;
     QString operatingBand_;
+    bool    tdd_;
+    int    _mimoIndex;
+    bool    _normalCpType = true;
     double  carrierFreq_;
     double  ulBandwidth_;
     double  dlBandwidth_;
+    double  bandwidth_;
     int     ulOffsetBw_;
     int     dlOffsetBw_;
-    double  bandwidth_;
     int     subcarrierSpacing_;
     int     numPRB_;
-    bool    _normalCpType = true;
-
     int     sizeRbg_;
+    int     _sampleRate;
+    int     _fftSize = 4096;
 
     double      _sinr = 0;
     double      _rsrp = 0;
@@ -58,7 +60,7 @@ private:
 public:
     Bandwidth() = default;
     Bandwidth(QString fr, QString band, int scs,bool cp, double ulBw, double dlBw,
-              int ulOffset, int dlOffset, bool tddTrue = true);
+              int ulOffset, int dlOffset, int mimoIndex, bool tddTrue = true);
 
     QString getFrequencyRange();
     QString getBand();
@@ -68,6 +70,11 @@ public:
     double  getBandwidth();
     int     getSCS();
     bool    &getCpType();
+    void    setFftSize(int size);
+    int     getFftSize();
+
+    void calculateSampleRate();
+    int getSampleRate();
 
     void setNumberOfPRB(int number);
     int getNumberOfPRB();

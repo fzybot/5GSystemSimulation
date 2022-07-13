@@ -16,7 +16,7 @@ Cell::Cell()
     // Protocols Configuration
     // Physical
     createPhyEntity();
-    getPhyEntity()->defaultPhyConfig(Physical::MIMO_MODE::MIMO_2x2);
+    getPhyEntity()->defaultPhyConfig(Physical::MIMO_MODE::MIMO_2x2, 1);
 
     // MAC Layer
     createMacEntity();
@@ -60,15 +60,6 @@ gNodeB *Cell::getTargetGNodeB()
     return targetGNodeB_;
 }
 
-void Cell::setAntenna(Antenna *ant)
-{
-    antenna_ = ant;
-}
-Antenna *Cell::getAntenna()
-{
-    return antenna_;
-}
-
 void Cell::createMacEntity()
 {
     macEntity_ = new CellMacEntity(this);
@@ -96,6 +87,8 @@ void Cell::pathLosDetach()
     double pathLos;
     double rssi;
     double rsrp;
+    int carrAggIndex = 0;
+    int mimoIndex = 0;
 
     int localIndex = 0;
     for (auto ue : *getUserEquipmentContainer())
@@ -103,7 +96,7 @@ void Cell::pathLosDetach()
         distance = ue->calculateDistanceToCell(this);
         pathLos = ue->calculatePathLosToCell(this, distance);
         rssi = ue->calculateRssiFromCell(this, pathLos);
-        rsrp = ue->calculateRsrpFromRssi(this->getPhyEntity()->getBandwidthContainer()[0][0], rssi);
+        rsrp = ue->calculateRsrpFromRssi(this->getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex], rssi);
         if (rsrp < -120){
             detachUeFromCell(localIndex, 1); // Reason 1 - due to path loss
             ue->setSlotToCamp(getLocalOwnTimeSlot() + 30); // 100 time for cell reselection/handover)

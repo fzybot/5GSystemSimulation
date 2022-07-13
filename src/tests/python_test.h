@@ -1,5 +1,7 @@
 #pragma once
 
+// За основу взята статья https://habr.com/ru/post/466181/
+
 // Необходимо для избежания конфликта со встроенными слотами Qt Slots. 
 #undef slots
 #include <Python.h>
@@ -36,5 +38,5 @@ void python_test_function_file(){
 
 // Более слоажная работа с функциями и переменными
 void python_test_function_variables(){
-    
+
 }

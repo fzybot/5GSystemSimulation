@@ -6,7 +6,7 @@
 
 
 Bandwidth::Bandwidth(QString fr, QString band, int scs, bool cp, double ulBw,
-                     double dlBw, int ulOffset, int dlOffset, bool tddTrue)
+                     double dlBw, int ulOffset, int dlOffset, int mimoIndex, bool tddTrue)
 {
     if(tddTrue == true) {
         tdd_ = true;
@@ -17,6 +17,7 @@ Bandwidth::Bandwidth(QString fr, QString band, int scs, bool cp, double ulBw,
         ulBandwidth_ = ulBw;
         dlBandwidth_ = dlBw;
     }
+    _mimoIndex = mimoIndex;
     bandwidth_ = dlBw;
     tdd_ = tddTrue;
     frequencyRange_ = fr;
@@ -29,6 +30,7 @@ Bandwidth::Bandwidth(QString fr, QString band, int scs, bool cp, double ulBw,
     setNumberOfPRB(PRBs_for_BW[fr][scs][dlBw]);
     ulSubChannels_.clear();
     dlSubChannels_.clear();
+    calculateSampleRate();
 
     // TODO: Check the correct subchannel calculation for DL and UL
     for(int i = ulOffset; i < ulOffset + PRBs_for_BW[fr][scs][ulBw]; ++i) {
@@ -84,6 +86,27 @@ bool &Bandwidth::getCpType()
 {
     return _normalCpType;
 }
+
+void Bandwidth::setFftSize(int size)
+{
+    _fftSize = size;
+}
+
+int Bandwidth::getFftSize()
+{
+    return _fftSize;
+}
+
+void Bandwidth::calculateSampleRate()
+{
+    _sampleRate = getFftSize() * getSCS() * 1000;
+}
+
+int Bandwidth::getSampleRate()
+{
+    return _sampleRate;
+}
+
 
 void Bandwidth::setNumberOfPRB(int number)
 {

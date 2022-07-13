@@ -60,6 +60,83 @@ double CartesianCoordinates::calculateDistance2D(CartesianCoordinates *remoteEqu
                   qPow ( (getCoordinateY() - remoteEquipment->getCoordinateY()), 2) );
 }
 
+double CartesianCoordinates::calculateAngleToRemote(CartesianCoordinates *sourceEquipment, CartesianCoordinates *remoteEquipment)
+{
+    int x1 = sourceEquipment->getCoordinateX();
+    int y1 = sourceEquipment->getCoordinateY();
+    int x2 = remoteEquipment->getCoordinateX();
+    int y2 = remoteEquipment->getCoordinateY();
+
+    double deltaX = qFabs(x1 - x2) + 0.00001;
+    double deltaY = qFabs(y1 - y2) + 0.00001;
+    double angle = 0;
+    if ((x1 - x2) < 0 && (y1 - y2) < 0)
+    {
+        angle =  qRadiansToDegrees(qAtan(deltaY / deltaX));
+    } else if ( (x1 - x2) > 0 && (y1 - y2) < 0 )
+    {
+        angle =  (90 - qRadiansToDegrees(qAtan(deltaY / deltaX))) + 90;
+    } else if ((x1 - x2) > 0 && (y1 - y2) > 0)
+    {
+        angle =  qRadiansToDegrees(qAtan(deltaY / deltaX)) + 180;
+    } else if ((x1 - x2) < 0 && (y1 - y2) > 0) {
+        angle =  (90 - qRadiansToDegrees(qAtan(deltaY / deltaX))) + 270;
+    } else if ((x1 - x2) < 0 && (y1 - y2) == 0)
+    {
+        angle =  0;
+    } else if ((x1 - x2) == 0 && (y1 - y2) < 0)
+    {
+        angle =  90;
+    } else if ((x1 - x2) > 0 && (y1 - y2) == 0)
+    {
+        angle =  180;
+    } else if ((x1 - x2) == 0 && (y1 - y2) > 0)
+    {
+        angle =  270;
+    }
+    if (angle > 180)
+        angle = angle - 360;
+    return angle;
+}
+
+double CartesianCoordinates::calculateAngleToRemoteRad(CartesianCoordinates *sourceEquipment, CartesianCoordinates *remoteEquipment)
+{
+    int x1 = sourceEquipment->getCoordinateX();
+    int y1 = sourceEquipment->getCoordinateY();
+    int x2 = remoteEquipment->getCoordinateX();
+    int y2 = remoteEquipment->getCoordinateY();
+
+    double deltaX = qFabs(x1 - x2) + 0.00001;
+    double deltaY = qFabs(y1 - y2) + 0.00001;
+    double angle = 0;
+    if ((x1 - x2) < 0 && (y1 - y2) < 0)
+    {
+        angle =  (qAtan(deltaY / deltaX));
+    } else if ( (x1 - x2) > 0 && (y1 - y2) < 0 )
+    {
+        angle =  (M_PI/2 - (qAtan(deltaY / deltaX))) + M_PI/2;
+    } else if ((x1 - x2) > 0 && (y1 - y2) > 0)
+    {
+        angle =  (qAtan(deltaY / deltaX)) + M_PI;
+    } else if ((x1 - x2) < 0 && (y1 - y2) > 0) {
+        angle =  (M_PI/2 - (qAtan(deltaY / deltaX))) + 3*M_PI/2;
+    } else if ((x1 - x2) < 0 && (y1 - y2) == 0)
+    {
+        angle =  0;
+    } else if ((x1 - x2) == 0 && (y1 - y2) < 0)
+    {
+        angle =  M_PI/2;
+    } else if ((x1 - x2) > 0 && (y1 - y2) == 0)
+    {
+        angle =  M_PI;
+    } else if ((x1 - x2) == 0 && (y1 - y2) > 0)
+    {
+        angle =  3*M_PI/2;
+    }
+    if(angle > M_PI)
+        angle = angle - 2 * M_PI;
+    return angle;
+}
 
 void CartesianCoordinates::setCoordinateX(double x)
 {

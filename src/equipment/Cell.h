@@ -12,23 +12,20 @@ class RlcEntity;
 class CellMacEntity;
 class Physical;
 class gNodeB;
-class Antenna;
+class AntennaArray;
 
 class Cell: public Equipment
 {
 protected:
     QVector<UserEquipment*> *userEquipmentContainer_;
     gNodeB                  *targetGNodeB_;
-    Antenna                 *antenna_;
 
     RrcEntity       *rrc;
     PdcpEntity      *pdcp;
     RlcEntity       *rlc;
     CellMacEntity   *macEntity_;
-
-    QPair<int, int> coresetRange_;
-
     
+    QPair<int, int> coresetRange_;
 
 public:
     Cell();
@@ -39,9 +36,6 @@ public:
 
     void setTargetGNodeB(gNodeB *gNb);
     gNodeB *getTargetGNodeB();
-
-    void setAntenna(Antenna *ant);
-    Antenna *getAntenna();
 
     void createMacEntity();
     void setMacEntity(CellMacEntity *mac);

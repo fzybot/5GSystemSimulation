@@ -11,10 +11,13 @@
 #include "src/debug.h"
 #include "src/protocols/bearers/RadioBearer.h"
 #include "src/protocols/phy/Channel/propagationModels.h"
+#include "src/protocols/phy/Channel/PropagationLossModel.h"
 #include "src/equipment/Cell.h"
 #include "src/equipment/UserEquipment.h"
+#include "src/equipment/antenna/AntennaArray.h"
 #include "src/protocols/phy/Physical.h"
 #include "src/protocols/phy/Bandwidth.h"
+
 
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
 
@@ -64,14 +67,14 @@ Equipment::EquipmentType Equipment::getEquipmentType() const
     return type_;
 }
 
-void Equipment::setPropagationModel(PropagationModel model)
+void Equipment::setPropagationModel(PropagationLossModel *model)
 {
-    propagationModel_ = model;
+    _propagationModel = model;
 }
 
-Equipment::PropagationModel &Equipment::getPropagationModel()
+PropagationLossModel *Equipment::getPropagationModel()
 {
-    return propagationModel_;
+    return _propagationModel;
 }
 
 void Equipment::setMobilityModel(Mobility* model)
@@ -116,6 +119,17 @@ void Equipment::setPhyEntity(Physical *phy)
 Physical *Equipment::getPhyEntity()
 {
     return phyEntity_;
+}
+
+void Equipment::addAntennaArray(AntennaArray::AntennaType type, int sizeX, int sizeY, 
+                    float azimuth, float elevation, float beamWidth, float sectorWidth)
+{
+    getPhyEntity()->addAntennaArray(type, sizeX, sizeY, azimuth, elevation, beamWidth, sectorWidth);
+}
+
+AntennaArray *Equipment::getAntennaArray()
+{
+    getPhyEntity()->getAntennaArray();
 }
 
 void Equipment::setLinkBudgetParameters()
@@ -163,45 +177,41 @@ double Equipment::calculateDistanceToUserEquipment(UserEquipment *targetUser)
     return getMobilityModel()->getPosition()->calculateDistance2D(targetUser->getMobilityModel()->getPosition());
 }
 
+double Equipment::calculateAngeToUserEquipment(UserEquipment *targetUser)
+{
+    return getMobilityModel()->getPosition()->calculateAngleToRemote(this->getMobilityModel()->getPosition(),
+                                                                    targetUser->getMobilityModel()->getPosition());
+}
+
+double Equipment::calculateAngeToUserEquipmentRad(UserEquipment *targetUser)
+{
+    return getMobilityModel()->getPosition()->calculateAngleToRemoteRad(this->getMobilityModel()->getPosition(),
+                                                                    targetUser->getMobilityModel()->getPosition());
+}
+
 double Equipment::calculatePathLosToCell(Cell *targetCell, double distance)
 {
-    double bandwidth = getPhyEntity()->getBandwidthContainer()[0][0]->getBandwidth();
+    int carrAggIndex = 0;
+    int mimoIndex = 0;
+    double bandwidth = getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getBandwidth();
     double heightBs = targetCell->getMobilityModel()->getPosition()->getCoordinateZ();
     double heightUe = getMobilityModel()->getPosition()->getCoordinateZ();
-    int centerFrequency = targetCell->getPhyEntity()->getBandwidthContainer()[0][0]->getCarrierFreq();
-    double pathLoss = 0;
-    
-    switch (getPropagationModel())
-    {
-    case Equipment::PropagationModel::UMi_LOS:
-        pathLoss = UMi_LOS(distance, 1, heightBs, heightUe, centerFrequency/1000, 0, 0, 0);
-        break;
-    case Equipment::PropagationModel::UMi_NLOS:
-        pathLoss = UMi_NLOS(distance, 1, heightBs, heightUe, centerFrequency/1000, 0, 0, 0);
-        break;
-    case Equipment::PropagationModel::UMa_LOS:
-        pathLoss = UMa_LOS(distance, 1, heightBs, heightUe, centerFrequency/1000, 0, 0, 0);
-        break;
-    case Equipment::PropagationModel::UMa_NLOS:
-        pathLoss = UMa_NLOS(distance, 1, heightBs, heightUe, centerFrequency/1000, 0, 0, 0);
-        break;
-    case Equipment::PropagationModel::COST231_Hata:
-        pathLoss = UMa_LOS(distance, 1, heightBs, heightUe, centerFrequency/1000, 0, 0, 0);
-        break;
-    } 
+    int centerFrequency = targetCell->getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getCarrierFreq();
 
-    return pathLoss;
+    return getPropagationModel()->calculateLosses(distance, 1, heightBs, heightUe, centerFrequency/1000, 0, 0, 0);
 }
 
 double Equipment::calculatePathLosToUserEquipment(UserEquipment *targetUser, double distance)
 {
     // TODO: add frequency filter
+    int carrAggIndex = 0;
+    int mimoIndex = 0;
     double heightUe = getMobilityModel()->getPosition()->getCoordinateZ();
     double heightUeTarget = targetUser->getMobilityModel()->getPosition()->getCoordinateZ();
-    double centerFrequency = getPhyEntity()->getBandwidthContainer()[0][0]->getCarrierFreq();
-    double bandwidth = getPhyEntity()->getBandwidthContainer()[0][0]->getBandwidth();
+    double centerFrequency = getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getCarrierFreq();
+    double bandwidth = getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getBandwidth();
 
-    return UMa_LOS(distance, 1, heightUeTarget, heightUe, centerFrequency/1000, 0, 0, 0);
+    return getPropagationModel()->calculateLosses(distance, 1, heightUeTarget, heightUe, centerFrequency/1000, 0, 0, 0);
 }
 
 double Equipment::calculateRssiFromUserEquipment(UserEquipment *targetUser, double distance)
@@ -247,32 +257,38 @@ int Equipment::getLocalOwnTimeSlot()
 
 void Equipment::setRsrpPerBandidth(double rsrp, int bwIndex)
 {
-    getPhyEntity()->getBandwidthContainer()[0][bwIndex]->setRsrp(rsrp);
+    int carrAggIndex = 0;
+    getPhyEntity()->getBandwidthContainer()[carrAggIndex][bwIndex]->setRsrp(rsrp);
 }
 
 void Equipment::setRsrqPerBandidth(double rsrq, int bwIndex)
 {
-    getPhyEntity()->getBandwidthContainer()[0][bwIndex]->setRsrq(rsrq);
+    int carrAggIndex = 0;
+    getPhyEntity()->getBandwidthContainer()[carrAggIndex][bwIndex]->setRsrq(rsrq);
 }
 
 void Equipment::setSinrPerBandidth(double sinr, int bwIndex)
 {
-    getPhyEntity()->getBandwidthContainer()[0][bwIndex]->setSinr(sinr);
+    int carrAggIndex = 0;
+    getPhyEntity()->getBandwidthContainer()[carrAggIndex][bwIndex]->setSinr(sinr);
 }
 
 double Equipment::getRsrqPerBandidth(int bwIndex)
 {
-    return getPhyEntity()->getBandwidthContainer()[0][bwIndex]->getRsrq();
+    int carrAggIndex = 0;
+    return getPhyEntity()->getBandwidthContainer()[carrAggIndex][bwIndex]->getRsrq();
 }
 
 double Equipment::getRsrpPerBandidth(int bwIndex)
 {
-    return getPhyEntity()->getBandwidthContainer()[0][bwIndex]->getRsrp();
+    int carrAggIndex = 0;
+    return getPhyEntity()->getBandwidthContainer()[carrAggIndex][bwIndex]->getRsrp();
 }
 
 double Equipment::getSinrPerBandidth(int bwIndex)
 {
-    return getPhyEntity()->getBandwidthContainer()[0][bwIndex]->getSinr();
+    int carrAggIndex = 0;
+    return getPhyEntity()->getBandwidthContainer()[carrAggIndex][bwIndex]->getSinr();
 }
 
 

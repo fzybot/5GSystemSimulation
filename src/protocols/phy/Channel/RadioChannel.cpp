@@ -11,12 +11,12 @@ RadioChannel::RadioChannel()
 {
      debug("Radio channel is created: ");
      connectedDevices_ = new QVector<Equipment*>;
-     //propagationLossModel_ = new PropagationLossModel();
 }
 
 RadioChannel::RadioChannel(RadioChannel::ChannelModel channel_model, int noise, PropagationLossModel *model)
 {
     setNoiseVal(noise);
+    setPropagationModel(model);
     switch (channel_model)
     {
         case RadioChannel::ChannelModel::AWGN_CHANNEL:
@@ -87,6 +87,18 @@ RadioChannel::~RadioChannel()
     delete propagationLossModel_;
 }
 
+QVector<std::complex<double>> RadioChannel::transmitThroughChannel(QVector<std::complex<double>>)
+{
+    QVector<std::complex<double>> channelIQ;
+
+    return channelIQ;
+}
+
+void RadioChannel::setPropagationModel(PropagationLossModel *model)
+{
+    propagationLossModel_ = model;
+}
+
 void RadioChannel::setNoiseVal(int noise)
 {
     _noiseValue = noise;
@@ -98,7 +110,7 @@ void RadioChannel::setPathNumber(int nPath)
     _pathCharacteristics.resize(nPath);
 }
 
-int RadioChannel::getPathNumber()
+int RadioChannel::getNumberOfPaths()
 {
     return _nPath;
 }
@@ -123,16 +135,6 @@ void RadioChannel::generateRandomPaths(int number, int maxDistance)
     //     high = high + border;
     //     addPath(i, rnd, 0);
     // }
-}
-
-void RadioChannel::setChannelId(int id)
-{
-    channelId_ = id;
-}
-
-int RadioChannel::getChannelId()
-{
-    return channelId_;
 }
 
 void RadioChannel::addDevice(Equipment *e)

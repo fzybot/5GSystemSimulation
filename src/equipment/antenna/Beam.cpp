@@ -16,9 +16,9 @@ Beam::Beam(float azimuth, float elevation, float beamWidth)
 
 float Beam::calculateAntGain(float elevation, float azimuth)
 {
-    float gain = (-1) * qMin(   (-1) * calculateVerticalCutGain(elevation) + calculateHorizontalCutGain(azimuth), 
+    _gain = (-1) * qMin(   (-1) * calculateVerticalCutGain(elevation) + calculateHorizontalCutGain(azimuth), 
                                 static_cast<float>(30));
-    return gain;
+    return _gain;
 }
 
 float Beam::calculateVerticalCutGain(float elevation)
@@ -37,4 +37,9 @@ float Beam::calculateHorizontalCutGain(float azimuth)
     gain = (-1)*qMin(pow_, static_cast<float>(30));
 
     return gain;
+}
+
+void Beam::defaultGain(double gain)
+{
+    _gain = gain;
 }

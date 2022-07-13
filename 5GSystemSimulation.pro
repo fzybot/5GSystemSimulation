@@ -19,6 +19,7 @@ DEFINES += QT_DEPRECATED_WARNINGS QT_MESSAGELOGCONTEXT
 
 SOURCES += \
     main.cpp \
+    src/additionalCalculations.cpp \
     src/core/NetworkManager.cpp \
     src/core/Simulator.cpp \
     src/equipment/antenna/Beam.cpp \
@@ -35,6 +36,8 @@ SOURCES += \
     src/protocols/phy/Channel/PropagationLossModel.cpp \
     src/protocols/phy/ResourceGrid.cpp \
     src/protocols/phy/Symbol.cpp \
+    src/protocols/phy/fft.cpp \
+    src/protocols/phy/modulation.cpp \
     src/visualization/ChartGroupWidget.cpp \
     src/visualization/Chartable.cpp \
     src/visualization/HeatmapModel.cpp \
@@ -72,6 +75,7 @@ SOURCES += \
     src/visualization/data/plotData/interpolationNskStoreysHeights.cpp \
 
 HEADERS += \
+    src/additionalCalculations.h \
     src/configs/equipmentConfig.h \
     src/core/NetworkManager.h \
     src/core/Simulator.h \
@@ -94,14 +98,17 @@ HEADERS += \
     src/protocols/phy/bandList.h \
     src/protocols/phy/ResourceGrid.h \
     src/protocols/phy/Symbol.h \
+    src/protocols/phy/fft.h \
     src/protocols/phy/modulation.h \
     src/scenarios/modulationPerformance.h \
     src/scenarios/schedulerAnalysis.h \
     src/scenarios/simple.h \
     src/scenarios/testModel.h \
+    src/tests/calculus_test.h \
     src/tests/packet_test.h \
     src/tests/propagation_models_test.h \
     src/tests/python_test.h \
+    src/tests/tests.h \
     src/visualization/ChartGroupWidget.h \
     src/visualization/Chartable.h \
     src/visualization/HeatmapModel.h \

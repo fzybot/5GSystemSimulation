@@ -611,6 +611,9 @@ QVector<arma::cx_double> Symbol::IFFTCarrier(QVector<arma::cx_double> vector, in
 {
     int N = vector.length();
     QVector<arma::cx_double> afterIFFT;
+
+    //calculateDoppler(getStartFreqHz() + numerology * j, 0, speed);
+    double dopplerRad =  (dopplerFreq_ / getStartFreqHz());
     for (int i = 0; i < N; i++)
     {
         double localSummReal = 0.0;
@@ -618,10 +621,6 @@ QVector<arma::cx_double> Symbol::IFFTCarrier(QVector<arma::cx_double> vector, in
         double arg = 0.0;
         for (int j = 0; j < N; j++)
         {
-            calculateDoppler(getStartFreqHz() + numerology * j, 0, speed);
-
-            double dopplerRad =  (dopplerFreq_ / getStartFreqHz());
-
             arg = (2 * arma::datum::pi * i * (j -  dopplerRad)) / N;
             localSummReal += (vector[j].real() * cos(arg)) - (vector[j].imag() * sin(arg));
             localSummImag += (vector[j].real() * sin(arg)) + (cos(arg) * vector[j].imag());

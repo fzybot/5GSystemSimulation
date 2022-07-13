@@ -7,6 +7,7 @@
 
 #include "src/commonParameters.h"
 #include "src/equipment/mobility/Mobility.h"
+#include "src/equipment/antenna/AntennaArray.h"
 #include "src/core/CartesianCoordinates.h"
 #include "src/protocols/bearers/RadioBearer.h"
 #include "src/protocols/phy/Bandwidth.h"
@@ -14,6 +15,7 @@
 class Cell;
 class UserEquipment;
 class Physical;
+class PropagationLossModel;
 
 class Equipment
 {
@@ -33,15 +35,6 @@ public:
       TYPE_UE
     };
 
-    enum class PropagationModel
-    {
-        UMi_LOS,
-        UMi_NLOS,
-        UMa_LOS,
-        UMa_NLOS,
-        COST231_Hata,
-    };
-
 public:
     int     id_;
     int     localSystem120TimeSlot_ = 0;
@@ -50,7 +43,8 @@ public:
 
     Equipment::EquipmentState   state_;
     Equipment::EquipmentType    type_;
-    Equipment::PropagationModel propagationModel_;
+
+    PropagationLossModel *_propagationModel;
 
     Mobility                *mobility_;
     QVector<RadioBearer*>   *bearerContainer_;
@@ -102,8 +96,8 @@ public:
     void setEquipmentState(EquipmentState state);
     EquipmentState getEquipmentState() const;
 
-    void setPropagationModel(PropagationModel model);
-    PropagationModel &getPropagationModel();
+    void setPropagationModel(PropagationLossModel *model);
+    PropagationLossModel *getPropagationModel();
 
     void setMobilityModel(Mobility *model);
     Mobility* getMobilityModel(void);
@@ -115,6 +109,10 @@ public:
     void        createPhyEntity();
     void        setPhyEntity(Physical *phy);
     Physical    *getPhyEntity();
+
+    void addAntennaArray(AntennaArray::AntennaType type, int sizeX, int sizeY, 
+                    float azimuth, float elevation, float beamWidth, float sectorWidth);
+    AntennaArray *getAntennaArray();
 
     void    setLinkBudgetParameters();
     float   getEirp();
@@ -130,6 +128,10 @@ public:
 
     double calculateDistanceToCell(Cell *targetCell);
     double calculateDistanceToUserEquipment(UserEquipment *targetUser);
+
+    double calculateAngeToUserEquipment(UserEquipment *targetUser);
+    double calculateAngeToUserEquipmentRad(UserEquipment *targetUser);
+
     double calculatePathLosToCell(Cell *targetCell, double distance);
     double calculatePathLosToUserEquipment(UserEquipment *targetUser, double distance);
     double calculateRssiFromUserEquipment(UserEquipment *targetUser, double distance);

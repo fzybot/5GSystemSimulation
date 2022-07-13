@@ -19,7 +19,7 @@ void pdcp_test(){
 void vectorTest(){
     QVector<QVector<int>> test;
 
-    test.resize(5);
-    test[0].resize(2);
+    test.resize(1);
+    test[0].resize(1);
     qDebug() << test;
 }

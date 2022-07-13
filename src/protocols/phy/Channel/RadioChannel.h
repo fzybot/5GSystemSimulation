@@ -2,6 +2,7 @@
 
 #include <QVector>
 #include <memory>
+#include <complex>
 
 class CartesianCoordinates;
 class PropagationLossModel;
@@ -38,35 +39,31 @@ public:
       // CHANNEL_MODEL_3GPP_CASE1,
     };
 public:
-    int channelId_;
     int _nPath;
     int _noiseValue;
-    QVector<QVector<float>> _pathCharacteristics;
     QVector<Equipment *> *connectedDevices_;
     PropagationLossModel *propagationLossModel_;
 
+    QVector<std::complex<double>> _channelIQ;
+    
+private:
+    QVector<QVector<float>> _pathCharacteristics;
 public:
     RadioChannel();
     RadioChannel(RadioChannel::ChannelModel channel_model, int noiseValue, PropagationLossModel *model);
     virtual ~RadioChannel();
 
-    void setChannelId(int id);
-    int getChannelId();
+    QVector<std::complex<double>> transmitThroughChannel(QVector<std::complex<double>>);
 
+    void setPropagationModel(PropagationLossModel *model);
     void setNoiseVal(int noise);
-
     void setPathNumber(int nPath);
-    int getPathNumber();
-
-
-    void startTx(Symbol *txSignal, Equipment* src);
-    void startRx(Symbol *rxSignal, Equipment* src);
+    int getNumberOfPaths();
 
     void addDevice(Equipment *e);
     QVector<Equipment*>* getConnectedDevices();
     void delDevice(Equipment *e);
     bool isConnected(Equipment* e);
-
     void printConnectedDevices();
 
 private:

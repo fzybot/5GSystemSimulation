@@ -35,8 +35,10 @@ Scheduler::SchedulingAlgorithm Scheduler::getAlgorithm()
 void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
 {
     qDebug() << "Current Cell Id------>" << getCell()->getEquipmentId();
-    int nPrb = getCell()->getPhyEntity()->getBandwidthContainer()[0][0]->getNumberOfPRB();
-    QPair<int, int> coreset = getCell()->getPhyEntity()->getBandwidthContainer()[0][0]->getCoresetSize();
+    int carrAggIndex = 0;
+    int mimoIndex = 0;
+    int nPrb = getCell()->getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getNumberOfPRB();
+    QPair<int, int> coreset = getCell()->getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getCoresetSize();
     int coresetSize = coreset.first * coreset.second * 12; // 12 subcarriers in 1 RB
     int slot = getCell()->getLocalOwnTimeSlot();
     updateAvailableNumPRB(nPrb);

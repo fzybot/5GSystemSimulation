@@ -3,22 +3,33 @@
 #include <QVector>
 #include <complex>
 
+class Bandwidth;
+
 class ResourceGrid
 {
 
 public:
     // _resourceGrid[i][j] - 'i' representing OFDM-symbol number, 'j' representing subcarrier number
-    QVector<QVector<std::complex<double>>> _resourceGrid;
-    QVector<QVector<std::complex<double>>> _resourceGridChannel;
-    QVector<QVector<std::complex<double>>> _resourceGridReceived;
+    QVector< QVector<std::complex<double>> > _freqModulatedIQ;
+    QVector< QVector<std::complex<double>> > _resourceGrid;
+    QVector< QVector<std::complex<double>> > _resourceGridChannelIQ;
+    QVector< QVector<std::complex<double>> > _resourceGridChannelDopplerIQ;
+    QVector< QVector<std::complex<double>> > _resourceGridChannelOnlyDopplerIQ;
+    QVector< QVector<std::complex<double>> > _freqDemodulatedIQ;
+
+    Bandwidth *_bw;
 
 public:
+    ResourceGrid();
     ResourceGrid(int nPrb, int nOfdmSymbols, QVector<QVector<int>> &dmrsPattern, QVector<QVector<int>> &coresetPattern);
 
-    void createResourceGrid(int nPrb, int nOfdmSymbols);
+    void setBw(Bandwidth *bw);
+    Bandwidth *getBw();
+
+    void configResourceGrid(Bandwidth *bw);
     void mapDmrs(QVector<QVector<int>> &dmrsPattern);
     void mapCoreset(QVector<QVector<int>> &coresetPattern);
-    void mapData(QVector<QVector<std::complex<double>>>);
+    void mapData(QVector<QVector<std::complex<double>>> &data);
 
     void transmit(QVector<QVector<std::complex<double>>> channelIQ);
     void receive();

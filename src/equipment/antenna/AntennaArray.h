@@ -14,19 +14,21 @@ class Beam;
 
 class AntennaArray
 {
-// enum class AntennaType
-//     {
-//         ANTENNA_TYPE_OMNIDIRECTIONAL,
-//         ANTENNA_TYPE_3GPP_3D,
-//         ANTENNA_TYPE_3GPP_CUSTOM,
-//     };
+public:
+    enum class AntennaType
+        {
+            ANTENNA_TYPE_OMNIDIRECTIONAL,
+            ANTENNA_TYPE_3GPP_3D,
+            ANTENNA_TYPE_3GPP_CUSTOM,
+        };
 public:
 
     
     float _absoluteAzimuthAngle;
     float _absoluteElevationAngle;
 
-    QVector<QVector<Beam*>> _beamContainer;
+    AntennaArray::AntennaType _type;
+    QVector<QVector<Beam *>> _beamContainer;
 
     //AntennaArray::AntennaType type_;  
     // float elevation_;
@@ -38,10 +40,18 @@ public:
 
 public:
     AntennaArray();
-    AntennaArray(int sizeX, int sizeY, float azimuth, float elevation, float beamWidth, float sectorWidth);
+    AntennaArray(   AntennaArray::AntennaType type, int sizeX, int sizeY, 
+                    float azimuth, float elevation, float beamWidth, float sectorWidth);
 
     void configAntennaGrid(int sizeX, int sizeY);
     void setBeams(float azimuth, float elevation, float beamWidth, float sectorWidth);
+    void setAntennaType(AntennaArray::AntennaType type);
+    AntennaArray::AntennaType &getAntennaType();
+
+    void setDefaultGain(double gain);
+
+    QVector<QVector<Beam *>> &getBeamContainer();
+    float gainPerBeamIndex(int indexX, int indexY, int elevation, int azimuth);
 
     // void setSize(int sizeX, int sizeY);
     // void setAntennaType(AntennaType type);

@@ -2,11 +2,14 @@
 #include "src/equipment/Cell.h"
 #include "src/equipment/gNodeB.h"
 #include "src/equipment/UserEquipment.h"
+#include "src/equipment/antenna/AntennaArray.h"
 #include "src/protocols/mac_layer/scheduler/Scheduler.h"
 #include "src/protocols/mac_layer/CellMacEntity.h"
 #include "src/protocols/phy/Physical.h"
 #include "src/protocols/phy/Bandwidth.h"
 #include "src/equipment/mobility/ConstantPosition.h"
+#include "src/additionalCalculations.h"
+#include "src/protocols/phy/Channel/PropagationLossModel.h"
 
 #include "src/debug.h"
 
@@ -42,18 +45,6 @@ NetworkManager::~NetworkManager()
 
 // ----- [ EQUIPMENT GENERATORS ] --------------------------------------------------------------------------------------
 
-Cell* NetworkManager::createCell (int idCell)
-{
-    debug("NetworkManager: starting to create a cell.");
-    Cell *cell = new Cell();
-    cell->setEquipmentId(idCell);
-    cell->setEquipmentType(Equipment::EquipmentType::TYPE_CELL);
-    cell->setLinkBudgetParameters();
-    getCellContainer()->push_back(cell);
-
-    return cell;
-}
-
 Cell* NetworkManager::createCell (int idCell, double posX, double posY, double posZ)
 {
     debug("NetworkManager: starting to create a cell.");
@@ -67,20 +58,8 @@ Cell* NetworkManager::createCell (int idCell, double posX, double posY, double p
     cell->setMobilityModel(m);
     // Becouse in Mobility class a new object is created
     delete position;
-
-    getCellContainer()->push_back(cell);
-
-    return cell;
-}
-
-Cell* NetworkManager::createCell (int idCell, gNodeB *targetGNb)
-{
-    Cell *cell = new Cell();
-    cell->setEquipmentId(idCell);
-    cell->setEquipmentType(Equipment::EquipmentType::TYPE_CELL);
-    cell->setLinkBudgetParameters();
-    cell->setTargetGNodeB(targetGNb);
-    targetGNb->addCell(cell);
+    cell->setPropagationModel(new PropagationLossModel(PropagationLossModel::PropagationModel::UMA_NLOS));
+    cell->addAntennaArray(AntennaArray::AntennaType::ANTENNA_TYPE_3GPP_CUSTOM, 1, 1, 0, posZ, 120, 120);
     getCellContainer()->push_back(cell);
 
     return cell;
@@ -110,6 +89,9 @@ UserEquipment* NetworkManager::createUserEquipment (int id,
     UserEquipment *ue = new UserEquipment(id,
                                           posX, posY, posZ, cell, targetGNodeB,
                                           Mobility::Model::CONSTANT_POSITION);
+                                          
+    ue->addAntennaArray(AntennaArray::AntennaType::ANTENNA_TYPE_OMNIDIRECTIONAL, 1, 1, 0, posZ, 360, 360);
+    ue->setPropagationModel(new PropagationLossModel(PropagationLossModel::PropagationModel::UMA_NLOS));
     getUserEquipmentContainer()->push_back(ue);
 
     return ue;
@@ -126,6 +108,8 @@ void NetworkManager::createMultipleUserEquipments(  int number, int lowX, int hi
         UserEquipment *ue = new UserEquipment(ueIdLocal_,
                                               posX, posY, posZ, nullptr, targetGNodeB,
                                               Mobility::Model::CONSTANT_POSITION);
+        ue->addAntennaArray(AntennaArray::AntennaType::ANTENNA_TYPE_OMNIDIRECTIONAL, 1, 1, 0, posZ, 360, 360);
+        ue->setPropagationModel(new PropagationLossModel(PropagationLossModel::PropagationModel::UMA_NLOS));
         getUserEquipmentContainer()->push_back(ue);
     }
 }
@@ -293,7 +277,9 @@ void NetworkManager::scheduleCells(QVector<Cell*> *cellContainer)
         cell->sync120TimeSlot(current120TimeSlot_);
         // TODO: somehow fix the loop
         // TODO: need some fix in order to schedule multiple bandwidth with differens SCS
-        int scs = cell->getPhyEntity()->getBandwidthContainer()[0][0]->getSCS();
+        int mimoIndex = 0;
+        int carrAggIndex = 0;
+        int scs = cell->getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getSCS();
         if ( cell->getLocalSystem120TimeSlot() % (int)(120 / scs) == 0 ) {
             qDebug() << cell->getLocalSystem120TimeSlot() % (int)(120 / scs);
             qDebug() << "NetworkManager::scheduleCells:: cell SCS --> " << scs;
@@ -339,12 +325,14 @@ void NetworkManager::initialCellSelection(int slot)
         int neededIndex = 0;
         int check = -1;
         double max = -1000;
+        int mimoIndex = 0;
+        int carrAggIndex = 0;
         if (ue->getSlotToCamp() == slot){
             for (auto cell : *getCellContainer()) {
                 distance = cell->calculateDistanceToUserEquipment(ue);
                 pathLos = cell->calculatePathLosToUserEquipment(ue, distance);
                 rssi = ue->calculateRssiFromCell(cell, pathLos);
-                rsrp = ue->calculateRsrpFromRssi(cell->getPhyEntity()->getBandwidthContainer()[0][0],rssi);
+                rsrp = ue->calculateRsrpFromRssi(cell->getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex],rssi);
                 if ( (rsrp > max) && (rsrp >= -120) ) {
                     max = rsrp;
                     neededIndex = localIndex;
@@ -369,26 +357,20 @@ void NetworkManager::initialCellSelection(int slot)
     }
 }
 
-double NetworkManager::summ_dBm(double dbm1, double dbm2)
-{
-    double summ = 0;
-    //summ = dbm1 + 10 * std::log10(1 + qPow(2, qFabs(dbm1 - dbm2) / 3));
-    return summ;
-}
-
 double NetworkManager::calculate_sinr_per_user(UserEquipment *user1)
 {
     double sinr = 0;
     double interference = 0;
-    int bwIndex = 0;
+    int mimoIndex = 0;
+    int carrAggIndex = 0;
     int count = 0;
     for (auto ue : *getUserEquipmentContainer())
     {
         if (user1 != ue){
             double distance = user1->calculateDistanceToUserEquipment(ue);
             double rssi = user1->calculateRssiFromUserEquipment(ue, distance);
-            double rsrp = user1->calculateRsrpFromRssi(user1->getPhyEntity()->getBandwidthContainer()[0][bwIndex], rssi);
-            interference = summ_dBm(interference, rsrp);
+            double rsrp = user1->calculateRsrpFromRssi(user1->getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex], rssi);
+            interference = sum_dBm(interference, rsrp);
         }
     }
 
