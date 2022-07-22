@@ -27,13 +27,14 @@ public:
 public:
     Physical::MIMO_MODE _mimoMode;
     AntennaArray *_antennaArray;
-    int numerologyIndex_ = 0;
-    double              carrierFreq_;
-    QVector< QVector<Bandwidth*> >      _bandwidthContainerMimoCarrierAgg;
 
+    int numerologyIndex_ = 0;
+    double  carrierFreq_;
     float thermalNoise_;
+    
     // per mimo and CarrierAgg
-    QVector< QVector<ResourceGrid*> > _resourceGridContainer;
+    QVector< QVector<Bandwidth*> >      _bandwidthContainerMimoCarrierAgg;
+    QVector< QVector<ResourceGrid*> >   _resourceGridContainer;
 
 public:
     Physical(); 
