@@ -2,6 +2,7 @@
 
 #include <QVector>
 
+class Equipment;
 class Cell;
 class gNodeB;
 class UserEquipment;
@@ -25,9 +26,11 @@ private:
     int gNbIdLocal_;
     int ueIdLocal_ = 10000;
 
-    QVector<Cell *>         *cellContainer_;
+    QVector<Cell*>         *cellContainer_;
     QVector<gNodeB*>        *gNodeBContainer_;
     QVector<UserEquipment*> *userEquipmentContainer_;
+
+    RadioChannel *_radioChannel;
 
     SINRCalcMethod methodSINR_;
 
@@ -58,6 +61,9 @@ public:
     int &getWorkingTime();
     void increaseCurrentTime();
 
+    void createRadioChannel();
+    RadioChannel *getRadioChannel();
+    void addDeviceToRadioChannel(Equipment *equip);
     void setSINRCalcMethod(NetworkManager::SINRCalcMethod method);
     NetworkManager::SINRCalcMethod getSINRCalcMethod();
 
@@ -113,6 +119,10 @@ public:
     void scheduleGNodeB();
 
     void scheduleCells(QVector<Cell*> *cellContainer);
+
+    void transmitThroughChannel();
+    void fillResourceGridCells(QVector<Cell*> *cellContainer);
+    void receiveFromChannel();
 
     void generateTrafficPerUE(QVector<UserEquipment*> *ueContainer, int slot);
 

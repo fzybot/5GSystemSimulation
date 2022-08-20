@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
     //##############################################################################
 
     // Устанавливаем файл логирования
-    _logFile.reset(new QFile("/home/ruslan/dev/git/5GSystemSimulation/src/logging/log.txt"));
+    _logFile.reset(new QFile("/home/ruslan-home/dev/5GSystemSimulation/src/logging/log.txt"));
     // Открываем файл логирования c перезаписью файла 'QFile::ReadWrite'
     // Если нужно добавить в конец файла, меняем 'QFile::ReadWrite' на 'QFile::Append'
     _logFile.data()->open(QFile::WriteOnly | QFile::Text);
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
     MainWindow mainWin;
 
     mainWin.resize(1400, 1200);
-    //mainWin.show();
+    mainWin.show();
 
 
     Simple();

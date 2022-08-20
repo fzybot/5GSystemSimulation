@@ -11,6 +11,7 @@
 #include "src/core/CartesianCoordinates.h"
 #include "src/protocols/bearers/RadioBearer.h"
 #include "src/protocols/phy/Bandwidth.h"
+#include "src/equipment/Counter.h"
 
 class Cell;
 class UserEquipment;
@@ -67,6 +68,7 @@ public:
     QVector<QVector<double>> iSubcarrierPowerUsage_; 
 
     // COUNTERS
+    Counter _counter;
     // Throughput
     int cDataTransmitted_ = 0;           // in [bits]
     int cDataTransmittedOverWindow_ = 0; // in [bits]

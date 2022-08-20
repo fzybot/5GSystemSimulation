@@ -143,7 +143,7 @@ void Equipment::setLinkBudgetParameters()
         additionalGain_ = 18;
         additionalLoss_ = 3;
         EIRP_ = TxPower_ - bodyLoss_ - additionalLoss_ + additionalGain_;
-        qDebug() << "   " <<"Equipment::setLinkBudgetParameters()::EIRP --> " << EIRP_;
+        qDebug() << "   " <<"EIRP --> " << EIRP_;
     }
     else if (type_ == EquipmentType::TYPE_UE)
     {

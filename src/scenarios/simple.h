@@ -17,7 +17,6 @@
 static QVector<QVector<QPair<int, int>>> &Simple ()
 {
     NetworkManager *networkManager = new NetworkManager();
-    RadioChannel *channel = new RadioChannel();
     networkManager->setWorkingTime(17);
 
     // Create Cell
@@ -38,7 +37,6 @@ static QVector<QVector<QPair<int, int>>> &Simple ()
     gNodeB *gNb = networkManager->createGNodeB(idGNb, cell, posX, posY, posZ);
     //gNb->addCell(cell_01);
     debug("Simple: gNodeB entity is created");
-    channel->addDevice(gNb);
 
     // Create User Equipment
     int idUE = 2;
@@ -46,7 +44,6 @@ static QVector<QVector<QPair<int, int>>> &Simple ()
     int posY_ue = 500;
     double posZ_ue = 1.5;
     UserEquipment *ue = networkManager->createUserEquipment(idUE, posX_ue, posY_ue, posZ_ue, cell, gNb);
-    channel->addDevice(ue);
 
     // int idUE2 = 3;
     // int posX_ue2 = 0;

@@ -144,7 +144,7 @@ void RadioChannel::addDevice(Equipment *e)
     if (isConnected(e) == false) {
         getConnectedDevices()->push_back(e);
         e->print();
-        debug("RadioChannel: equipment is successfully added");
+        qDebug() <<"Equipment is successfully added: id " <<  e->getEquipmentId();
     }
     else{
         qDebug() << "RadioChannel: equipment is already connected to the channel";

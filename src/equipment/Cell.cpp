@@ -17,11 +17,10 @@ Cell::Cell()
     // Physical
     createPhyEntity();
     getPhyEntity()->defaultPhyConfig(Physical::MIMO_MODE::MIMO_2x2, 1);
-
+    
     // MAC Layer
     createMacEntity();
     getMacEntity()->configMacEntity();
-    qDebug(logDebug()) << "test log";
 
     // Scheduler
 //    createScheduler(Scheduler::SchedulingAlgorithm::ROUND_ROBIN);
@@ -79,6 +78,11 @@ CellMacEntity *Cell::getMacEntity()
 void Cell::schedule()
 {
     getMacEntity()->schedule();
+}
+
+void Cell::fillResourceGrid()
+{
+    
 }
 
 void Cell::pathLosDetach()

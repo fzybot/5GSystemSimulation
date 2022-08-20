@@ -6,11 +6,6 @@ ResourceGrid::ResourceGrid()
 
 }
 
-ResourceGrid::ResourceGrid(int nPrb, int nOfdmSymbols, QVector<QVector<int>> &dmrsPattern, QVector<QVector<int>> &coresetPattern)
-{
-
-}
-
 void ResourceGrid::setBw(Bandwidth *bw)
 {
     _bw = bw;

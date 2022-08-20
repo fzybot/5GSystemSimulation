@@ -7,6 +7,7 @@
 #include "src/protocols/mac_layer/CellMacEntity.h"
 #include "src/protocols/phy/Physical.h"
 #include "src/protocols/phy/Bandwidth.h"
+#include "src/protocols/phy/Channel/RadioChannel.h"
 #include "src/equipment/mobility/ConstantPosition.h"
 #include "src/additionalCalculations.h"
 #include "src/protocols/phy/Channel/PropagationLossModel.h"
@@ -23,6 +24,7 @@ NetworkManager::NetworkManager()
     cellContainer_ = new QVector<Cell*>;
     gNodeBContainer_ = new QVector<gNodeB*>;
     userEquipmentContainer_ = new QVector<UserEquipment*>;
+    createRadioChannel();
 }
 
 NetworkManager::~NetworkManager()
@@ -47,20 +49,22 @@ NetworkManager::~NetworkManager()
 
 Cell* NetworkManager::createCell (int idCell, double posX, double posY, double posZ)
 {
-    debug("NetworkManager: starting to create a cell.");
+    qDebug() << "NetworkManager: starting to create a cell.";
     Cell *cell = new Cell();
+    qDebug() << "new cell.";
     cell->setEquipmentId(idCell);
     cell->setEquipmentType(Equipment::EquipmentType::TYPE_CELL);
     cell->setLinkBudgetParameters();
+
     CartesianCoordinates *position = new CartesianCoordinates(posX, posY, posZ);
     Mobility *m = new ConstantPosition();
     m->setPosition(position);
     cell->setMobilityModel(m);
-    // Becouse in Mobility class a new object is created
-    delete position;
+
     cell->setPropagationModel(new PropagationLossModel(PropagationLossModel::PropagationModel::UMA_NLOS));
     cell->addAntennaArray(AntennaArray::AntennaType::ANTENNA_TYPE_3GPP_CUSTOM, 1, 1, 0, posZ, 120, 120);
     getCellContainer()->push_back(cell);
+    addDeviceToRadioChannel(cell);
 
     return cell;
 }
@@ -93,6 +97,7 @@ UserEquipment* NetworkManager::createUserEquipment (int id,
     ue->addAntennaArray(AntennaArray::AntennaType::ANTENNA_TYPE_OMNIDIRECTIONAL, 1, 1, 0, posZ, 360, 360);
     ue->setPropagationModel(new PropagationLossModel(PropagationLossModel::PropagationModel::UMA_NLOS));
     getUserEquipmentContainer()->push_back(ue);
+    addDeviceToRadioChannel(ue);
 
     return ue;
 }
@@ -111,6 +116,7 @@ void NetworkManager::createMultipleUserEquipments(  int number, int lowX, int hi
         ue->addAntennaArray(AntennaArray::AntennaType::ANTENNA_TYPE_OMNIDIRECTIONAL, 1, 1, 0, posZ, 360, 360);
         ue->setPropagationModel(new PropagationLossModel(PropagationLossModel::PropagationModel::UMA_NLOS));
         getUserEquipmentContainer()->push_back(ue);
+        addDeviceToRadioChannel(ue);
     }
 }
 
@@ -250,7 +256,8 @@ void NetworkManager::increaseCurrentTime()
 
 void NetworkManager::runNetwork()
 {
-    while(getCurrentTime() != getWorkingTime()) {
+    while (getCurrentTime() != getWorkingTime())
+    {
         qDebug() << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
         qDebug() << "Current 120 Time Slot ->" << getCurrentTime();
         // Calculate SINR for each Equipment
@@ -258,6 +265,24 @@ void NetworkManager::runNetwork()
         scheduleGNodeB();
         increaseCurrentTime();
     }
+}
+
+void NetworkManager::transmitThroughChannel(){
+    for ( auto gNb: *getGNodeBContainer() ) {
+        fillResourceGridCells(gNb->getCellContainer());
+    }
+}
+
+void NetworkManager::fillResourceGridCells(QVector<Cell*> *cellContainer)
+{
+    for (auto cell: *cellContainer) {
+        cell->fillResourceGrid();
+    }
+}
+
+void NetworkManager::receiveFromChannel()
+{
+
 }
 
 // TODO: Here we could make parallel calculations!!! Threads, etc.
@@ -375,6 +400,21 @@ double NetworkManager::calculate_sinr_per_user(UserEquipment *user1)
     }
 
     return sinr;
+}
+
+void NetworkManager::createRadioChannel()
+{
+    _radioChannel = new RadioChannel();
+}
+
+RadioChannel *NetworkManager::getRadioChannel()
+{
+    return _radioChannel;
+}
+
+void NetworkManager::addDeviceToRadioChannel(Equipment *equip)
+{
+    getRadioChannel()->addDevice(equip);
 }
 
 void NetworkManager::calculateSINRPerEquipment(NetworkManager::SINRCalcMethod method)

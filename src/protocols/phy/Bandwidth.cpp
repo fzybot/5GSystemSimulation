@@ -1,4 +1,5 @@
 #include "Bandwidth.h"
+#include "src/protocols/phy/ResourceGrid.h"
 
 #include <QDebug>
 #include <QPair>
@@ -42,10 +43,15 @@ Bandwidth::Bandwidth(QString fr, QString band, int scs, bool cp, double ulBw,
     }
 }
 
-void Bandwidth::configResourceGrid(bool normalCp, int scs, int nRb)
+void Bandwidth::configResourceGrid()
 {
-
+    //getResouceGrid().configResourceGrid(this);
 }
+
+// ResourceGrid &Bandwidth::getResouceGrid()
+// {
+//     return _resourceGrid;
+// }
 
 QString Bandwidth::getFrequencyRange()
 {

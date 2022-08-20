@@ -12,6 +12,7 @@
 #include <complex>
 
 #include "src/protocols/phy/bandList.h"
+#include "src/protocols/phy/ResourceGrid.h"
 
 /*
  * This class models the bandwidth used for the transmission
@@ -38,6 +39,8 @@ private:
     int     sizeRbg_;
     int     _sampleRate;
     int     _fftSize = 4096;
+
+    //ResourceGrid _resourceGrid;
 
     double      _sinr = 0;
     double      _rsrp = 0;
@@ -79,7 +82,8 @@ public:
     void setNumberOfPRB(int number);
     int getNumberOfPRB();
 
-    void configResourceGrid(bool normalCp, int scs, int nRb);
+    void configResourceGrid();
+    //ResourceGrid &getResouceGrid();
     void fillRsrpPerPrb(QVector<int> &signalPower);
     void fillInterferencePerPrb(QVector<int> &interference);
 

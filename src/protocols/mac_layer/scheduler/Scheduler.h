@@ -28,7 +28,7 @@ protected:
     QVector<UserEquipment*>    *freqQueue_;    // Frequency domain candidates
 
     QVector<Packet*>        packetContainer_;           // Packet container to schedule
-    QQueue<TransportBlock> transportBlockContainer_;   // Transport Block container to PHY layer
+    QQueue<TransportBlock>  transportBlockContainer_;   // Transport Block container to PHY layer
     //TransportBlock          localTbs_;
 
 private:

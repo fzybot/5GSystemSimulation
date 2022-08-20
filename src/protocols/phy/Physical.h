@@ -34,7 +34,7 @@ public:
     
     // per mimo and CarrierAgg
     QVector< QVector<Bandwidth*> >      _bandwidthContainerMimoCarrierAgg;
-    QVector< QVector<ResourceGrid*> >   _resourceGridContainer;
+    //QVector< QVector<ResourceGrid*> >   _resourceGridContainer;
 
 public:
     Physical(); 
@@ -45,9 +45,6 @@ public:
     void addBandwidth(int carrierAggIndex, Bandwidth *b);
 
     QVector< QVector<Bandwidth*> > &getBandwidthContainer();
-    QVector<QVector<ResourceGrid *>> &getResourceGridContainer();
-    ResourceGrid *getResourceGridPerMimoCarrAgg(int carrAggIndex, int mimoIndex);
-    void configResourceGrid(Bandwidth *bw, int carrAggIndex, int mimoIndex);
     Physical::MIMO_MODE &getMimoMode();
 
     void addAntennaArray(AntennaArray::AntennaType type, int sizeX, int sizeY, 

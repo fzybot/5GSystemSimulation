@@ -42,6 +42,7 @@ public:
     CellMacEntity *getMacEntity();
 
     void schedule();
+    void fillResourceGrid();
 
     void pathLosDetach();
     void detachUeFromCell(int index, int reason);

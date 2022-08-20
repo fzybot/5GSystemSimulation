@@ -22,6 +22,7 @@ SOURCES += \
     src/additionalCalculations.cpp \
     src/core/NetworkManager.cpp \
     src/core/Simulator.cpp \
+    src/equipment/Counter.cpp \
     src/equipment/antenna/Beam.cpp \
     src/logging/loggingCategories.cpp \
     src/protocols/bearers/QoS/QoSProfile.cpp \
@@ -80,6 +81,7 @@ HEADERS += \
     src/core/NetworkManager.h \
     src/core/Simulator.h \
     src/debug.h \
+    src/equipment/Counter.h \
     src/equipment/antenna/Beam.h \
     src/logging/loggingCategories.h \
     src/protocols/bearers/QoS/QoSProfile.h \

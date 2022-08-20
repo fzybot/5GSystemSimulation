@@ -10,6 +10,7 @@ class ResourceGrid
 
 public:
     // _resourceGrid[i][j] - 'i' representing OFDM-symbol number, 'j' representing subcarrier number
+    QVector< QVector<int> > _inputData;
     QVector< QVector<std::complex<double>> > _freqModulatedIQ;
     QVector< QVector<std::complex<double>> > _resourceGrid;
     QVector< QVector<std::complex<double>> > _resourceGridChannelIQ;
@@ -21,7 +22,6 @@ public:
 
 public:
     ResourceGrid();
-    ResourceGrid(int nPrb, int nOfdmSymbols, QVector<QVector<int>> &dmrsPattern, QVector<QVector<int>> &coresetPattern);
 
     void setBw(Bandwidth *bw);
     Bandwidth *getBw();
@@ -29,7 +29,7 @@ public:
     void configResourceGrid(Bandwidth *bw);
     void mapDmrs(QVector<QVector<int>> &dmrsPattern);
     void mapCoreset(QVector<QVector<int>> &coresetPattern);
-    void mapData(QVector<QVector<std::complex<double>>> &data);
+    void mapData(QVector<QVector<int>> &data);
 
     void transmit(QVector<QVector<std::complex<double>>> channelIQ);
     void receive();
