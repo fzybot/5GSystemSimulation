@@ -26,7 +26,7 @@ public:
     void setBw(Bandwidth *bw);
     Bandwidth *getBw();
 
-    void configResourceGrid(Bandwidth *bw);
+    void configResourceGrid(bool cp, int nPrb);
     void mapDmrs(QVector<QVector<int>> &dmrsPattern);
     void mapCoreset(QVector<QVector<int>> &coresetPattern);
     void mapData(QVector<QVector<int>> &data);

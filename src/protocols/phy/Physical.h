@@ -4,6 +4,8 @@
 #include "src/protocols/phy/Symbol.h"
 #include "src/protocols/phy/Bandwidth.h"
 #include "src/equipment/antenna/AntennaArray.h"
+#include "src/protocols/phy/PhyConfigs.h"
+
 
 #include <QVector>
 
@@ -12,7 +14,6 @@ class RadioChannel;
 class MacEntity;
 class Symbol;
 class TransportBlock;
-class ResourceGrid;
 
 class Physical
 {
@@ -24,17 +25,18 @@ public:
       MIMO_4x4
     };
 
-public:
+private:
     Physical::MIMO_MODE _mimoMode;
     AntennaArray *_antennaArray;
+    conf_band bandConfig;
 
+    int _nominalPower = 1;
     int numerologyIndex_ = 0;
     double  carrierFreq_;
     float thermalNoise_;
     
     // per mimo and CarrierAgg
     QVector< QVector<Bandwidth*> >      _bandwidthContainerMimoCarrierAgg;
-    //QVector< QVector<ResourceGrid*> >   _resourceGridContainer;
 
 public:
     Physical(); 
@@ -54,6 +56,7 @@ public:
 
     void sendSymbol(QVector<TransportBlock> tbContainer);
 
+    void mapDmrs();
     // OFDM transmission Scheme
     void qamModulator();
     void ofdmModulator();

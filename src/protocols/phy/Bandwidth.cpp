@@ -7,7 +7,7 @@
 
 
 Bandwidth::Bandwidth(QString fr, QString band, int scs, bool cp, double ulBw,
-                     double dlBw, int ulOffset, int dlOffset, int mimoIndex, bool tddTrue)
+                     double dlBw, int ulOffset, int dlOffset, int mimoIndex, int carrierAggIndex, bool tddTrue)
 {
     if(tddTrue == true) {
         tdd_ = true;
@@ -19,6 +19,7 @@ Bandwidth::Bandwidth(QString fr, QString band, int scs, bool cp, double ulBw,
         dlBandwidth_ = dlBw;
     }
     _mimoIndex = mimoIndex;
+    _carrierAggIndex = carrierAggIndex;
     bandwidth_ = dlBw;
     tdd_ = tddTrue;
     frequencyRange_ = fr;
@@ -45,13 +46,14 @@ Bandwidth::Bandwidth(QString fr, QString band, int scs, bool cp, double ulBw,
 
 void Bandwidth::configResourceGrid()
 {
-    //getResouceGrid().configResourceGrid(this);
+    getResouceGrid().configResourceGrid(this->getCpType(), this->getNumberOfPRB());
+    qDebug() << "Resource grid is configured";
 }
 
-// ResourceGrid &Bandwidth::getResouceGrid()
-// {
-//     return _resourceGrid;
-// }
+ResourceGrid &Bandwidth::getResouceGrid()
+{
+    return _resourceGrid;
+}
 
 QString Bandwidth::getFrequencyRange()
 {
@@ -125,16 +127,74 @@ int Bandwidth::getNumberOfPRB()
     return numPRB_;
 }
 
-void Bandwidth::setCoresetSize(int nOFDM, int nPRBs)
+void Bandwidth::setCoreset(int nOFDM, int nPRBs, int startPrb, int frameN, int subframeN)
 {
-    sizeCORESET_.first = nOFDM;
-    sizeCORESET_.second = nPRBs;
+    getCoreset().nOfdm = nOFDM;
+    getCoreset().nPrb = nPRBs;
+    getCoreset().startPrb = startPrb;
+    getCoreset().frameNum = frameN;
+    getCoreset().subframeNum = subframeN;
 }
 
-QPair<int, int> &Bandwidth::getCoresetSize()
+conf_coreset &Bandwidth::getCoreset()
 {
-    return sizeCORESET_;
+    return _coreset;
 }
+
+void Bandwidth::setDmrs(int startSub, int stepSub, int startSymb, int stepSymb, int frameN, int subframeN)
+{
+    getDmrs().startSubcarrier = startSub;
+    getDmrs().stepSubcarrier = stepSub;
+    getDmrs().startSymbol = startSymb;
+    getDmrs().stepSymbol = stepSymb;
+    getDmrs().frameNum = frameN;
+    getDmrs().subframeNum = subframeN;
+}
+conf_dmrs &Bandwidth::getDmrs()
+{
+    return _dmrs;
+}
+
+void Bandwidth::fillIndexes()
+{
+    int cp = 6;
+    if(getCpType()){
+        cp = 7;
+    }
+    _dmrsIndexes.resize(cp);
+    _dataIndexes.resize(cp);
+    _coresetIndexes.resize(cp);
+    for (int symb = 0; symb < cp * 2; symb++)
+    {
+        if (symb == (symb + getDmrs().startSymbol) * getDmrs().stepSymbol)
+        {
+            for (int sc = 0; sc < getNumberOfPRB() * 12; sc++)
+            {
+                if (sc == (sc + getDmrs().startSubcarrier) * getDmrs().stepSubcarrier)
+                {
+                    _dmrsIndexes[i].push_back(sc);
+                }
+            }
+        }
+
+    }
+}
+
+QVector<QVector<int>> &Bandwidth::getDmrsIndexes()
+{
+    return _dmrsIndexes;
+}
+
+QVector<QVector<int>> &Bandwidth::getDataIndexes()
+{
+    return _dataIndexes;
+}
+
+QVector<QVector<int>> &Bandwidth::getCoresetIndexes()
+{
+    return _coresetIndexes;
+}
+
 
 // <  38.214 - Table 5.1.2.2.1-1: Nominal RBG size P, Table 6.1.2.2.1-1: Nominal RBG size P >
 void Bandwidth::calculateSizeRbg()

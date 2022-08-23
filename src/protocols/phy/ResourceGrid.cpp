@@ -1,6 +1,8 @@
 #include "ResourceGrid.h"
 #include "src/protocols/phy/Bandwidth.h"
 
+#include <QDebug>
+
 ResourceGrid::ResourceGrid()
 {
 
@@ -16,15 +18,15 @@ Bandwidth *ResourceGrid::getBw()
     return _bw;
 }
 
-void ResourceGrid::configResourceGrid(Bandwidth *bw)
+void ResourceGrid::configResourceGrid(bool cpType, int nPrb)
 {
-    setBw(bw);
+    qDebug() << "Configuring resource grid...";
     int cp = 14;
-    if (bw->getCpType() == false){
+    if (cpType == false){
         cp = 12;
     }
     _resourceGrid.resize(cp);
     for (int i = 0; i < _resourceGrid.size(); i++){
-        _resourceGrid[i].resize(bw->getNumberOfPRB() * 12);
+        _resourceGrid[i].resize(nPrb * 12);
     }
 }

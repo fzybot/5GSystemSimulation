@@ -96,7 +96,9 @@ HEADERS += \
     src/protocols/mac_layer/AMC/miesmParameters.h \
     src/protocols/mac_layer/CellMacEntity.h \
     src/protocols/mac_layer/TransportBlock.h \
+    src/protocols/mac_layer/scheduler/schedConfigs.h \
     src/protocols/phy/Channel/PropagationLossModel.h \
+    src/protocols/phy/PhyConfigs.h \
     src/protocols/phy/bandList.h \
     src/protocols/phy/ResourceGrid.h \
     src/protocols/phy/Symbol.h \

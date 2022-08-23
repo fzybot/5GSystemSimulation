@@ -13,6 +13,7 @@
 
 #include "src/protocols/phy/bandList.h"
 #include "src/protocols/phy/ResourceGrid.h"
+#include "src/protocols/phy/PhyConfigs.h"
 
 /*
  * This class models the bandwidth used for the transmission
@@ -26,7 +27,8 @@ private:
     QString frequencyRange_;
     QString operatingBand_;
     bool    tdd_;
-    int    _mimoIndex;
+    int     _mimoIndex;
+    int     _carrierAggIndex;
     bool    _normalCpType = true;
     double  carrierFreq_;
     double  ulBandwidth_;
@@ -40,7 +42,7 @@ private:
     int     _sampleRate;
     int     _fftSize = 4096;
 
-    //ResourceGrid _resourceGrid;
+    ResourceGrid _resourceGrid;
 
     double      _sinr = 0;
     double      _rsrp = 0;
@@ -48,14 +50,14 @@ private:
 
     // first - number of OFDM Symbols
     // second - number of RBs (1 RB = 12 REs)
-    int _coresetStart = 0;
-    QPair<int, int> sizeCORESET_;
-    QVector<QVector<int>> _coresetPattern;
-
-    int _dmrsStartFreq = 1, _dmrsStepFreq = 3, _dmrsStartSymb = 0, _dmrsStepSymb = 3;   
+    conf_coreset    _coreset;
+    conf_dmrs       _dmrs;   
 
     // Each element should looks like: [PRB Index, RSRP own, Interference Neighbour] 
-    QVector<QVector<int>> v;
+    QVector<QVector<int>> _dmrsIndexes;
+    QVector<QVector<int>> _dataIndexes;
+    QVector<QVector<int>> _coresetIndexes;
+
     QVector<double> dlSubChannels_;
     QVector<double> ulSubChannels_;
 
@@ -63,7 +65,7 @@ private:
 public:
     Bandwidth() = default;
     Bandwidth(QString fr, QString band, int scs,bool cp, double ulBw, double dlBw,
-              int ulOffset, int dlOffset, int mimoIndex, bool tddTrue = true);
+              int ulOffset, int dlOffset, int mimoIndex, int carrierAggIndex, bool tddTrue = true);
 
     QString getFrequencyRange();
     QString getBand();
@@ -83,12 +85,19 @@ public:
     int getNumberOfPRB();
 
     void configResourceGrid();
-    //ResourceGrid &getResouceGrid();
+    ResourceGrid &getResouceGrid();
     void fillRsrpPerPrb(QVector<int> &signalPower);
     void fillInterferencePerPrb(QVector<int> &interference);
 
-    void setCoresetSize(int nOFDM, int nPRBs);
-    QPair<int, int> &getCoresetSize();
+    void setCoreset(int nOFDM, int nPRBs, int startPrb, int frameN = -1, int subframeN = -1);
+    void setDmrs(int startSub, int stepSub, int startSymb, int stepSymb, int frameN = -1, int subframeN = -1);
+    conf_coreset &getCoreset();
+    conf_dmrs &getDmrs();
+
+    void fillIndexes();
+    QVector<QVector<int>> &getDmrsIndexes();
+    QVector<QVector<int>> &getDataIndexes();
+    QVector<QVector<int>> &getCoresetIndexes();
 
     void calculateSizeRbg();
 

@@ -30,7 +30,7 @@ Scheduler *CellMacEntity::getScheduler()
 
 void CellMacEntity::schedule()
 {
-    getScheduler()->doSchedule(getCell()->getUserEquipmentContainer());
+    getScheduler()->schedule(getCell()->getUserEquipmentContainer());
 }
 
 void CellMacEntity::assignCell(Cell *e)

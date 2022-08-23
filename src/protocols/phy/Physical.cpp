@@ -53,10 +53,11 @@ void Physical::configNewBandwidth( QString fr, QString band, int scs, bool cpTyp
 {
     //QString fr, QString band, int scs, double ulBw, double dlBw, int ulOffset, int dlOffset, bool tddTrue = true
     qDebug() << "Create new bandwidth...";
-    Bandwidth *bw = new Bandwidth(fr, band, scs, cpType, ulBw, dlBw, ulOffset, dlOffset, mimoIndex, tddTrue);
-    bw->setCoresetSize(2, bw->getNumberOfPRB() - 30);
+    Bandwidth *bw = new Bandwidth(fr, band, scs, cpType, ulBw, dlBw, ulOffset, dlOffset, mimoIndex, carrAggIndex, tddTrue);
+    bw->setCoreset(2, bw->getNumberOfPRB() - 30, 0);
+    bw->setDmrs(1, 3, 0, 3);
+    bw->configResourceGrid();
     addBandwidth(carrAggIndex, bw);
-    //configResourceGrid(bw, carrAggIndex, mimoIndex);
 }
 
 Physical::MIMO_MODE &Physical::getMimoMode()

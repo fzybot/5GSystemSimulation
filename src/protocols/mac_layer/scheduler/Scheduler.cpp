@@ -38,8 +38,9 @@ void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
     int carrAggIndex = 0;
     int mimoIndex = 0;
     int nPrb = getCell()->getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getNumberOfPRB();
-    QPair<int, int> coreset = getCell()->getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getCoresetSize();
-    int coresetSize = coreset.first * coreset.second * 12; // 12 subcarriers in 1 RB
+    int nOfdmCoreset = getCell()->getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getCoreset().nOfdm;
+    int nPrbCoreset = getCell()->getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getCoreset().nPrb;
+    int coresetSize = nOfdmCoreset * nPrbCoreset * 12; // 12 subcarriers in 1 RB
     int slot = getCell()->getLocalOwnTimeSlot();
     updateAvailableNumPRB(nPrb);
     updateAvailableNumCoresetRe(coresetSize);
@@ -49,11 +50,16 @@ void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
     // qDebug() << "Number of TBS: "<< cell_->getMacEntity()->getTransportBlockContainer().length();
 
     timeDomainScheduling(userEquipmentContainer);
-    if (timeQueue_->length() > 0){
-        frequencyDomainScheduling(timeQueue_, nPrb, coresetSize);
+    if (getTimeDomainQueue()->length() > 0){
+        frequencyDomainScheduling(getTimeDomainQueue(), nPrb, coresetSize);
         transmitTbThroughPhysical(slot);
-        timeQueue_[0][0]->showDataTransmitted();
+        getTimeDomainQueue()[0][0]->showDataTransmitted();
     }
+}
+
+QVector<UserEquipment *> *Scheduler::getTimeDomainQueue()
+{
+    return timeQueue_;
 }
 
 void Scheduler::timeDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer)
@@ -64,6 +70,51 @@ void Scheduler::timeDomainScheduling(QVector<UserEquipment*> *userEquipmentConta
         if (ue->getBSR() == true && ue->getMeasurementGap() != true && ue->getDRX() != true) {
             timeQueue_->push_back(ue);
         }
+    }
+}
+
+void Scheduler::schedule(QVector<UserEquipment*> *userEquipmentContainer)
+{
+    timeDomainScheduling(userEquipmentContainer);
+    if (getTimeDomainQueue()->length() > 0){
+        frequencyDomainScheduling(getTimeDomainQueue(), getBwContainer());
+    }
+}
+
+void Scheduler::frequencyDomainScheduling( QVector<UserEquipment*> *userEquipmentContainer, 
+                                    QVector< QVector<Bandwidth*> > &bwContainerMimoCarrAgg)
+{
+    switch (algorithm_)
+    {
+    case Scheduler::SchedulingAlgorithm::ROUND_ROBIN:
+        roundRobin(userEquipmentContainer, bwContainerMimoCarrAgg);
+        break;
+    }
+}
+
+void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer, 
+                QVector< QVector<Bandwidth*> > &bwContainerMimoCarrAgg)
+{
+    for(auto carrAgg : bwContainerMimoCarrAgg){
+        for (auto bwMimo : carrAgg){
+            distributePerBw(userEquipmentContainer, bwMimo);
+        }
+    }
+}
+
+void Scheduler::distributePerBw(QVector<UserEquipment*> *userEquipmentContainer, Bandwidth* bw)
+{
+    for (auto timeUe : *userEquipmentContainer)
+    {
+        fillUeSchedInfo(timeUe);
+        int remainingPrb = 
+        int mOrder = getUeSchedInfo().mOrder;
+        double codeRate = getUeSchedInfo().codeRate;
+        int nPrbPerUe = getUeSchedInfo().nPrb;
+        int tbs = getUeSchedInfo().tbs;
+        int nReCce = getUeSchedInfo().reCce;
+
+        qDebug() << "distribute --> " << tbs;
     }
 }
 
@@ -88,21 +139,18 @@ void Scheduler::roundRobin(QVector<UserEquipment*> *userEquipmentContainer, int 
     int utilizedPrb = 0;
     int size = 0;
     int codeRateSize = 0;
-    for (auto timeUE : *userEquipmentContainer)
+    for (auto timeUe : *userEquipmentContainer)
     {
-        double ueSINR = timeUE->getSinrPerBandidth(0);
-        int ueBufferSize = timeUE->getBufferSize();
-        int cqi = getCell()->getMacEntity()->getAMCEntity()->getCQIFromSinr (ueSINR);
-        int mcs = getCell()->getMacEntity()->getAMCEntity()->getMCSFromCQI(cqi);
-        int mOrder = getCell()->getMacEntity()->getAMCEntity()->getModulationOrderFromMCS(mcs);
-        double codeRate = getCell()->getMacEntity()->getAMCEntity()->getCodeRateFromMcs(mcs);
-        int nPrbPerUe =  calculateOptimalNumberOfPrbPerUe(mcs, _maxPrbPerUe, ueBufferSize); // TODO: think about nRemainingPrb_
-        int tbs = getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(mcs, nPrbPerUe, nLayers_, nCoresetRe_);
-        int nReCce = calcAggLevel(ueSINR) * 6 * 12; // 1 [CCE] = 6 [REG]; 1 [RE]G = 12 [subcarrires] x 1 [OFDM symbol]
+        fillUeSchedInfo(timeUe);
+        int mOrder = getUeSchedInfo().mOrder;
+        double codeRate = getUeSchedInfo().codeRate;
+        int nPrbPerUe = getUeSchedInfo().nPrb;
+        int tbs = getUeSchedInfo().tbs;
+        int nReCce = getUeSchedInfo().reCce;
 
         if( (nPrb -  nPrbPerUe) > 0 && (coresetSize - nReCce) > 0 ) {
             // Create TBS object with packets inside
-            for (auto bearer : *timeUE->getBearerContainer()){
+            for (auto bearer : *timeUe->getBearerContainer()){
                 fillTbWithPackets(bearer, tbs, codeRate, nPrbPerUe, mOrder);
             }
 
@@ -133,7 +181,7 @@ void Scheduler::propotionalFair(QVector<UserEquipment*> *userEquipmentContainer,
 
 }
 
-QVector<TransportBlock>Scheduler::transmitTbThroughPhysical(int slot)
+QVector<TransportBlock> Scheduler::transmitTbThroughPhysical(int slot)
 {
     //showTransportBlockContainer();
     int localIndex = 0;
@@ -164,6 +212,56 @@ QVector<TransportBlock>Scheduler::transmitTbThroughPhysical(int slot)
     errorTransmissionToQueue(errorContainer);
 
     return succContainer;
+}
+
+void Scheduler::fillUeSchedInfo(UserEquipment *ue)
+{
+    getUeSchedInfo().sinr = ue->getSinrPerBandidth(0);
+    getUeSchedInfo().bufferSize = ue->getBufferSize();
+    getUeSchedInfo().cqi = getCqiFromSinr(getUeSchedInfo().sinr);
+    getUeSchedInfo().mcs = getMcsFromCqi(getUeSchedInfo().cqi);
+    getUeSchedInfo().mOrder = getMOrderFromMcs(getUeSchedInfo().mcs);
+    getUeSchedInfo().codeRate = getCodeRateFromMcs(getUeSchedInfo().mcs);
+    getUeSchedInfo().nPrb = calculateOptimalNumberOfPrbPerUe(getUeSchedInfo().mcs, _maxPrbPerUe, getUeSchedInfo().bufferSize);
+    getUeSchedInfo().tbs = getTbs(getUeSchedInfo().mcs, getUeSchedInfo().nPrb, nLayers_, nCoresetRe_);
+    // 1 [CCE] = 6 [REG]; 1 [RE]G = 12 [subcarrires] x 1 [OFDM symbol]
+    getUeSchedInfo().reCce = calcAggLevel(getUeSchedInfo().sinr) * 6 * 12; 
+
+}
+
+QVector<QVector<Bandwidth *>> &Scheduler::getBwContainer()
+{
+    return getCell()->getPhyEntity()->getBandwidthContainer();
+}
+
+sched_ue_info &Scheduler::getUeSchedInfo()
+{
+    return _ueInfo;
+}
+
+int Scheduler::getCqiFromSinr(int sinr)
+{
+    return getCell()->getMacEntity()->getAMCEntity()->getCQIFromSinr (sinr);
+}
+
+int Scheduler::getMcsFromCqi(int cqi)
+{
+    return getCell()->getMacEntity()->getAMCEntity()->getMCSFromCQI(cqi);
+}
+
+int Scheduler::getMOrderFromMcs(int mcs)
+{
+    return getCell()->getMacEntity()->getAMCEntity()->getModulationOrderFromMCS(mcs);
+}
+
+double Scheduler::getCodeRateFromMcs(int mcs)
+{
+    return getCell()->getMacEntity()->getAMCEntity()->getCodeRateFromMcs(mcs);
+}
+
+int Scheduler::getTbs(int mcs, int nPrb, int nLayers, int nCoresetRe)
+{
+    return getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(mcs, nPrb, nLayers, nCoresetRe);
 }
 
 void Scheduler::updateAvailableNumPRB(int nPRB)

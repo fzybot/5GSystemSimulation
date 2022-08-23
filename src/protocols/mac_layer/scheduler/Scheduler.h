@@ -1,6 +1,8 @@
 #pragma once
 
 #include "src/protocols/mac_layer/TransportBlock.h"
+#include "src/protocols/phy/ResourceGrid.h"
+#include "src/protocols/mac_layer/scheduler/schedConfigs.h"
 
 #include <QVector>
 #include <QQueue>
@@ -32,20 +34,21 @@ protected:
     //TransportBlock          localTbs_;
 
 private:
+    sched_ue_info _ueInfo;
     int nLayers_ = 2;
     int nPrb_ = 0;
     int nRemainingPrb_ = 0;
     int nCoresetRe_ = 0;
     int nRemainingCoresetRe_ = 0;
-    int nMaxScheuledUe_ = 5;
+    int nMaxScheuledUe_ = 20;
     int currentScheduledUe = 0;
     int nMinPrbPerUe_ = 1;
     int _maxPrbPerUe = 60;
 
+    ResourceGrid _virtualResourceGrid;
+
 public:
     Scheduler(Cell *cell, Scheduler::SchedulingAlgorithm algo);
-
-    void doSchedule(QVector<UserEquipment*> *userEquipmentContainer);
 
     void setCell(Cell *cell);
     Cell *getCell();
@@ -53,10 +56,22 @@ public:
     void setAlgorithm(SchedulingAlgorithm algo);
     SchedulingAlgorithm getAlgorithm();
 
-    void timeDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer);
+    QVector<UserEquipment *> *getTimeDomainQueue();
+
+    void schedule(QVector<UserEquipment*> *userEquipmentContainer);
+    void timeDomainScheduling(QVector<UserEquipment *> *userEquipmentContainer);
+    void frequencyDomainScheduling( QVector<UserEquipment*> *userEquipmentContainer, 
+                                QVector< QVector<Bandwidth*> > &bwContainerMimoCarrAgg);
+    // Scheduling algorithms [try.1.0.0]
+    void roundRobin(QVector<UserEquipment*> *userEquipmentContainer, 
+                    QVector< QVector<Bandwidth*> > &bwContainerMimoCarrAgg);
+
+
+
+    void doSchedule(QVector<UserEquipment*> *userEquipmentContainer);
     void frequencyDomainScheduling(QVector<UserEquipment*> *userEquipmentContainer, int nPrb, int coresetSize);
 
-    // Scheduling algorithms
+    // Scheduling algorithms [OLD]
     void roundRobin(QVector<UserEquipment*> *userEquipmentContainer, int nPrb, int coresetSize);
     void propotionalFair(QVector<UserEquipment*> *userEquipmentContainer, int nPrb, int coresetSize);
     void besetCqi(QVector<UserEquipment *> *userEquipmentContainer, int nPrb, int coresetSize);
@@ -64,6 +79,16 @@ public:
     QVector<TransportBlock> transmitTbThroughPhysical(int slot);
 
     // Support methods
+    void distributePerBw(QVector<UserEquipment*> *userEquipmentContainer, Bandwidth* bw);
+    void fillUeSchedInfo(UserEquipment *ue);
+    sched_ue_info &getUeSchedInfo();
+    QVector<QVector<Bandwidth *>> &getBwContainer();
+    int getCqiFromSinr(int sinr);
+    int getMcsFromCqi(int cqi);
+    int getMOrderFromMcs(int mcs);
+    double getCodeRateFromMcs(int mcs);
+    int getTbs(int mcs, int nPrb, int nLayers, int nCoresetRe_);
+
     void updateAvailableNumPRB(int nPRB);
     int getRemainingNumPRB();
     void updateAvailableNumCoresetRe(int coresetRe);
