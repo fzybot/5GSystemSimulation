@@ -127,7 +127,7 @@ int Bandwidth::getNumberOfPRB()
     return numPRB_;
 }
 
-void Bandwidth::setCoreset(int nOFDM, int nPRBs, int startPrb, int frameN, int subframeN)
+void Bandwidth::setCoreset(QVector<int> nOFDM, int nPRBs, int startPrb, int frameN, int subframeN)
 {
     getCoreset().nOfdm = nOFDM;
     getCoreset().nPrb = nPRBs;
@@ -157,26 +157,72 @@ conf_dmrs &Bandwidth::getDmrs()
 
 void Bandwidth::fillIndexes()
 {
-    int cp = 6;
+    int cp = 12;
     if(getCpType()){
-        cp = 7;
+        cp = 14;
     }
     _dmrsIndexes.resize(cp);
     _dataIndexes.resize(cp);
     _coresetIndexes.resize(cp);
-    for (int symb = 0; symb < cp * 2; symb++)
-    {
-        if (symb == (symb + getDmrs().startSymbol) * getDmrs().stepSymbol)
+    qDebug() << "numPrb --> " << getNumberOfPRB() * 12;
+    qDebug() << "numPrb coreset --> " << getCoreset().nPrb * 12;
+    for (int sc = getDmrs().startSubcarrier; sc < getNumberOfPRB() * 12; sc += getDmrs().stepSubcarrier)
         {
-            for (int sc = 0; sc < getNumberOfPRB() * 12; sc++)
+            _dmrsIndexes[getDmrs().startSymbol].push_back(sc);
+        }
+    int i = 1;
+    for (int symb = 0; symb < cp; symb++)
+    {
+        if (symb == ( i * (getDmrs().startSymbol + getDmrs().stepSymbol)) )
+        {
+            i++;
+            for (int sc = getDmrs().startSubcarrier; sc < getNumberOfPRB() * 12; sc += getDmrs().stepSubcarrier)
             {
-                if (sc == (sc + getDmrs().startSubcarrier) * getDmrs().stepSubcarrier)
-                {
-                    _dmrsIndexes[i].push_back(sc);
+                _dmrsIndexes[symb].push_back(sc);
+            }
+        }
+        for (auto coresetOfdm : getCoreset().nOfdm)
+        {
+            if (symb == coresetOfdm)
+            {
+                // bw->setCoreset({0, 1}, bw->getNumberOfPRB() - 20, 0);
+                // bw->setDmrs(1, 3, 1, 3);
+                if (getDmrsIndexes()[symb].length() > 0){
+                    int j = 0;
+                    for (int sc = 0; sc < getNumberOfPRB() * 12; sc++)
+                    {
+                        qDebug() << "dmrs length() Indexes --> " << getDmrsIndexes()[symb][j] << " sc --> " << sc;
+                        if ( (sc != getDmrsIndexes()[symb][j])){
+                            if ( (sc >= (getCoreset().startPrb * 12)) && (sc < (getCoreset().nPrb + getCoreset().startPrb) * 12) ){
+                                _coresetIndexes[symb].push_back(sc);
+                            } else {
+                                _dataIndexes[symb].push_back(sc);
+                            }
+                        } else {
+                            j++;
+                        }
+                    }
+                } else {
+                    for (int sc = 0; sc < getNumberOfPRB() * 12; sc++)
+                    {
+                        if ( (sc >= (getCoreset().startPrb * 12)) && (sc < (getCoreset().nPrb + getCoreset().startPrb) * 12) ){
+                            _coresetIndexes[symb].push_back(sc);
+                        } else {
+                            _dataIndexes[symb].push_back(sc);
+                        }
+                    }
                 }
             }
         }
-
+    }
+    for (auto cor : _coresetIndexes){
+        qDebug() << "coreset Indexes --> " << cor;
+    }
+    for (auto dmrs : _dmrsIndexes){
+        qDebug() << "dmrs Indexes --> " << dmrs;
+    }
+    for (auto data : _dataIndexes){
+        qDebug() << "data Indexes --> " << data;
     }
 }
 

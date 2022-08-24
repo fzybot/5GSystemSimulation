@@ -89,7 +89,7 @@ public:
     void fillRsrpPerPrb(QVector<int> &signalPower);
     void fillInterferencePerPrb(QVector<int> &interference);
 
-    void setCoreset(int nOFDM, int nPRBs, int startPrb, int frameN = -1, int subframeN = -1);
+    void setCoreset(QVector<int> nOFDM, int nPRBs, int startPrb, int frameN = -1, int subframeN = -1);
     void setDmrs(int startSub, int stepSub, int startSymb, int stepSymb, int frameN = -1, int subframeN = -1);
     conf_coreset &getCoreset();
     conf_dmrs &getDmrs();

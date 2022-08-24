@@ -54,9 +54,10 @@ void Physical::configNewBandwidth( QString fr, QString band, int scs, bool cpTyp
     //QString fr, QString band, int scs, double ulBw, double dlBw, int ulOffset, int dlOffset, bool tddTrue = true
     qDebug() << "Create new bandwidth...";
     Bandwidth *bw = new Bandwidth(fr, band, scs, cpType, ulBw, dlBw, ulOffset, dlOffset, mimoIndex, carrAggIndex, tddTrue);
-    bw->setCoreset(2, bw->getNumberOfPRB() - 30, 0);
-    bw->setDmrs(1, 3, 0, 3);
+    bw->setCoreset({0, 1}, bw->getNumberOfPRB() - 20, 1);
+    bw->setDmrs(1, 3, 1, 3);
     bw->configResourceGrid();
+    bw->fillIndexes();
     addBandwidth(carrAggIndex, bw);
 }
 

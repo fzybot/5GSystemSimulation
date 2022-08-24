@@ -2,6 +2,7 @@
 #define PHYCONFIGS_H
 
 #include <QString>
+#include <QVector>
 
 typedef struct {
     QString fr;
@@ -13,7 +14,7 @@ typedef struct {
 } conf_band;
 
 typedef struct {
-    int nOfdm;
+    QVector<int> nOfdm;
     int nPrb;
     int startPrb;
     int frameNum = -1; // '-1' means 'each'

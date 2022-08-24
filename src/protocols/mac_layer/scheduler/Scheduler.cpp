@@ -38,7 +38,7 @@ void Scheduler::doSchedule(QVector<UserEquipment*> *userEquipmentContainer)
     int carrAggIndex = 0;
     int mimoIndex = 0;
     int nPrb = getCell()->getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getNumberOfPRB();
-    int nOfdmCoreset = getCell()->getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getCoreset().nOfdm;
+    int nOfdmCoreset = getCell()->getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getCoreset().nOfdm.length();
     int nPrbCoreset = getCell()->getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getCoreset().nPrb;
     int coresetSize = nOfdmCoreset * nPrbCoreset * 12; // 12 subcarriers in 1 RB
     int slot = getCell()->getLocalOwnTimeSlot();
@@ -107,7 +107,7 @@ void Scheduler::distributePerBw(QVector<UserEquipment*> *userEquipmentContainer,
     for (auto timeUe : *userEquipmentContainer)
     {
         fillUeSchedInfo(timeUe);
-        int remainingPrb = 
+        int remainingPrb = bw->getNumberOfPRB();
         int mOrder = getUeSchedInfo().mOrder;
         double codeRate = getUeSchedInfo().codeRate;
         int nPrbPerUe = getUeSchedInfo().nPrb;
