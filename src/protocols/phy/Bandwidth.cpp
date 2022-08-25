@@ -185,20 +185,18 @@ void Bandwidth::fillIndexes()
         {
             if (symb == coresetOfdm)
             {
-                // bw->setCoreset({0, 1}, bw->getNumberOfPRB() - 20, 0);
-                // bw->setDmrs(1, 3, 1, 3);
                 if (getDmrsIndexes()[symb].length() > 0){
                     int j = 0;
                     for (int sc = 0; sc < getNumberOfPRB() * 12; sc++)
                     {
-                        qDebug() << "dmrs length() Indexes --> " << getDmrsIndexes()[symb][j] << " sc --> " << sc;
-                        if ( (sc != getDmrsIndexes()[symb][j])){
+                        //qDebug() << "dmrs length() Indexes --> " << getDmrsIndexes()[symb][j] << " sc --> " << sc;
+                        if ( (sc != getDmrsIndexes()[symb][j]) ){
                             if ( (sc >= (getCoreset().startPrb * 12)) && (sc < (getCoreset().nPrb + getCoreset().startPrb) * 12) ){
                                 _coresetIndexes[symb].push_back(sc);
                             } else {
                                 _dataIndexes[symb].push_back(sc);
                             }
-                        } else {
+                        } else if (j < getDmrsIndexes()[symb].length() - 1){
                             j++;
                         }
                     }
@@ -214,15 +212,34 @@ void Bandwidth::fillIndexes()
                 }
             }
         }
+        if (getDataIndexes()[symb].length() == 0){
+            if (getDmrsIndexes()[symb].length() > 0){
+                int j = 0;
+                for (int sc = 0; sc < getNumberOfPRB() * 12; sc++)
+                {
+                    //qDebug() << "dmrs length() Indexes --> " << getDmrsIndexes()[symb][j] << " sc --> " << sc;
+                    if ( (sc != getDmrsIndexes()[symb][j])){
+                        _dataIndexes[symb].push_back(sc);
+                    } else if (j < getDmrsIndexes()[symb].length() - 1){
+                        j++;
+                    }
+                }
+            } else {
+                for (int sc = 0; sc < getNumberOfPRB() * 12; sc++)
+                {
+                    _dataIndexes[symb].push_back(sc);
+                }
+            }
+        }
     }
     for (auto cor : _coresetIndexes){
-        qDebug() << "coreset Indexes --> " << cor;
+        qDebug() << "coreset Indexes --> " << cor.length();
     }
     for (auto dmrs : _dmrsIndexes){
-        qDebug() << "dmrs Indexes --> " << dmrs;
+        qDebug() << "dmrs Indexes --> " << dmrs.length();
     }
     for (auto data : _dataIndexes){
-        qDebug() << "data Indexes --> " << data;
+        qDebug() << "data Indexes --> " << data.length();
     }
 }
 
