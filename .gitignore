@@ -18,7 +18,8 @@
 /debug
 /release
 
-
+#logging
+/src/logging/log.txt
 
 # For Windows
 /libs
