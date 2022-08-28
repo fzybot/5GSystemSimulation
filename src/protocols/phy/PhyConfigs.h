@@ -26,8 +26,16 @@ typedef struct {
     int stepSubcarrier;
     int startSymbol;
     int stepSymbol;
-    int frameNum = -1; // '-1' means 'each'
+    int nDmrsPerRb;
+    int frameNum = -1;    // '-1' means 'each'
     int subframeNum = -1; // '-1' means 'each'
 } conf_dmrs;
+
+typedef struct {
+    int index;
+    int nPdsch = 0;
+    int nDmrs = 0;
+    int nCoreset = 0;
+} info_prb;
 
 #endif // PHYCONFIGS_H

@@ -65,14 +65,13 @@ double AMCEntity::getCodeRateFromMcs(int mcs)
     }
 }
 
-int AMCEntity::getTBSizeFromMCS(int mcs, int nPRB, int nLayers, int oH)
+int AMCEntity::getTBSizeFromMCS(int mcs, int nPRB, int nDmrsRb, int nLayers, int oH)
 {
-    double R = (double)TargetCodeRateTable1PDSCH[mcs] / 1024;
+    double R = 1; //(double)TargetCodeRateTable1PDSCH[mcs] / 1024;
     int Qm = ModulationOrderTable1PDSCH[mcs];
     int tbs;
     int nScRb = 12;
     int nSymbSlot = 14; // Depends on SLIV (max 14 or 12)
-    int nDmrsRb = 0;    // TODO: add method to automatically calculate the value based on DCI format
     int nOhRb = 0;     // Some overheads. TODO: may be need some calculation
     int otherOh = oH;
 

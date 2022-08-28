@@ -35,7 +35,7 @@ protected:
 
 private:
     sched_ue_info _ueInfo;
-    int nLayers_ = 2;
+    int nLayers_ = 1;
     int nPrb_ = 0;
     int nRemainingPrb_ = 0;
     int nCoresetRe_ = 0;
@@ -87,13 +87,13 @@ public:
     int getMcsFromCqi(int cqi);
     int getMOrderFromMcs(int mcs);
     double getCodeRateFromMcs(int mcs);
-    int getTbs(int mcs, int nPrb, int nLayers, int nCoresetRe_);
+    int getTbs(int mcs, int nPrb, int nDmrs, int nLayers, int nCoresetRe_);
 
     void updateAvailableNumPRB(int nPRB);
     int getRemainingNumPRB();
     void updateAvailableNumCoresetRe(int coresetRe);
     int getRemainingNumCoresetRe();
-    int calculateOptimalNumberOfPrbPerUe(int mcs, int maxPrb, int ueBuffer);
+    int calculateOptimalNumberOfPrbPerUe(int mcs, int maxPrb, int nDmrs, int ueBuffer);
     void fillTbWithPackets(RadioBearer *bearer, int tbsSize, double codeRate, int nPrb, int mOrder);
     void packetsToTbs();
     int calcAggLevel(double sinr);

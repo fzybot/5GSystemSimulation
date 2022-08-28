@@ -155,6 +155,11 @@ conf_dmrs &Bandwidth::getDmrs()
     return _dmrs;
 }
 
+int Bandwidth::getNDmrs()
+{
+    return getDmrs().nDmrsPerRb;
+}
+
 void Bandwidth::fillIndexes()
 {
     int cp = 12;
@@ -164,11 +169,14 @@ void Bandwidth::fillIndexes()
     _dmrsIndexes.resize(cp);
     _dataIndexes.resize(cp);
     _coresetIndexes.resize(cp);
+    _containerPrb.resize(getNumberOfPRB());
     qDebug() << "numPrb --> " << getNumberOfPRB() * 12;
     qDebug() << "numPrb coreset --> " << getCoreset().nPrb * 12;
     for (int sc = getDmrs().startSubcarrier; sc < getNumberOfPRB() * 12; sc += getDmrs().stepSubcarrier)
         {
             _dmrsIndexes[getDmrs().startSymbol].push_back(sc);
+            _containerPrb[floor(sc / 12)].index = floor(sc / 12);
+            _containerPrb[floor(sc / 12)].nDmrs++;
         }
     int i = 1;
     for (int symb = 0; symb < cp; symb++)
@@ -179,6 +187,9 @@ void Bandwidth::fillIndexes()
             for (int sc = getDmrs().startSubcarrier; sc < getNumberOfPRB() * 12; sc += getDmrs().stepSubcarrier)
             {
                 _dmrsIndexes[symb].push_back(sc);
+                _containerPrb[floor(sc / 12)].index = floor(sc / 12);
+                _containerPrb[floor(sc / 12)].nDmrs++;
+                
             }
         }
         for (auto coresetOfdm : getCoreset().nOfdm)
@@ -189,12 +200,21 @@ void Bandwidth::fillIndexes()
                     int j = 0;
                     for (int sc = 0; sc < getNumberOfPRB() * 12; sc++)
                     {
+                        // bw->setCoreset({0, 1}, bw->getNumberOfPRB() - 20, 1);
+                        // bw->setDmrs(1, 3, 1, 3);
                         //qDebug() << "dmrs length() Indexes --> " << getDmrsIndexes()[symb][j] << " sc --> " << sc;
                         if ( (sc != getDmrsIndexes()[symb][j]) ){
                             if ( (sc >= (getCoreset().startPrb * 12)) && (sc < (getCoreset().nPrb + getCoreset().startPrb) * 12) ){
                                 _coresetIndexes[symb].push_back(sc);
-                            } else {
+                                _containerPrb[floor(sc / 12)].index = floor(sc / 12);
+                                _containerPrb[floor(sc / 12)].nCoreset++;
+                                //qDebug() << "symbol --> " << symb << " sc indexes --> " << sc << " prb indexes floor --> " << floor(sc / 12);
+                            }
+                            else
+                            {
                                 _dataIndexes[symb].push_back(sc);
+                                _containerPrb[floor(sc / 12)].index = floor(sc / 12);
+                                _containerPrb[floor(sc / 12)].nPdsch++;
                             }
                         } else if (j < getDmrsIndexes()[symb].length() - 1){
                             j++;
@@ -205,8 +225,12 @@ void Bandwidth::fillIndexes()
                     {
                         if ( (sc >= (getCoreset().startPrb * 12)) && (sc < (getCoreset().nPrb + getCoreset().startPrb) * 12) ){
                             _coresetIndexes[symb].push_back(sc);
+                            _containerPrb[floor(sc / 12)].index = floor(sc / 12);
+                            _containerPrb[floor(sc / 12)].nCoreset++;
                         } else {
                             _dataIndexes[symb].push_back(sc);
+                            _containerPrb[floor(sc / 12)].index = floor(sc / 12);
+                            _containerPrb[floor(sc / 12)].nPdsch++;
                         }
                     }
                 }
@@ -220,6 +244,8 @@ void Bandwidth::fillIndexes()
                     //qDebug() << "dmrs length() Indexes --> " << getDmrsIndexes()[symb][j] << " sc --> " << sc;
                     if ( (sc != getDmrsIndexes()[symb][j])){
                         _dataIndexes[symb].push_back(sc);
+                        _containerPrb[floor(sc / 12)].index = floor(sc / 12);
+                        _containerPrb[floor(sc / 12)].nPdsch++;
                     } else if (j < getDmrsIndexes()[symb].length() - 1){
                         j++;
                     }
@@ -228,19 +254,28 @@ void Bandwidth::fillIndexes()
                 for (int sc = 0; sc < getNumberOfPRB() * 12; sc++)
                 {
                     _dataIndexes[symb].push_back(sc);
+                    _containerPrb[floor(sc / 12)].index = floor(sc / 12);
+                    _containerPrb[floor(sc / 12)].nPdsch++;
                 }
             }
         }
     }
-    for (auto cor : _coresetIndexes){
-        qDebug() << "coreset Indexes --> " << cor.length();
-    }
-    for (auto dmrs : _dmrsIndexes){
-        qDebug() << "dmrs Indexes --> " << dmrs.length();
-    }
-    for (auto data : _dataIndexes){
-        qDebug() << "data Indexes --> " << data.length();
-    }
+    // for(auto dmrs : getDmrsIndexes()){
+    //     qDebug() << "dmrs --> " << dmrs.length();
+    // }
+    // for(auto data : getDataIndexes()){
+    //     qDebug() << "data --> " << data.length();
+    // }
+    // for(auto coreset : getCoresetIndexes()){
+    //     qDebug() << "coreset --> " << coreset.length();
+    // }
+    // for(auto prb : getPrbInfo()){
+    //     qDebug() << "Prb info --> ";
+    //     qDebug() << "   " << "Prb index --> " << prb.index;
+    //     qDebug() << "   " << "Prb nDmrs --> " << prb.nDmrs;
+    //     qDebug() << "   " << "Prb nPdsch --> " << prb.nPdsch;
+    //     qDebug() << "   " << "Prb nCoreset --> " << prb.nCoreset;
+    // }
 }
 
 QVector<QVector<int>> &Bandwidth::getDmrsIndexes()
@@ -256,6 +291,19 @@ QVector<QVector<int>> &Bandwidth::getDataIndexes()
 QVector<QVector<int>> &Bandwidth::getCoresetIndexes()
 {
     return _coresetIndexes;
+}
+
+void Bandwidth::fillPrbInfo()
+{
+    for (int sc = 0; sc < getNumberOfPRB() * 12; sc++)
+    {
+        
+    }
+}
+
+QVector<info_prb> &Bandwidth::getPrbInfo()
+{
+    return _containerPrb;
 }
 
 

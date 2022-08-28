@@ -50,8 +50,9 @@ private:
 
     // first - number of OFDM Symbols
     // second - number of RBs (1 RB = 12 REs)
-    conf_coreset    _coreset;
-    conf_dmrs       _dmrs;   
+    conf_coreset        _coreset;
+    conf_dmrs           _dmrs;
+    QVector<info_prb>   _containerPrb;
 
     // Each element should looks like: [PRB Index, RSRP own, Interference Neighbour] 
     QVector<QVector<int>> _dmrsIndexes;
@@ -93,6 +94,9 @@ public:
     void setDmrs(int startSub, int stepSub, int startSymb, int stepSymb, int frameN = -1, int subframeN = -1);
     conf_coreset &getCoreset();
     conf_dmrs &getDmrs();
+    int getNDmrs();
+    void fillPrbInfo();
+    QVector<info_prb> &getPrbInfo();
 
     void fillIndexes();
     QVector<QVector<int>> &getDmrsIndexes();

@@ -14,7 +14,7 @@ public:
 
     int getCQIFromSinr (double sinr);
     int getMCSFromCQI (int cqi);
-    int getTBSizeFromMCS(int mcs, int nPRB, int nLayers, int oH);
+    int getTBSizeFromMCS(int mcs, int nPRB, int nDmrsRb, int nLayers, int oH);
     double getCodeRateFromMcs(int mcs);
     int getModulationOrderFromMCS(int mcs);
     int findClosestTbs3824(int nInfo);

@@ -106,6 +106,7 @@ void Scheduler::distributePerBw(QVector<UserEquipment*> *userEquipmentContainer,
 {
     for (auto timeUe : *userEquipmentContainer)
     {
+        //int nDmrs = bw
         fillUeSchedInfo(timeUe);
         int remainingPrb = bw->getNumberOfPRB();
         int mOrder = getUeSchedInfo().mOrder;
@@ -222,8 +223,8 @@ void Scheduler::fillUeSchedInfo(UserEquipment *ue)
     getUeSchedInfo().mcs = getMcsFromCqi(getUeSchedInfo().cqi);
     getUeSchedInfo().mOrder = getMOrderFromMcs(getUeSchedInfo().mcs);
     getUeSchedInfo().codeRate = getCodeRateFromMcs(getUeSchedInfo().mcs);
-    getUeSchedInfo().nPrb = calculateOptimalNumberOfPrbPerUe(getUeSchedInfo().mcs, _maxPrbPerUe, getUeSchedInfo().bufferSize);
-    getUeSchedInfo().tbs = getTbs(getUeSchedInfo().mcs, getUeSchedInfo().nPrb, nLayers_, nCoresetRe_);
+    getUeSchedInfo().nPrb = calculateOptimalNumberOfPrbPerUe(getUeSchedInfo().mcs, _maxPrbPerUe, 2, getUeSchedInfo().bufferSize);
+    //getUeSchedInfo().tbs = getTbs(getUeSchedInfo().mcs, getUeSchedInfo().nPrb, nLayers_, nCoresetRe_);
     // 1 [CCE] = 6 [REG]; 1 [RE]G = 12 [subcarrires] x 1 [OFDM symbol]
     getUeSchedInfo().reCce = calcAggLevel(getUeSchedInfo().sinr) * 6 * 12; 
 
@@ -259,9 +260,9 @@ double Scheduler::getCodeRateFromMcs(int mcs)
     return getCell()->getMacEntity()->getAMCEntity()->getCodeRateFromMcs(mcs);
 }
 
-int Scheduler::getTbs(int mcs, int nPrb, int nLayers, int nCoresetRe)
+int Scheduler::getTbs(int mcs, int nPrb, int nDmrs, int nLayers, int nCoresetRe)
 {
-    return getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(mcs, nPrb, nLayers, nCoresetRe);
+    return getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(mcs, nPrb, nDmrs, nLayers, nCoresetRe);
 }
 
 void Scheduler::updateAvailableNumPRB(int nPRB)
@@ -286,13 +287,13 @@ int Scheduler::getRemainingNumCoresetRe()
     return nRemainingCoresetRe_;
 }
 
-int Scheduler::calculateOptimalNumberOfPrbPerUe(int mcs, int maxPrb, int ueBuffer)
+int Scheduler::calculateOptimalNumberOfPrbPerUe(int mcs, int maxPrb, int nDmrs, int ueBuffer)
 {
     int min = ueBuffer;
     int maxPossiblePrb = 1;
     int tbs;
     for (int i = 1; i <= maxPrb; i++) {
-        tbs = getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(mcs, i, nLayers_, nCoresetRe_);
+        tbs = getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(mcs, i, nDmrs, nLayers_, nCoresetRe_);
         if (abs(ueBuffer - tbs) < min) {
             min = abs(ueBuffer - tbs);
             maxPossiblePrb = i;
