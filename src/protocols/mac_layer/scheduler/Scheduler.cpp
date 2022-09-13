@@ -6,6 +6,7 @@
 #include "src/protocols/bearers/RadioBearer.h"
 #include "src/protocols/mac_layer/CellMacEntity.h"
 #include "src/protocols/mac_layer/AMC/AMCEntity.h"
+#include "src/protocols/phy/PhyConfigs.h"
 
 #include <QDebug>
 #include <QVector>
@@ -224,8 +225,8 @@ void Scheduler::fillUeSchedInfo(UserEquipment *ue)
     getUeSchedInfo().mOrder = getMOrderFromMcs(getUeSchedInfo().mcs);
     getUeSchedInfo().codeRate = getCodeRateFromMcs(getUeSchedInfo().mcs);
     getUeSchedInfo().nPrb = calculateOptimalNumberOfPrbPerUe(getUeSchedInfo().mcs, _maxPrbPerUe, 2, getUeSchedInfo().bufferSize);
-    //getUeSchedInfo().tbs = getTbs(getUeSchedInfo().mcs, getUeSchedInfo().nPrb, nLayers_, nCoresetRe_);
-    // 1 [CCE] = 6 [REG]; 1 [RE]G = 12 [subcarrires] x 1 [OFDM symbol]
+    // getUeSchedInfo().tbs = getTbs(getUeSchedInfo().mcs, getUeSchedInfo().nPrb, nLayers_, nCoresetRe_);
+    //  1 [CCE] = 6 [REG]; 1 [RE]G = 12 [subcarrires] x 1 [OFDM symbol]
     getUeSchedInfo().reCce = calcAggLevel(getUeSchedInfo().sinr) * 6 * 12; 
 
 }
@@ -262,7 +263,7 @@ double Scheduler::getCodeRateFromMcs(int mcs)
 
 int Scheduler::getTbs(int mcs, int nPrb, int nDmrs, int nLayers, int nCoresetRe)
 {
-    return getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(mcs, nPrb, nDmrs, nLayers, nCoresetRe);
+    return 0;//-->>getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(mcs, nPrb, nDmrs, nLayers, nCoresetRe);
 }
 
 void Scheduler::updateAvailableNumPRB(int nPRB)
@@ -290,10 +291,10 @@ int Scheduler::getRemainingNumCoresetRe()
 int Scheduler::calculateOptimalNumberOfPrbPerUe(int mcs, int maxPrb, int nDmrs, int ueBuffer)
 {
     int min = ueBuffer;
-    int maxPossiblePrb = 1;
+    int maxPossiblePrb = -1;
     int tbs;
     for (int i = 1; i <= maxPrb; i++) {
-        tbs = getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(mcs, i, nDmrs, nLayers_, nCoresetRe_);
+        //-->>tbs = getCell()->getMacEntity()->getAMCEntity()->getTBSizeFromMCS(mcs, i, nDmrs, nLayers_, nCoresetRe_);
         if (abs(ueBuffer - tbs) < min) {
             min = abs(ueBuffer - tbs);
             maxPossiblePrb = i;

@@ -1,6 +1,7 @@
 #include "AMCEntity.h"
 #include "AMCParameters.h"
 #include "src/protocols/mac_layer/AMC/miesmEffSINR.h"
+#include "src/protocols/phy/PhyConfigs.h"
 
 #include "src/debug.h"
 
@@ -65,7 +66,7 @@ double AMCEntity::getCodeRateFromMcs(int mcs)
     }
 }
 
-int AMCEntity::getTBSizeFromMCS(int mcs, int nPRB, int nDmrsRb, int nLayers, int oH)
+int AMCEntity::getTBSizeFromMCS(int mcs, QVector<info_prb> &prbContainer, int nLayers, int oH)
 {
     double R = 1; //(double)TargetCodeRateTable1PDSCH[mcs] / 1024;
     int Qm = ModulationOrderTable1PDSCH[mcs];
@@ -74,9 +75,14 @@ int AMCEntity::getTBSizeFromMCS(int mcs, int nPRB, int nDmrsRb, int nLayers, int
     int nSymbSlot = 14; // Depends on SLIV (max 14 or 12)
     int nOhRb = 0;     // Some overheads. TODO: may be need some calculation
     int otherOh = oH;
-
-    int nRePrime = nScRb * (nSymbSlot - nDmrsRb - nOhRb);
-    int nRe = qMin(156, nRePrime) * nPRB - otherOh;
+    int nRePrime = 0;
+    int nRe = 0;
+    for (auto prb : prbContainer)
+    {
+        nRe += prb.nPdsch;
+    }
+    // int nRePrime = nScRb *(nSymbSlot - nDmrsRb - nOhRb);
+    // int nRe = qMin(156, nRePrime) * nPRB - otherOh;
 
     int nInfo = nRe * R * Qm * nLayers;
 
@@ -102,9 +108,9 @@ int AMCEntity::getTBSizeFromMCS(int mcs, int nPRB, int nDmrsRb, int nLayers, int
             }
         }
     }
-    //qDebug() <<"    "<<"AMCEntity::getTBSizeFromMCS::before return tbs --> " << tbs;
     return tbs;
 }
+
 
 // TODO: more accurate calculation in case of Bit Array for data
 int AMCEntity::findClosestTbs3824(int nInfo)
@@ -113,13 +119,11 @@ int AMCEntity::findClosestTbs3824(int nInfo)
     int index;
     int min = 10000000;
     for (int i = 0; i < 93; i++) {
-        //qDebug() <<"    "<<"AMCEntity::findClosestTbs3824::i --> " << i;
         if (abs(nInfo - TBSforNinfo[i]) <= min ){
             min = abs(nInfo - TBSforNinfo[i]);
             index = i;
         }
     }
-    //qDebug() <<"    "<<"AMCEntity::findClosestTbs3824::index --> " << index;
     return index;
 }
 

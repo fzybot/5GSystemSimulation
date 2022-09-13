@@ -43,7 +43,7 @@ private:
     int nMaxScheuledUe_ = 20;
     int currentScheduledUe = 0;
     int nMinPrbPerUe_ = 1;
-    int _maxPrbPerUe = 60;
+    int _maxPrbPerUe = 100000;
 
     ResourceGrid _virtualResourceGrid;
 
