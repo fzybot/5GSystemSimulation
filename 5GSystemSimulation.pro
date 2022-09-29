@@ -109,6 +109,7 @@ HEADERS += \
     src/scenarios/simple.h \
     src/scenarios/testModel.h \
     src/tests/calculus_test.h \
+	src/tests/HeatmapModelTest.h \ 
     src/tests/packet_test.h \
     src/tests/propagation_models_test.h \
     src/tests/python_test.h \
