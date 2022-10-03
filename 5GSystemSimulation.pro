@@ -1,16 +1,16 @@
-QT       += gui widgets qml positioning positioning-private location quickwidgets datavisualization charts
+QT       += core gui widgets qml positioning quickwidgets datavisualization charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 #TARGET = qmlwidget
 #TEMPLATE = app
-CONFIG += c++14
+CONFIG += c++17
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
-DEFINES += QT_DEPRECATED_WARNINGS QT_MESSAGELOGCONTEXT
+# DEFINES += QT_DEPRECATED_WARNINGS QT_MESSAGELOGCONTEXT
 
 # You can also make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -36,7 +36,7 @@ SOURCES += \
     src/protocols/mac_layer/TransportBlock.cpp \
     src/protocols/phy/Channel/PropagationLossModel.cpp \
     src/protocols/phy/ResourceGrid.cpp \
-    src/protocols/phy/Symbol.cpp \
+    #src/protocols/phy/Symbol.cpp \
     src/protocols/phy/fft.cpp \
     src/protocols/phy/modulation.cpp \
     src/visualization/ChartGroupWidget.cpp \
@@ -101,7 +101,7 @@ HEADERS += \
     src/protocols/phy/PhyConfigs.h \
     src/protocols/phy/bandList.h \
     src/protocols/phy/ResourceGrid.h \
-    src/protocols/phy/Symbol.h \
+    #src/protocols/phy/Symbol.h \
     src/protocols/phy/fft.h \
     src/protocols/phy/modulation.h \
     src/scenarios/modulationPerformance.h \
@@ -152,16 +152,17 @@ HEADERS += \
 #unix: LIBS += -llapack -lblas -larmadillo -L /usr/local/lib/python3.8
 #win32: INCLUDEPATH += $$PWD/libs
 
-LIBS += -llapack -lblas -larmadillo -L /usr/local/lib/python3.8 -lpython3.8 /usr/local/lib/libfftw3.a
-INCLUDEPATH += $$PWD/libs   /usr/include/python3.8
-DEPENDPATH +=               /usr/include/python3.8
+#LIBS += -llapack -lblas -larmadillo -L /usr/local/lib/python3.8 -lpython3.8 /usr/local/lib/libfftw3.a
+#INCLUDEPATH += $$PWD/libs   /usr/include/python3.8
+#DEPENDPATH +=               /usr/include/python3.8
 
-FORMS +=
+#FORMS +=
 
 # Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+#target.path = $$[QT_INSTALL_EXAMPLES]/charts/chartthemes
+#qnx: target.path = /tmp/$${TARGET}/bin
+#else: unix:!android: target.path = /opt/$${TARGET}/bin
+#!isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
     .gitignore \

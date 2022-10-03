@@ -3,6 +3,7 @@
 #include <QObject>
 #include <QWidget>
 #include <QVector>
+#include <QtDataVisualization/qutils.h>
 #include <QtDataVisualization/Q3DSurface>
 #include <QtDataVisualization/QSurfaceDataProxy>
 #include <QtDataVisualization/QHeightMapSurfaceDataProxy>

@@ -129,7 +129,7 @@ void Equipment::addAntennaArray(AntennaArray::AntennaType type, int sizeX, int s
 
 AntennaArray *Equipment::getAntennaArray()
 {
-    getPhyEntity()->getAntennaArray();
+    return getPhyEntity()->getAntennaArray();
 }
 
 void Equipment::setLinkBudgetParameters()

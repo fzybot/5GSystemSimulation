@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
     //##############################################################################
 
     // Устанавливаем файл логирования
-    _logFile.reset(new QFile("/home/ruslan-home/dev/5GSystemSimulation/src/logging/log.txt"));
+    _logFile.reset(new QFile("C:\\Users\\fzybo\\YandexDisk\\Dev\\git\\5GSystemSimulation\\src\\logging\\log.txt"));
     // Открываем файл логирования c перезаписью файла 'QFile::ReadWrite'
     // Если нужно добавить в конец файла, меняем 'QFile::ReadWrite' на 'QFile::Append'
     _logFile.data()->open(QFile::WriteOnly | QFile::Text);
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 
     Simple();
     propagation_model_test_plot();
-    test_passing();
+     //test_passing();
 
     //##############################################################################
     //                   Testing features (in src/scenarios/tests.h)
@@ -97,6 +97,6 @@ void messageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
     }
     // Записываем в вывод категорию сообщения и само сообщения
     out << " " << context.function <<  ": "
-        << msg << endl;
+        << msg << Qt::endl;
     out.flush();    // Очищаем буферизированные данные
 }

@@ -17,8 +17,8 @@ typedef struct {
     QVector<int> nOfdm;
     int nPrb;
     int startPrb;
-    int frameNum = -1; // '-1' means 'each'
-    int subframeNum = -1; // '-1' means 'each'
+    int frameNum; // '-1' means 'each'
+    int subframeNum; // '-1' means 'each'
 } conf_coreset;
 
 typedef struct {
@@ -27,15 +27,15 @@ typedef struct {
     int startSymbol;
     int stepSymbol;
     int nDmrsPerRb;
-    int frameNum = -1;    // '-1' means 'each'
-    int subframeNum = -1; // '-1' means 'each'
+    int frameNum;    // '-1' means 'each'
+    int subframeNum; // '-1' means 'each'
 } conf_dmrs;
 
 typedef struct {
     int index;
-    int nPdsch = 0;
-    int nDmrs = 0;
-    int nCoreset = 0;
+    int nPdsch;
+    int nDmrs;
+    int nCoreset;
 } info_prb;
 
 #endif // PHYCONFIGS_H
