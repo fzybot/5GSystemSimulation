@@ -47,7 +47,8 @@ int main(int argc, char *argv[])
     //##############################################################################
 
     // Устанавливаем файл логирования
-    _logFile.reset(new QFile("C:\\Users\\fzybo\\YandexDisk\\Dev\\git\\5GSystemSimulation\\src\\logging\\log.txt"));
+    QString pwdLog = QString{PRO_FILE_PWD} + QString{"/src/logging/log.txt"};
+    _logFile.reset(new QFile(pwdLog));
     // Открываем файл логирования c перезаписью файла 'QFile::ReadWrite'
     // Если нужно добавить в конец файла, меняем 'QFile::ReadWrite' на 'QFile::Append'
     _logFile.data()->open(QFile::WriteOnly | QFile::Text);
