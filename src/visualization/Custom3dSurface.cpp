@@ -157,10 +157,29 @@ void Custom3dSurface::enableModel()
 
 void Custom3dSurface::initializeHeatmap()
 {
-    heatmapModel_ = new HeatmapModel;
-    heatmapModel_->setBaseStation(CartesianCoordinates(851, 230, 60));
-    connect(this, &Custom3dSurface::settingsChanged, heatmapModel_, &HeatmapModel::changeSettings);
-    connect(this, &Custom3dSurface::calculateModelSignal, heatmapModel_, &HeatmapModel::calculateHeatmap);
+    heatmapModel_ = new HeatmapModelTest;
+	cell_ = new Cell;
+
+    Mobility* mob = new Mobility();
+    mob->setModel(Mobility::Model::CONSTANT_POSITION);
+    CartesianCoordinates* cor = new CartesianCoordinates(851, 230, 60);
+    mob->setPosition(cor);
+    cell_->setMobilityModel(mob);
+    int sizeX = 1, sizeY = 1;
+    float azimuth = 0, elevation = 0;
+    float beamWidth = 0;
+    float sectorWidth = 0;
+    cell_->getPhyEntity()->addAntennaArray(AntennaArray::AntennaType::ANTENNA_TYPE_3GPP_CUSTOM,
+                                           sizeX, sizeY, azimuth,
+                                          elevation, beamWidth,
+                                          sectorWidth);
+    cell_->getPhyEntity()->getAntennaArray()->configAntennaGrid(sizeX, sizeY);
+    cell_->getPhyEntity()->getAntennaArray()->setBeams(0, 0, 0, 0);
+    heatmapModel_->setCell(cell_);
+    //heatmapModel_->setBaseStation(CartesianCoordinates(851, 230, 60));
+	
+    connect(this, &Custom3dSurface::settingsChanged, heatmapModel_, &HeatmapModelTest::changeSettings);
+    connect(this, &Custom3dSurface::calculateModelSignal, heatmapModel_, &HeatmapModelTest::calculateHeatmap);
 }
 
 void Custom3dSurface::enableHeatmap(bool check)

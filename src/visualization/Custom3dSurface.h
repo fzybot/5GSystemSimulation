@@ -6,7 +6,9 @@
 #include <QtDataVisualization/QSurface3DSeries>
 #include <QtWidgets/QSlider>
 #include <QtWidgets>
-#include "HeatmapModel.h"
+//#include "HeatmapModel.h"
+#include "src/tests/HeatmapModelTest.h"
+#include "src/equipment/Cell.h"
 
 class Custom3dSurface : public QObject
 {
@@ -72,5 +74,7 @@ private:
     void fillFromFile();
     int checkBuildingID(QPoint);
 
-    HeatmapModel* heatmapModel_;
+//    HeatmapModel* heatmapModel_;
+	HeatmapModelTest* heatmapModel_;
+	Cell* cell_;
 };

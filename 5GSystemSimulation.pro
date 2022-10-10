@@ -39,6 +39,7 @@ SOURCES += \
     src/protocols/phy/Symbol.cpp \
     src/protocols/phy/fft.cpp \
     src/protocols/phy/modulation.cpp \
+    src/tests/HeatmapModelTest.cpp \
     src/visualization/ChartGroupWidget.cpp \
     src/visualization/Chartable.cpp \
     src/visualization/HeatmapModel.cpp \
