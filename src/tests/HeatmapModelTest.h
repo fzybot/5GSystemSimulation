@@ -10,7 +10,8 @@ public:
     void setCell(Cell*);
 	Cell* cell_;
 	void calculateHeatmap3DDDA();
-	float calculateAngle(int x, int y);
+    float calculateAngle(int x, int y);
+    float convertRadToDeg(float rad);
 public slots:
     void calculateHeatmap();
     void changeSettings(void*);

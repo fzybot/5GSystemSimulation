@@ -174,7 +174,8 @@ void Custom3dSurface::initializeHeatmap()
                                           elevation, beamWidth,
                                           sectorWidth);
     cell_->getPhyEntity()->getAntennaArray()->configAntennaGrid(sizeX, sizeY);
-    cell_->getPhyEntity()->getAntennaArray()->setBeams(0, 0, 0, 0);
+    cell_->getPhyEntity()->getAntennaArray()->setBeams(45, 0, 0, 0);
+    cell_->getPhyEntity()->getAntennaArray()->setDefaultGain(1);
     heatmapModel_->setCell(cell_);
     //heatmapModel_->setBaseStation(CartesianCoordinates(851, 230, 60));
 	

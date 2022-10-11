@@ -11,6 +11,15 @@ float HeatmapModelTest::calculateAngle(int x, int y)
     float dx = (x - cell_->mobility_->getPosition()->getCoordinateX());
     float angle = 0;
 
+    if (dx == 0){
+        if (dy < 0){
+            return -M_PI / 2;
+        }
+        else
+        {
+            return M_PI / 2;
+        }
+    }
     if(dx > 0){
         if(dy < 0){
             angle = atan(dy/dx);
@@ -29,7 +38,12 @@ float HeatmapModelTest::calculateAngle(int x, int y)
     }
     return angle;
 }
-
+float HeatmapModelTest::convertRadToDeg(float rad)
+{
+    float temp = rad * 180;
+    float res =  temp / M_PI;
+    return res;
+}
 void HeatmapModelTest::calculateHeatmap3DDDA()
 {
 //	int x= cell_.getPhyEntity()->getAntennaArray()->getBeamContainer()[0][0];
@@ -76,6 +90,7 @@ void HeatmapModelTest::calculateHeatmap3DDDA()
                 }
 
                 float azimuth = calculateAngle(i, j);
+                azimuth = convertRadToDeg(azimuth);
                 float gain = cell_->getPhyEntity()->getAntennaArray()->getBeamContainer()[0][0]->calculateAntGain(0, azimuth);
                 if(kIn == 0)
                 {
