@@ -40,6 +40,7 @@ SOURCES += \
     #src/protocols/phy/Symbol.cpp \
     src/protocols/phy/fft.cpp \
     src/protocols/phy/modulation.cpp \
+    src/tests/HeatmapModelTest.cpp \
     src/visualization/ChartGroupWidget.cpp \
     src/visualization/Chartable.cpp \
     src/visualization/HeatmapModel.cpp \
@@ -110,6 +111,7 @@ HEADERS += \
     src/scenarios/simple.h \
     src/scenarios/testModel.h \
     src/tests/calculus_test.h \
+	src/tests/HeatmapModelTest.h \ 
     src/tests/packet_test.h \
     src/tests/propagation_models_test.h \
     src/tests/python_test.h \
@@ -154,8 +156,9 @@ HEADERS += \
 #win32: INCLUDEPATH += $$PWD/libs
 
 #LIBS += -llapack -lblas -larmadillo -L /usr/local/lib/python3.8 -lpython3.8 /usr/local/lib/libfftw3.a
-#INCLUDEPATH += $$PWD/libs   /usr/include/python3.8
-#DEPENDPATH +=               /usr/include/python3.8
+
+INCLUDEPATH += $$PWD/libs   /usr/include/python3.8
+DEPENDPATH +=               /usr/include/python3.8
 
 #FORMS +=
 

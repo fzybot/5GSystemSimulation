@@ -44,7 +44,7 @@ void AntennaArray::setBeams(float azimuth, float elevation, float beamWidth, flo
     _absoluteElevationAngle = elevation;
 
     for (int i = 0; i < _beamContainer.size(); i++){
-        for (int j = 0; j < _beamContainer[0].size(); i++){
+        for (int j = 0; j < _beamContainer[0].size(); j++){
             Beam *beam = new Beam();
             _beamContainer[i][j] = beam;
         }
