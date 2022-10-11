@@ -11,7 +11,7 @@
 #include "src/protocols/phy/Symbol.h"
 #include "src/equipment/antenna/AntennaArray.h"
 
-#include <armadillo>
+//#include <armadillo>
 //#include <fftw3.h>
 
 #include <QDebug>
@@ -73,22 +73,22 @@ static void simpleTest()
     int speed = 100;
     int MO = 2;
 
-    Symbol signal(centralFrequency, scs, bw);
+    // Symbol signal(centralFrequency, scs, bw);
 
-    signal.fillRandomData(1, 16);
-    signal.modulateData(MO, signal.getDataArray());
-    signal.printIQValues(signal.getModulatedIQ());
-    qDebug() << "EVM --> " << signal.getAverageEvm();
-    //signal.normalize(signal.getModulatedIQ(), 1);
-    signal.layersIFFTCarrier(signal.getModulatedIQ(), scs, speed);
-    // signal.printIQValues(signal.getSignalInTime(), "IFFT--> ");
-    signal.layersFFTCarrier(signal.getSignalInTime(), scs);
-    signal.printIQValues(signal.getSignalInFreq(), "FFT--> ");
-    signal.demodulateIQ(MO, signal.getSignalInFreq());
-    // signal.printData(signal.getDataArray());
-    // signal.printData(signal.getDataArrayDemodulated());
-    signal.compareData();
-    signal.printSignalInfo();
+    // signal.fillRandomData(1, 16);
+    // signal.modulateData(MO, signal.getDataArray());
+    // signal.printIQValues(signal.getModulatedIQ());
+    // qDebug() << "EVM --> " << signal.getAverageEvm();
+    // //signal.normalize(signal.getModulatedIQ(), 1);
+    // signal.layersIFFTCarrier(signal.getModulatedIQ(), scs, speed);
+    // // signal.printIQValues(signal.getSignalInTime(), "IFFT--> ");
+    // signal.layersFFTCarrier(signal.getSignalInTime(), scs);
+    // signal.printIQValues(signal.getSignalInFreq(), "FFT--> ");
+    // signal.demodulateIQ(MO, signal.getSignalInFreq());
+    // // signal.printData(signal.getDataArray());
+    // // signal.printData(signal.getDataArrayDemodulated());
+    // signal.compareData();
+    // signal.printSignalInfo();
 
     // AntennaArray ant1;
     // ant1.calculateElevationGrid();
@@ -101,10 +101,10 @@ static void simpleTest()
     // Armadillo test
     //**************************************************************
 
-    arma::cx_vec y;
-    y << 1 << 2;
+    // arma::cx_vec y;
+    // y << 1 << 2;
     
-    qDebug() << "Arma test --> " << y.size();
+    // qDebug() << "Arma test --> " << y.size();
 
     // for (int elev = 0; elev <= 180; elev++){
     //     for (int azim = -180; azim <= 180; azim++){

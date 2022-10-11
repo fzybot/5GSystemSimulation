@@ -13,12 +13,13 @@
 #include "src/protocols/phy/modulation.h"
 #include "src/protocols/phy/fft.h"
 
-#include <armadillo>
+//#include <armadillo>
 
 #include <QDebug>
 #include <QPair>
 #include <QFile>
 #include <QTextStream>
+#include <QRandomGenerator>
 
 
 #define NUMBER_OF_REP 1000
@@ -35,6 +36,7 @@ QVector<bool> generateRandomData(int length)
             oneLayer.push_back(true);
         }
     }
+    return oneLayer;
 }
 
 void printIQValues(QVector<std::complex<double>> &IQ, QString str)

@@ -7,7 +7,6 @@
 class CartesianCoordinates;
 class PropagationLossModel;
 class PacketBurst;
-class Symbol;
 class Equipment;
 
 class RadioChannel

@@ -6,8 +6,12 @@
 #include <QtWidgets/QLabel>
 #include <QtCore/QElapsedTimer>
 #include <QtCore/QTimer>
+#include <QtWidgets/QWidget>
+#include <QtCharts/QChartGlobal>
+#include <QtCharts>
 
 QT_CHARTS_USE_NAMESPACE
+using namespace QtCharts;
 
 class DataSource : public QObject
 {

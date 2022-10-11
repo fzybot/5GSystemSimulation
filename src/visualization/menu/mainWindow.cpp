@@ -18,13 +18,13 @@
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent)
 {
-
+    qDebug() << "MainWindow::MainWindow";
     tabMenu_= new TabMenu;
     tabMenu_->resize(700, 800);
     // fixed size for widget
     // tabMenu_->setFixedSize(500, 500);
-    
     setCentralWidget(tabMenu_);
+    qDebug() << "setCentralWidget(tabMenu_);";
 
     connect(this, &MainWindow::settingsChanged, tabMenu_, &TabMenu::changeSettings);
 
