@@ -34,7 +34,7 @@ float Beam::calculateHorizontalCutGain(float azimuth)
 {
     float gain;
 
-    float pow_ = 12*qPow(static_cast<float>(static_cast<float>((_absoluteAzimuthAngle + azimuth) / 65)), 2);
+    float pow_ = 12*qPow(static_cast<float>(static_cast<float>((_absoluteAzimuthAngle + azimuth) / 125)), 2);
     gain = (-1)*qMin(pow_, static_cast<float>(30));
 
     return gain;
