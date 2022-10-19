@@ -29,7 +29,6 @@ public:
 
     AntennaArray::AntennaType _type;
     QVector<QVector<Beam *>> _beamContainer;
-    QVector<Beam*> _beamContainerY;
 
     //AntennaArray::AntennaType type_;  
     // float elevation_;
