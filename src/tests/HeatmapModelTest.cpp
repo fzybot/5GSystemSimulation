@@ -11,39 +11,29 @@ float HeatmapModelTest::calculateAngle(int x, int y)
     float dx = (x - cell_->mobility_->getPosition()->getCoordinateX());
     float angle = 0;
 
-    if (dx == 0){
-        if (dy < 0){
-            return -M_PI / 2;
-        }
-        else
-        {
-            return M_PI / 2;
-        }
-    }
-    if(dx > 0){
-        if(dy < 0){
-            angle = atan(dy/dx);
-        }
-        else if(dy >= 0){
-            angle = atan(dy/dx);
-        }
-    }
-    else if(dx < 0){
-        if(dy > 0){
-            angle = atan(dy/dx) + M_PI;
-        }
-        else if(dy <= 0){
-            angle = atan(dy/dx) + M_PI;
-        }
-    }
+    angle = atan2(dy, dx);
+
     return angle;
 }
 float HeatmapModelTest::convertRadToDeg(float rad)
 {
-    float temp = rad * 180;
-    float res =  temp / M_PI;
-    return res;
+    float deg = rad * 180 / M_PI;
+    return deg;
 }
+
+float HeatmapModelTest::calculateGain(float azimuth, float elevation)
+{
+    float gain = 0, resultGain = 0;
+    for(int i = 0; i < cell_->getPhyEntity()->getAntennaArray()->getBeamContainer().size(); i++){
+        for(int j = 0; j < cell_->getPhyEntity()->getAntennaArray()->getBeamContainer()[0].size(); j++){
+            gain = cell_->getPhyEntity()->getAntennaArray()->gainPerBeamIndex(i, j, elevation, azimuth);
+            resultGain += gain;
+         }
+    }
+
+    return resultGain;
+}
+
 void HeatmapModelTest::calculateHeatmap3DDDA()
 {
 //	int x= cell_.getPhyEntity()->getAntennaArray()->getBeamContainer()[0][0];
@@ -77,6 +67,7 @@ void HeatmapModelTest::calculateHeatmap3DDDA()
                 slice.push_back(*point);
 
                 if((data)[i][j]!=0) continue;
+                float elevation = 0;
                 kIn = isLOSDDA(slice);
                 double groundBS = 0;
                 double groundUT = 0;
@@ -89,9 +80,11 @@ void HeatmapModelTest::calculateHeatmap3DDDA()
                     groundDelta = groundBS - groundUT;
                 }
 
-                float azimuth = calculateAngle(i, j);
-                azimuth = convertRadToDeg(azimuth);
-                float gain = cell_->getPhyEntity()->getAntennaArray()->getBeamContainer()[0][0]->calculateAntGain(0, azimuth);
+                CartesianCoordinates base = CartesianCoordinates(x, y, 0);
+                CartesianCoordinates distination = CartesianCoordinates(i, j, 0);
+                float azimuth  = base.calculateAngleToRemote(&base, &distination);
+                //float gain = cell_->getPhyEntity()->getAntennaArray()->getBeamContainer()[0][0]->calculateAntGain(0, azimuth);
+                float gain = calculateGain(azimuth, elevation);
                 if(kIn == 0)
                 {
                         pathloss = UMa_LOS(startPoint->calculateDistance2D(point), 0,
