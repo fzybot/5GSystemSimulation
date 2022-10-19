@@ -6,6 +6,7 @@ class Beam
 public:
     float _absoluteAzimuthAngle;
     float _absoluteElevationAngle;
+    float _beamWidth;
     double _gain = 0;
 
 public:
