@@ -165,7 +165,7 @@ void Custom3dSurface::initializeHeatmap()
     CartesianCoordinates* cor = new CartesianCoordinates(851, 230, 60);
     mob->setPosition(cor);
     cell_->setMobilityModel(mob);
-    int sizeX = 1, sizeY = 1;
+    int sizeX = 3 , sizeY = 1;
     float azimuth = 0, elevation = 0;
     float beamWidth = 0;
     float sectorWidth = 0;
@@ -174,8 +174,8 @@ void Custom3dSurface::initializeHeatmap()
                                           elevation, beamWidth,
                                           sectorWidth);
     cell_->getPhyEntity()->getAntennaArray()->configAntennaGrid(sizeX, sizeY);
-    cell_->getPhyEntity()->getAntennaArray()->setBeams(45, 0, 0, 0);
-    cell_->getPhyEntity()->getAntennaArray()->setDefaultGain(1);
+    cell_->getPhyEntity()->getAntennaArray()->setBeams(0, 0, 10, 90);
+    cell_->getPhyEntity()->getAntennaArray()->setDefaultGain(12);
     heatmapModel_->setCell(cell_);
     //heatmapModel_->setBaseStation(CartesianCoordinates(851, 230, 60));
 	
