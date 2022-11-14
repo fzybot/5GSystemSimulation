@@ -9,7 +9,8 @@ public:
     HeatmapModelTest():HeatmapModel(){};
     void setCell(Cell*);
 	Cell* cell_;
-	void calculateHeatmap3DDDA();
+    void calculateHeatmap3DDDA();
+    float calculateGain(float azimuth, float elevation);
     float calculateAngle(int x, int y);
     float convertRadToDeg(float rad);
 public slots:
