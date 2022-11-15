@@ -80,7 +80,7 @@ void HeatmapModel::setBuildingsUsage(int usage)
 
 void HeatmapModel::createData()
 {
-     data = vector <vector <double>>(lonc, vector <double> (latc));
+     data = QVector<QVector<double>>(lonc, QVector<double> (latc));
 
     for (int i = 0; i < lonc; i++)
         for (int j = 0; j < latc; j++)
@@ -140,7 +140,7 @@ bool HeatmapModel::createImage()
     return image.save(path, "BMP", 100);
 }
 
-int HeatmapModel::isLOSDDA(vector<CartesianCoordinates> slice)
+int HeatmapModel::isLOSDDA(QVector<CartesianCoordinates> slice)
 {
     int length = slice.size();
 
@@ -246,7 +246,7 @@ void HeatmapModel::calculateHeatmap3DDDA()
             int kIn=0;
             CartesianCoordinates *point = new CartesianCoordinates(0, 0, heightUT);
             CartesianCoordinates *startPoint = new CartesianCoordinates(x,y, BaseStation.getCoordinateZ());
-            vector <CartesianCoordinates> slice;
+            QVector<CartesianCoordinates> slice;
             slice.push_back(BaseStation);
 
             for(int k=1; k<=L; ++k){

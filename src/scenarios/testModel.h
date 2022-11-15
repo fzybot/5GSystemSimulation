@@ -11,8 +11,6 @@
 #include <vector>
 #include <time.h>
 
-using namespace std;
-
 QRgb signalStrengthToColor(double signalStrength);
 void calculateHeatmap(double ***data, int ***data2, int X, int Y, int centerFrequency, double h, double W, double heightBS, double heightUT, double shadowFading);
 

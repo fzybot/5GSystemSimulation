@@ -26,12 +26,12 @@ MainWindow::MainWindow(QWidget* parent) :
     setCentralWidget(tabMenu_);
     qDebug() << "setCentralWidget(tabMenu_);";
 
-    connect(this, &MainWindow::settingsChanged, tabMenu_, &TabMenu::changeSettings);
+    // connect(this, &MainWindow::settingsChanged, tabMenu_, &TabMenu::changeSettings);
 
-    createActions();
-    createStatusBar();
-    createDockWindows();
-    readSettings();
+    // createActions();
+    // createStatusBar();
+    // createDockWindows();
+    // readSettings();
 
     // QGraphicsView* view_ = new QGraphicsView(scene);
     // setCentralWidget(view_);

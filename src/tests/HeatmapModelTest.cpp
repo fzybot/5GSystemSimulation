@@ -21,6 +21,7 @@ float HeatmapModelTest::convertRadToDeg(float rad)
     return deg;
 }
 
+// -->> поправить gains
 float HeatmapModelTest::calculateGain(float azimuth, float elevation)
 {
     float gain = 0, resultGain = 0;
@@ -54,7 +55,7 @@ void HeatmapModelTest::calculateHeatmap3DDDA()
             int kIn=0;
             CartesianCoordinates *point = new CartesianCoordinates(0, 0, heightUT);
             CartesianCoordinates *startPoint = new CartesianCoordinates(x,y, BaseStation.getCoordinateZ());
-            vector <CartesianCoordinates> slice;
+            QVector<CartesianCoordinates> slice;
             slice.push_back(BaseStation);
 
             for(int k=1; k<=L; ++k){

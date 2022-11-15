@@ -7,13 +7,11 @@
 #include "src/protocols/phy/Channel/propagationModels.h"
 #include <QtMath>
 #include <QDebug>
-#include <vector>
+#include <QVector>
 #include <time.h>
 #include <QImage>
 #include <QCoreApplication>
 #include "src/visualization/settingsTemplate.h"
-
-using namespace std;
 
 class HeatmapModel : public QObject
 {
@@ -44,7 +42,7 @@ protected:
     double shadowFading;
     double heightUT;            //[m]
     CartesianCoordinates BaseStation;
-    vector<vector<double>> data;
+    QVector<QVector<double>> data;
     double BSPower;
     double AntennaGain;
     double pixelToMeter;
@@ -55,7 +53,7 @@ protected:
 
     double getAvgBuildingHeight();
     bool createImage();
-    int isLOSDDA(vector <CartesianCoordinates> slice);
+    int isLOSDDA(QVector <CartesianCoordinates> slice);
 
     QRgb signalStrengthToColor(double signalStrength);
     void calculateHeatmap3DDDA();

@@ -10,20 +10,20 @@ MapQuickWidget::MapQuickWidget(QWidget* parent) :
     QQuickWidget(parent),
     manager(new QNetworkAccessManager(this))
 {
-    connect(manager, &QNetworkAccessManager::finished, this, &MapQuickWidget::findAddress);
+    // connect(manager, &QNetworkAccessManager::finished, this, &MapQuickWidget::findAddress);
 
-    ueModel_ = new UEModel;
+    // ueModel_ = new UEModel;
 
-    connect(this, &MapQuickWidget::settingsChanged, ueModel_, &UEModel::changeSettings);
+    // connect(this, &MapQuickWidget::settingsChanged, ueModel_, &UEModel::changeSettings);
 
-    this->engine()->rootContext()->setContextProperty("_ueModel", ueModel_);
-    this->engine()->rootContext()->setContextProperty("PixelMap", QString("file://").append(QString(QCoreApplication::applicationDirPath()).append("/pixelMap.bmp")));
+    // this->engine()->rootContext()->setContextProperty("_ueModel", ueModel_);
+    // this->engine()->rootContext()->setContextProperty("PixelMap", QString("file://").append(QString(QCoreApplication::applicationDirPath()).append("/pixelMap.bmp")));
 
-    setSource(QUrl("qrc://src/qml/map.qml"));
+    // setSource(QUrl("qrc://src/qml/map.qml"));
 
-    setResizeMode(QQuickWidget::SizeRootObjectToView);
+    // setResizeMode(QQuickWidget::SizeRootObjectToView);
 
-    getAddress("55°00'46.3N", "82°57'01.5E");
+    // getAddress("55°00'46.3N", "82°57'01.5E");
     //getAddress("80°00'47.5N", "82°57'01.9E");
     //getAddress("60°00'47.5N", "52°57'01.9E");
     //getAddress("34°00'47.5N", "12°57'01.9E");
