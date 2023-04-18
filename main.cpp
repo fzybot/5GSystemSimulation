@@ -58,14 +58,14 @@ int main(int argc, char *argv[])
 
     
 
-    MainWindow mainWin;
+    // MainWindow mainWin;
 
-    mainWin.resize(1400, 1200);
-    mainWin.show();
+    // mainWin.resize(1400, 1200);
+    // mainWin.show();
 
 
 
-    // Simple();
+    Simple();
     // propagation_model_test_plot();
     // test_passing();
 
