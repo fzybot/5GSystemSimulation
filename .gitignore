@@ -17,6 +17,7 @@
 .qmake.stash
 /debug
 /release
+/build
 
 #logging
 /src/logging/log.txt
