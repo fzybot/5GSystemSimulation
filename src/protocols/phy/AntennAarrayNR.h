@@ -14,7 +14,7 @@ enum class AntennaType
         ANTENNA_TYPE_3GPP_CUSTOM,
     };
 
-public:
+private:
     float _azimuthAngle;
     float _elevationAngle;
 
@@ -22,6 +22,8 @@ public:
     QVector<QVector<Beam *>> _beamContainer;
 public:
     AntennaArrayNR();
-    AntennaArrayNR(AntennaArrayNR::AntennaType type, int nX, int nY, int sectorWidth);
+    AntennaArrayNR(float azimuthAnge, float elevationAnge, AntennaArrayNR::AntennaType type, int nYAxis, int nXAxis, int sectorWidth);
+
+    QVector<QVector<Beam *>> getBeams() const;
 };
 
