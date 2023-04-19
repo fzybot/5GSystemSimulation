@@ -16,20 +16,13 @@ class TransportBlock;
 
 class NewPhysical
 {
-public:
-    enum class MIMO_MODE
-    {
-      SISO_1x1,
-      MIMO_2x2,
-      MIMO_4x4
-    };
 
 private:
-    Physical::MIMO_MODE _mimoMode;
     AntennaArray *_antennaArray;
     conf_band bandConfig;
-    
+
 public:
     NewPhysical();
+    NewPhysical(int test);
 };
 

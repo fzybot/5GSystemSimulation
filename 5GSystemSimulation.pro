@@ -35,6 +35,7 @@ SOURCES += \
     src/protocols/mac_layer/AMC/AMCEntity.cpp \
     src/protocols/mac_layer/CellMacEntity.cpp \
     src/protocols/mac_layer/TransportBlock.cpp \
+    src/protocols/phy/AntennaArrayNR.cpp \
     src/protocols/phy/Channel/PropagationLossModel.cpp \
     src/protocols/phy/NewPhysical.cpp \
     src/protocols/phy/ResourceGrid.cpp \
@@ -100,6 +101,7 @@ HEADERS += \
     src/protocols/mac_layer/CellMacEntity.h \
     src/protocols/mac_layer/TransportBlock.h \
     src/protocols/mac_layer/scheduler/schedConfigs.h \
+    src/protocols/phy/AntennAarrayNR.h \
     src/protocols/phy/Channel/PropagationLossModel.h \
     src/protocols/phy/NewPhysical.h \
     src/protocols/phy/PhyConfigs.h \
