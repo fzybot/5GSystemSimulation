@@ -115,7 +115,8 @@ HEADERS += \
     src/scenarios/simple.h \
     src/scenarios/testModel.h \
     src/tests/calculus_test.h \
-	src/tests/HeatmapModelTest.h \ 
+    src/tests/HeatmapModelTest.h \
+    src/tests/test_antenna_array.h \
     src/tests/packet_test.h \
     src/tests/propagation_models_test.h \
     src/tests/python_test.h \
@@ -153,8 +154,7 @@ HEADERS += \
     src/visualization/Map.h \
     src/visualization/MapQuickWidget.h \
     src/visualization/menu/TabMenu.h \
-    src/visualization/settingsTemplate.h
-
+    src/visualization/settingsTemplate.h \
 
 #unix: LIBS += -llapack -lblas -larmadillo -L /usr/local/lib/python3.8
 #win32: INCLUDEPATH += $$PWD/libs

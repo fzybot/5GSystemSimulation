@@ -8,13 +8,19 @@ Beam::Beam()
 
 }
 
-Beam::Beam(float azimuth, float elevation, float beamWidth)
+Beam::config(float azimuth, float elevation, float beamWidth)
 {
     _absoluteAzimuthAngle = azimuth;
     _absoluteElevationAngle = elevation;
     _beamWidth = beamWidth;
 }
 
+void config(float azimuth, float elevation, float beamWidth)
+{
+    _absoluteAzimuthAngle = azimuth;
+    _absoluteElevationAngle = elevation;
+    _beamWidth = beamWidth;
+}
 float Beam::calculateAntGain(float elevation, float azimuth)
 {
     float gain = (-1) * qMin(   (-1) * calculateVerticalCutGain(elevation) + calculateHorizontalCutGain(azimuth),

@@ -19,11 +19,11 @@ private:
     float _elevationAngle;
 
     AntennaArrayNR::AntennaType _type;
-    QVector<QVector<Beam *>> _beamContainer;
+    QVector<QVector<Beam>> _beamContainer;
 public:
     AntennaArrayNR();
-    AntennaArrayNR(float azimuthAnge, float elevationAnge, AntennaArrayNR::AntennaType type, int nYAxis, int nXAxis, int sectorWidth);
+    void config(float azimuthAnge, float elevationAnge, AntennaArrayNR::AntennaType type, int nYAxis, int nXAxis, int sectorWidth);
 
-    QVector<QVector<Beam *>> getBeams() const;
+    QVector<QVector<Beam>> getBeams() const;
 };
 

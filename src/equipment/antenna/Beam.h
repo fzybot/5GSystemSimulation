@@ -7,13 +7,14 @@ public:
     float _absoluteAzimuthAngle;
     float _absoluteElevationAngle;
     float _beamWidth;
-    double _gain = 0;
+    float _gain = 18;
 
 public:
     Beam();
     Beam(float azimuth, float elevation, float beamWidth);
 
-    void defaultGain(double gain);
+    void config(float azimuth, float elevation, float beamWidth);
+    void defaultGain(float gain);
     float calculateAntGain(float elevation, float azimuth);
     float calculateVerticalCutGain(float elevation);
     float calculateHorizontalCutGain(float azimuth);

@@ -26,6 +26,7 @@
 #include "src/tests/packet_test.h"
 #include "src/tests/propagation_models_test.h"
 #include "src/tests/tests.h"
+#include "src/tests/test_antenna_array.h"
 
 #include "src/debug.h"
 
@@ -75,6 +76,7 @@ int main(int argc, char *argv[])
 
     // simpleTest();
     // runModulationPerformance();
+    antennaArray();
 
     //##############################################################################
     return app.exec();
