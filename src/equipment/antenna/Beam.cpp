@@ -7,15 +7,12 @@ Beam::Beam()
 {
 
 }
-
-Beam::config(float azimuth, float elevation, float beamWidth)
+Beam::Beam(float azimuth, float elevation, float beamWidth)
 {
-    _absoluteAzimuthAngle = azimuth;
-    _absoluteElevationAngle = elevation;
-    _beamWidth = beamWidth;
+    config(azimuth, elevation, beamWidth);
 }
 
-void config(float azimuth, float elevation, float beamWidth)
+void Beam::config(float azimuth, float elevation, float beamWidth)
 {
     _absoluteAzimuthAngle = azimuth;
     _absoluteElevationAngle = elevation;
@@ -46,7 +43,7 @@ float Beam::calculateHorizontalCutGain(float azimuth)
     return gain;
 }
 
-void Beam::defaultGain(double gain)
+void Beam::defaultGain(float gain)
 {
     _gain = gain;
 }

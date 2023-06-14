@@ -21,7 +21,7 @@ void AntennaArrayNR::config(float azimuthAngle, float elevationAngle, AntennaArr
         _beamContainer[i].resize(nXAxis);
         for(int j = 0; j < nXAxis; j++){
             Beam beam;
-            beam.config();
+            beam.config(azimuthAngle, elevationAngle, beamWidth);
             _beamContainer[i][j] = beam;
         }
 

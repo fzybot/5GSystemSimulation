@@ -5,6 +5,6 @@
 
 void antennaArray(){
     AntennaArrayNR ant;
-    ant.config(10, 10, AntennaArrayNR::AntennaType::ANTENNA_TYPE_3GPP_3D, 1, 10, 120);
+    ant.config(10, 10, AntennaArrayNR::AntennaType::ANTENNA_TYPE_3GPP_3D, 1, 4, 120);
 }
 #endif // TEST_ANTENNA_ARRAY_H
