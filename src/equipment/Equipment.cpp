@@ -87,6 +87,11 @@ Mobility* Equipment::getMobilityModel(void)
     return mobility_;
 }
 
+CartesianCoordinates* Equipment::getPosition()
+{
+    return getMobilityModel()->getPosition();
+}
+
 void Equipment::createDefaultBearer(int id)
 {
     RadioBearer *bearer = new RadioBearer();

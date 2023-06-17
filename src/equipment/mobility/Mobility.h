@@ -64,7 +64,7 @@ public:
     Mobility::Model getModel() const;
 
     void setPosition(CartesianCoordinates *position);
-    CartesianCoordinates* getPosition() const;
+    CartesianCoordinates* getPosition();
 
     void setSpeed(int speed);
     int getSpeed();

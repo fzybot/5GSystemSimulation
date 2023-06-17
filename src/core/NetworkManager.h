@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QVector>
+#include <QGeoCoordinate>
 
 class Equipment;
 class Cell;
@@ -39,6 +40,13 @@ private:
     int current120TimeSlot_;
 
 public:
+    // левый нижний = 54.930053 82.74078
+    // верхний правый = 55.140901 83.102854
+//    QGeoCoordinate _leftBottom(54.930053, 82.74078);
+//    QGeoCoordinate _rightUp(55.140901, 83.102854);
+//    QGeoCoordinate point_1(55.013541, 82.951781, 10);
+
+public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
     NetworkManager();
     virtual ~NetworkManager();
@@ -69,7 +77,7 @@ public:
 
 // ----- [ EQUIPMENT GENERATORS ] --------------------------------------------------------------------------------------
     Cell* createCell (int idCell);
-    Cell* createCell (int idCell, double posX, double posY, double posZ);
+    Cell* createCell (int idCell, CartesianCoordinates *position);
     Cell* createCell (int idCell, gNodeB *targetGNb);
 
     gNodeB* createGNodeB (int id, Cell *cell, double posX, double posY, double posZ);

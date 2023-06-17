@@ -1,5 +1,6 @@
 #include <QVector>
 #include <QtMath>
+#include <QDebug>
 
 #include "Beam.h"
 
@@ -17,6 +18,9 @@ void Beam::config(float azimuth, float elevation, float beamWidth)
     _absoluteAzimuthAngle = azimuth;
     _absoluteElevationAngle = elevation;
     _beamWidth = beamWidth;
+    qDebug() << "Absolute azimuth: " << _absoluteAzimuthAngle;
+    qDebug() << "Elevation: " << _absoluteElevationAngle;
+    qDebug() << "Beam width: " << _beamWidth;
 }
 float Beam::calculateAntGain(float elevation, float azimuth)
 {

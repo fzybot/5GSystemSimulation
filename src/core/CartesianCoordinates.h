@@ -1,5 +1,5 @@
 #pragma once
-
+#include <QGeoCoordinate>
 
 class CartesianCoordinates
 {
@@ -15,6 +15,7 @@ private:
     double angleZ_;
 
     // Geographical coordinates
+    QGeoCoordinate coordinates;
     double altitude_;
     double longtitude_;
     double latitude_;

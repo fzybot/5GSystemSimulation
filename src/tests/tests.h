@@ -19,7 +19,11 @@ void angleTest(){
     int posX = 100;
     int posY = 100;
     int posZ = 50;
-    Cell *cell = networkManager->createCell(idCell, posX, posY, posZ);
+    int angX = 0;
+    int angY = -30;
+    int angZ = 0;
+    CartesianCoordinates *position = new CartesianCoordinates(posX, posY, posZ, angX, angY, angZ);
+    Cell *cell = networkManager->createCell(idCell, position);
     qDebug() << "test";
 
     // Create gNodeB
@@ -28,7 +32,7 @@ void angleTest(){
     qDebug() << "test";
 
     // Create User Equipment
-    QVector<int> posX_ue = {150, 150, 125, 100, 75,   50,  50, 50, 75, 100, 175, 150};
+    QVector<int> posX_ue = {150, 150, 125, 100, 75,   50,  50, 50, 75, 100, 125, 150};
     QVector<int> posY_ue = {100, 125, 150, 150, 150, 125, 100, 75, 50,  50,  50,  75};
     double posZ_ue = 1.5;
     int idUE = 2;
@@ -57,10 +61,6 @@ void angleTest(){
     UserEquipment *ue11 = networkManager->createUserEquipment(idUE, posX_ue[11], posY_ue[11], posZ_ue, cell, gNb);
 
     qDebug() << "length: " << networkManager->getUserEquipmentContainer()[0].length();
-    for (int i = 0; i < networkManager->getUserEquipmentContainer()[0].length(); i++)
-    {
-        qDebug() << "Ange test: " << i << " " << cell->calculateAngeToUserEquipmentRad(networkManager->getUserEquipmentContainer()[0][i]);
-    }
 }
 
 void test_passing(){

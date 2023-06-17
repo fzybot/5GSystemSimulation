@@ -16,6 +16,7 @@
 
 #include <QVector>
 #include <QRandomGenerator>
+#include <QGeoCoordinate>
 
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
 
@@ -47,7 +48,7 @@ NetworkManager::~NetworkManager()
 
 // ----- [ EQUIPMENT GENERATORS ] --------------------------------------------------------------------------------------
 
-Cell* NetworkManager::createCell (int idCell, double posX, double posY, double posZ)
+Cell* NetworkManager::createCell (int idCell, CartesianCoordinates *position)
 {
     qDebug() << "NetworkManager: starting to create a cell.";
     Cell *cell = new Cell();
@@ -56,13 +57,16 @@ Cell* NetworkManager::createCell (int idCell, double posX, double posY, double p
     cell->setEquipmentType(Equipment::EquipmentType::TYPE_CELL);
     cell->setLinkBudgetParameters();
 
-    CartesianCoordinates *position = new CartesianCoordinates(posX, posY, posZ);
     Mobility *m = new ConstantPosition();
     m->setPosition(position);
     cell->setMobilityModel(m);
 
     cell->setPropagationModel(new PropagationLossModel(PropagationLossModel::PropagationModel::UMA_NLOS));
-    cell->addAntennaArray(AntennaArray::AntennaType::ANTENNA_TYPE_3GPP_CUSTOM, 1, 1, 0, posZ, 120, 120);
+    qDebug() << "Add antenna array to cell.";
+
+    double azimuth = cell->getPosition()->getAngleX();
+    double elevation = cell->getPosition()->getAngleY();
+    cell->addAntennaArray(AntennaArray::AntennaType::ANTENNA_TYPE_3GPP_CUSTOM, 1, 4, azimuth, elevation, 30, 120);
     getCellContainer()->push_back(cell);
     addDeviceToRadioChannel(cell);
 

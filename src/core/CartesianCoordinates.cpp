@@ -1,6 +1,7 @@
 #include "CartesianCoordinates.h"
 #include <QtMath>
 #include <QDebug>
+#include <QGeoCoordinate>
 
 #include "src/debug.h"
 
@@ -182,6 +183,22 @@ void CartesianCoordinates::setAngleZ(double angZ)
 {
     angleZ_ = angZ;
 }
+
+double CartesianCoordinates::getAngleX()
+{
+    return angleX_;
+}
+
+double CartesianCoordinates::getAngleY()
+{
+    return angleY_;
+}
+
+double CartesianCoordinates::getAngleZ()
+{
+    return angleZ_;
+}
+
 
 // ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
 

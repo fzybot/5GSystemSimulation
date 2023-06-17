@@ -103,6 +103,7 @@ public:
 
     void setMobilityModel(Mobility *model);
     Mobility* getMobilityModel(void);
+    CartesianCoordinates *getPosition();
 
     void createDefaultBearer(int id);
     void createBearer(RadioBearer::RadioBearerType type, int id, int QoSProfile);

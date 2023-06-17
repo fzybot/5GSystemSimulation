@@ -22,10 +22,12 @@ AntennaArray::AntennaArray(AntennaArray::AntennaType type, int sizeX, int sizeY,
         case AntennaArray::AntennaType::ANTENNA_TYPE_OMNIDIRECTIONAL:
             setDefaultGain(0);
             configAntennaGrid(sizeX, sizeY);
+            setBeams(azimuth, elevation, beamWidth, sectorWidth);
             break;
         case AntennaArray::AntennaType::ANTENNA_TYPE_3GPP_CUSTOM:
             setDefaultGain(12);
             configAntennaGrid(sizeX, sizeY);
+            setBeams(azimuth, elevation, beamWidth, sectorWidth);
             break;
     }
 }
@@ -36,6 +38,7 @@ void AntennaArray::configAntennaGrid(int sizeX, int sizeY)
     for (int i = 0; i < _beamContainer.size(); i++){
         _beamContainer[i].resize(sizeY);
     }
+    qDebug() << _beamContainer;
 }
 
 void AntennaArray::setBeams(float azimuth, float elevation, float beamWidth, float sectorWidth)
@@ -45,7 +48,10 @@ void AntennaArray::setBeams(float azimuth, float elevation, float beamWidth, flo
 
     for (int i = 0; i < _beamContainer.size(); i++){
         for (int j = 0; j < _beamContainer[0].size(); j++){
-            Beam *beam = new Beam(_absoluteAzimuthAngle + (i * (sectorWidth / 2) ), _absoluteElevationAngle, beamWidth);
+            qDebug() << "Beam config: [" << i << ", " << j << "]";
+            float dAzim = (_absoluteAzimuthAngle - sectorWidth / 2) + beamWidth / 2;
+            Beam *beam = new Beam(_absoluteAzimuthAngle + (j * (beamWidth / 2) ), _absoluteElevationAngle, beamWidth);
+            //Beam *beam = new Beam(_absoluteAzimuthAngle + (i * (sectorWidth / 2) ), _absoluteElevationAngle, beamWidth);
             _beamContainer[i][j] = beam;
         }
     }

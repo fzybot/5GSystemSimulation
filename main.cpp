@@ -18,6 +18,14 @@
 #include <QScopedPointer>
 #include <QTextStream>
 #include <QDateTime>
+#include <QGraphicsScene>
+
+#include <QGeoCoordinate>
+
+#include <QPainter>
+#include <QRandomGenerator>
+#include <QStyleOption>
+#include <QtMath>
 
 #include "src/visualization/menu/mainWindow.h"
 #include "src/scenarios/tests.h"
@@ -39,6 +47,18 @@ QScopedPointer<QFile>   _logFile;
 // Объявляение обработчика
 void messageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 
+constexpr qreal Pi = M_PI;
+constexpr qreal TwoPi = 2 * M_PI;
+
+static qreal normalizeAngle(qreal angle)
+{
+    while (angle < 0)
+        angle += TwoPi;
+    while (angle > TwoPi)
+        angle -= TwoPi;
+    return angle;
+}
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
@@ -59,16 +79,39 @@ int main(int argc, char *argv[])
 
     
 
-    // MainWindow mainWin;
+    MainWindow mainWin;
 
-    // mainWin.resize(1400, 1200);
-    // mainWin.show();
+    mainWin.resize(1400, 1200);
+    mainWin.show();
 
 
 
     Simple();
     // propagation_model_test_plot();
-    // test_passing();
+    test_passing();
+    QLineF lineToCenter(QPointF(100, 100), QPointF(150, 125));
+    qreal angleToCenter = std::atan2(lineToCenter.dy(), lineToCenter.dx());
+    qDebug() << "angleToCenter = " << angleToCenter ;
+    angleToCenter = normalizeAngle((3.14 - angleToCenter) + 3.14 / 2);
+    qDebug() << "angleToCenter = " << angleToCenter ;
+
+    QGeoCoordinate point_1(55.013541, 82.951781, 10),
+            point_2(55.013602, 82.954783, 10),
+            point_3(55.014640, 82.954044),
+            point_4(55.015385, 82.951817),
+            point_5(55.014743, 82.948875),
+            point_6(55.013855, 82.948339),
+            point_7(55.011567, 82.951555);
+    qDebug() << "azimuth to: " << point_1.azimuthTo(point_2);
+    qDebug() << "azimuth to: " << point_1.azimuthTo(point_3);
+    qDebug() << "azimuth to: " << point_1.azimuthTo(point_4);
+    qDebug() << "azimuth to: " << point_1.azimuthTo(point_5);
+    qDebug() << "azimuth to: " << point_1.azimuthTo(point_6);
+    qDebug() << "azimuth to: " << point_1.azimuthTo(point_7);
+    qDebug() << "atDistanceAndAzimuth: " << point_1.atDistanceAndAzimuth(10, 90).latitude() << ", " << point_1.atDistanceAndAzimuth(10, 90).longitude();
+
+
+
 
     //##############################################################################
     //                   Testing features (in src/scenarios/tests.h)
@@ -76,7 +119,7 @@ int main(int argc, char *argv[])
 
     // simpleTest();
     // runModulationPerformance();
-    antennaArray();
+    //antennaArray();
 
     //##############################################################################
     return app.exec();

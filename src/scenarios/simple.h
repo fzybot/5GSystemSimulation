@@ -18,13 +18,17 @@ static QVector<QVector<QPair<int, int>>> &Simple ()
 {
     NetworkManager *networkManager = new NetworkManager();
     networkManager->setWorkingTime(17);
-
+    
     // Create Cell
     int idCell = 0;
     int posX = 500;
     int posY = 500;
     int posZ = 50;
-    Cell *cell = networkManager->createCell(idCell, posX, posY, posZ);
+    int angX = 0;
+    int angY = -30;
+    int angZ = 0;
+    CartesianCoordinates *position = new CartesianCoordinates(posX, posY, posZ, angX, angY, angZ);
+    Cell *cell = networkManager->createCell(idCell, position);
 
     // int idCell_01 = 1;
     // int posX_01 = 200;

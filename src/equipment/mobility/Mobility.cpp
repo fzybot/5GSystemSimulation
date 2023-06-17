@@ -53,12 +53,12 @@ void Mobility::setPosition(CartesianCoordinates *position)
     //     currentPosition_ = new CartesianCoordinates();
     // }
 
-    currentPosition_ = new CartesianCoordinates();
-    currentPosition_->setCoordintes(position->getCoordinateX(), position->getCoordinateY(), position->getCoordinateZ());
+    currentPosition_ = position;
+    //currentPosition_->setCoordintes(position->getCoordinateX(), position->getCoordinateY(), position->getCoordinateZ());
     debug("Mobility: currentPosition_:", currentPosition_);
 }
 
-CartesianCoordinates* Mobility::getPosition() const
+CartesianCoordinates* Mobility::getPosition()
 {
     return currentPosition_;
 }
