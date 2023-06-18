@@ -17,6 +17,10 @@ CartesianCoordinates::CartesianCoordinates()
     posZ_ = 0;
     //debug("CartesianCoordinates: CartesianCoordinates() - done");
 }
+CartesianCoordinates::CartesianCoordinates(QGeoCoordinate &coor)
+{
+    _coordinates = coor;
+}
 
 CartesianCoordinates::CartesianCoordinates(double x, double y, double z)
 {
@@ -41,6 +45,31 @@ void CartesianCoordinates::setCoordintes(double x, double y, double z)
     //debug("CartesianCoordinates: Coordinates: ", posX_, posY_, posZ_);
 }
 
+void CartesianCoordinates::setCoordintes(QGeoCoordinate &coor)
+{
+    _coordinates = coor;
+}
+
+QGeoCoordinate &CartesianCoordinates::getCoordinates()
+{
+    return _coordinates;
+}
+
+double CartesianCoordinates::getAltitude()
+{
+    return _coordinates.altitude();
+}
+
+void CartesianCoordinates::setAzimuth(double azim)
+{
+    _azimuth = azim;
+}
+
+double CartesianCoordinates::getAzimuth()
+{
+    return _azimuth;
+}
+
 void CartesianCoordinates::setAngles(double angX, double angY, double angZ)
 {
     setAngleX(angX);
@@ -50,15 +79,17 @@ void CartesianCoordinates::setAngles(double angX, double angY, double angZ)
 
 double CartesianCoordinates::calculateDistance3D(CartesianCoordinates *remoteEquipment)
 {
-    return sqrt ( qPow ( (getCoordinateX() - remoteEquipment->getCoordinateX()), 2) +
-                  qPow ( (getCoordinateY() - remoteEquipment->getCoordinateY()), 2) +
-                  qPow ( (getCoordinateZ() - remoteEquipment->getCoordinateZ()), 2) );
+    // return sqrt ( qPow ( (getCoordinateX() - remoteEquipment->getCoordinateX()), 2) +
+    //               qPow ( (getCoordinateY() - remoteEquipment->getCoordinateY()), 2) +
+    //               qPow ( (getCoordinateZ() - remoteEquipment->getCoordinateZ()), 2) );
+    return _coordinates.distanceTo(remoteEquipment->getCoordinates());
 }
 
 double CartesianCoordinates::calculateDistance2D(CartesianCoordinates *remoteEquipment)
 {
-    return sqrt ( qPow ( (getCoordinateX() - remoteEquipment->getCoordinateX()), 2) +
-                  qPow ( (getCoordinateY() - remoteEquipment->getCoordinateY()), 2) );
+    // return sqrt ( qPow ( (getCoordinateX() - remoteEquipment->getCoordinateX()), 2) +
+    //               qPow ( (getCoordinateY() - remoteEquipment->getCoordinateY()), 2) );
+    return _coordinates.distanceTo(remoteEquipment->getCoordinates());
 }
 
 double CartesianCoordinates::calculateAngleToRemote(CartesianCoordinates *sourceEquipment, CartesianCoordinates *remoteEquipment)

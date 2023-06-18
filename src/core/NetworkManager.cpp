@@ -11,6 +11,8 @@
 #include "src/equipment/mobility/ConstantPosition.h"
 #include "src/additionalCalculations.h"
 #include "src/protocols/phy/Channel/PropagationLossModel.h"
+#include "src/commonParameters.h"
+#include "src/equipment/antenna/Beam.h"
 
 #include "src/debug.h"
 
@@ -48,7 +50,7 @@ NetworkManager::~NetworkManager()
 
 // ----- [ EQUIPMENT GENERATORS ] --------------------------------------------------------------------------------------
 
-Cell* NetworkManager::createCell (int idCell, CartesianCoordinates *position)
+Cell* NetworkManager::createCell (int idCell, CartesianCoordinates *position, double alt, double dist, double angle, double azimuth)
 {
     qDebug() << "NetworkManager: starting to create a cell.";
     Cell *cell = new Cell();
@@ -56,16 +58,50 @@ Cell* NetworkManager::createCell (int idCell, CartesianCoordinates *position)
     cell->setEquipmentId(idCell);
     cell->setEquipmentType(Equipment::EquipmentType::TYPE_CELL);
     cell->setLinkBudgetParameters();
-
+    
     Mobility *m = new ConstantPosition();
+    QGeoCoordinate coordinates = _leftBottom.atDistanceAndAzimuth(dist, angle);
+    coordinates.setAltitude(alt);
+    position->setCoordintes(coordinates);
+    position->setAzimuth(azimuth);
     m->setPosition(position);
     cell->setMobilityModel(m);
 
     cell->setPropagationModel(new PropagationLossModel(PropagationLossModel::PropagationModel::UMA_NLOS));
     qDebug() << "Add antenna array to cell.";
 
-    double azimuth = cell->getPosition()->getAngleX();
-    double elevation = cell->getPosition()->getAngleY();
+    double azim = cell->getPosition()->getAzimuth();
+    double elevation = cell->getPosition()->getAltitude();
+    cell->addAntennaArray(AntennaArray::AntennaType::ANTENNA_TYPE_3GPP_CUSTOM, 1, 4, azimuth, elevation, 30, 120);
+    getCellContainer()->push_back(cell);
+    addDeviceToRadioChannel(cell);
+
+    return cell;
+}
+
+Cell*  NetworkManager::createCell (int idCell, gNodeB *targetGNb, int alt, int azimuth)
+{
+    qDebug() << "NetworkManager: starting to create a cell.";
+    Cell *cell = new Cell();
+    cell->setTargetGNodeB(targetGNb);
+    targetGNb->addCell(cell);
+    qDebug() << "new cell.";
+    cell->setEquipmentId(idCell);
+    cell->setEquipmentType(Equipment::EquipmentType::TYPE_CELL);
+    cell->setLinkBudgetParameters();
+    
+    Mobility *m = new ConstantPosition();
+    CartesianCoordinates *position = new CartesianCoordinates(targetGNb->getPosition()->getCoordinates());
+    position->setAzimuth(azimuth);
+    position->getCoordinates().setAltitude(alt);
+    m->setPosition(position);
+    cell->setMobilityModel(m);
+
+    cell->setPropagationModel(new PropagationLossModel(PropagationLossModel::PropagationModel::UMA_NLOS));
+    qDebug() << "Add antenna array to cell.";
+
+    double azim = cell->getPosition()->getAzimuth();
+    double elevation = cell->getPosition()->getAltitude();
     cell->addAntennaArray(AntennaArray::AntennaType::ANTENNA_TYPE_3GPP_CUSTOM, 1, 4, azimuth, elevation, 30, 120);
     getCellContainer()->push_back(cell);
     addDeviceToRadioChannel(cell);
@@ -86,6 +122,14 @@ gNodeB* NetworkManager::createGNodeB (int id, double posX, double posY, double p
 {
     debug("Network Manager: Starting to create a gNb. ");
     gNodeB *gNb = new gNodeB(id, posX, posY, posZ);
+    getGNodeBContainer()->push_back(gNb);
+    return gNb;
+}
+
+gNodeB* NetworkManager::createGNodeB (int id, QGeoCoordinate &coordinates)
+{
+    debug("Network Manager: Starting to create a gNb. ");
+    gNodeB *gNb = new gNodeB(id, coordinates);
     getGNodeBContainer()->push_back(gNb);
     return gNb;
 }
@@ -111,11 +155,12 @@ void NetworkManager::createMultipleUserEquipments(  int number, int lowX, int hi
 {
     for (int i = 1; i <= number; i++) {
         ueIdLocal_ += 1;
-        int posX = QRandomGenerator::global()->bounded(lowX, highX);
-        int posY = QRandomGenerator::global()->bounded(lowY, highY);
+        int rndDist = QRandomGenerator::global()->bounded(lowX, highX);
+        int rndAzim = QRandomGenerator::global()->bounded(0, 360);
+        QGeoCoordinate coordinates = _leftBottom.atDistanceAndAzimuth(rndDist, rndAzim);
         int posZ = 2;
         UserEquipment *ue = new UserEquipment(ueIdLocal_,
-                                              posX, posY, posZ, nullptr, targetGNodeB,
+                                              coordinates, cell, targetGNodeB,
                                               Mobility::Model::CONSTANT_POSITION);
         ue->addAntennaArray(AntennaArray::AntennaType::ANTENNA_TYPE_OMNIDIRECTIONAL, 1, 1, 0, posZ, 360, 360);
         ue->setPropagationModel(new PropagationLossModel(PropagationLossModel::PropagationModel::UMA_NLOS));
@@ -128,24 +173,27 @@ void NetworkManager::attachUEtoCell(Cell *cell, UserEquipment *ue)
 {
     qDebug() << "NetworkManager::attachUEtoCell::UE ID-->" << ue->getEquipmentId();
     cell->attachUE(ue);
-    ue->setPhyEntity(cell->getPhyEntity());
+    //ue->setPhyEntity(cell->getPhyEntity());
     deleteUeFromOtherCells(cell, ue);
 }
 
 void NetworkManager::deleteUeFromOtherCells(Cell *targetCell, UserEquipment *targetUe)
 {
     for(auto cell: *getCellContainer()) {
+        qDebug() << "cell id = " << cell->id_;
         if ( cell != targetCell) {
             int neededIndex = 0;
             int localIdex = 0;
-            for (auto ue: *cell->getUserEquipmentContainer()){
-                if (ue == targetUe) {
-                    neededIndex = localIdex;
-                    break;
+            if(cell->getUserEquipmentContainer()->length() != 0){
+                for (auto ue: *cell->getUserEquipmentContainer()){
+                    if (ue == targetUe) {
+                        neededIndex = localIdex;
+                        break;
+                    }
+                    localIdex++;
                 }
-                localIdex++;
+                cell->getUserEquipmentContainer()->remove(neededIndex);
             }
-            cell->getUserEquipmentContainer()->remove(neededIndex);
         }
     }
 }
@@ -302,13 +350,15 @@ void NetworkManager::scheduleGNodeB()
 // TODO: Here we could make parallel calculations!!! Threads, etc.
 void NetworkManager::scheduleCells(QVector<Cell*> *cellContainer)
 {
+    qDebug() << "--> ";
     for (auto cell: *cellContainer) {
+        qDebug() << "--> ";
         cell->sync120TimeSlot(current120TimeSlot_);
         // TODO: somehow fix the loop
         // TODO: need some fix in order to schedule multiple bandwidth with differens SCS
         int mimoIndex = 0;
         int carrAggIndex = 0;
-        int scs = cell->getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getSCS();
+        int scs = NUMEROLOGY[cell->getPhyEntity()->getAntennaArray()->numerologyIndex_];
         if ( cell->getLocalSystem120TimeSlot() % (int)(120 / scs) == 0 ) {
             qDebug() << cell->getLocalSystem120TimeSlot() % (int)(120 / scs);
             qDebug() << "NetworkManager::scheduleCells:: cell SCS --> " << scs;
@@ -350,6 +400,7 @@ void NetworkManager::initialCellSelection(int slot)
 
     qDebug() << "NetworkManager::initialAttach()";
     for (auto ue: *getUserEquipmentContainer()) {
+        qDebug() << "-->>";
         int localIndex = 0;
         int neededIndex = 0;
         int check = -1;
@@ -358,10 +409,13 @@ void NetworkManager::initialCellSelection(int slot)
         int carrAggIndex = 0;
         if (ue->getSlotToCamp() == slot){
             for (auto cell : *getCellContainer()) {
+                qDebug() << "-->>";
                 distance = cell->calculateDistanceToUserEquipment(ue);
                 pathLos = cell->calculatePathLosToUserEquipment(ue, distance);
                 rssi = ue->calculateRssiFromCell(cell, pathLos);
-                rsrp = ue->calculateRsrpFromRssi(cell->getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex],rssi);
+                Beam *bim = cell->getPhyEntity()->getAntennaArray()->getBeamContainer().begin()->begin()[0];
+                rsrp = ue->calculateRsrpFromRssi(bim->getBandwidthContainer()[0],rssi);
+                qDebug() << "-->>";
                 if ( (rsrp > max) && (rsrp >= -120) ) {
                     max = rsrp;
                     neededIndex = localIndex;
@@ -370,7 +424,7 @@ void NetworkManager::initialCellSelection(int slot)
                 localIndex++;
                 //Debugging
                 // qDebug() << "NetworkManager::initialAttach()::UE ID-->" << ue->getEquipmentId();
-                // qDebug() << "NetworkManager::initialAttach()::Disnance to cell-->" << distance;
+                qDebug() << "Disnance to cell [" << cell->id_ << "] = " << distance;
                 // qDebug() << "NetworkManager::initialAttach()::Path Losses to cell-->" << pathLos;
                 // qDebug() << "NetworkManager::initialAttach()::Cell EIRP-->" << cell->getEirp();
                 // qDebug() << "NetworkManager::initialAttach()::RSSI-->" << rssi;

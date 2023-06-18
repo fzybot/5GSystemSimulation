@@ -71,6 +71,59 @@ UserEquipment::UserEquipment(int id,
     delete position;
 }
 
+
+UserEquipment::UserEquipment(int id, 
+                  QGeoCoordinate &coordinates, 
+                  Cell *cell, gNodeB *targetGNodeB, 
+                  Mobility::Model model)
+{
+    setEquipmentId(id);
+    setEquipmentType(Equipment::EquipmentType::TYPE_UE);
+    setTargetCell(cell);
+    setTargetGNodeB(targetGNodeB);
+
+    // Physical config
+    createPhyEntity();
+    setLinkBudgetParameters();
+    getPhyEntity()->defaultPhyConfig(Physical::MIMO_MODE::MIMO_2x2, 1);
+    
+
+    // Bearer config
+    // Default Bearer
+    int bearerId = 3;
+    bearerContainer_ = new QVector<RadioBearer *>();
+    createDefaultBearer(bearerId);
+    // Additional Data Bearer
+    bearerId++;
+    int randQoSProfile = QRandomGenerator::global()->bounded(1, 9);
+    createBearer(RadioBearer::RadioBearerType::DRB, bearerId, randQoSProfile);
+
+    for(auto bearer : *getBearerContainer()){
+        bearer->setUserEquipment(this);
+    }
+
+    // Random SINR
+    int localSINR = QRandomGenerator::global()->bounded(0, 19);
+    setSinrPerBandidth(localSINR, 0);
+
+    // Generate Traffic per each bearer
+    //generatePacketsPerBearer();
+
+    // Positioning
+    Mobility *m;
+    if (model == Mobility::Model::CONSTANT_POSITION)
+    {
+        m = new ConstantPosition ();
+    }
+    else
+    {
+        qDebug() << "ERROR: incorrect Mobility Model"<< endl;
+        exit(1);
+    }
+    CartesianCoordinates *position = new CartesianCoordinates(coordinates);
+    m->setPosition(position);
+    setMobilityModel(m);
+}
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
 
 void UserEquipment::setTargetCell(Cell *cell)

@@ -29,6 +29,7 @@ public:
 
     AntennaArray::AntennaType _type;
     QVector<QVector<Beam *>> _beamContainer;
+    int numerologyIndex_ = 0;
 
     //AntennaArray::AntennaType type_;  
     // float elevation_;

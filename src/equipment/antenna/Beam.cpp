@@ -3,6 +3,7 @@
 #include <QDebug>
 
 #include "Beam.h"
+#include "src/protocols/phy/Bandwidth.h"
 
 Beam::Beam()
 {
@@ -50,4 +51,27 @@ float Beam::calculateHorizontalCutGain(float azimuth)
 void Beam::defaultGain(float gain)
 {
     _gain = gain;
+}
+
+void Beam::configNewBandwidth(QString fr, QString band, int scs, bool cpType, double ulBw,
+                        double dlBw, int ulOffset, int dlOffset, bool tddTrue, int mimoIndex)
+{
+    //QString fr, QString band, int scs, double ulBw, double dlBw, int ulOffset, int dlOffset, bool tddTrue = true
+    qDebug() << "Create new bandwidth...";
+    Bandwidth *bw = new Bandwidth(fr, band, scs, cpType, ulBw, dlBw, ulOffset, dlOffset, mimoIndex, 0, tddTrue);
+    bw->setCoreset({0, 1}, bw->getNumberOfPRB() - 20, 1);
+    bw->setDmrs(1, 3, 1, 3);
+    bw->configResourceGrid();
+    bw->fillIndexes();
+    addBandwidth(bw);
+}
+
+void Beam::addBandwidth(Bandwidth *b)
+{
+    _bandwidthContainer.push_back(b);
+}
+
+QVector< Bandwidth* > &Beam::getBandwidthContainer()
+{
+    return _bandwidthContainer;
 }

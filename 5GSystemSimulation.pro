@@ -40,6 +40,7 @@ SOURCES += \
     src/protocols/phy/NewPhysical.cpp \
     src/protocols/phy/ResourceGrid.cpp \
     #src/protocols/phy/Symbol.cpp \
+    src/protocols/phy/UePhysical.cpp \
     src/protocols/phy/fft.cpp \
     src/protocols/phy/modulation.cpp \
     src/tests/HeatmapModelTest.cpp \
@@ -105,6 +106,7 @@ HEADERS += \
     src/protocols/phy/Channel/PropagationLossModel.h \
     src/protocols/phy/NewPhysical.h \
     src/protocols/phy/PhyConfigs.h \
+    src/protocols/phy/UePhysical.h \
     src/protocols/phy/bandList.h \
     src/protocols/phy/ResourceGrid.h \
     #src/protocols/phy/Symbol.h \

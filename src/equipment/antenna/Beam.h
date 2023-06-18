@@ -1,6 +1,8 @@
 #pragma once
 
 
+class Bandwidth;
+
 class Beam
 {
 public:
@@ -8,6 +10,8 @@ public:
     float _absoluteElevationAngle;
     float _beamWidth;
     float _gain = 18;
+
+    QVector< Bandwidth* > _bandwidthContainer;
 
 public:
     Beam();
@@ -18,5 +22,11 @@ public:
     float calculateAntGain(float elevation, float azimuth);
     float calculateVerticalCutGain(float elevation);
     float calculateHorizontalCutGain(float azimuth);
+
+    QVector<Bandwidth*> &getBandwidthContainer();
+
+    void configNewBandwidth(QString fr, QString band, int scs, bool cpType, double ulBw,
+                            double dlBw, int ulOffset, int dlOffset, bool tddTrue, int mimoIndex);
+    void addBandwidth(Bandwidth *b);
 };
 

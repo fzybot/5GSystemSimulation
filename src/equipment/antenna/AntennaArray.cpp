@@ -7,6 +7,7 @@
 #include "src/visualization/Custom3dSurface.h"
 
 #include "src/equipment/antenna/Beam.h"
+#include "src/commonParameters.h"
 
 AntennaArray::AntennaArray()
 {
@@ -51,8 +52,11 @@ void AntennaArray::setBeams(float azimuth, float elevation, float beamWidth, flo
             qDebug() << "Beam config: [" << i << ", " << j << "]";
             float dAzim = (_absoluteAzimuthAngle - sectorWidth / 2) + beamWidth / 2;
             Beam *beam = new Beam(_absoluteAzimuthAngle + (j * (beamWidth / 2) ), _absoluteElevationAngle, beamWidth);
+            beam->configNewBandwidth("FR1", "n3", NUMEROLOGY[numerologyIndex_], true, 50, 50, 0, 0, true, 0);
+            beam->configNewBandwidth("FR1", "n3", NUMEROLOGY[numerologyIndex_], true, 50, 50, 0, 0, true, 1);
             //Beam *beam = new Beam(_absoluteAzimuthAngle + (i * (sectorWidth / 2) ), _absoluteElevationAngle, beamWidth);
             _beamContainer[i][j] = beam;
+            qDebug() << "bw container: " << beam->getBandwidthContainer()[0]->getBand();
         }
     }
 }

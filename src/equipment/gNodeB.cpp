@@ -13,6 +13,20 @@ gNodeB::gNodeB()
     //dataSize = ((bandwidth * 1000) / SCS) * 2 * 14 * mimoLayers;
 }
 
+gNodeB::gNodeB(int ID, QGeoCoordinate &coordinates)
+{
+    debug("gNodeB: Starting to create a gNb");
+    userEquipmentContainer_ = new QVector<UserEquipment*>();
+    cellContainer_ = new QVector<Cell*>();
+    setEquipmentId(ID);
+    setEquipmentType(Equipment::EquipmentType::TYPE_GNODEB);
+
+    CartesianCoordinates *position = new CartesianCoordinates(coordinates);
+    Mobility *m = new ConstantPosition();
+    m->setPosition(position);
+    setMobilityModel(m);
+}
+
 gNodeB::gNodeB(int id, Cell *cell, double posX, double posY, double posZ)
 {
     debug("gNodeB: Starting to create a gNb");

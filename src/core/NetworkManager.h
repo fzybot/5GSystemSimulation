@@ -42,9 +42,9 @@ private:
 public:
     // левый нижний = 54.930053 82.74078
     // верхний правый = 55.140901 83.102854
-//    QGeoCoordinate _leftBottom(54.930053, 82.74078);
-//    QGeoCoordinate _rightUp(55.140901, 83.102854);
-//    QGeoCoordinate point_1(55.013541, 82.951781, 10);
+   QGeoCoordinate _leftBottom = {54.930053, 82.74078};
+   QGeoCoordinate _rightUp = {55.140901, 83.102854};
+   double _meterSize = 0.00001;
 
 public:
 // ----- [ CONSTRUCTORS\DESTRUCTORS ] ----------------------------------------------------------------------------------
@@ -77,11 +77,12 @@ public:
 
 // ----- [ EQUIPMENT GENERATORS ] --------------------------------------------------------------------------------------
     Cell* createCell (int idCell);
-    Cell* createCell (int idCell, CartesianCoordinates *position);
-    Cell* createCell (int idCell, gNodeB *targetGNb);
+    Cell* createCell (int idCell, CartesianCoordinates *position, double alt, double dist, double angle, double azimuth);
+    Cell* createCell (int idCell, gNodeB *targetGNb, int alt, int azimuth);
 
     gNodeB* createGNodeB (int id, Cell *cell, double posX, double posY, double posZ);
     gNodeB* createGNodeB (int id, double posX, double posY, double posZ);
+    gNodeB* createGNodeB (int id, QGeoCoordinate &coordinates);
 
     UserEquipment* createUserEquipment (int id, 
                                         double posX, double posY, double posZ, 

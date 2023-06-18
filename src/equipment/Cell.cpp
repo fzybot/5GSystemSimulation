@@ -16,7 +16,7 @@ Cell::Cell()
     // Protocols Configuration
     // Physical
     createPhyEntity();
-    getPhyEntity()->defaultPhyConfig(Physical::MIMO_MODE::MIMO_2x2, 1);
+    //getPhyEntity()->defaultPhyConfig(Physical::MIMO_MODE::MIMO_2x2, 1);
     
     // MAC Layer
     createMacEntity();

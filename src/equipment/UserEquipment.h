@@ -38,6 +38,10 @@ public:
                   double posX, double posY, double posZ, 
                   Cell *cell, gNodeB *targetGNodeB, 
                   Mobility::Model model);
+    UserEquipment(int id, 
+                  QGeoCoordinate &coordinates, 
+                  Cell *cell, gNodeB *targetGNodeB, 
+                  Mobility::Model model);
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
     void setTargetCell(Cell *cell);

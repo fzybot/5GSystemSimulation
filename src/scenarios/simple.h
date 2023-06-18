@@ -16,48 +16,24 @@
 
 static QVector<QVector<QPair<int, int>>> &Simple ()
 {
+
+    QGeoCoordinate leftBottom = {54.930053, 82.74078};
+    QGeoCoordinate rightUp = {55.140901, 83.102854};
+
     NetworkManager *networkManager = new NetworkManager();
     networkManager->setWorkingTime(17);
-    
-    // Create Cell
-    int idCell = 0;
-    int posX = 500;
-    int posY = 500;
-    int posZ = 50;
-    int angX = 0;
-    int angY = -30;
-    int angZ = 0;
-    CartesianCoordinates *position = new CartesianCoordinates(posX, posY, posZ, angX, angY, angZ);
-    Cell *cell = networkManager->createCell(idCell, position);
-
-    // int idCell_01 = 1;
-    // int posX_01 = 200;
-    // int posY_01 = 200;
-    // int posZ_01 = 50;
-    // Cell *cell_01 = networkManager->createCell(idCell_01);
 
     // Create gNodeB
-    int idGNb = 1000;
-    gNodeB *gNb = networkManager->createGNodeB(idGNb, cell, posX, posY, posZ);
-    //gNb->addCell(cell_01);
-    debug("Simple: gNodeB entity is created");
-
-    // Create User Equipment
-    int idUE = 2;
-    int posX_ue = 2000;
-    int posY_ue = 500;
-    double posZ_ue = 1.5;
-    UserEquipment *ue = networkManager->createUserEquipment(idUE, posX_ue, posY_ue, posZ_ue, cell, gNb);
-
-    // int idUE2 = 3;
-    // int posX_ue2 = 0;
-    // int posY_ue2 = 500;
-    // double posZ_ue2 = 1.5;
-    // UserEquipment *ue2 = networkManager->createUserEquipment(idUE2, posX_ue2, posY_ue2, posZ_ue2, cell, gNb);
-    // channel->addDevice(ue2);
+    int idGNb = 2000;
+    QGeoCoordinate gnb_01_pos = leftBottom.atDistanceAndAzimuth(600, 45);
+    gNodeB *gNb_01 = networkManager->createGNodeB(idGNb, gnb_01_pos);
+    int idCell = 0;
+    Cell *cell_01 = networkManager->createCell(0, gNb_01, 100, 0);
+    Cell *cell_02 = networkManager->createCell(1, gNb_01, 100, 120);
+    Cell *cell_03 = networkManager->createCell(2, gNb_01, 100, 180);
 
     int nUe = 10;
-    networkManager->createMultipleUserEquipments(nUe, 0, 1000, 0, 1000, 10, cell, gNb);
+    networkManager->createMultipleUserEquipments(nUe, 0, 1000, 0, 1000, 10, nullptr, nullptr);
     debug("Simple: User Equipments entity are created");
 
     networkManager->setSINRCalcMethod(NetworkManager::SINRCalcMethod::STUPID);
@@ -96,10 +72,6 @@ static QVector<QVector<QPair<int, int>>> &Simple ()
     simulator->setTime(1);
     simulator->run();
 
-    for (auto prb: cell->getPrbUtilized()){
-        qDebug() <<"PRB UTILIZED --> "<< prb;
-    }
-
     QQueue<int> queue;
     queue.enqueue(1);
     queue.enqueue(2);
@@ -114,7 +86,7 @@ static QVector<QVector<QPair<int, int>>> &Simple ()
         qDebug() << q;
     }
 
-    return cell->getAllData();
+    return cell_01->getAllData();
 }
 
 //git push test

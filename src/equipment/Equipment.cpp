@@ -213,8 +213,8 @@ double Equipment::calculatePathLosToUserEquipment(UserEquipment *targetUser, dou
     int mimoIndex = 0;
     double heightUe = getMobilityModel()->getPosition()->getCoordinateZ();
     double heightUeTarget = targetUser->getMobilityModel()->getPosition()->getCoordinateZ();
-    double centerFrequency = getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getCarrierFreq();
-    double bandwidth = getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getBandwidth();
+    //TODO: double centerFrequency = getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getCarrierFreq();
+    //TODO: double bandwidth = getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getBandwidth();
 
     return getPropagationModel()->calculateLosses(distance, 1, heightUeTarget, heightUe, centerFrequency/1000, 0, 0, 0);
 }

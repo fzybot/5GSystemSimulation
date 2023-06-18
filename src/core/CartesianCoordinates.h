@@ -15,7 +15,8 @@ private:
     double angleZ_;
 
     // Geographical coordinates
-    QGeoCoordinate coordinates;
+    QGeoCoordinate _coordinates;
+    double _azimuth;
     double altitude_;
     double longtitude_;
     double latitude_;
@@ -23,17 +24,23 @@ private:
 public:
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
     CartesianCoordinates();
+    CartesianCoordinates(QGeoCoordinate &coor);
     CartesianCoordinates(double x, double y, double z);
     CartesianCoordinates(double x, double y, double z, double angX, double angY, double angZ);
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
     void setCoordintes(double x, double y, double z);
+    void setCoordintes(QGeoCoordinate &coor);
+    void setAzimuth(double azim);
+    double getAzimuth();
     void setAngles(double angX, double angY, double angZ);
 
     void setCoordinateX(double x);
     void setCoordinateY(double y);
     void setCoordinateZ(double z);
 
+    QGeoCoordinate &getCoordinates();
+    double getAltitude();
     double getCoordinateX();
     double getCoordinateY();
     double getCoordinateZ();
