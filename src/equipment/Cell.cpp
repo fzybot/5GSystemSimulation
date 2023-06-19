@@ -5,6 +5,7 @@
 #include "src/protocols/phy/Physical.h"
 #include "src/protocols/bearers/RadioBearer.h"
 #include "src/protocols/mac_layer/scheduler/Scheduler.h"
+#include "src/equipment/antenna/Beam.h"
 
 #include "src/logging/loggingCategories.h"
 
@@ -100,7 +101,8 @@ void Cell::pathLosDetach()
         distance = ue->calculateDistanceToCell(this);
         pathLos = ue->calculatePathLosToCell(this, distance);
         rssi = ue->calculateRssiFromCell(this, pathLos);
-        rsrp = ue->calculateRsrpFromRssi(this->getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex], rssi);
+        Beam *bim = this->getPhyEntity()->getAntennaArray()->getBeamContainer().begin()->begin()[0];
+        rsrp = ue->calculateRsrpFromRssi(bim->getBandwidthContainer()[0],rssi);
         if (rsrp < -120){
             detachUeFromCell(localIndex, 1); // Reason 1 - due to path loss
             ue->setSlotToCamp(getLocalOwnTimeSlot() + 30); // 100 time for cell reselection/handover)

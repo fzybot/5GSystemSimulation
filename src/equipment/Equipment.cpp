@@ -17,6 +17,7 @@
 #include "src/equipment/antenna/AntennaArray.h"
 #include "src/protocols/phy/Physical.h"
 #include "src/protocols/phy/Bandwidth.h"
+#include "src/equipment/antenna/Beam.h"
 
 
 // ----- [ CONSTRUCTORS ] ----------------------------------------------------------------------------------------------
@@ -198,10 +199,11 @@ double Equipment::calculatePathLosToCell(Cell *targetCell, double distance)
 {
     int carrAggIndex = 0;
     int mimoIndex = 0;
-    double bandwidth = getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getBandwidth();
+    Beam *bim = getPhyEntity()->getAntennaArray()->getBeamContainer().begin()->begin()[0];
+    double centerFrequency = bim->getBandwidthContainer()[0]->getCarrierFreq();
+    double bandwidth = bim->getBandwidthContainer()[0]->getBandwidth();
     double heightBs = targetCell->getMobilityModel()->getPosition()->getCoordinateZ();
     double heightUe = getMobilityModel()->getPosition()->getCoordinateZ();
-    int centerFrequency = targetCell->getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getCarrierFreq();
 
     return getPropagationModel()->calculateLosses(distance, 1, heightBs, heightUe, centerFrequency/1000, 0, 0, 0);
 }
@@ -213,8 +215,9 @@ double Equipment::calculatePathLosToUserEquipment(UserEquipment *targetUser, dou
     int mimoIndex = 0;
     double heightUe = getMobilityModel()->getPosition()->getCoordinateZ();
     double heightUeTarget = targetUser->getMobilityModel()->getPosition()->getCoordinateZ();
-    //TODO: double centerFrequency = getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getCarrierFreq();
-    //TODO: double bandwidth = getPhyEntity()->getBandwidthContainer()[carrAggIndex][mimoIndex]->getBandwidth();
+    Beam *bim = getPhyEntity()->getAntennaArray()->getBeamContainer().begin()->begin()[0];
+    double centerFrequency = bim->getBandwidthContainer()[0]->getCarrierFreq();
+    double bandwidth = bim->getBandwidthContainer()[0]->getBandwidth();
 
     return getPropagationModel()->calculateLosses(distance, 1, heightUeTarget, heightUe, centerFrequency/1000, 0, 0, 0);
 }

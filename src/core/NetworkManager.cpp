@@ -412,9 +412,11 @@ void NetworkManager::initialCellSelection(int slot)
                 qDebug() << "-->>";
                 distance = cell->calculateDistanceToUserEquipment(ue);
                 pathLos = cell->calculatePathLosToUserEquipment(ue, distance);
+                qDebug() << "-->>pathLos";
                 rssi = ue->calculateRssiFromCell(cell, pathLos);
                 Beam *bim = cell->getPhyEntity()->getAntennaArray()->getBeamContainer().begin()->begin()[0];
                 rsrp = ue->calculateRsrpFromRssi(bim->getBandwidthContainer()[0],rssi);
+                qDebug() << "-->>rsrp";
                 qDebug() << "-->>";
                 if ( (rsrp > max) && (rsrp >= -120) ) {
                     max = rsrp;
