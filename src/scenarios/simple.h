@@ -28,9 +28,16 @@ static QVector<QVector<QPair<int, int>>> &Simple ()
     QGeoCoordinate gnb_01_pos = leftBottom.atDistanceAndAzimuth(600, 45);
     gNodeB *gNb_01 = networkManager->createGNodeB(idGNb, gnb_01_pos);
     int idCell = 0;
-    Cell *cell_01 = networkManager->createCell(0, gNb_01, 100, 0);
-    Cell *cell_02 = networkManager->createCell(1, gNb_01, 100, 120);
-    Cell *cell_03 = networkManager->createCell(2, gNb_01, 100, 180);
+    Cell *cell_11 = networkManager->createCell(0, gNb_01, 100, 0);
+    Cell *cell_12 = networkManager->createCell(1, gNb_01, 100, 120);
+    Cell *cell_13 = networkManager->createCell(2, gNb_01, 100, 180);
+
+    idGNb = 3000;
+    QGeoCoordinate gnb_02_pos = leftBottom.atDistanceAndAzimuth(1200, 45);
+    gNodeB *gNb_02 = networkManager->createGNodeB(idGNb, gnb_02_pos);
+    Cell *cell_21 = networkManager->createCell(3, gNb_02, 100, 0);
+    Cell *cell_22 = networkManager->createCell(4, gNb_02, 100, 120);
+    Cell *cell_23 = networkManager->createCell(5, gNb_02, 100, 180);
 
     int nUe = 10;
     networkManager->createMultipleUserEquipments(nUe, 0, 1000, 0, 1000, 10, nullptr, nullptr);
@@ -86,7 +93,7 @@ static QVector<QVector<QPair<int, int>>> &Simple ()
         qDebug() << q;
     }
 
-    return cell_01->getAllData();
+    return cell_11->getAllData();
 }
 
 //git push test

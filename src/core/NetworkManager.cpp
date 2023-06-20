@@ -173,7 +173,6 @@ void NetworkManager::attachUEtoCell(Cell *cell, UserEquipment *ue)
 {
     qDebug() << "NetworkManager::attachUEtoCell::UE ID-->" << ue->getEquipmentId();
     cell->attachUE(ue);
-    //ue->setPhyEntity(cell->getPhyEntity());
     deleteUeFromOtherCells(cell, ue);
 }
 
@@ -409,15 +408,11 @@ void NetworkManager::initialCellSelection(int slot)
         int carrAggIndex = 0;
         if (ue->getSlotToCamp() == slot){
             for (auto cell : *getCellContainer()) {
-                qDebug() << "-->>";
                 distance = cell->calculateDistanceToUserEquipment(ue);
-                pathLos = cell->calculatePathLosToUserEquipment(ue, distance);
-                qDebug() << "-->>pathLos";
+                pathLos = cell->calculatePathLosToUserEquipment(ue, distance);               
                 rssi = ue->calculateRssiFromCell(cell, pathLos);
                 Beam *bim = cell->getPhyEntity()->getAntennaArray()->getBeamContainer().begin()->begin()[0];
-                rsrp = ue->calculateRsrpFromRssi(bim->getBandwidthContainer()[0],rssi);
-                qDebug() << "-->>rsrp";
-                qDebug() << "-->>";
+                rsrp = ue->calculateRsrpFromRssi(bim->getBandwidthContainer()[0],rssi);              
                 if ( (rsrp > max) && (rsrp >= -120) ) {
                     max = rsrp;
                     neededIndex = localIndex;
@@ -427,6 +422,9 @@ void NetworkManager::initialCellSelection(int slot)
                 //Debugging
                 // qDebug() << "NetworkManager::initialAttach()::UE ID-->" << ue->getEquipmentId();
                 qDebug() << "Disnance to cell [" << cell->id_ << "] = " << distance;
+                qDebug() << "pathLos to cell [" << cell->id_ << "] = " << pathLos;
+                qDebug() << "rssi to cell [" << cell->id_ << "] = " << rssi;
+                qDebug() << "rsrp to cell [" << cell->id_ << "] = " << rsrp;
                 // qDebug() << "NetworkManager::initialAttach()::Path Losses to cell-->" << pathLos;
                 // qDebug() << "NetworkManager::initialAttach()::Cell EIRP-->" << cell->getEirp();
                 // qDebug() << "NetworkManager::initialAttach()::RSSI-->" << rssi;

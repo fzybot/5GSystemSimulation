@@ -4,6 +4,7 @@
 #include "src/equipment/Equipment.h"
 #include "src/protocols/Packet.h"
 #include "src/protocols/bearers/QoS/QoSProfile.h"
+#include "src/protocols/phy/UePhysical.h"
 #include <QVector>
 #include <QQueue>
 
@@ -17,7 +18,7 @@ public:
     gNodeB              *targetGNodeB_;
     Cell                *targetCell_;
 
-
+    UePhysical *phy;
     int slotToCampOnCell_ = 0;
 
     // TODO: for this part of code it is needed to do a lot of classes for all simplified objects

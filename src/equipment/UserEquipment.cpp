@@ -5,6 +5,7 @@
 #include "src/equipment/gNodeB.h"
 #include "src/equipment/Cell.h"
 #include "src/protocols/phy/Physical.h"
+#include "src/protocols/phy/UePhysical.h"
 
 #include <QRandomGenerator>
 

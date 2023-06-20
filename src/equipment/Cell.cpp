@@ -42,6 +42,7 @@ void Cell::attachUE(UserEquipment *ue)
 {
     if(!chechUeExistance(ue)){
         userEquipmentContainer_->push_back(ue);
+        ue->setTargetGNodeB(this->getTargetGNodeB());
     }
 }
 
