@@ -45,6 +45,7 @@ public:
                   Mobility::Model model);
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
+    
     void setTargetCell(Cell *cell);
     Cell *getTargetCell();
 

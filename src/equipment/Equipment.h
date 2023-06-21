@@ -116,6 +116,7 @@ public:
     void addAntennaArray(AntennaArray::AntennaType type, int sizeX, int sizeY, 
                     float azimuth, float elevation, float beamWidth, float sectorWidth);
     AntennaArray *getAntennaArray();
+    
 
     void    setLinkBudgetParameters();
     float   getEirp();

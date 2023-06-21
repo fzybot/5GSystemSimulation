@@ -3,7 +3,7 @@
 #include "src/equipment/antenna/Beam.h"
 
 #include <QVector>
-#include <map>
+#include <QMap>
 
 
 class UePhysical
@@ -12,8 +12,12 @@ class UePhysical
 public:
     UePhysical();
 public:
+    QMap<Beam *, double> rsrp_best_beams;
+    QMap<Beam *, double> rssi_best_beams;
 
-    std::map<Beam*, double> bestBeams;
+public:
+    QMap<Beam *, double> &get_rsrp_best_beams() { return rsrp_best_beams;}
+    QMap<Beam *, double> &get_rssi_best_beams() { return rssi_best_beams;}
 
 };
 

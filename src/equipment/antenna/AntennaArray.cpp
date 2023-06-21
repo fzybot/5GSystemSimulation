@@ -5,6 +5,7 @@
 #include <QtDataVisualization/Q3DSurface>
 #include <QtWidgets>
 #include "src/visualization/Custom3dSurface.h"
+#include "src/equipment/Cell.h"
 
 #include "src/equipment/antenna/Beam.h"
 #include "src/commonParameters.h"
@@ -89,6 +90,23 @@ void AntennaArray::setDefaultGain(double gain)
         }
     }
 }
+
+void AntennaArray::setTargetCell(Cell *cell)
+{   
+    targetCell = cell;
+    for (int i = 0; i < _beamContainer.length(); i++){
+        for (int j = 0; j < _beamContainer[0].length(); j++){
+            _beamContainer[i][j]->setTargetCell(cell);
+            qDebug() << "beam cell id = " << _beamContainer[i][j]->getTargetCell()->getEquipmentId();
+        }
+    }
+}
+
+Cell *AntennaArray::getTargetCell()
+{
+    return targetCell;
+}
+
 
 // void AntennaArray::setAntennaType(AntennaType type)
 // {

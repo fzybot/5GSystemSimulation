@@ -3,6 +3,7 @@
 #include <QVector>
 
 class Bandwidth;
+class Cell;
 
 class Beam
 {
@@ -13,10 +14,14 @@ public:
     float _gain = 18;
 
     QVector< Bandwidth* > _bandwidthContainer;
+    Cell *targetCell;
 
 public:
     Beam();
     Beam(float azimuth, float elevation, float beamWidth);
+
+    void setTargetCell(Cell *cell);
+    Cell *getTargetCell();
 
     void config(float azimuth, float elevation, float beamWidth);
     void defaultGain(float gain);

@@ -4,6 +4,7 @@
 
 #include "Beam.h"
 #include "src/protocols/phy/Bandwidth.h"
+#include "src/equipment/Cell.h"
 
 Beam::Beam()
 {
@@ -74,4 +75,14 @@ void Beam::addBandwidth(Bandwidth *b)
 QVector< Bandwidth* > &Beam::getBandwidthContainer()
 {
     return _bandwidthContainer;
+}
+
+void Beam::setTargetCell(Cell *cell)
+{   
+    targetCell = cell;
+}
+
+Cell *Beam::getTargetCell()
+{
+    return targetCell;
 }

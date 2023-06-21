@@ -61,6 +61,11 @@ gNodeB *Cell::getTargetGNodeB()
     return targetGNodeB_;
 }
 
+void Cell::setEquipPerBeam()
+{
+    getAntennaArray()->setTargetCell(this);
+}
+
 void Cell::createMacEntity()
 {
     macEntity_ = new CellMacEntity(this);

@@ -103,6 +103,7 @@ Cell*  NetworkManager::createCell (int idCell, gNodeB *targetGNb, int alt, int a
     double azim = cell->getPosition()->getAzimuth();
     double elevation = cell->getPosition()->getAltitude();
     cell->addAntennaArray(AntennaArray::AntennaType::ANTENNA_TYPE_3GPP_CUSTOM, 1, 4, azimuth, elevation, 30, 120);
+    cell->setEquipPerBeam();
     getCellContainer()->push_back(cell);
     addDeviceToRadioChannel(cell);
 

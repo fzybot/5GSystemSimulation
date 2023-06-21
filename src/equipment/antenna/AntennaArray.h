@@ -11,6 +11,7 @@
 
 class Custom3dSurface;
 class Beam;
+class Cell;
 
 class AntennaArray
 {
@@ -31,6 +32,8 @@ public:
     QVector<QVector<Beam *>> _beamContainer;
     int numerologyIndex_ = 0;
 
+    Cell *targetCell;
+
     //AntennaArray::AntennaType type_;  
     // float elevation_;
     // float azimuth_;
@@ -48,6 +51,9 @@ public:
     void setBeams(float azimuth, float elevation, float beamWidth, float sectorWidth);
     void setAntennaType(AntennaArray::AntennaType type);
     AntennaArray::AntennaType &getAntennaType();
+
+    void setTargetCell(Cell *cell);
+    Cell *getTargetCell();
 
     void setDefaultGain(double gain);
 

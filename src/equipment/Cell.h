@@ -37,6 +37,8 @@ public:
     void setTargetGNodeB(gNodeB *gNb);
     gNodeB *getTargetGNodeB();
 
+    void setEquipPerBeam();
+
     void createMacEntity();
     void setMacEntity(CellMacEntity *mac);
     CellMacEntity *getMacEntity();
