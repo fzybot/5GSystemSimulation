@@ -158,12 +158,16 @@ HEADERS += \
     src/visualization/menu/TabMenu.h \
     src/visualization/settingsTemplate.h \
 
+
 #unix: LIBS += -llapack -lblas -larmadillo -L /usr/local/lib/python3.8
 #win32: INCLUDEPATH += $$PWD/libs
 
 #LIBS += -llapack -lblas -larmadillo -L /usr/local/lib/python3.8 -lpython3.8 /usr/local/lib/libfftw3.a
 
 INCLUDEPATH += $$PWD/libs   /usr/include/python3.8
+#INCLUDEPATH +=  "C:\Program Files\Polyspace\R2020b\extern\include" \
+#                "C:\Program Files\Polyspace\R2020b\extern\lib\win64\microsoft" \
+
 DEPENDPATH +=               /usr/include/python3.8
 
 #FORMS +=
