@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "src/equipment/Equipment.h"
 #include "src/protocols/Packet.h"
 #include "src/protocols/bearers/QoS/QoSProfile.h"
@@ -45,7 +44,11 @@ public:
                   Mobility::Model model);
 
 // ----- [ SETTERS\GETTERS ] -------------------------------------------------------------------------------------------
-    
+
+    void setUePhy(UePhysical *phyical);
+    void createUePhy();
+    UePhysical *getUePhy();
+
     void setTargetCell(Cell *cell);
     Cell *getTargetCell();
 
@@ -66,6 +69,7 @@ public:
     bool getDRX();
 
     // ----- [ CALCULATIONS ] ----------------------------------------------------------------------------------------------
+    void add_phy_param_per_cell(Beam *beam, double distance, double pathLos, double rssi, double rsrp, double sinr);
     void calculateEIRP();
 
     //void addNeighbourCell(BaseStation cell);

@@ -2,7 +2,7 @@
 #include "src/equipment/antenna/Beam.h"
 
 #include <cmath>
-#include <QVector>
+#include <vector>
 #include <QMap>
 #include <QDebug>
 
@@ -28,13 +28,13 @@ void sortMap(QMap<Beam*, double>& M)
 {
  
     // Declare vector of pairs
-    QVector<std::pair<Beam*, double> > A;
+    std::vector<std::pair<Beam*, double> > A;
  
     // Copy key-value pair from Map
     // to vector of pairs
-    for (auto& it : M) {
-        A.push_back(it);
-    }
+//    for (auto& it : M) {
+//        A.push_back(it);
+//    }
  
     // Sort using comparator function
     sort(A.begin(), A.end(), cmp);

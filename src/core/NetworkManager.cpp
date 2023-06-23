@@ -391,12 +391,39 @@ void NetworkManager::makeHandOver()
 
 }
 
+void NetworkManager::calculate_phy_param_per_user(int slot)
+{
+    double distance;
+    double pathLos;
+    double rssi;
+    double rsrp;
+    double sinr;
+
+    for (auto ue: *getUserEquipmentContainer()) {
+        int check = -1;
+        double max = -1000;
+        for (auto cell : *getCellContainer()) {
+            distance = cell->calculateDistanceToUserEquipment(ue);
+            pathLos = cell->calculatePathLosToUserEquipment(ue, distance); 
+            for(auto beam : cell->getAntennaArray()->getBeamContainer()[0]){
+                qDebug() << "beam gain = " << beam->_gain;
+                
+            }
+            
+        }
+
+
+    }
+}
+
 void NetworkManager::initialCellSelection(int slot)
 {
     double distance;
     double pathLos;
     double rssi;
     double rsrp;
+    double sinr;
+    calculate_phy_param_per_user(slot);
 
     qDebug() << "NetworkManager::initialAttach()";
     for (auto ue: *getUserEquipmentContainer()) {

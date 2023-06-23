@@ -29,10 +29,8 @@ UserEquipment::UserEquipment(int id,
     setTargetGNodeB(targetGNodeB);
 
     // Physical config
-    createPhyEntity();
+    createUePhy();
     setLinkBudgetParameters();
-    getPhyEntity()->defaultPhyConfig(Physical::MIMO_MODE::MIMO_2x2, 1);
-    
 
     // Bearer config
     // Default Bearer
@@ -71,6 +69,22 @@ UserEquipment::UserEquipment(int id,
     setMobilityModel(m);
     delete position;
 }
+
+void UserEquipment::setUePhy(UePhysical *physical)
+{
+    phy = physical;
+}
+
+void UserEquipment::createUePhy()
+{
+    phy = new UePhysical();
+}
+
+UePhysical *UserEquipment::getUePhy()
+{
+    return (phy);
+}
+
 
 
 UserEquipment::UserEquipment(int id, 
@@ -201,4 +215,13 @@ int UserEquipment::getBufferSize()
         size += bearer->getBufferSize();
     }
     return size;
+}
+
+void UserEquipment::add_phy_param_per_cell(Beam *beam, double distance, double pathLos, double rssi, double rsrp, double sinr)
+{
+    getUePhy()->get_rsrp_best_beams()[beam] = rsrp;
+    getUePhy()->get_rssi_best_beams()[beam] = rssi;
+    getUePhy()->get_pathlos_best_beams()[beam] = pathLos;
+    getUePhy()->get_sinr_best_beams()[beam] = sinr;
+    getUePhy()->get_distance_best_beams()[beam] = distance;
 }

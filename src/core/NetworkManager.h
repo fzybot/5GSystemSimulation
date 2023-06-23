@@ -124,6 +124,7 @@ public:
     void runNetwork();
 
     void initialCellSelection(int slot);
+    void calculate_phy_param_per_user(int slot);
 
     void scheduleGNodeB();
 
